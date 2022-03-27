@@ -89,7 +89,7 @@ local function TryPuff(player, inst)
 				player.components.sanity:DoDelta(greencaps * 0.4)
 			end
 			
-			if redcaps > 0 and player.components.hayfever.nextsneeze < 240 then
+			if redcaps > 0 and player.components.hayfever ~= nil and player.components.hayfever.nextsneeze < 240 then
 				player.components.hayfever:SetNextSneezeTime(player.components.hayfever.nextsneeze + redcaps * 3)
 			end
 			
