@@ -1636,7 +1636,7 @@ local function fn_winkyhomeburrow()
     inst:AddTag("trader")
 	inst:AddTag("chest")
 	
-    inst.MiniMapEntity:SetIcon("uncompromising_ratburrow.tex")
+    inst.MiniMapEntity:SetIcon("uncompromising_winkyhomeburrow.tex")
 	
 	inst.entity:SetPristine()
 	
@@ -1655,7 +1655,7 @@ local function fn_winkyhomeburrow()
 	inst:AddComponent("combat")
 	inst:AddComponent("inspectable")
 	inst:AddComponent("sizetweener")
-	
+
 	inst:AddComponent("container")
 	inst.components.container:WidgetSetup("winkyburrow")
 	inst.components.container.onopenfn = onopen

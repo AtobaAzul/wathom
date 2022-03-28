@@ -766,6 +766,8 @@ Assets = {
 	Asset( "ATLAS", "images/map_icons/um_pawn_nightmare.xml"),
 	Asset( "IMAGE", "images/map_icons/uncompromising_ratburrow.tex"),
 	Asset( "ATLAS", "images/map_icons/uncompromising_ratburrow.xml"),
+	Asset( "IMAGE", "images/map_icons/uncompromising_winkyhomeburrow.tex"),
+	Asset( "ATLAS", "images/map_icons/uncompromising_winkyhomeburrow.xml"),
 	--Map Icons End--
 	
 	--skins--
