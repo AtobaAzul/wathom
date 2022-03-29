@@ -35,9 +35,9 @@ STRINGS.PIG_GUARD_PIGKING_TALK_LOOKATWILSON_FRIEND = { "KING SAY PROTECT", "PROT
 
 -- Hey look! I actually did something! -Canis
 STRINGS.CHARACTER_DESCRIPTIONS.willow = STRINGS.CHARACTER_DESCRIPTIONS.willow.."\n󰀕Lighter lasts long on the right hands\n󰀕Can ignite things in the cold"
-STRINGS.CHARACTER_DESCRIPTIONS.wx78 = STRINGS.CHARACTER_DESCRIPTIONS.wx78.."\n󰀕Has alternative charging methods\n󰀕Battery power does not activate repair function\n󰀕Short-circuits easily"
+STRINGS.CHARACTER_DESCRIPTIONS.wx78 = STRINGS.CHARACTER_DESCRIPTIONS.wx78.."\n󰀕Has alternative charging methods\n󰀕Systems are not repaired via lightning\n󰀕Reduced waterproofness of circuits"
 STRINGS.CHARACTER_DESCRIPTIONS.wickerbottom = STRINGS.CHARACTER_DESCRIPTIONS.wickerbottom.."\n󰀕Reading requires brainpower"
-STRINGS.CHARACTER_DESCRIPTIONS.wes = STRINGS.CHARACTER_DESCRIPTIONS.wes.."\n󰀕Expanded inner dialogue" 
+STRINGS.CHARACTER_DESCRIPTIONS.wes = STRINGS.CHARACTER_DESCRIPTIONS.wes.."\n󰀕Expanded inner dialogue" --"\n󰀕Pengulls are fond of mimes"
 STRINGS.CHARACTER_DESCRIPTIONS.waxwell = STRINGS.CHARACTER_DESCRIPTIONS.waxwell.."\n󰀕Can summon his old puppets"
 STRINGS.CHARACTER_DESCRIPTIONS.warly = STRINGS.CHARACTER_DESCRIPTIONS.warly.."\n󰀕Absorbs nutrients better, but prefers more variety"
 STRINGS.CHARACTER_DESCRIPTIONS.winona = STRINGS.CHARACTER_DESCRIPTIONS.winona.."\n󰀕Works hard until lunch\n󰀕Generators are for workers only"
@@ -120,6 +120,12 @@ STRINGS.UNCOMP_TOOLTIP = {
 	WATERMELON_LANTERN = "- Has a positive sanity aura.",
 	WARDROBE = "- Can store a lot of equipment.",
 }
+--tips broke, so concatenating with the old strings instead
+--like we did with the char select strings.
+--Craft UI QoL update gave enough room to do that - Atobá
+--Help.
+local TIPS = GLOBAL.STRINGS.RECIPE_DESC
+
 
 if TUNING.DSTU.ELECTRICALMISHAP == false then
 	STRINGS.UNCOMP_TOOLTIP.NIGHTSTICK = "- No longer breaks when empty.\n- Can be fueled by various electrical items, and potatoes."

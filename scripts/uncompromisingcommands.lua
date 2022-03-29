@@ -1,4 +1,4 @@
--- not local - debugkeys use it too
+--[[ not local - debugkeys use it too
 function ConsoleCommandPlayer()
     return (c_sel() ~= nil and c_sel():HasTag("player") and c_sel()) or ThePlayer or AllPlayers[1]
 end
@@ -31,8 +31,20 @@ end
 local function Spawn(prefab)
     --TheSim:LoadPrefabs({prefab})
     return SpawnPrefab(prefab)
-end
+end]]
 
+--[[TODO:
+rat commands
+    score check
+    force raid
+    force scouting party
+    force burrow
+
+rne command
+    random
+    especific rnes
+
+]]
 --toggle snowstorm
 function dstu_snowstorm()
     if TheWorld:HasTag("snowstormstart") == false and TheWorld.state.iswinter then
@@ -76,6 +88,18 @@ function dstu_vetcurseitems()
     c_give("crabclaw")
 end
 
---function dstu_rne(rnetype)
---    TheWorld:PushEvent(rnetype)
---end
+--lists current rat score shenenigans.
+function dstu_ratcheck()
+    local inst = TheSim:FindFirstEntityWithTag("rat_sniffer")
+    inst:PushEvent("rat_sniffer")
+    TheNet:SystemMessage("-------------------------")
+    TheNet:SystemMessage("Itemscore = "..inst.itemscore)
+    TheNet:SystemMessage("Foodscore = "..inst.foodscore)
+    TheNet:SystemMessage("Burrowbonus = "..inst.burrowbonus)
+    TheNet:SystemMessage("Ratscore = "..inst.ratscore)
+    if inst.ratscore > 240 then
+        inst.ratscore = 240
+    end
+    TheNet:SystemMessage("True Ratscore = "..inst.ratscore)
+    TheNet:SystemMessage("-------------------------")
+end
