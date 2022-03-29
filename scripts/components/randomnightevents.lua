@@ -1929,7 +1929,7 @@ local function IsEligible(player)
 end
 
 
-local function CheckPlayers()
+local function CheckPlayers(forced)
     _targetplayer = nil
     if #_activeplayers == 0 then
         return
@@ -1956,7 +1956,7 @@ local function CheckPlayers()
 	
 	local days_survived = player.components.age ~= nil and player.components.age:GetAgeInDays()
 	
-	if --[[TheWorld.state.cycles]]days_survived >= 5 and math.random() >= playerchancescaling or (days_survived >= 5 and TheWorld.state.isfullmoon) or (days_survived >= 5 and TheWorld.state.isnewmoon) then
+	if --[[TheWorld.state.cycles]]days_survived >= 5 and math.random() >= playerchancescaling or (days_survived >= 5 and TheWorld.state.isfullmoon) or (days_survived >= 5 and TheWorld.state.isnewmoon) or forced then
 		
 		--for i, 1 in ipairs(playerlist) do  --try a base RNE
 		if player ~= nil then
@@ -2027,7 +2027,7 @@ local function CheckPlayers()
 end
 
 local function TryRandomNightEvent(self)      --Canis said 20% chance each night to have a RNE, could possibly include a scaling effect later
-	CheckPlayers()
+	CheckPlayers(false)
 end
 --Keep these incase we need them later (probably)
 local function OnPlayerJoined(src,player)
@@ -2078,6 +2078,12 @@ end
 
 function self:OnPostInit()
 	OnSeasonTick()
+end
+
+function self:ForceRNE(forced)
+	if forced ~= nil and forced then
+		CheckPlayers(true)
+	end
 end
 
 inst:ListenForEvent("ms_playerjoined", OnPlayerJoined)
