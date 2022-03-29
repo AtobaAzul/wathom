@@ -120,12 +120,7 @@ STRINGS.UNCOMP_TOOLTIP = {
 	WATERMELON_LANTERN = "- Has a positive sanity aura.",
 	WARDROBE = "- Can store a lot of equipment.",
 }
---tips broke, so concatenating with the old strings instead
---like we did with the char select strings.
---Craft UI QoL update gave enough room to do that - Atobá
---Help.
-local TIPS = GLOBAL.STRINGS.RECIPE_DESC
-
+--Tips broke! Help!
 
 if TUNING.DSTU.ELECTRICALMISHAP == false then
 	STRINGS.UNCOMP_TOOLTIP.NIGHTSTICK = "- No longer breaks when empty.\n- Can be fueled by various electrical items, and potatoes."

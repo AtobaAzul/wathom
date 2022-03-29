@@ -1,50 +1,3 @@
---[[ not local - debugkeys use it too
-function ConsoleCommandPlayer()
-    return (c_sel() ~= nil and c_sel():HasTag("player") and c_sel()) or ThePlayer or AllPlayers[1]
-end
-
-function ConsoleWorldPosition()
-    return TheInput.overridepos or TheInput:GetWorldPosition()
-end
-
-function ConsoleWorldEntityUnderMouse()
-    if TheInput.overridepos == nil then
-        return TheInput:GetWorldEntityUnderMouse()
-    else
-        local x, y, z = TheInput.overridepos:Get()
-        local ents = TheSim:FindEntities(x, y, z, 1)
-        for i, v in ipairs(ents) do
-            if v.entity:IsVisible() then
-                return v
-            end
-        end
-    end
-end
-
-local function ListingOrConsolePlayer(input)
-    if type(input) == "string" or type(input) == "number" then
-        return UserToPlayer(input)
-    end
-    return input or ConsoleCommandPlayer()
-end
-
-local function Spawn(prefab)
-    --TheSim:LoadPrefabs({prefab})
-    return SpawnPrefab(prefab)
-end]]
-
---[[TODO:
-rat commands
-    score check
-    force raid
-    force scouting party
-    force burrow
-
-rne command
-    random
-    especific rnes
-
-]]
 --toggle snowstorm
 function dstu_snowstorm()
     if TheWorld:HasTag("snowstormstart") == false and TheWorld.state.iswinter then
@@ -102,4 +55,10 @@ function dstu_ratcheck()
     end
     TheNet:SystemMessage("True Ratscore = "..inst.ratscore)
     TheNet:SystemMessage("-------------------------")
+end
+
+--forces an RNE.
+function dstu_rne()
+    local rne = TheWorld.components.randomnightevents
+    rne:ForceRNE(true)
 end
