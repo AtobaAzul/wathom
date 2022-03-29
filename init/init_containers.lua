@@ -380,3 +380,23 @@ for y = 2.5, -1.5, -1 do
 		table.insert(containers.params.wardrobe.widget.slotpos, Vector3(80*x-80*2, 80*y-80*2+120,0))
   	end
 end
+
+containers.params.winona_toolbox =
+{
+    widget =
+    {
+        slotpos = {},
+        animbank = "ui_tacklecontainer_3x5",
+        animbuild = "ui_tacklecontainer_3x5",
+        pos = Vector3(0, 280, 0),
+        side_align_tip = 160,
+    },
+    type = "chest",
+    itemtestfn = CheckEquipItem,
+}
+
+for y = 1, -3, -1 do
+    for x = 0, 2 do
+        table.insert(containers.params.winona_toolbox.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 45, 0))
+    end
+end
