@@ -10,6 +10,7 @@ local function onopen(inst)
     if not inst:HasTag("burnt") then
         inst.AnimState:PlayAnimation("open")
         inst.SoundEmitter:PlaySound(inst._sounds.open)
+
     end
 end
 
@@ -78,7 +79,6 @@ local function MakeTackleContainer(name, bank, build, assets)
         inst.components.container.skipopensnd = true
 		inst.components.container.droponopen = true
 
-
 		inst:AddComponent("inventoryitem")
 		inst.components.inventoryitem:SetOnPutInInventoryFn(OnPutInInventory)
 
@@ -86,8 +86,9 @@ local function MakeTackleContainer(name, bank, build, assets)
 
         inst:AddComponent("hauntable")
         inst.components.hauntable:SetHauntValue(TUNING.HAUNT_TINY)
-
+        inst:AddTag("notouchy")
         inst._sounds = supertacklecontainer_sounds
+
 
         inst.OnSave = onsave
         inst.OnLoad = onload

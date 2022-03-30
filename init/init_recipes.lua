@@ -134,6 +134,8 @@ end
 
 	AddRecipe2("floral_bandage", {Ingredient("bandage", 1), Ingredient("cactus_flower", 2)}, TECH.SCIENCE_TWO, nil, {"RESTORATION"})
 
+	AddRecipe2("winona_toolbox", {Ingredient("boards",2), Ingredient("goldnugget", 4), Ingredient("sewing_tape", 1)}, TECH.SCIENCE_ONE, {builder_tag = "handyperson"}, {"CHARACTER", "CONTAINERS"})
+
 	AddRecipeToFilter("wardrobe", "CONTAINERS")
 	
 	--deconstruct recipes
