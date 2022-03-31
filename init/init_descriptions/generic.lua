@@ -48,6 +48,17 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.GENERIC.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RATBURROW = "It must lead to their labo-rat-ory."
     DESCRIBE.UNCOMPROMISING_WINKYBURROW = "It must lead to their labo-rat-ory."
     DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "It must lead to their labo-rat-ory."
+	
+	DESCRIBE.WINKY =
+        {
+            GENERIC = "How would you feel about a few experiments, %s?",
+            ATTACKER = "Careful who you bite, %s!",
+            MURDERER = "She's a bad rat!",
+            REVIVER = "%s would be a great lab assistant!",
+            GHOST = "I hope that wasn't caused by one of my experiments.",
+            FIRESTARTER = "Rats shouldn't wield fire!",
+        }
+	
     DESCRIBE.RATPOISONBOTTLE = "It's labeled \"Do not drink. That means you, Webber.\""
     DESCRIBE.RATPOISON = "It's all murdery."
 
