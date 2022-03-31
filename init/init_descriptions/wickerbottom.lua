@@ -334,3 +334,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Drenched in filth."
 	DESCRIBE.PIED_PIPER_FLUTE = "Filled with horrid diseases, I'm sure."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Have they gained intelligence, or did they steal it?"
+	DESCRIBE.WINONA_TOOLBOX = ""

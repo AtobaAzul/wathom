@@ -328,3 +328,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOODIE.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "He's leading all those dang varmints!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Those varmints will have to listen to me!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Darn varmints!"
+	DESCRIBE.WINONA_TOOLBOX = ""

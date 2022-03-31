@@ -329,3 +329,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "How did we let it get this bad?"
 	DESCRIBE.PIED_PIPER_FLUTE = "Maybe it'd be worth the time to play."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "We must focus on that one!"
+	DESCRIBE.WINONA_TOOLBOX = ""

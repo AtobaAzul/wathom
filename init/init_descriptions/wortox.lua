@@ -328,3 +328,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WORTOX.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "His song shall make them strong!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Let us sing, and they'll come under our wing!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "He'll take all our stuff with that pack, get it back!"
+	DESCRIBE.WINONA_TOOLBOX = ""

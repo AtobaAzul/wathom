@@ -331,3 +331,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Must be the boss of those rats."
 	DESCRIBE.PIED_PIPER_FLUTE = "I never was the best leader."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "I think we've found ourselves a target."
+	DESCRIBE.WINONA_TOOLBOX = ""

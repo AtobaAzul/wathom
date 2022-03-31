@@ -331,3 +331,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Keep it down, you might hurt Woby's ears!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Woby doesn't want me to play it."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Whoa, he could be a great Pinetree Pioneer!"
+	DESCRIBE.WINONA_TOOLBOX = ""
