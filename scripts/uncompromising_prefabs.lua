@@ -308,4 +308,5 @@ return {
 	"phantom",
 	"spider_crabbit",
 	--"resurrectionphonograph",
+	"winona_toolbox",
 }
