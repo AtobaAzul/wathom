@@ -35,6 +35,19 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WORTOX.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "You won't run off with my flute again, hm?"
     DESCRIBE.UNCOMPROMISING_RATHERD = "A portal to the little pranksters' den."
     DESCRIBE.UNCOMPROMISING_RATBURROW = "A portal to the little pranksters' den."
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "A portal to the little pranksters' den."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "A portal to the little pranksters' den."
+	
+	DESCRIBE.WINKY =
+        {
+            GENERIC = "Come here to cause trouble, %s?",
+            ATTACKER = "Already up to mischief, it seems!",
+            MURDERER = "%s has taken a joke too far!",
+            REVIVER = "We bipeds need to stick together!",
+            GHOST = "Ohoho, you need to be more careful, %s!",
+            FIRESTARTER = "Watch out, %s has learned to use fire!",
+        }
+		
     DESCRIBE.RATPOISONBOTTLE = "My oh my, what a way to die!"
     DESCRIBE.RATPOISON = "A deadly slick! That should do the trick!"
 
