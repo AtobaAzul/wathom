@@ -1,3 +1,17 @@
+
+RemapSoundEvent( "dontstarve/characters/winky/death_voice", "winky/characters/winky/death_voice" )
+RemapSoundEvent( "dontstarve/characters/winky/hurt", "winky/characters/winky/hurt" )
+RemapSoundEvent( "dontstarve/characters/winky/talk_LP", "winky/characters/winky/talk_LP" )
+RemapSoundEvent( "dontstarve/characters/winky/ghost_LP", "winky/characters/winky/ghost_LP" )
+RemapSoundEvent( "dontstarve/characters/winky/nightmare_LP", "winky/characters/winky/nightmare_LP" )
+RemapSoundEvent( "dontstarve/characters/winky/yawn", "winky/characters/winky/yawn" )
+RemapSoundEvent( "dontstarve/characters/winky/emote", "winky/characters/winky/emote" )
+RemapSoundEvent( "dontstarve/characters/winky/pose", "winky/characters/winky/pose" )
+RemapSoundEvent( "dontstarve/characters/winky/yawn", "winky/characters/winky/yawn" )
+RemapSoundEvent( "dontstarve/characters/winky/eye_rub_vo", "winky/characters/winky/eye_rub_vo" )
+RemapSoundEvent( "dontstarve/characters/winky/carol", "winky/characters/winky/carol" )
+RemapSoundEvent( "dontstarve/characters/winky/sinking", "winky/characters/winky/sinking" )
+
 Assets = {
 	----Turf
 	Asset( "IMAGE", "levels/textures/noise_hoodedmoss.tex" ),
@@ -231,6 +245,9 @@ Assets = {
 	Asset( "SOUND", "sound/UCSounds_bank00.fsb"),
 	Asset("SOUNDPACKAGE", "sound/UMMusic.fev"), 
 	Asset( "SOUND", "sound/UMMusic.fsb"),
+
+	Asset("SOUNDPACKAGE", "sound/winky.fev"),
+	Asset("SOUND", "sound/winky.fsb"),
 
 	Asset("IMAGE", "images/inventoryimages/rat_tail.tex"),
 	Asset("ATLAS", "images/inventoryimages/rat_tail.xml"),

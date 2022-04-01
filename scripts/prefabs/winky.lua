@@ -107,7 +107,8 @@ local function master_postinit(inst)
     inst:AddTag("ratwhisperer")
 
 	-- choose which sounds this character will play
-	inst.soundsname = "winnie"
+	--inst.soundsname = "winnie"
+	inst.soundsname = "winky"
 	
     inst.components.foodaffinity:AddPrefabAffinity("powcake", 20)
 	inst.components.eater:SetCanEatHorrible()
