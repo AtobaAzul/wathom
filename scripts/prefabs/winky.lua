@@ -84,11 +84,11 @@ local function OnPickSomething(inst, data)
 end
 
 local function OnDropItem(inst)
-	inst.components.sanity:DoDelta(-1)
+	inst.components.sanity:DoDelta(-5)
 end
 
 local function sanityfn(inst)
-	local sanityvalue = -1
+	local sanityvalue = -5
 
 	for i = 1, inst.components.inventory.maxslots do
 		if inst.components.inventory:GetItemInSlot(i) ~= nil then

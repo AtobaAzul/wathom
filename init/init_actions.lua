@@ -102,7 +102,7 @@ local createburrow = AddAction(
 	GLOBAL.STRINGS.ACTIONS.CREATE_BURROW,
 	function(act)
 		local act_pos = act:GetActionPoint()
-		if act.doer.components.hunger.current > 20 and not GLOBAL.TheWorld.Map:GetPlatformAtPoint(act_pos.x, act_pos.z) then
+		if act.doer.components.hunger.current > 15 and not GLOBAL.TheWorld.Map:GetPlatformAtPoint(act_pos.x, act_pos.z) then
 			local burrows = GLOBAL.TheSim:FindEntities(act_pos.x, 0, act_pos.z, 10000, {"winkyburrow"})
 			local home = false
 			
@@ -115,7 +115,7 @@ local createburrow = AddAction(
 			if home then
 				local burrow = GLOBAL.SpawnPrefab("uncompromising_winkyburrow")
 				burrow.Transform:SetPosition(act_pos.x, 0, act_pos.z)
-				act.doer.components.hunger:DoDelta(-20)
+				act.doer.components.hunger:DoDelta(-15)
 			else
 				local burrow = GLOBAL.SpawnPrefab("uncompromising_winkyhomeburrow")
 				burrow.Transform:SetPosition(act_pos.x, 0, act_pos.z)
