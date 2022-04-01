@@ -8,11 +8,10 @@ function setup_custom_loading_tips()
   AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_MOONMAW", "Dragonfly once flew too close too the moon. But unlike Icarus, her story doesn't end there.")
   AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_MUTATIONS", "Deerclops has invited some extended family over for the winter.")
   AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RUINS", "Something's stirred in the ruins. Keep your wits about you.")
-  AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_CONFIGS", "Don't forget a lot of things in Uncompromising Mode are configurable!" )
-  AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_WIKI", "Confused with anything? Visit the Uncompromising Mode Wiki! Just watch out for outdated warnings, not everything is up to date just yet." )
+  AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_CONFIGS", "\"Don't forget a lot of things in Uncompromising Mode are configurable!\" - A" )
   AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_FOODSCORE", "\"Our rations appear to attracting unwanted attention. I should get rid of our stale food...\" - W")
   AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_ITEMSCORE", "\"It seems those rats I've spotted like the mess in our camp, I really should do a bit of Spring cleaning...\" - W")
-  AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_BURROWBONUS", "\"I've spotted a den of rats, they are multipying in the wilderness, and fast!\" - W")
+  AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_BURROWBONUS", "\"I've spotted a den of rats! They are surely mounting a raid against us!\" - W")
   
 	local tipcategorystartweights =
 	{
