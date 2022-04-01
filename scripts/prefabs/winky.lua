@@ -147,5 +147,6 @@ end
 
 
 STRINGS.CHARACTERS.WINKY= require "speech_winky"
+STRINGS.CHARACTERS.WINKY= require "speech_winkyum"
 
 return MakePlayerCharacter("winky", prefabs, assets, common_postinit, master_postinit, start_inv)
