@@ -1411,7 +1411,7 @@ return {
 		BACONEGGS = "Egg murder breakfast.",
 		BANDAGE = "I like to lick it first!",
 		BASALT = "Maybe if we push it.", --removed
-		BEARDHAIR = \""Pleugh!\" Always in my mouth?!",
+		BEARDHAIR = "\"Pleugh!\" Always in my mouth?!",
 		BEARGER = "Time to \"Squeak\" away!!",
 		BEARGERVEST = "Not as greasy as my fur! Soon it will....",
 		ICEPACK = "How is it cold if there is no ice?",
@@ -1424,7 +1424,7 @@ return {
 			GROWING = "\"Patience is not a virtue of mine!\"",
 		},
         BEEQUEENHIVEGROWN = "Mmmm the gooey sweetness I must have it!",
-        BEEGUARD = "fluffy and stupid!",
+        BEEGUARD = "Fluffy and stupid!",
         HIVEHAT = "The shapeness of it is perfect!",
         MINISIGN =
         {
@@ -4366,6 +4366,4 @@ return {
         TALLBIRDEGG_CRACKED = "Mmm. Beaky.",
 		WINTERSFEASTFUEL = "Tastes like the holidays.",
     },
-}
-
 }
