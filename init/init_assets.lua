@@ -46,6 +46,15 @@ Assets = {
     Asset( "IMAGE", "images/avatars/avatar_ghost_winky.tex" ),
     Asset( "ATLAS", "images/avatars/avatar_ghost_winky.xml" ),
 	
+    Asset( "IMAGE", "images/names_gold_winky.tex" ),
+    Asset( "ATLAS", "images/names_gold_winky.xml" ),
+	
+    Asset( "IMAGE", "images/names_winky.tex" ),
+    Asset( "ATLAS", "images/names_winky.xml" ),
+
+	Asset("SOUNDPACKAGE", "sound/winky.fev"),
+	Asset("SOUND", "sound/winky.fsb"),
+	
 	--
 
 
@@ -245,9 +254,6 @@ Assets = {
 	Asset( "SOUND", "sound/UCSounds_bank00.fsb"),
 	Asset("SOUNDPACKAGE", "sound/UMMusic.fev"), 
 	Asset( "SOUND", "sound/UMMusic.fsb"),
-
-	Asset("SOUNDPACKAGE", "sound/winky.fev"),
-	Asset("SOUND", "sound/winky.fsb"),
 
 	Asset("IMAGE", "images/inventoryimages/rat_tail.tex"),
 	Asset("ATLAS", "images/inventoryimages/rat_tail.xml"),
