@@ -13,7 +13,12 @@ function setup_custom_loading_tips()
 	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_FOODSCORE", "\"Our rations appear to attracting unwanted attention. I should get rid of our stale food...\" - W")
 	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_ITEMSCORE", "\"It seems those rats I've spotted like the mess in our camp, I really should do a bit of Spring cleaning...\" - W")
 	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_RATS_BURROWBONUS", "\"I've spotted a den of rats, they are multipying in the wilderness, and fast!\" - W")
-	
+	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_SNOWPILES", "\"There is something watching me from the snowpiles, I should dig them up before we find out what's inside...\" - W")
+	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_SPIDERS", "\"Ha! Weak spider can't jump past might of heavy smack!\" - W")
+	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_WINTERSMOLDERING", "\"It is so cold... I can't get a fire going.\" - W")
+	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_UNHAPPYTOMATO", "\"My tomato harvest seems to have shortened this autumn, I guess they're feeling under the weather.\" - W")
+	AddLoadingTip(GLOBAL.STRINGS.UI.LOADING_SCREEN_OTHER_TIPS, "TIP_UM_AURACLOPS", "The ice walls certain Deerclops make can be mined, and some are more brittle than others.")
+
 	local tipcategorystartweights =
 	{
 		CONTROLS = 0.2,
