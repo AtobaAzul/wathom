@@ -38,7 +38,7 @@ function SkullChestInventory:OnUpdate( dt )
 
 end
 
-function SkullChestInventory:empty( target )
+function SkullChestInventory:empty(target)
 	local t_cont = target.components.container
 	local cont = self.trunk.components.container
 	if t_cont and cont then		

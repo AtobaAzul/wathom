@@ -45,7 +45,7 @@ end
 env.AddStategraphPostInit("minotaur", function(inst)
 	local _OldAttackEvent = inst.events["doattack"].fn --Event handler to force the leap if we haven't done the leap for long enough (brainside leap still independent
 	inst.events["doattack"].fn = function(inst, data)
-		if inst.forcebelch == true and inst.components.combat and inst.components.combat.target then
+		if inst.forcebelch == true and inst.components.combat and inst.components.combat.target and not inst.sg:HasStateTag("running") then
 			inst.sg:GoToState("belch")
 		else
 			if inst.forceleap == true and inst.components.combat and inst.components.combat.target then
@@ -164,46 +164,52 @@ State{ --This state is for the guardian belching a bunch of shadow goo out! It's
 			onupdate = function(inst)
 				if inst.components.combat and inst.components.combat.target ~= nil then
 					inst:ForceFacePoint(Vector3(inst.components.combat.target.Transform:GetWorldPosition()))
+					inst.belchtarget = inst.components.combat.target
 				end
 			end,
 			
 			timeline=
 			{ 
-				TimeEvent(36*FRAMES, function(inst)
+				TimeEvent(40*FRAMES, function(inst)
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
-					inst.projectilespeed = 2
+					inst.projectilespeed = 1
 					inst.tentbelch = true
 					SetUpProjectiles(inst)
 				 end), 			
-				TimeEvent(38*FRAMES, function(inst)
-					inst.projectilespeed = 3
+				TimeEvent(42*FRAMES, function(inst)
+					inst.projectilespeed = 2
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 				
-				TimeEvent(40*FRAMES, function(inst)
-					inst.projectilespeed = 4
-					inst.tentbelch = true
-					SetUpProjectiles(inst)
-				 end),
-				TimeEvent(42*FRAMES, function(inst)
-					inst.projectilespeed = 5
-					inst.tentbelch = true
-					SetUpProjectiles(inst)
-				 end), 
 				TimeEvent(44*FRAMES, function(inst)
-					inst.projectilespeed = 6
+					inst.projectilespeed = 2
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end),
 				TimeEvent(46*FRAMES, function(inst)
-					inst.projectilespeed = 4
+					inst.projectilespeed = 2
 					inst.tentbelch = true
-					SetUpProjectiles(inst)
-				 end),
-				TimeEvent(48*FRAMES, function(inst)
-					inst.projectilespeed = 5
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 
+				TimeEvent(48*FRAMES, function(inst)
+					inst.projectilespeed = 3
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
+					SetUpProjectiles(inst)
+				 end),
 				TimeEvent(50*FRAMES, function(inst)
-					inst.projectilespeed = 6
+					inst.projectilespeed = 4
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
+					SetUpProjectiles(inst)
+				 end),
+				TimeEvent(52*FRAMES, function(inst)
+					inst.projectilespeed = 4
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
+					SetUpProjectiles(inst)
+				 end), 
+				TimeEvent(54*FRAMES, function(inst)
+					inst.projectilespeed = 4
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					inst.tentbelch = true
 					SetUpProjectiles(inst)
 				 end), 
@@ -211,6 +217,7 @@ State{ --This state is for the guardian belching a bunch of shadow goo out! It's
 			
 			onexit = function(inst)
 				inst.AnimState:SetBank("rook")
+				inst.belchtarget = nil
 				if inst.components.health:GetPercent() > 0.6 then
 					inst.AnimState:SetBuild("rook_rhino")
 				else
