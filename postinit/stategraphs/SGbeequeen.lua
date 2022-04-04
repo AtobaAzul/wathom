@@ -1,6 +1,43 @@
 local env = env
 GLOBAL.setfenv(1, GLOBAL)
 
+local function DoScreech(inst)
+    ShakeAllCameras(CAMERASHAKE.FULL, 1, .015, .3, inst, 30)
+    inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/taunt")
+end
+
+local function DoScreechAlert(inst)
+    inst.components.epicscare:Scare(5)
+    inst.components.commander:AlertAllSoldiers()
+end
+
+local function FaceTarget(inst)
+    local target = inst.components.combat.target
+    if inst.sg.mem.focustargets ~= nil then
+        local mindistsq = math.huge
+        for i = #inst.sg.mem.focustargets, 1, -1 do
+            local v = inst.sg.mem.focustargets[i]
+            if v:IsValid() and v.components.health ~= nil and not v.components.health:IsDead() and not v:HasTag("playerghost") then
+                local distsq = inst:GetDistanceSqToInst(v)
+                if distsq < mindistsq then
+                    mindistsq = distsq
+                    target = v
+                end
+            else
+                table.remove(inst.sg.mem.focustargets, i)
+                if #inst.sg.mem.focustargets <= 0 then
+                    inst.sg.mem.focustargets = nil
+                    break
+                end
+            end
+        end
+    end
+    if target ~= nil and target:IsValid() then
+        inst:ForceFacePoint(target.Transform:GetWorldPosition())
+    end
+end
+
+
 env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's called "SGbeequeen" instead of just... beequeen, funky
 local function TrySpawnBigLeak(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
@@ -73,6 +110,55 @@ local states = {
             inst.Transform:SetSixFaced()
             inst.components.health:SetInvincible(false)
         end,
+    },
+	
+    State{
+        name = "command_mortar",
+        tags = { "focustarget", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("command2")
+        end,
+
+        timeline =
+        {
+            TimeEvent(8 * FRAMES, DoScreech),
+            TimeEvent(9 * FRAMES, DoScreechAlert),
+            TimeEvent(11 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),
+            TimeEvent(18 * FRAMES, function(inst)
+                inst.sg.mem.wantstofocustarget = nil
+                inst.sg.mem.focuscount = 0
+                inst.sg.mem.focustargets = nil
+                inst.components.timer:StartTimer("focustarget_cd", inst.focustarget_cd)
+
+                local soldiers = inst.components.commander:GetAllSoldiers()
+                if #soldiers > 0 and inst.components.combat and inst.components.combat.target then
+					for i, soldier in ipairs(soldiers) do
+						soldier:MortarAttack(soldier)
+					end  
+                end
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(25 * FRAMES, function(inst)
+                inst.sg:AddStateTag("caninterrupt")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+		
+        onexit = function(inst)
+			inst.components.timer:StartTimer("mortar_atk", 20)
+        end,
+		
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+
     },
 }
 
