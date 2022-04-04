@@ -721,6 +721,7 @@ Assets = {
 	Asset("ANIM", "anim/lush_trapdoorgrass.zip"),
 	Asset("ANIM", "anim/swap_driftwood_fishingrod.zip"),
 	Asset("ANIM", "anim/um_bq_actions.zip"),
+	Asset("ANIM", "anim/um_beeguard.zip"),
 	Asset("ANIM", "anim/close_wardrobe.zip"),
 	Asset("ANIM", "anim/guardian_splat.zip"),
 	

@@ -40,6 +40,7 @@ local prefab_post = {
     --"toadstool_cap", Moved to init_uncompromising_mod.lua
     "amulet",
 	"beequeen",
+	"beeguard",
 	"cave_entrance_open",
 	"catcoon",
 	"icehound",
@@ -148,6 +149,7 @@ local stategraph_post = {
 	"carnival_host",
 	"catcoon",
 	"beequeen",
+	"beeguard",
 }
 
 local class_post = {

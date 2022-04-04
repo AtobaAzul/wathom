@@ -98,8 +98,12 @@ env.AddStategraphPostInit("minotaur", function(inst)
 			if inst.jumpland(inst) then
 				inst.sg:GoToState("leap_attack_pst")
 				inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/groundpound")
-			else
-				inst.sg:GoToState("stun",{land_stun=true})
+			elseif inst.components.health and inst.components.health:GetPercent() < 0.6 then
+					inst.sg:GoToState("stun",{land_stun=true})
+					return
+				else
+					inst.sg:GoToState("leap_attack_pst")
+					return
 			end
 		end
 	end
@@ -152,7 +156,7 @@ State{ --This state is for the guardian belching a bunch of shadow goo out! It's
 			
 			onenter = function(inst)
 				inst.forcebelch = false
-				inst.components.timer:StartTimer("forcebelch", math.random(10,10))
+				inst.components.timer:StartTimer("forcebelch", math.random(20,40))
 				inst.components.locomotor:Stop()
 				inst.AnimState:SetBank("um_minotaur_actions")
 				inst.AnimState:SetBuild("um_minotaur_actions")

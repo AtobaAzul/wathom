@@ -48,7 +48,13 @@ local function StompRageCalmDown(inst)
 	end
 end
 
-
+local function CheckMortar(inst,data)
+	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target then
+		inst.sg:GoToState("command_mortar")
+	elseif data.name == "mortar_atk" then
+		inst.components.timer:StartTimer("mortar_atk", 30)
+	end
+end
 env.AddPrefabPostInit("beequeen", function(inst)
 	if not TheWorld.ismastersim then
 		return
@@ -73,7 +79,8 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst.stompready = true
 	inst:DoPeriodicTask(3, StompRageCalmDown)
 	inst:ListenForEvent("attacked", StompHandler)
-	
+	inst.components.timer:StartTimer("mortar_atk", 15)
+	inst:ListenForEvent("timerdone", CheckMortar)
 	
 	-- No more honey when attacking
 	local OnMissOther = UpvalueHacker.GetUpvalue(Prefabs.beequeen.fn, "OnMissOther")
