@@ -6,10 +6,7 @@ GLOBAL.setfenv(1, GLOBAL)
 local easing = require("easing")
 local UpvalueHacker = require("tools/upvaluehacker")
 local function CheckForceJump(inst,data) -- Secondary means to force the leap if for some reason the player isn't in a position for it to happen naturally
-	TheNet:Announce("timerdone")
-	TheNet:Announce(data.name)
 	if data.name == "forceleapattack" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() then
-		TheNet:Announce("forceleap is true!")
 		inst.forceleap = true
 	elseif data.name == "forceleapattack" or not inst.components.timer:TimerExists("forceleapattack") then
 		inst.components.timer:StartTimer("forceleapattack", math.random(30,45))
