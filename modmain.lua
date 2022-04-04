@@ -13,7 +13,7 @@ GLOBAL.FUELTYPE.BATTERYPOWER = "BATTERYPOWER"
 GLOBAL.FUELTYPE.SALT = "SALT"
 GLOBAL.FUELTYPE.EYE = "EYE"
 
-if GetModConfigData("funny rat :)") then
+if GetModConfigData("funny rat") then
 	AddModCharacter("winky")
 end
 RemapSoundEvent( "dontstarve/together_FE/DST_theme_portaled", "UMMusic/music/uncomp_char_select" )

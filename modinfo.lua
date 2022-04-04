@@ -599,7 +599,7 @@ configuration_options =
 	BinaryConfig("announce_basestatus", "[DEV] Announce Ratsniffer","[Developer Tool] Prints the exact rat sniff values to chat to be viewed in real time.",false),
 	BinaryConfig("eyebrellarework", "Eyebrella Rework","Eyebrella stats restored to vanilla value, can't be repaired, 12 day durability.",false),
 	BinaryConfig("cooldown_orangestaff", "Cooldown Based Lazy Explorer", "Lazy explorer no longer has durabilty, but instead has cooldown, like Wanda's watches.\nSuggested by Lux.", false),
-	BinaryConfig("funny rat :)", "???", "The Vile Vermim", true)
+	BinaryConfig("funny rat", "???", "The Vile Vermin", false)
 ------------------------------
 -- Secret --
 ------------------------------
