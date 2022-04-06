@@ -4,6 +4,11 @@ GLOBAL.setfenv(1, GLOBAL)
 local BOUNCESTUFF_MUST_TAGS = { "_inventoryitem" }
 local BOUNCESTUFF_CANT_TAGS = { "locomotor", "INLIMBO" }
 
+local function shield_fxanim(inst)
+    inst._fx.AnimState:PlayAnimation("hit")
+    inst._fx.AnimState:PushAnimation("idle_loop")
+end
+
 local function ClearRecentlyBounced(inst, other)
     inst.sg.mem.recentlybounced[other] = nil
 end
@@ -56,6 +61,15 @@ env.AddStategraphPostInit("minotaur", function(inst)
 		end
     end	
 	
+	local _OldAttackedEvent = inst.events["attacked"].fn
+	inst.events["attacked"].fn = function(inst, data)
+		if inst:HasTag("forcefield") then
+			shield_fxanim(inst)
+		else
+			_OldAttackedEvent(inst, data)
+		end
+	end
+	
 	local _OldOnEnter = inst.states["run_start"].onenter 
 	inst.states["run_start"].onenter = function(inst)
 		if inst.forceleap == true and inst.components.combat and inst.components.combat.target then
@@ -87,6 +101,15 @@ env.AddStategraphPostInit("minotaur", function(inst)
         inst.forceleap = false
 		inst.components.groundpounder:GroundPound()
         BounceStuff(inst)
+		----------------------------------------------- Break any organ shields.
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local organs = TheSim:FindEntities(x,y,z,7,{"minotaur_organ"})
+		if organs then
+			for i,organ in ipairs(organs) do
+				organ:DeactivateShield(organ)
+			end
+		end
+		
 		if inst.components.combat and inst.components.combat.target and ((inst.combo < math.random(2,3) and (inst.components.health:GetPercent() > 0.3 and inst.components.health:GetPercent() < 0.6)) or (inst.combo < math.random(4,5) and inst.components.health:GetPercent() < 0.3)) then
 			inst.sg:GoToState("leap_attack_pre_quick",inst.components.combat.target) 		-- Leap attack combo depends on how much health the AG has
 			inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/groundpound")		-- it won't combo if it doesn't have low enough health and
@@ -176,12 +199,10 @@ State{ --This state is for the guardian belching a bunch of shadow goo out! It's
 			{ 
 				TimeEvent(40*FRAMES, function(inst)
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
-					inst.projectilespeed = 1
 					inst.tentbelch = true
 					SetUpProjectiles(inst)
 				 end), 			
 				TimeEvent(42*FRAMES, function(inst)
-					inst.projectilespeed = 2
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 				
@@ -191,28 +212,23 @@ State{ --This state is for the guardian belching a bunch of shadow goo out! It's
 					SetUpProjectiles(inst)
 				 end),
 				TimeEvent(46*FRAMES, function(inst)
-					inst.projectilespeed = 2
 					inst.tentbelch = true
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 
 				TimeEvent(48*FRAMES, function(inst)
-					inst.projectilespeed = 3
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end),
 				TimeEvent(50*FRAMES, function(inst)
-					inst.projectilespeed = 4
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end),
 				TimeEvent(52*FRAMES, function(inst)
-					inst.projectilespeed = 4
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 
 				TimeEvent(54*FRAMES, function(inst)
-					inst.projectilespeed = 4
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					inst.tentbelch = true
 					SetUpProjectiles(inst)

@@ -310,4 +310,5 @@ return {
 	--"resurrectionphonograph",
 	"winona_toolbox",
 	"searock_arches",
+	"minotaur_organ",
 }

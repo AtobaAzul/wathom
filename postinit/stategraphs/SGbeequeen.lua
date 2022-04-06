@@ -92,7 +92,7 @@ local states = {
 					end
 					return true
 				end
-				inst.components.combat:SetAreaDamage(3.5,1.25,isvalid)
+				inst.components.combat:SetAreaDamage(3.5,1.67,isvalid)
 				inst.components.combat:DoAttack()
                 inst.components.combat:SetAreaDamage(0,0,isvalid)
 				inst.components.groundpounder:GroundPound()

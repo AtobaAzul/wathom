@@ -27,6 +27,8 @@ local function DoSplatFx(inst)
 	local goo
 	if inst.prefab == "shadow_goo" then -- A special different ground anim for our fancy goo
 		goo = SpawnPrefab("shadow_puff")
+	elseif inst.organ == true then
+		goo = SpawnPrefab("minotaur_organ")
 	else
 		goo = SpawnPrefab("guardian_splat")
 		if inst.tentacle == true then
@@ -161,6 +163,7 @@ local function guardian_goo()
     inst.components.complexprojectile:SetOnLaunch(onthrown)
     inst.components.complexprojectile:SetOnHit(doprojectilehit)
 	inst.tentacle = false
+	inst.organ = false
 	inst:Hide()
 	inst:DoTaskInTime(0.2,function(inst) inst:Show() end)	
 	
