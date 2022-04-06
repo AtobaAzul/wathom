@@ -309,4 +309,5 @@ return {
 	"spider_crabbit",
 	--"resurrectionphonograph",
 	"winona_toolbox",
+	"searock_arches",
 }
