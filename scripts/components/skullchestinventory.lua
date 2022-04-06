@@ -24,9 +24,6 @@ end
 function SkullChestInventory:LoadPostPass(ents, data)
 	if data.trunk and ents[data.trunk] then
 		self.trunk = ents[data.trunk].entity
-	else 
-		print("ROOT TRUNK WARNING: THERE WAS AN ERROR! THE OLD TRUNK WAS NOT FOUND, MUST CREATE A NEW ONE. ")
-		self.trunk = nil
 	end
 end
 
