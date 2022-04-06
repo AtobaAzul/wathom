@@ -49,7 +49,7 @@ local function StompRageCalmDown(inst)
 end
 
 local function CheckMortar(inst,data)
-	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target then
+	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() then
 		inst.sg:GoToState("command_mortar")
 	elseif data.name == "mortar_atk" then
 		inst.components.timer:StartTimer("mortar_atk", 30)
