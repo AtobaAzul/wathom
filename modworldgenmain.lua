@@ -137,7 +137,7 @@ end)
 end
 
 -----------Ghost Walrus
-if GetModConfigData("ghostwalrus") == "disabled" then
+if GetModConfigData("ghostwalrus") ~= "disabled" then
 	AddRoomPreInit("WalrusHut_Plains", function(room)					
 	room.contents.countprefabs=
 										{
@@ -311,8 +311,9 @@ if GetModConfigData("rice") then
 		task.room_choices["densericepatch"] = 1      --Comment to test task based rice worldgen
 	end)
 end
-
+if GetModConfigData("hoodedforest") then
 GLOBAL.require("map/tasks/gianttrees")
+end
 --[[GLOBAL.require("map/tasks/ratacombs")
 GLOBAL.require("map/rooms/caves/ratacombsrooms")
 GLOBAL.require("map/rooms/forest/ratking")
@@ -367,8 +368,10 @@ AddTaskSetPreInitAny(function(tasksetdata)
 	if GetModConfigData("hoodedforest") then
 		table.insert(tasksetdata.tasks,"GiantTrees")
 	end
+	if GetModConfigData("rice") then
 	table.insert(tasksetdata.required_prefabs,"riceplantspawnerlarge")
 	table.insert(tasksetdata.required_prefabs,"riceplantspawner")
+	end
 	table.insert(tasksetdata.required_prefabs,"researchlab")
 	--tasksetdata.ocean_prefill_setpieces["specter_sea"] = {count = 1}
 end)
@@ -392,11 +395,9 @@ AddTaskSetPreInitAny(function(tasksetdata)
 	end
 end)]]
 
-if GetModConfigData("hoodedforest")then
 	Layouts["hooded_town"] = StaticLayout.Get("map/static_layouts/hooded_town")
 	Layouts["rose_garden"] = StaticLayout.Get("map/static_layouts/rose_garden")
 	Layouts["hf_holidays"] = StaticLayout.Get("map/static_layouts/hf_holidays")
-end
 
 Layouts["RatLockBlocker1"] = 						
 						{
