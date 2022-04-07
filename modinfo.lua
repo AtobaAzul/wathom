@@ -478,7 +478,8 @@ configuration_options =
 	BinaryConfig("harder_walrus","Harder MacTusk","Mactusk has a counter attack and can throw traps.", true),
 	BinaryConfig("harder_beefalo","Harder Beefalo","Beefalo ocasionally charge after a telegraph.", true),
 	BinaryConfig("harder_koalefants", "Harder Koalefants", "Koalefants have brand new attacks and doubled health", true),
-	BinaryConfig("hungry_frogs", "Hungry Frogs", "Frogs eat anything left on the floor.", true),
+	BinaryConfig("hungryfrogs", "Hungry Frogs", "Frogs eat anything left on the floor.", true),
+	BinaryConfig("cowardfrogs", "Frog Anti-cheese", "Frogs flee from bosses to prevent cheesing.", true),
 	BinaryConfig("toads", "Toads", "Toads replace frogs in the second autumn and release poisonous clouds on death.", true),
 
 	SkipSpace(),
