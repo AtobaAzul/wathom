@@ -237,6 +237,22 @@ configuration_options =
 	},]]
 
 	SkipSpace(),
+	Header("World Gen"),
+	BinaryConfig("hoodedforest", "Hooded Forest", "Hooded Forest replaces the Moon Base forest, with brand new things to explore, including a new boss!", true),
+	{
+		name = "ghostwalrus",
+		label = "Rusty Traps",
+		hover = "Mac tusk forgot to pick up some traps and left them to rust.",
+		options = 
+		{
+			{description = "Enabled", data = "enabled"},
+			{description = "Enabled (No Respawn)", data = "norespawn"},
+			{description = "Disabled", data = "disabled"},
+		},
+		default = "enabled",
+	},
+	BinaryConfig("rice","Rice","Rice spawns in ponds in the swamp.", true),
+	SkipSpace(),
 ------------------------------
 -- Character Reworks --
 ------------------------------
