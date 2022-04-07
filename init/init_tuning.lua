@@ -377,6 +377,7 @@ TUNING.DSTU =
     AMALGAMS = GetModConfigData("amalgams"),
     HUNGRYFROGS = GetModConfigData("hungryfrogs"),
     COWARDFROGS = GetModConfigData("cowardfrogs"),
+    INSUL_THERMALSTONE = GetModConfigData("insul_thermalstone"),
 --boss hp qol
     BEEQUEEN_HEALTH = GetModConfigData("bee queen health"),
     TOADSTOOL_HEALTH = GetModConfigData("toadstool health"),

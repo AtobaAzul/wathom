@@ -317,6 +317,7 @@ configuration_options =
 		},
 		default = 1,
 	},
+	BinaryConfig("insul_thermalstone", "Tweaked Thermal Stone", "Thermal stones now have less insulation, but inherit some insulation from clothing.", true),
 -----------------------------
 -- Food --
 -----------------------------
