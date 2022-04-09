@@ -23,6 +23,7 @@ local component_post = {
 	"ambientsound",
 	"foodaffinity",
 	"eater",
+	"edible"
 }
 
 local prefab_post = {
@@ -289,10 +290,6 @@ end
 
 if GetModConfigData("moon_transformations") then
 	table.insert(prefab_post,"flower")
-end
-
-if GetModConfigData("foodregen") then
-	table.insert(component_post, "edible")
 end
 
 modimport("postinit/sim")
