@@ -6,18 +6,15 @@ env.AddStategraphPostInit("leif", function(inst)
 
 local _OldAttackEvent = inst.events["doattack"].fn
 	inst.events["doattack"].fn = function(inst, data)
-		if not inst.components.health:IsDead() and (inst.sg:HasStateTag("hit") or not inst.sg:HasStateTag("busy")) then
-			if inst.rootready then
-				local stump = FindEntity(inst, TUNING.LEIF_MAXSPAWNDIST, nil, {"stump","evergreen"}, { "leif","burnt","deciduoustree" })
-				if stump ~= nil and TUNING.DSTU.PINELINGS == true then
-					inst.sg:GoToState("summon", data.target)
-				else
-					inst.sg:GoToState("snare", data.target)
-				end
+		if inst.rootready and not inst.components.health:IsDead() and (inst.sg:HasStateTag("hit") or not inst.sg:HasStateTag("busy")) then
+			local stump = FindEntity(inst, TUNING.LEIF_MAXSPAWNDIST, nil, {"stump","evergreen"}, { "leif","burnt","deciduoustree" })
+			if stump ~= nil and TUNING.DSTU.PINELINGS == true then
+				inst.sg:GoToState("summon", data.target)
 			else
-				_OldAttackEvent(inst, data)
+				inst.sg:GoToState("snare", data.target)
 			end
 		else
+			inst.components.combat:SetRange(inst.oldrange)
 			_OldAttackEvent(inst, data)
 		end
 	end
