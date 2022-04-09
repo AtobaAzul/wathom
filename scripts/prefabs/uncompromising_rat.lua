@@ -1929,27 +1929,39 @@ local function FoodScoreCalculations(inst,container,v)
 	inst.preparedmultiplier = v:HasTag("preparedfood") and 2 or 1
 	
 	if container == true then
-		if v:HasTag("stale") then
+		if v:HasTag("stale") and v.components.farmplantable == nil then
 			delta = ((2.5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("spoiled") then
+		if v:HasTag("spoiled") and v.components.farmplantable == nil then
 			delta = ((5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
 		if IsAVersionOfRot(v) then
 			delta = ((5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
+		end
+		if v:HasTag("stale") and v.components.farmplantable ~= nil then
+			delta = ((1.5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
+		end
+		if v:HasTag("spoiled") and v.components.farmplantable ~= nil then
+			delta = ((3 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
 	else
-		if v:HasTag("fresh") then
+		if v:HasTag("fresh") and v.components.farmplantable == nil then
 			delta = ((5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("stale") then
+		if v:HasTag("stale") and v.components.farmplantable == nil then
 			delta = ((10 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("spoiled") then
+		if v:HasTag("spoiled") and v.components.farmplantable == nil then
 			delta = ((15 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
 		if IsAVersionOfRot(v) then
 			delta = ((15 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
+		end
+		if v:HasTag("stale") and v.components.farmplantable ~= nil then
+			delta = ((3 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
+		end
+		if v:HasTag("spoiled") and v.components.farmplantable ~= nil then
+			delta = ((6 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
 	end
 	inst.foodscore = inst.foodscore + delta
@@ -1978,12 +1990,12 @@ local function TimeForACheckUp(inst,dev)
 					if v.components.inventoryitem and v.components.inventoryitem:GetGrandOwner() ~= nil and v.components.inventoryitem:GetGrandOwner().prefab == "lureplant" then
 						--print("lureplant is holding!")
 					else
-						if not v:HasTag("frozen") and v.components.farmplantable == nil then
+						if not v:HasTag("frozen") then
 							FoodScoreCalculations(inst,true,v)
 						end
 					end
 				else
-					if not v:HasTag("frozen") and v.components.farmplantable == nil then
+					if not v:HasTag("frozen") then
 						FoodScoreCalculations(inst,false,v)
 					end
 					
