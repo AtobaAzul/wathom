@@ -106,7 +106,7 @@ end
 
 	AddRecipe2("bugzapper",   {Ingredient("spear", 1), Ingredient("transistor", 2), Ingredient("feather_canary", 2)}, TECH.SCIENCE_TWO, nil, {"WEAPONS"})
 
-	AddRecipe2("slingshotammo_firecrackers",	{Ingredient("nitre", 2), Ingredient("cutgrass", 1)},TECH.SCIENCE_TWO, {deconstruction = true, num_to_give = 10, buider_tag = "pebblemaker"}, {"CHARACTER"})
+	AddRecipe2("slingshotammo_firecrackers", {Ingredient("nitre", 2)}, GLOBAL.TECH.SCIENCE_TWO, {builder_tag="pebblemaker", numtogive = 10}, {"CHARACTER", "WEAPONS"})
 
 	AddRecipe2("watermelon_lantern", {Ingredient("watermelon", 1), Ingredient("fireflies", 1)}, TECH.SCIENCE_TWO, nil, {"LIGHT"} )
 
