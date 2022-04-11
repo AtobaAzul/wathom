@@ -70,6 +70,7 @@ AllRecipes["minifan"].ingredients = {Ingredient("twigs", 3), Ingredient("petals"
 AllRecipes["seedpouch"].ingredients = {Ingredient("slurtle_shellpieces", 2), Ingredient("waxpaper",1), Ingredient("seeds", 2)}
 AllRecipes["catcoonhat"].ingredients = {Ingredient("coontail", 4), Ingredient("silk", 4)}
 AllRecipes["goggleshat"].ingredients = {Ingredient("goldnugget", 4), Ingredient("pigskin",1), Ingredient("houndstooth", 2)}
+AllRecipes["deserthat"].level = TechTree.Create(TECH.SCIENCE_TWO)
 
 if TUNING.DSTU.WOLFGANG_HUNGERMIGHTY then
 	AllRecipes["mighty_gym"].ingredients = {Ingredient("boards",     4), Ingredient("cutstone", 2), Ingredient("rope", 3)}
