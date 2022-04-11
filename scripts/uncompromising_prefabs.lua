@@ -311,4 +311,5 @@ return {
 	"winona_toolbox",
 	"searock_arches",
 	"minotaur_organ",
+	"royal_sunkenchest",
 }
