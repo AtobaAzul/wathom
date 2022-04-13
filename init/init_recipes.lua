@@ -163,9 +163,10 @@ AddRecipe2(
     "ratpoisonbottle",
     {Ingredient("red_cap", 1), Ingredient("jammypreserves", 1), Ingredient("rocks", 1)},
     TECH.SCIENCE_ONE,
-    nil
+    nil,
+	{"TOOLS"}
 )
-ChangeSortKey("ratpoisonbottle", "fertilizer", "GARDENING", true)
+ChangeSortKey("ratpoisonbottle", "trap", "TOOLS", true)
 
 AddRecipe2(
     "diseasecurebomb",
@@ -523,7 +524,7 @@ AddRecipe2(
     "normal_chum",
     {Ingredient("spoiled_food", 2), Ingredient("rope", 1)},
     TECH.FISHING_ONE,
-    {product = "chum", nounlock = false},
+    {product = "chum", nounlock = false, numtogive = 2},
     {"FISHING"}
 )
 
@@ -548,14 +549,14 @@ AddRecipe2(
     "moonstorm_static_item",
     {Ingredient("transistor", 1), Ingredient("moonstorm_spark", 2), Ingredient("goldnugget", 3)},
     TECH.LOST,
-    {nounlock = false},
+    nil,
     {"REFINE"}
 )
 AddRecipe2(
     "alterguardianhatshard",
     {Ingredient("moonglass_charged", 1), Ingredient("moonstorm_spark", 2), Ingredient("lightbulb", 1)},
     TECH.LOST,
-    {nounlock = false},
+    nil,
     {"LIGHT"}
 )
 AddDeconstructRecipe(
