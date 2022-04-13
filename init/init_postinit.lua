@@ -145,6 +145,7 @@ local stategraph_post = {
     --example:
     --"wilson",
 	"wilson",
+	"wilson_client",
 	"spider",
 	"frog",
 	--"wobysmall",
