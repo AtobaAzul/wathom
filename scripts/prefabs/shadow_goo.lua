@@ -155,6 +155,7 @@ local function guardian_goo()
 	inst.AnimState:SetBuild("squid_watershoot")
 	inst.AnimState:PlayAnimation("spin_loop",true)
     inst:AddComponent("locomotor")
+	inst.AnimState:SetMultColour(1, 1, 1, .5)
 	
     inst:AddComponent("complexprojectile")
     inst.components.complexprojectile:SetHorizontalSpeed(40)
@@ -188,7 +189,7 @@ local function guardiansplat()
     if not TheWorld.ismastersim then
         return inst
     end
-	
+	inst.AnimState:SetMultColour(1, 1, 1, .5)
 	inst.Transform:SetScale(0.7,0.7,0.7)
 	inst.AnimState:SetBank("guardian_splat")
 	inst.AnimState:SetBuild("guardian_splat")

@@ -197,38 +197,38 @@ State{ --This state is for the guardian belching a bunch of shadow goo out! It's
 			
 			timeline=
 			{ 
-				TimeEvent(40*FRAMES, function(inst)
+				TimeEvent(36*FRAMES, function(inst)
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					inst.tentbelch = true
 					SetUpProjectiles(inst)
 				 end), 			
-				TimeEvent(42*FRAMES, function(inst)
+				TimeEvent(38*FRAMES, function(inst)
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 				
-				TimeEvent(44*FRAMES, function(inst)
+				TimeEvent(40*FRAMES, function(inst)
 					inst.projectilespeed = 2
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end),
-				TimeEvent(46*FRAMES, function(inst)
+				TimeEvent(42*FRAMES, function(inst)
 					inst.tentbelch = true
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
 				 end), 
+				TimeEvent(44*FRAMES, function(inst)
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
+					SetUpProjectiles(inst)
+				 end),
+				TimeEvent(46*FRAMES, function(inst)
+					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
+					SetUpProjectiles(inst)
+				 end),
 				TimeEvent(48*FRAMES, function(inst)
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					SetUpProjectiles(inst)
-				 end),
-				TimeEvent(50*FRAMES, function(inst)
-					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
-					SetUpProjectiles(inst)
-				 end),
-				TimeEvent(52*FRAMES, function(inst)
-					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
-					SetUpProjectiles(inst)
 				 end), 
-				TimeEvent(54*FRAMES, function(inst)
+				TimeEvent(50*FRAMES, function(inst)
 					inst.SoundEmitter:PlaySound("ancientguardian_rework/minotaur2/bite")
 					inst.tentbelch = true
 					SetUpProjectiles(inst)
