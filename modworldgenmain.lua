@@ -352,14 +352,32 @@ AddRoomPreInit("OceanRough", function(room)
 		room.contents.countstaticlayouts = {}
 	end
 	room.contents.countstaticlayouts["specter_sea"] = 1
-end)
 
+end)
+Layouts["brine_bogs"] = StaticLayout.Get("map/static_layouts/brine_bogs",{
+	min_dist_from_land = 0})
+AddRoomPreInit("OceanSwell", function(room)
+	if not room.contents.countstaticlayouts then
+		room.contents.countstaticlayouts = {}
+	end
+	room.contents.countstaticlayouts["brine_bogs"] = 1
+end)
+--Layouts["rusted_reef"] = StaticLayout.Get("map/static_layouts/rusted_reef",{
+--	min_dist_from_land = 0})
 AddRoomPreInit("OceanHazardous", function(room)
 	if not room.contents.countstaticlayouts then
 		room.contents.countstaticlayouts = {}
 	end
-	room.contents.countstaticlayouts["rose_garden"] = 1
+	--room.contents.countstaticlayouts["rusted_reef"] = 1 
+	--can't figure out a way to make this work, biome spawning will be actually in the area handler instead.}
+	room.contents.countprefabs=
+									{
+										--speaker_rusted = 1,
+										um_rustedreef_areahandler = 1,
+									} 
 end)
+
+
 
 AddTaskSetPreInitAny(function(tasksetdata)
     if tasksetdata.location ~= "forest" then
@@ -372,8 +390,11 @@ AddTaskSetPreInitAny(function(tasksetdata)
 	table.insert(tasksetdata.required_prefabs,"riceplantspawnerlarge")
 	table.insert(tasksetdata.required_prefabs,"riceplantspawner")
 	end
-	table.insert(tasksetdata.required_prefabs,"researchlab")
 	--tasksetdata.ocean_prefill_setpieces["specter_sea"] = {count = 1}
+	table.insert(tasksetdata.required_prefabs,"um_spectersea_areahandler")
+	table.insert(tasksetdata.required_prefabs,"um_brinebogs_areahandler")
+	table.insert(tasksetdata.required_prefabs,"um_rustedreef_areahandler")
+
 end)
 --[[
 AddTaskSetPreInitAny(function(tasksetdata)

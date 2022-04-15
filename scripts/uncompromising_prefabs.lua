@@ -302,7 +302,7 @@ return {
 	"reedbuncher",
 	"uncompromising_pollen_fx",
 	"itemscrapper",
-	"um_spectersea_areahandler",
+	"um_areahandler",
 	"specter_shipwreck",
 	"proto_william",
 	"phantom",
@@ -312,4 +312,5 @@ return {
 	"searock_arches",
 	"minotaur_organ",
 	"royal_sunkenchest",
+	"speaker",
 }

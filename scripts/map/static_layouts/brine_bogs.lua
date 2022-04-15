@@ -88,7 +88,7 @@ return {
         },]]
         {
           name = "",
-          type = "speaker_specter",
+          type = "speaker_brine",
           shape = "rectangle",
           x = 800,
           y = 800,
@@ -99,7 +99,7 @@ return {
         },
         {
           name = "",
-          type = "um_spectersea_areahandler",
+          type = "um_brinebogs_areahandler",
           shape = "rectangle",
           x = 800,
           y = 800,

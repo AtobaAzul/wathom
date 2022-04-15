@@ -800,7 +800,7 @@ Assets = {
 	Asset("IMAGE", "images/inventoryimages/ancient_amulet_red_demoneye.tex"),
 	Asset("ATLAS", "images/inventoryimages/ancient_amulet_red_demoneye.xml"),
 
---squeakyclean--
+	--squeakyclean--
     Asset("IMAGE", "images/inventoryimages/driftwoodfishingrod.tex"),
 	Asset("ATLAS", "images/inventoryimages/driftwoodfishingrod.xml"),
 	Asset("ANIM", "anim/swap_driftwood_fishingrod.zip"),
@@ -816,4 +816,6 @@ Assets = {
 	Asset( "IMAGE", "bigportraits/willow_none.tex" ),
     Asset( "ATLAS", "bigportraits/willow_none.xml" ),
 
+	--under the weather--
+	Asset("ANIM", "anim/speaker_test.zip"),
 }

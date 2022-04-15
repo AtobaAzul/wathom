@@ -157,6 +157,10 @@ STRINGS.STANTON_POET5 = { "Drink with the living dead." }
 
 --TIDDLER FRIENDLY MAN STRINGS BELOW--
 
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SPEAKER_SPECTER = "This is making me feel under the weather..."
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SPEAKER_RUSTED = "This is making me feel under the weather..."
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SPEAKER_BRINE = "This is making me feel under the weather..."
+
 for _, sound in pairs({"talk_LP", "talk_end"}) do 
 RemapSoundEvent( "dontstarve/characters/tiddle_stranger/"..sound, "tiddle_stranger/characters/tiddle_stranger/"..sound )
 end
