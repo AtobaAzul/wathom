@@ -297,7 +297,7 @@ if GetModConfigData("moon_transformations") then
 	table.insert(prefab_post,"flower")
 end
 
-if GetModConfigData("electricalmishap") ~= 0 then
+if GetModConfigData("electricalmishap_") ~= 0 then
 	table.insert(prefab_post,"nightstick")
 end
 

@@ -335,7 +335,7 @@ configuration_options =
 	},
 	BinaryConfig("insul_thermalstone", "Tweaked Thermal Stone", "Thermal stones now have less insulation, but inherit some insulation from clothing.", true),
 	{
-		name = "electricalmishap",
+		name = "electricalmishap_",
 		label = "Electrical Weapon Retune",
 		hover = "Tweaks electrical weapons based on suggestions from Shynuke and Lux.",
 		options =
