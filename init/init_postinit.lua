@@ -93,7 +93,6 @@ local prefab_post = {
 	--"woby",
 	"cave_network",
 	"glasscutter",
-	"nightstick",
 	"critterlab",
 	"wobster",
 	"hambat",
@@ -296,6 +295,10 @@ end
 
 if GetModConfigData("moon_transformations") then
 	table.insert(prefab_post,"flower")
+end
+
+if GetModConfigData("electricalmishap") ~= 0 then
+	table.insert(prefab_post,"nightstick")
 end
 
 modimport("postinit/sim")
