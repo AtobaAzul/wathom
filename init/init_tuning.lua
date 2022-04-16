@@ -362,7 +362,8 @@ TUNING.DSTU =
 
 --More Config
     BETA_COMPATIBILITY = --[[GetModConfigData("beta_compatibility"),]] true, --I'm too lazy to really bother with the rest of the things
-    POCKET_POWERTRIP = GetModConfigData("pocket_powertrip"),
+    UPDATE_CHECK = CurrentRelease.GreaterOrEqualTo("R21_REFRESH_WX78"),
+	POCKET_POWERTRIP = GetModConfigData("pocket_powertrip"),
     WINTER_BURNING = GetModConfigData("winter_burning"),
     HUNGRY_VOID = GetModConfigData("hungry_void"),
     BUTTERFLYWINGS_NERF = GetModConfigData("butterflywings_nerf"),
