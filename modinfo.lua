@@ -335,9 +335,9 @@ configuration_options =
 	},
 	BinaryConfig("insul_thermalstone", "Tweaked Thermal Stone", "Thermal stones now have less insulation, but inherit some insulation from clothing.", true),
 	{
-		name = "electricalmishap_",
+		name = "electricalmishap",
 		label = "Electrical Weapon Retune",
-		hover = "Tweaks electrical weapons based on suggestions from Shynuke and Lux.",
+		hover = "Electrical weapons can protect and charge from lightning strikes, lightning rods, and Winona Generators.\nBug Zapper will drain on hit.\nClassic enables recharging via electrical items, with slightly different tuning.\nBug Zapper will drain over time.",
 		options =
 		{
 			{description = "Electrical Mishap", data = 1},
