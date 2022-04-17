@@ -343,3 +343,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "Maybe it'd be worth the time to play."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "We must focus on that one!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "I remember these! I can't quite... remember what they do though..."
+	--DESCRIBE.UM_SIREN = "Oh botheration! Its YOU again."

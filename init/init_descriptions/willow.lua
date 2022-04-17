@@ -355,3 +355,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WILLOW.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "I'm holding this over the fire first."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Keep Bernie out of that backpack!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "What's this big dumb machine doing all the way out here?"
+	--DESCRIBE.UM_SIREN = "Oh yeah!? I can blow bubbles twice as big! Watch!"

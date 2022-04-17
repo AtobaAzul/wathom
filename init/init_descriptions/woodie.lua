@@ -342,3 +342,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOODIE.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "Those varmints will have to listen to me!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Darn varmints!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "Ya think what it's saying is important, Lucy?"
+	--DESCRIBE.UM_SIREN = "Not half bad lookin' for an ocean critter, eh?"

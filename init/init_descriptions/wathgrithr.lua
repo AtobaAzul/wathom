@@ -342,3 +342,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "The songs I could play!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Coward, stop running off!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
+	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"

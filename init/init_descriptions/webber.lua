@@ -342,4 +342,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WEBBER.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "We always wanted to learn how to play."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Nice backpack!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "I want to get closer but he seems weary."
+	--DESCRIBE.UM_SIREN = "Her songs make our head all fuzzy..."
 

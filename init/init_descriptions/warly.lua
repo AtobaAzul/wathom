@@ -342,3 +342,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "Must I really touch it?"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Hands off the goods!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "I never was one for machines."
+	--DESCRIBE.UM_SIREN = "Apologies Mademoiselle Wigfrid, but it is the supperior singer."

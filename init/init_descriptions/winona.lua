@@ -345,3 +345,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "I never was the best leader."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "I think we've found ourselves a target."
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "Now if I could just see its insides..."
+	--DESCRIBE.UM_SIREN = "Heh, she certainly knows how to run her workplace."

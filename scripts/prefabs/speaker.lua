@@ -52,8 +52,7 @@ local function fn()
     return inst
 end
 
-
-return Prefab("speaker_specter", fn, assets, prefabs),
-       Prefab("speaker_rusted", fn, assets, prefabs),
+return Prefab("ocean_speaker", fn, assets, prefabs), -- This is the real one, other ones are temp placeholders.
+       Prefab("speaker_specter", fn, assets, prefabs),
        Prefab("speaker_brine", fn, assets, prefabs)
 

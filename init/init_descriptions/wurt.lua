@@ -343,3 +343,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WURT.ACTIONFAIL
 	DESCRIBE.PIED_PIPER_FLUTE = "Not spiderfolk could join Merm kingdom?"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Don't like him!"
 	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "Loud box, florp!"
+	--DESCRIBE.UM_SIREN = "Glorp is traitor!! Me think...?"

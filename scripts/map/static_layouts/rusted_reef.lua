@@ -88,7 +88,7 @@ return {
         },]]
         {
           name = "",
-          type = "speaker_rusted",
+          type = "ocean_speaker",
           shape = "rectangle",
           x = 800,
           y = 800,

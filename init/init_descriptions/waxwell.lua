@@ -347,5 +347,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "That poor suit, ruined!"
 	DESCRIBE.PIED_PIPER_FLUTE = "I am NOT touching that, let alone putting it on my mouth."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Think you're clever, do you?"
-		DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.OCEAN_SPEAKER = "You know, I used to be king. Here I am unable to recognize half the stuff I find in these wretched waters."
+	--DESCRIBE.UM_SIREN = "How grotesque. Yet somewhat alluring... hrmpf."
 
