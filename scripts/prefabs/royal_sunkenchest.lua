@@ -169,7 +169,13 @@ local function sunken_OnSubmerge(inst)
 	if inst.components.container ~= nil then
 		inst.components.container:Close()
 	end
-    inst:Remove() --temp solution...
+    inst:AddTag("saltbox")
+    print("added saltbox tag")
+end
+
+local function sunken_OnLanded(inst)
+    inst:RemoveTag("saltbox")
+    print("removed saltbox tag")
 end
 
 local function sunken_GetStatus(inst)
@@ -200,15 +206,15 @@ local function sunken_master_postinit(inst)
     inst.components.equippable:SetOnUnequip(sunken_OnUnequip)
     inst.components.equippable.walkspeedmult = TUNING.HEAVY_SPEED_MULT
 
-    inst.components.container.canbeopened = false
+    inst.components.container.canbeopened = true
+    --need new anims/assets for it.
 
 	inst:AddComponent("submersible")
 	inst:AddComponent("symbolswapdata")
     inst.components.symbolswapdata:SetData("swap_sunken_treasurechest", "swap_body")
 
-
-
 	inst:ListenForEvent("on_submerge", sunken_OnSubmerge)
+    inst:ListenForEvent("on_landed", sunken_OnLanded)
 end
 
 return MakeChest("royal_sunkenchest", "sunken_treasurechest", "sunken_treasurechest", false, sunken_master_postinit, { "collapse_small", "underwater_salvageable", "splash_green" }, { Asset("ANIM", "anim/swap_sunken_treasurechest.zip") }, sunken_common_postinit, true)

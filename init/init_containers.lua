@@ -440,3 +440,5 @@ for y = 1, 0, -1 do
         table.insert(containers.params.winona_toolbox.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 120, 0))
     end
 end
+
+containers.params.royal_sunkenchest = containers.params.shadowchester

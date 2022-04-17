@@ -37,8 +37,8 @@ end
 
 local function SpawnSiren(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local siren = SpawnPrefab("speaker_rusted")
-	siren.Transform:SetPosition(x,y,z)
+	local speaker = SpawnPrefab("ocean_speaker")
+	speaker.Transform:SetPosition(x,y,z)
 end
 local function rustedfn()
     local inst = CreateEntity()
