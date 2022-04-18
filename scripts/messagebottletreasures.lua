@@ -272,7 +272,6 @@ royal_sunkenchest =
 			guaranteed_loot =
 			{
 				cane = 1,
-				heatrock = 1,
 				gnarwail_horn = 1,
 				papyrus = {4, 8},
 				featherpencil = {2, 4},
@@ -309,11 +308,10 @@ royal_sunkenchest =
 				molehat = 1,
 				nightstick = 1,
 				transistor = {1, 2},
-				goldenpickaxe = 1,
 			},
 			randomly_selected_loot =
 			{
-				{slurtleslime = 0.50, wormlight = 0.20 },
+				{wormlight = 0.20 },
 			},
 
 		},
@@ -326,8 +324,6 @@ royal_sunkenchest =
 			{
 				staff_tornado = 1,
 				papyrus = {3, 5},
-				charcoal = {4, 7},
-				goldenpickaxe = 1,
 				blueprint = {1, 2, 3},
 			},
 			randomly_selected_loot =
@@ -343,12 +339,12 @@ royal_sunkenchest =
 
 			guaranteed_loot =
 			{
-				greengem = {1, 2, 3},
-				yellowgem = {1, 2, 3},
-				purplegem = {1, 2, 3},
-				orangegem = {1, 2, 3},
-				bluegem = {1, 2, 3},
-				redgem = {1, 2, 3},
+				greengem = {1, 2},
+				yellowgem = {1, 2},
+				purplegem = {1, 2},
+				orangegem = {1, 2},
+				bluegem = {1, 2},
+				redgem = {1, 2},
 			},
 			randomly_selected_loot =
 			{
@@ -360,36 +356,62 @@ royal_sunkenchest =
 		preset_weight = 1,
 		guaranteed_loot =
 		{
-			moonglass = {15, 20},
-			messagebottleempty = {10, 15},
-			messagebottle = 2,  --These should always have messages from Pearl in them instead of maps, to show that CK knew she was looking for him, and actively chose power over her.
+			moonglass = {10, 15},
+			messagebottleempty = {5, 10},
+			messagebottle = 2,
 			alterguardianhatshard = {3,4},
 		},
 		randomly_selected_loot =
 		{
-		  {opalstaff = 0.8, yellowstaff = 0.2},
-		  {greenstaff = 0.33, orangestaff = 0.33, telestaff = 0.33},
-		  {yellowamulet = 0.33, orangeamulet = 0.33, greenamulet = 0.33, purpleamulet = 0.33},
+		  {opalstaff = 0.2, yellowstaff = 0.2, greenstaff = 0.2, orangestaff = 0.2, telestaff = 0.2},
+		  {yellowamulet = 0.25, orangeamulet = 0.25, greenamulet = 0.25, purpleamulet = 0.25},
 		  {trinket_26 = 0.1},
 		},
-		}
-		--[[
-		god_slayer =
+		uncompromsing =
         {
             preset_weight = 1,
             guaranteed_loot =
             {
-                glasscutter = {1, 2, 3},
-                ruinshat = {1, 2, 3},
+
               },
               randomly_selected_loot =
               {
-                {nightstick = 0.33, batbat = 0.33, ruins_bat = 0.33, ancient_amulet_red = 0.33},
+                {nightstick = 0.33, bugzapper = 0.33},
+				{ancient_amulet_red = 0.5, sporepack = 0.5},
+				{plaguemask = 0.33, widowshead = 0.33, sunglasses = 0.33},
                 {viperjam = 0.33, beefalowings = 0.33, zaspberryparfeit = 0.33},
-                {glass_scales = 0.20, widowshead = 0.20, piedpiperpipe = 0.20, minotaurhorn = 0.20, shieldofterror = 0.20}   --covers some blind spots in Klaus' loot. Also some UM items. Also I have no idea the prefab name for the Pied Piper Pipe
+                {glass_scales = 0.25, pied_piper_flute = 0.25, widowsgrasp = 0.25},
+				{
+				hat_bagmask = 0.03,
+				hat_blackcatmask = 0.03,
+				hat_clownmask = 0.03,
+				hat_wathommask = 0.03,
+				hat_devilmas = 0.03,
+				hat_fiendmask = 0.03,
+				hat_ghostmask = 0.03,
+				hat_globmask = 0.03,
+				hat_hockeymask = 0.03,
+				hat_joyousmask = 0.03,
+				hat_mermmask = 0.03,
+				hat_oozemask = 0.03,
+				hat_orangecatmask = 0.03,
+				hat_phantommask = 0.03,
+				hat_pigmask = 0.03,
+				hat_pumpgoremask = 0.03,
+				hat_redskullmask = 0.03,
+				hat_skullmask = 0.03,
+				hat_spectremask = 0.03,
+				hat_whitecatmask = 0.03,
+				hat_technomask = 0.03,
+				hat_mandrakemask = 0.03,
+				hat_opossummask = 0.03,
+				hat_ratmask = 0.03,
+				ratring_fx = 0.03,
+				ratmask_icon = 0.03
+				}
               },
-            } When the time is right.
-		}]]
+            }
+		}
 	},
 
 }
