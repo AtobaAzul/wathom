@@ -170,12 +170,10 @@ local function sunken_OnSubmerge(inst)
 		inst.components.container:Close()
 	end
     inst:AddTag("saltbox")
-    print("added saltbox tag")
 end
 
 local function sunken_OnLanded(inst)
     inst:RemoveTag("saltbox")
-    print("removed saltbox tag")
 end
 
 local function sunken_GetStatus(inst)

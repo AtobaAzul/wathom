@@ -484,10 +484,8 @@ local function GenerateTreasure(pt, overrideprefab, spawn_as_empty, postfn)
 				item.Transform:SetPosition(x, y, z)
 				if treasure.components.container ~= nil then
 					treasure.components.container:GiveItem(item)
-					print("loot inserted into container!")
 				else
 					treasure.components.inventory:GiveItem(item)
-					print("loot inserted into inventory!!")
 				end
 			end
 
