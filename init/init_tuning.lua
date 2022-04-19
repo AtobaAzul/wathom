@@ -381,6 +381,7 @@ TUNING.DSTU =
     INSUL_THERMALSTONE = GetModConfigData("insul_thermalstone"),
     HOODEDFOREST = GetModConfigData("hoodedforest"),
     GHOSTWALRUS = GetModConfigData("ghostwalrus"),
+    WINONA_GEN = GetModConfigData("winona_gen"),
 --boss hp qol
     BEEQUEEN_HEALTH = GetModConfigData("bee queen health"),
     TOADSTOOL_HEALTH = GetModConfigData("toadstool health"),
