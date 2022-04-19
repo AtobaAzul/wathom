@@ -313,4 +313,6 @@ return {
 	"minotaur_organ",
 	"royal_sunkenchest",
 	"speaker",
+	"sludge",
+	"sludgestack",
 }

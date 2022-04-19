@@ -352,7 +352,11 @@ AddRoomPreInit("OceanRough", function(room)
 		room.contents.countstaticlayouts = {}
 	end
 	room.contents.countstaticlayouts["specter_sea"] = 1
-
+	room.contents.countprefabs=
+									{
+										--speaker_rusted = 1,
+										sludgestack_spawner = function() return math.random(6,10) end,
+									} 
 end)
 Layouts["brine_bogs"] = StaticLayout.Get("map/static_layouts/brine_bogs",{
 	min_dist_from_land = 0})

@@ -6,12 +6,9 @@ require("recipe")
 
 local TechTree              = require("techtree")
 local TECH                  = GLOBAL.TECH
-local Recipe                = GLOBAL.Recipe
-local RECIPETABS            = GLOBAL.RECIPETABS
 local Ingredient            = GLOBAL.Ingredient
 local AllRecipes            = GLOBAL.AllRecipes
 local STRINGS               = GLOBAL.STRINGS
-local CUSTOM_RECIPETABS     = GLOBAL.CUSTOM_RECIPETABS
 local CONSTRUCTION_PLANS    = GLOBAL.CONSTRUCTION_PLANS
 local CRAFTING_FILTERS      = GLOBAL.CRAFTING_FILTERS
 
@@ -264,7 +261,7 @@ AddRecipe2(
     TECH.NONE,
     {builder_tag = "plantkin"},
     {"CHARACTER"}
-)
+)--the fuck
 
 AddRecipe2(
     "bugzapper",
@@ -421,6 +418,15 @@ ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", false)
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
 
+AddRecipe2(
+    "sludge_patch",
+    {Ingredient("sludge", 1), Ingredient("driftwood", 1)},
+    TECH.NONE,
+    {numtogive = 2},
+    {"SEAFARING"}
+)
+ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})
 AddDeconstructRecipe("beargerclaw", {Ingredient("boneshard", 2), Ingredient("furtuft", 2)})
@@ -499,7 +505,7 @@ AddRecipe2(
     "hermit_patch",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, product = "boatpatch", sg_state = "give", numtogive = 4}
+    {nounlock = true, product = "sludge_patck", sg_state = "give", numtogive = 4}
 )
 AddRecipe2(
     "hermit_blueprint",
