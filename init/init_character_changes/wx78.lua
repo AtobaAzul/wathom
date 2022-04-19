@@ -14,6 +14,9 @@ if GLOBAL.TUNING.UPDATE_CHECK then
     ModuleDefs.AddCreatureScanDataDefinition("mock_dragonfly", "heat", 10)
     ModuleDefs.AddCreatureScanDataDefinition("viperworm", "light", 6)
     ModuleDefs.AddCreatureScanDataDefinition("shockworm", "light", 6)
+    ModuleDefs.AddCreatureScanDataDefinition("magmahound", "heat", 4)
+    ModuleDefs.AddCreatureScanDataDefinition("glacialhound", "cold", 4)
+    ModuleDefs.AddCreatureScanDataDefinition("lightninghound", "taser", 5)
 end
 
 --TODO, reimplement dorainsparks to do based on wetness from min to max damage
