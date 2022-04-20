@@ -441,4 +441,4 @@ for y = 1, 0, -1 do
     end
 end
 
-containers.params.royal_sunkenchest = containers.params.shadowchester
+containers.params.sunken_royalchest = containers.params.shadowchester

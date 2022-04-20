@@ -91,7 +91,7 @@ sunkenchest =
 			},
 			randomly_selected_loot =
 			{
-				{ boat_item = 1, anchor_item = 1, mast_item = 1, steeringwheel_item = 1, fish_box_blueprint = 1 },
+				{ boat_item = 1, anchor_item = 1, mast_item = 1, steeringwheel_item = 1, fish_box_blueprint = 1, rain_horn = 1},
 			},
 		},
 		---------------------------------------------------------------------------
@@ -259,9 +259,9 @@ sunkenchest =
 
 		}
 	},
-royal_sunkenchest =
+sunken_royalchest =
 {
-	treasure_type_weight = 0,
+	treasure_type_weight = 0.5,
 
 	presets =
 	{
@@ -367,55 +367,33 @@ royal_sunkenchest =
 		  {yellowamulet = 0.25, orangeamulet = 0.25, greenamulet = 0.25, purpleamulet = 0.25},
 		  {trinket_26 = 0.1},
 		},
+		},
 		uncompromsing =
         {
             preset_weight = 1,
             guaranteed_loot =
             {
-
               },
               randomly_selected_loot =
               {
-                {nightstick = 0.33, bugzapper = 0.33},
-				{ancient_amulet_red = 0.5, sporepack = 0.5},
-				{plaguemask = 0.33, widowshead = 0.33, sunglasses = 0.33},
-                {viperjam = 0.33, beefalowings = 0.33, zaspberryparfeit = 0.33},
-                {glass_scales = 0.25, pied_piper_flute = 0.25, widowsgrasp = 0.25},
-				{
-				hat_bagmask = 0.03,
-				hat_blackcatmask = 0.03,
-				hat_clownmask = 0.03,
-				hat_wathommask = 0.03,
-				hat_devilmas = 0.03,
-				hat_fiendmask = 0.03,
-				hat_ghostmask = 0.03,
-				hat_globmask = 0.03,
-				hat_hockeymask = 0.03,
-				hat_joyousmask = 0.03,
-				hat_mermmask = 0.03,
-				hat_oozemask = 0.03,
-				hat_orangecatmask = 0.03,
-				hat_phantommask = 0.03,
-				hat_pigmask = 0.03,
-				hat_pumpgoremask = 0.03,
-				hat_redskullmask = 0.03,
-				hat_skullmask = 0.03,
-				hat_spectremask = 0.03,
-				hat_whitecatmask = 0.03,
-				hat_technomask = 0.03,
-				hat_mandrakemask = 0.03,
-				hat_opossummask = 0.03,
-				hat_ratmask = 0.03,
-				ratring_fx = 0.03,
-				ratmask_icon = 0.03
-				}
+                {nightstick = 1, bugzapper = 1},
+				{ancient_amulet_red = 0.5},
+				{plaguemask = 1, widowshead = 1, sunglasses = 1},
+                {viperjam = 1, beefalowings = 1, zaspberryparfeit = 1},
+                {glass_scales = 1, pied_piper_flute = 1, widowsgrasp = 1},
+				{hat_bagmask = 1, hat_blackcatmask = 1, hat_clownmask = 1, hat_orangecatmask = 1},
+				{hat_devilmask = 1, hat_fiendmask = 1, hat_ghostmask = 1, hat_oozemask = 1},
+				{hat_globmask = 1, hat_hockeymask = 1, hat_joyousmask = 1, hat_mermmask = 1},
+				{hat_phantommask = 1, hat_pigmask = 1, hat_pumpgoremask = 1, hat_wathommask = 1},
+				{hat_redskullmask = 1, hat_skullmask = 1, hat_spectremask = 1, hat_ratmask = 1},
+				{hat_whitecatmask = 1, hat_technomask = 1, hat_mandrakemask = 1, hat_opossummask = 1},
               },
             }
 		}
 	},
 
 }
-}
+
 
 
 local trinkets =

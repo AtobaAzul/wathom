@@ -46,14 +46,14 @@ env.AddPrefabPostInit("crabking", function(inst)
 		end
 
 		local royalcount = 3+(red + blue + purple + yellow + orange + green + pearl)*opal
-		local normalcount = (1+(red + blue + purple + yellow + orange + green + pearl)*opal)/2
+		local normalcount = (1+(red + blue + purple + yellow + orange + green + pearl)*opal)
 		local royalpos = royalcount*0.33
-		local normalpos = normalcount*0.5
+		local normalpos = normalcount*1.25
 
 		print(royalcount)
 		print(normalcount)
 		for i = 1, royalcount do
-			messagebottletreasures.GenerateTreasure(pos, "royal_sunkenchest").Transform:SetPosition(pos.x + math.random(-royalpos, royalpos), pos.y, pos.z + math.random(-royalpos, royalpos))
+			messagebottletreasures.GenerateTreasure(pos, "sunken_royalchest").Transform:SetPosition(pos.x + math.random(-royalpos, royalpos), pos.y, pos.z + math.random(-royalpos, royalpos))
 		end
 		for i = 1, normalcount do
 			messagebottletreasures.GenerateTreasure(pos, "sunkenchest").Transform:SetPosition(pos.x + math.random(-normalpos, normalpos), pos.y, pos.z + math.random(-normalpos, normalpos))

@@ -417,7 +417,6 @@ ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", false)
 
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
---[[
 AddRecipe2(
     "sludge_patch",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
@@ -426,7 +425,7 @@ AddRecipe2(
     {"SEAFARING"}
 )
 ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
-]]
+
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})
 AddDeconstructRecipe("beargerclaw", {Ingredient("boneshard", 2), Ingredient("furtuft", 2)})
@@ -501,13 +500,12 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "steeringwheel_item", sg_state = "give"}
 )
---[[
 AddRecipe2(
     "hermit_patch",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "sludge_patch", sg_state = "give", numtogive = 4}
-)]]
+)
 AddRecipe2(
     "hermit_blueprint",
     {Ingredient("messagebottleempty", 1)},

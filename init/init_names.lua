@@ -315,5 +315,10 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.SPEAKER_SPECTER = "Dilapidated Speaker"
 	STRINGS.OCEAN_SPEAKER = "Dilapidated Speaker" --Kinda lame dunno what else though.
 	STRINGS.SPEAKER_BRINE = "Dilapidated Speaker"
+	STRINGS.SUNKEN_ROYALCHEST = "Royal Sunken Chest"
+	STRINGS.SLUDGE = "Sea Sludge"
+	STRINGS.SLUDGE_PATCH = "Driftwood Boat Patch"
+	STRINGS.SLUDGESTACK = "Slugestack"
+	STRINGS.SLUDGE_SACK = "Sludge Sack"
 
 	--STRINGS.NAMES.UM_SIREN = "Siren"

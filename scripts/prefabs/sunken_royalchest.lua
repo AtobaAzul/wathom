@@ -183,8 +183,8 @@ end
 local function sunken_common_postinit(inst)
 	inst:AddTag("heavy")
 
-	MakeHeavyObstaclePhysics(inst, SUNKEN_PHYSICS_RADIUS)
-	inst:SetPhysicsRadiusOverride(SUNKEN_PHYSICS_RADIUS)
+	MakeHeavyObstaclePhysics(inst, 0)
+	inst:SetPhysicsRadiusOverride(0)
 end
 
 local function sunken_master_postinit(inst)
@@ -215,4 +215,4 @@ local function sunken_master_postinit(inst)
     inst:ListenForEvent("on_landed", sunken_OnLanded)
 end
 
-return MakeChest("royal_sunkenchest", "sunken_treasurechest", "sunken_treasurechest", false, sunken_master_postinit, { "collapse_small", "underwater_salvageable", "splash_green" }, { Asset("ANIM", "anim/swap_sunken_treasurechest.zip") }, sunken_common_postinit, true)
+return MakeChest("sunken_royalchest", "sunken_treasurechest", "sunken_royalchest", false, sunken_master_postinit, { "collapse_small", "underwater_salvageable", "splash_green" }, { Asset("ANIM", "anim/swap_sunken_treasurechest.zip"), Asset("ANIM", "anim/sunken_royalchest.zip") }, sunken_common_postinit, true)

@@ -311,8 +311,10 @@ return {
 	"winona_toolbox",
 	"searock_arches",
 	"minotaur_organ",
-	"royal_sunkenchest",
+	"sunken_royalchest",
 	"speaker",
 	"sludge",
 	"sludgestack",
+	"sludge_sack",
+	"sludge_patch",
 }
