@@ -317,4 +317,6 @@ return {
 	"sludgestack",
 	"sludge_sack",
 	"sludge_patch",
+	
+	"uncompromising_harpoon",
 }
