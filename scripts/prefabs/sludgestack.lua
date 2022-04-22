@@ -43,6 +43,7 @@ local function createStacks(inst)
     for i = 1, math.random(4,8) do
         Generate(pos).Transform:SetPosition(pos.x + math.random(-15, 15), pos.y, pos.z + math.random(-15, 15))
     end
+    inst:Remove()
 end--I'm *pretty* sure this isn't how you do this but eh, it works! -Atobá
 
 local function OnWork(inst, worker, workleft)
