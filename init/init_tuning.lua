@@ -434,4 +434,15 @@ TUNING.SHARK.DAMAGE = 50 / 3
 --more treasures
 TUNING.MESSAGEBOTTLE_NOTE_CHANCE = 0.66
 
+if TUNING.DSTU.UPDATE_CHECK then
+    TUNING.WX78_CHARGING_FOODS = 
+    {
+        --help I forgot how to make this more mod compatible
+        voltgoatjelly = 1,
+        goatmilk = 1,
+        zaspberryparfait = 2,
+        zaspberry = 1,
+    }
+end
+
 -- [              DST Related Overrides                  ]

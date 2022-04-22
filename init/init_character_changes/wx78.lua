@@ -200,6 +200,7 @@ local function OnEat_Electric(inst, data)
 		end
     end
 end
+
 if TUNING.DSTU.WX78_CONFIG then
     env.AddPrefabPostInit("wx78", function(inst)
 	    if not TheWorld.ismastersim then
@@ -212,7 +213,7 @@ if TUNING.DSTU.WX78_CONFIG then
 	    inst:AddTag("automaton")
 		
 	    inst.OnLesserCharge = onlessercharge
-		
+		--TODO Scrub old things when the update hits
 		if inst.components.upgrademoduleowner ~= nil then
 			if inst.components.playerlightningtarget ~= nil then
 				inst.components.playerlightningtarget:SetOnStrikeFn(OnLightningStrike)
@@ -224,7 +225,8 @@ if TUNING.DSTU.WX78_CONFIG then
 				inst.components.playerlightningtarget:SetOnStrikeFn(onlightingstrike)
 			end
 		end
-		
-        inst:ListenForEvent("oneat", OnEat_Electric)
+		if not TUNING.DSTU.UPDATE_CHECK then
+            inst:ListenForEvent("oneat", OnEat_Electric)
+        end
     end)
 end
