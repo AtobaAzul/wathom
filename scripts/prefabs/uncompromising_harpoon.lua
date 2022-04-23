@@ -159,7 +159,7 @@ end
 
 local function Vac(inst)
 	local x, y, z = inst.Transform:GetWorldPosition()
-	if inst.target ~= nil then
+	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() then
 		if inst:GetDistanceSqToInst(inst.target) ~= nil and inst:GetDistanceSqToInst(inst.target) > inst.distance then
 			local px, py, pz = inst.target.Transform:GetWorldPosition()
 				
@@ -173,6 +173,150 @@ local function Vac(inst)
 			local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
 			if dx ~= nil and (ground or boat) then
 				inst.target.Transform:SetPosition(dx, dy, dz)
+			end
+			
+			local tensionmult = inst.target:HasTag("epic") and 2 or inst.target:HasTag("smallcreature") and .5 or 1
+			inst.tension = inst.tension + (1 * tensionmult)
+		elseif inst.tension > 1 then
+			inst.tension = inst.tension - 0.1
+		end
+	else
+		inst:Remove()
+	end
+		
+	if inst ~= nil and inst.tension >= 200 then
+		inst:Remove()
+	end
+	
+	
+	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() and inst.rope10 ~= nil and inst:GetDistanceSqToInst(inst.target) ~= nil then
+		local scale = (inst:GetDistanceSqToInst(inst.target) / 200)
+		
+		for i2 = 1, 15 do
+			local p2x, p2y, p2z = inst.target.Transform:GetWorldPosition()
+			local rad2 = math.rad(inst:GetAngleToPoint(p2x, p2y, p2z))
+			local velx2 = math.cos(rad2) --* 4.5
+			local velz2 = -math.sin(rad2) --* 4.5
+
+			local dx, dy, dz = x + ((i2 * velx2) * scale), (0.1 * i2), z + ((i2 * velz2) * scale)
+			if i2 == 1 then
+				inst.rope1.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 2 then
+				inst.rope2.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 3 then
+				inst.rope3.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 4 then
+				inst.rope4.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 5 then
+				inst.rope5.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 6 then
+				inst.rope6.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 7 then
+				inst.rope7.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 8 then
+				inst.rope8.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 9 then
+				inst.rope9.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 10 then
+				inst.rope10.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 11 then
+				inst.rope11.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 12 then
+				inst.rope12.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 13 then
+				inst.rope13.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 14 then
+				inst.rope14.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 15 then
+				inst.rope15.Transform:SetPosition(dx, dy, dz)
+			end
+		end
+	elseif inst.rope10 ~= nil then
+		for i2 = 1, 15 do
+			if i2 == 1 then
+				inst.rope1:Remove()
+			elseif i2 == 2 then
+				inst.rope2:Remove()
+			elseif i2 == 3 then
+				inst.rope3:Remove()
+			elseif i2 == 4 then
+				inst.rope4:Remove()
+			elseif i2 == 5 then
+				inst.rope5:Remove()
+			elseif i2 == 6 then
+				inst.rope6:Remove()
+			elseif i2 == 7 then
+				inst.rope7:Remove()
+			elseif i2 == 8 then
+				inst.rope8:Remove()
+			elseif i2 == 9 then
+				inst.rope9:Remove()
+			elseif i2 == 10 then
+				inst.rope10:Remove()
+			elseif i2 == 11 then
+				inst.rope11:Remove()
+			elseif i2 == 12 then
+				inst.rope12:Remove()
+			elseif i2 == 13 then
+				inst.rope13:Remove()
+			elseif i2 == 14 then
+				inst.rope14:Remove()
+			elseif i2 == 15 then
+				inst.rope15:Remove()
+			end
+		end
+	end
+end
+
+local function InitializeRope(inst)
+	local x, y, z = inst.Transform:GetWorldPosition()
+	if inst.target ~= nil then
+		for i = 1, 15 do
+			if i == 1 then
+				inst.rope1 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope1.Transform:SetPosition(x, y, z)
+			elseif i == 2 then
+				inst.rope2 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope2.Transform:SetPosition(x, y, z)
+			elseif i == 3 then
+				inst.rope3 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope3.Transform:SetPosition(x, y, z)
+			elseif i == 4 then
+				inst.rope4 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope4.Transform:SetPosition(x, y, z)
+			elseif i == 5 then
+				inst.rope5 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope5.Transform:SetPosition(x, y, z)
+			elseif i == 6 then
+				inst.rope6 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope6.Transform:SetPosition(x, y, z)
+			elseif i == 7 then
+				inst.rope7 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope7.Transform:SetPosition(x, y, z)
+			elseif i == 8 then
+				inst.rope8 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope8.Transform:SetPosition(x, y, z)
+			elseif i == 9 then
+				inst.rope9 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope9.Transform:SetPosition(x, y, z)
+			elseif i == 10 then
+				inst.rope10 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope10.Transform:SetPosition(x, y, z)
+			elseif i == 11 then
+				inst.rope11 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope11.Transform:SetPosition(x, y, z)
+			elseif i == 12 then
+				inst.rope12 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope12.Transform:SetPosition(x, y, z)
+			elseif i == 13 then
+				inst.rope13 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope13.Transform:SetPosition(x, y, z)
+			elseif i == 14 then
+				inst.rope14 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope14.Transform:SetPosition(x, y, z)
+			elseif i == 15 then
+				inst.rope15 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope15.Transform:SetPosition(x, y, z)
 			end
 		end
 	end
@@ -219,6 +363,7 @@ local function reel()
 	
 	inst.target = nil
 	inst.distance = 200
+	inst.tension = 1
 
     inst:AddComponent("inspectable")
 	
@@ -226,8 +371,32 @@ local function reel()
     inst.components.channelable:SetChannelingFn(DoPuff, OnStopChanneling)
     inst.components.channelable.use_channel_longaction_noloop = true
     inst.components.channelable.skip_state_channeling = true
-	
+	inst:DoTaskInTime(0, InitializeRope)
 	inst:DoPeriodicTask(FRAMES, Vac)
+	
+	inst.persists = false
+	
+    return inst
+end
+
+local function rope()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddMiniMapEntity()
+    inst.entity:AddNetwork()
+
+    inst.AnimState:SetBank("snowball")
+    inst.AnimState:SetBuild("snowball")
+    inst.AnimState:PlayAnimation("idle")
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
 	
 	inst.persists = false
 	
@@ -235,4 +404,5 @@ local function reel()
 end
 -------------------------------------------------------------------------------
 return Prefab("uncompromising_harpoon", pipe, assets, prefabs),
-		Prefab("uncompromising_harpoonreel", reel, assets, prefabs)
+		Prefab("uncompromising_harpoonreel", reel, assets, prefabs),
+		Prefab("uncompromising_harpoonrope", rope, assets, prefabs)
