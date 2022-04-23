@@ -358,7 +358,9 @@ local function fn()
 	inst:AddTag("cattoy")
 	inst:AddTag("catfood")
 	inst:AddTag("cookable")
-	
+	inst:AddTag("NOBLOCK")
+	--mainly for winky, too lazy to make it for only allied rats.
+
 	inst.entity:SetPristine()
 	
 	if not TheWorld.ismastersim then
