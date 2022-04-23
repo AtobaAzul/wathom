@@ -189,16 +189,20 @@ local function Vac(inst)
 	end
 	
 	
-	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() and inst.rope10 ~= nil and inst:GetDistanceSqToInst(inst.target) ~= nil then
-		local scale = (inst:GetDistanceSqToInst(inst.target) / 200)
+	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() and inst.rope20 ~= nil and inst:GetDistanceSqToInst(inst.target) ~= nil then
+		local scale = (inst:GetDistanceSqToInst(inst.target) / 100)
 		
-		for i2 = 1, 15 do
+		--[[if scale > 1 then
+			scale = 1
+		end]]
+		
+		for i2 = 1, 20 do
 			local p2x, p2y, p2z = inst.target.Transform:GetWorldPosition()
 			local rad2 = math.rad(inst:GetAngleToPoint(p2x, p2y, p2z))
 			local velx2 = math.cos(rad2) --* 4.5
 			local velz2 = -math.sin(rad2) --* 4.5
 
-			local dx, dy, dz = x + ((i2 * velx2) * scale), (0.1 * i2), z + ((i2 * velz2) * scale)
+			local dx, dy, dz = x + (((i2 * velx2) / 2) * scale), (0.06 * i2), z + (((i2 * velz2) / 2) * scale)
 			if i2 == 1 then
 				inst.rope1.Transform:SetPosition(dx, dy, dz)
 			elseif i2 == 2 then
@@ -229,10 +233,20 @@ local function Vac(inst)
 				inst.rope14.Transform:SetPosition(dx, dy, dz)
 			elseif i2 == 15 then
 				inst.rope15.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 16 then
+				inst.rope16.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 17 then
+				inst.rope17.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 18 then
+				inst.rope18.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 19 then
+				inst.rope19.Transform:SetPosition(dx, dy, dz)
+			elseif i2 == 20 then
+				inst.rope20.Transform:SetPosition(dx, dy, dz)
 			end
 		end
-	elseif inst.rope10 ~= nil then
-		for i2 = 1, 15 do
+	elseif inst.rope20 ~= nil then
+		for i2 = 1, 20 do
 			if i2 == 1 then
 				inst.rope1:Remove()
 			elseif i2 == 2 then
@@ -263,6 +277,16 @@ local function Vac(inst)
 				inst.rope14:Remove()
 			elseif i2 == 15 then
 				inst.rope15:Remove()
+			elseif i2 == 16 then
+				inst.rope16:Remove()
+			elseif i2 == 17 then
+				inst.rope17:Remove()
+			elseif i2 == 18 then
+				inst.rope18:Remove()
+			elseif i2 == 19 then
+				inst.rope19:Remove()
+			elseif i2 == 20 then
+				inst.rope20:Remove()
 			end
 		end
 	end
@@ -271,7 +295,7 @@ end
 local function InitializeRope(inst)
 	local x, y, z = inst.Transform:GetWorldPosition()
 	if inst.target ~= nil then
-		for i = 1, 15 do
+		for i = 1, 20 do
 			if i == 1 then
 				inst.rope1 = SpawnPrefab("uncompromising_harpoonrope")
 				inst.rope1.Transform:SetPosition(x, y, z)
@@ -317,6 +341,21 @@ local function InitializeRope(inst)
 			elseif i == 15 then
 				inst.rope15 = SpawnPrefab("uncompromising_harpoonrope")
 				inst.rope15.Transform:SetPosition(x, y, z)
+			elseif i == 16 then
+				inst.rope16 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope16.Transform:SetPosition(x, y, z)
+			elseif i == 17 then
+				inst.rope17 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope17.Transform:SetPosition(x, y, z)
+			elseif i == 18 then
+				inst.rope18 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope18.Transform:SetPosition(x, y, z)
+			elseif i == 19 then
+				inst.rope19 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope19.Transform:SetPosition(x, y, z)
+			elseif i == 20 then
+				inst.rope20 = SpawnPrefab("uncompromising_harpoonrope")
+				inst.rope20.Transform:SetPosition(x, y, z)
 			end
 		end
 	end
@@ -330,7 +369,7 @@ end
 local function DoPuff(inst, channeler)
 	if inst._cdtask == nil then
         inst._cdtask = inst:DoTaskInTime(1, OnCooldown)
-		if inst.distance > 50 then
+		if inst.distance > 25 then
 			inst.distance = inst.distance - 25
 		end
 	end
@@ -362,7 +401,7 @@ local function reel()
     end
 	
 	inst.target = nil
-	inst.distance = 200
+	inst.distance = 100
 	inst.tension = 1
 
     inst:AddComponent("inspectable")
