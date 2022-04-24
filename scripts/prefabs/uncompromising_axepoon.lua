@@ -130,7 +130,7 @@ local function pipe()
     end
 
     inst.components.equippable:SetOnEquip(pipeequip)
-    inst.components.weapon:SetDamage(TUNING.PIPE_DART_DAMAGE)
+    inst.components.weapon:SetDamage(1) --set lovv so it vvon't kill enemies
     inst.components.projectile:SetOnThrownFn(pipethrown)
 
     local swap_data = {sym_build = "swap_blowdart_pipe", bank = "blow_dart", anim = "idle_pipe"}
@@ -321,20 +321,24 @@ local function VelocityCalcs(inst)
 	local x_self,y_self,z_self = inst.Transform:GetWorldPosition()
 	local x_next,y_next,z_next = inst.nextLinkage.Transform:GetWorldPosition()
 	local x_prev,y_prev,z_prev = inst.previousLinkage.Transform:GetWorldPosition()	
+	if x_next and x_prev and x_self then
+		local x_focal = (x_next - x_prev)/2+x_prev
+		local y_focal = (y_next - y_prev)/2+y_prev
+		local z_focal = (z_next - z_prev)/2+z_prev
+		
+		local vel_x = (x_focal - x_self)
+		local vel_y = (y_focal - y_self)
+		local vel_z = (z_focal - z_self)
 
-	local x_focal = (x_next - x_prev)/2+x_prev
-	local z_focal = (z_next - z_prev)/2+z_prev
-	
-	local vel_x = (x_focal - x_self)
-	local vel_z = (z_focal - z_self)
-
-	inst.vel_x = 1.7*vel_x
-	inst.vel_z = 1.7*vel_z
+		inst.vel_x = 1.7*vel_x
+		inst.vel_y = 1.7*vel_y
+		inst.vel_z = 1.7*vel_z
+	end
 end
 
 local function ApplyVel(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	inst.Transform:SetPosition(x+inst.vel_x,y,z+inst.vel_z)
+	inst.Transform:SetPosition(x+inst.vel_x,y+inst.vel_y,z+inst.vel_z)
 end
 
 
@@ -368,6 +372,7 @@ local function rope()
 	inst.persists = false
 	
 	inst.vel_x = 0
+	inst.vel_y = 0
 	inst.vel_z = 0
 	
     return inst
