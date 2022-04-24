@@ -162,17 +162,28 @@ local function Vac(inst)
 	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() then
 		if inst:GetDistanceSqToInst(inst.target) ~= nil and inst:GetDistanceSqToInst(inst.target) > inst.distance then
 			local px, py, pz = inst.target.Transform:GetWorldPosition()
-				
-			local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
-			local velx = math.cos(rad) --* 4.5
-			local velz = -math.sin(rad) --* 4.5
 			
-			local dx, dy, dz = px + (((FRAMES * 5) * velx) * 2), 0, pz + (((FRAMES * 5) * velz) * 2)
+			local boat = inst:GetCurrentPlatform()
+			
+			if boat ~= nil and boat:IsValid() then
 				
-			local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
-			local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
-			if dx ~= nil and (ground or boat) then
-				inst.target.Transform:SetPosition(dx, dy, dz)
+				local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
+				
+				local boat_physics = boat.components.boatphysics
+			
+				boat_physics:ApplyRowForce(row_dir_x, row_dir_z, 1, 6)
+			else
+				local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
+				local velx = math.cos(rad) --* 4.5
+				local velz = -math.sin(rad) --* 4.5
+				
+				local dx, dy, dz = px + (((FRAMES * 5) * velx) * 2), 0, pz + (((FRAMES * 5) * velz) * 2)
+					
+				local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
+				local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
+				if dx ~= nil and (ground or boat) then
+					inst.target.Transform:SetPosition(dx, dy, dz)
+				end
 			end
 			
 			local tensionmult = inst.target:HasTag("epic") and 2 or inst.target:HasTag("smallcreature") and .5 or 1
