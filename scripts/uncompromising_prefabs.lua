@@ -319,4 +319,5 @@ return {
 	"sludge_patch",
 	
 	"uncompromising_harpoon",
+	"uncompromising_axepoon",
 }
