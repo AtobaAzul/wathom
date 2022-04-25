@@ -1,9 +1,6 @@
 -----------------------------------------------------------------
 -- WX damage changes during wet
 -----------------------------------------------------------------
---GLOBAL.TUNING.WX78_MIN_MOISTURE_DAMAGE= -.1 * GLOBAL.TUNING.DSTU.WX78_MOISTURE_DAMAGE_INCREASE, --Not even used in the code by Klei
-GLOBAL.TUNING.WX78_MAX_MOISTURE_DAMAGE = (-0.5) * GLOBAL.TUNING.DSTU.WX78_MOISTURE_DAMAGE_INCREASE
-GLOBAL.TUNING.WX78_MOISTURE_DRYING_DAMAGE = (-0.3) * GLOBAL.TUNING.DSTU.WX78_MOISTURE_DAMAGE_INCREASE
 
 if GLOBAL.TUNING.UPDATE_CHECK then
     local ModuleDefs = require("wx78_moduledefs")
@@ -173,29 +170,22 @@ end
 
 local function OnEat_Electric(inst, data)
     if data.food ~= nil then
-		if data.food.prefab == "goatmilk" or data.food.prefab == "zaspberry" then
-			inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE"))
+		if data.food.prefab == "zaspberry" then
 			SpawnPrefab("electricchargedfx"):SetTarget(inst)
-            inst.components.sanity:DoDelta(-TUNING.SANITY_MEDLARGE)
 			
 			if inst.components.upgrademoduleowner ~= nil then
 				inst.components.upgrademoduleowner:AddCharge(1)
 			else
+				inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE"))
 				startovercharge(inst, CalcDiminishingReturns(inst.charge_time, TUNING.TOTAL_DAY_TIME / 6))
 			end
-		elseif data.food.prefab == "zaspberryparfait" or 
-		data.food.prefab == "voltgoatjelly" or
-		data.food.prefab == "voltgoatjelly_spice_chili" or
-		data.food.prefab == "voltgoatjelly_spice_garlic" or
-		data.food.prefab == "voltgoatjelly_spice_salt" or
-		data.food.prefab == "voltgoatjelly_spice_sugar" then
-			inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE"))
+		elseif data.food.prefab == "zaspberryparfait" then
 			SpawnPrefab("electricchargedfx"):SetTarget(inst)
-            inst.components.sanity:DoDelta(-TUNING.SANITY_LARGE)
 			
 			if inst.components.upgrademoduleowner ~= nil then
 				inst.components.upgrademoduleowner:AddCharge(1)
 			else
+				inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE"))
 				startovercharge(inst, CalcDiminishingReturns(inst.charge_time, TUNING.TOTAL_DAY_TIME / 4))
 			end
 		end
