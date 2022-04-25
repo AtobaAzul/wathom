@@ -1,6 +1,10 @@
 -----------------------------------------------------------------
 -- WX damage changes during wet
 -----------------------------------------------------------------
+if GLOBAL.TUNING.WX78_CHARGING_FOODS ~= nil then
+	table.insert(GLOBAL.TUNING.WX78_CHARGING_FOODS, {zaspberry = 1})
+	table.insert(GLOBAL.TUNING.WX78_CHARGING_FOODS, {zaspberryparfait = 1})
+end
 
 if GLOBAL.TUNING.UPDATE_CHECK then
     local ModuleDefs = require("wx78_moduledefs")
@@ -167,6 +171,7 @@ local function OnMoistureDelta(inst)
     end
 end
 
+--[[ This is for the old overcharge stuff, dunno if we will ever return to it
 
 local function OnEat_Electric(inst, data)
     if data.food ~= nil then
@@ -190,7 +195,7 @@ local function OnEat_Electric(inst, data)
 			end
 		end
     end
-end
+end]]
 
 env.AddPrefabPostInit("wx78", function(inst)
     if not TheWorld.ismastersim then
@@ -217,8 +222,9 @@ env.AddPrefabPostInit("wx78", function(inst)
             end
         end
     end
-    if not TUNING.DSTU.UPDATE_CHECK then
-        inst:ListenForEvent("oneat", OnEat_Electric)
-    end
+	
+    --[[if not TUNING.DSTU.UPDATE_CHECK then
+		inst:ListenForEvent("oneat", OnEat_Electric)
+    end]]
 end)
 
