@@ -36,13 +36,13 @@ local function onhit(inst, attacker, target)
         if attacker ~= nil and attacker:IsValid() then
             impactfx:FacePoint(attacker.Transform:GetWorldPosition())
         end
-		
-		if inst.x ~= nil and target.components.locomotor then
-			local reel = SpawnPrefab("uncompromising_harpoonreel")
-			reel.Transform:SetPosition(inst.x, inst.y, inst.z)
-			reel.target = target
-		end
     end
+	
+	if inst.x ~= nil then
+		local reel = SpawnPrefab("uncompromising_harpoonreel")
+		reel.Transform:SetPosition(inst.x, inst.y, inst.z)
+		reel.target = target
+	end
 	
     inst:Remove()
 end
@@ -56,10 +56,34 @@ local function onthrown(inst, data)
 	end
 
     inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
-    inst.components.inventoryitem.pushlandedevents = false
 end
 
-local function common(anim, tags, removephysicscolliders)
+local function pipethrown(inst)
+    --inst.AnimState:PlayAnimation("dart_pipe")
+    inst:AddTag("NOCLICK")
+    inst.persists = false
+end
+
+local function spawntornado(staff, target)
+	local owner = staff.components.inventoryitem.owner
+	
+	if owner == nil then
+		return
+	end
+	
+	local x, y, z = owner.Transform:GetWorldPosition()
+	local boat = TheWorld.Map:GetPlatformAtPoint(x, z)
+	
+	if target.components ~= nil and target.components.workable and not owner:GetCurrentPlatform() then
+		return
+	end
+	
+	local proj = SpawnPrefab("uncompromising_harpoon_projectile")
+	proj.Transform:SetPosition(x, y, z)
+	proj.components.projectile:Throw(owner, target)
+end
+
+local function fn()
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -70,26 +94,16 @@ local function common(anim, tags, removephysicscolliders)
 
     inst.AnimState:SetBank("blow_dart")
     inst.AnimState:SetBuild("blow_dart")
-    inst.AnimState:PlayAnimation(anim)
+    inst.AnimState:PlayAnimation("idle")
 
-    inst:AddTag("blowdart")
     inst:AddTag("sharp")
+    inst:AddTag("quickcast")
+    inst:AddTag("nopunch")
+
+    inst.spelltype = "SCIENCE"
 
     --weapon (from weapon component) added to pristine state for optimization
     inst:AddTag("weapon")
-
-    --projectile (from projectile component) added to pristine state for optimization
-    inst:AddTag("projectile")
-
-    if tags ~= nil then
-        for i, v in ipairs(tags) do
-            inst:AddTag(v)
-        end
-    end
-
-    if removephysicscolliders then
-        RemovePhysicsColliders(inst)
-    end
 
     MakeInventoryFloatable(inst, "small", 0.05, {0.75, 0.5, 0.75})
 
@@ -100,61 +114,106 @@ local function common(anim, tags, removephysicscolliders)
     end
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(0)
-    inst.components.weapon:SetRange(8, 10)
-
-    inst:AddComponent("projectile")
-    inst.components.projectile:SetSpeed(60)
-    inst.components.projectile:SetOnHitFn(onhit)
-    inst:ListenForEvent("onthrown", onthrown)
+    inst.components.weapon:SetDamage(34)
     -------
+	
+    inst:AddComponent("finiteuses")
+    inst.components.finiteuses:SetMaxUses(TUNING.SPEAR_USES)
+    inst.components.finiteuses:SetUses(TUNING.SPEAR_USES)
+
+    inst.components.finiteuses:SetOnFinished(inst.Remove)
 
     inst:AddComponent("inspectable")
 
     inst:AddComponent("inventoryitem")
-
-    inst:AddComponent("stackable")
+	
+    inst:AddComponent("spellcaster")
+    inst.components.spellcaster.canuseontargets = true
+    inst.components.spellcaster.canonlyuseonworkable = true
+    inst.components.spellcaster.canonlyuseoncombat = true
+    inst.components.spellcaster.quickcast = true
+    inst.components.spellcaster.canuseonpoint = false
+    inst.components.spellcaster.canuseonpoint_water = false
+    inst.components.spellcaster:SetSpellFn(spawntornado)
+    inst.components.spellcaster.castingstate = "castspell_tornado"
 
     inst:AddComponent("equippable")
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
-    inst.components.equippable.equipstack = true
 
     MakeHauntableLaunch(inst)
 
     return inst
 end
 
--------------------------------------------------------------------------------
--- Pipe Dart (Damage)
--------------------------------------------------------------------------------
-local function pipeequip(inst, owner)
-    owner.AnimState:OverrideSymbol("swap_object", "swap_blowdart_pipe", "swap_blowdart_pipe")
-    owner.AnimState:Show("ARM_carry")
-    owner.AnimState:Hide("ARM_normal")
-end
+local function harpoon()
+    local inst = CreateEntity()
 
-local function pipethrown(inst)
-    inst.AnimState:PlayAnimation("dart_pipe")
-    inst:AddTag("NOCLICK")
-    inst.persists = false
-end
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
 
-local function pipe()
-    local inst = common("idle_pipe")
+    MakeInventoryPhysics(inst)
+
+    inst.AnimState:SetBank("blow_dart")
+    inst.AnimState:SetBuild("blow_dart")
+    inst.AnimState:PlayAnimation("idle_pipe")
+
+    inst:AddTag("blowdart")
+    inst:AddTag("sharp")
+    inst:AddTag("weapon")
+    inst:AddTag("projectile")
+	inst:AddTag("NOCLICK")
+	RemovePhysicsColliders(inst)
+
+    inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
         return inst
     end
 
-    inst.components.equippable:SetOnEquip(pipeequip)
-    inst.components.weapon:SetDamage(TUNING.PIPE_DART_DAMAGE)
-    inst.components.projectile:SetOnThrownFn(pipethrown)
+    inst:AddComponent("weapon")
+    inst.components.weapon:SetDamage(34)
+    inst.components.weapon:SetRange(8, 10)
 
-    local swap_data = {sym_build = "swap_blowdart_pipe", bank = "blow_dart", anim = "idle_pipe"}
-    inst.components.floater:SetBankSwapOnFloat(true, -4, swap_data)
+    inst:AddComponent("projectile")
+    inst.components.projectile:SetOnThrownFn(pipethrown)
+    inst.components.projectile:SetRange(TUNING.WALRUS_DART_RANGE)
+    inst.components.projectile:SetHoming(false)
+    inst.components.projectile:SetOnMissFn(inst.Remove)
+    inst.components.projectile:SetLaunchOffset(Vector3(3, 2, 0))
+    inst.components.projectile:SetSpeed(60)
+    inst.components.projectile:SetOnHitFn(onhit)
+    inst:ListenForEvent("onthrown", onthrown)
+
+    inst.persists = false
 
     return inst
+end
+
+local function KillRopes(inst)
+	if inst.harpoontask ~= nil then
+		inst.harpoontask:Cancel()
+	end
+		
+	inst.harpoontask = nil
+		
+	for i, ropes in ipairs(inst.ropes) do
+		ropes:DoTaskInTime(1/i, function(ropes)
+			if ropes.entity:IsVisible() then
+				SpawnPrefab("wood_splinter_jump").Transform:SetPosition(ropes.Transform:GetWorldPosition())
+			end
+			
+			ropes:Remove()
+			if inst ~= nil and i == 1 then
+				inst:Remove()
+			end
+		end)
+	end
+end
+
+local function OnCooldown(inst)
+    inst._cdtask = nil
 end
 
 local function Vac(inst)
@@ -163,16 +222,21 @@ local function Vac(inst)
 		if inst:GetDistanceSqToInst(inst.target) ~= nil and inst:GetDistanceSqToInst(inst.target) > inst.distance then
 			local px, py, pz = inst.target.Transform:GetWorldPosition()
 			
-			local boat = inst:GetCurrentPlatform()
+			local platform = inst:GetCurrentPlatform()
 			
-			if boat ~= nil and boat:IsValid() then
+			if platform ~= nil and platform:IsValid() then
+				if inst._cdtask == nil then
+					local rowdistmult = (inst:GetDistanceSqToInst(inst.target) / 100)
 				
-				local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
+					inst._cdtask = inst:DoTaskInTime(1, OnCooldown)
+					
+					local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
+					
+					local boat_physics = platform.components.boatphysics
 				
-				local boat_physics = boat.components.boatphysics
-			
-				boat_physics:ApplyRowForce(row_dir_x, row_dir_z, 1, 6)
-			else
+					boat_physics:ApplyRowForce(row_dir_x, row_dir_z, 1 * rowdistmult, 3)
+				end
+			elseif inst.target.components.locomotor ~= nil then
 				local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
 				local velx = math.cos(rad) --* 4.5
 				local velz = -math.sin(rad) --* 4.5
@@ -182,7 +246,7 @@ local function Vac(inst)
 				local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
 				local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
 				if dx ~= nil and (ground or boat) then
-					inst.target.Transform:SetPosition(dx, dy, dz)
+					inst.target.Transform:SetPosition(dx, py, dz)
 				end
 			end
 			
@@ -192,11 +256,18 @@ local function Vac(inst)
 			inst.tension = inst.tension - 0.1
 		end
 	else
-		inst:Remove()
+		KillRopes(inst)
+		return
 	end
 		
 	if inst ~= nil and inst.tension >= 200 then
-		inst:Remove()
+		if inst.harpoontask ~= nil then
+			inst.harpoontask:Cancel()
+		end
+		
+		inst.harpoontask = nil
+		KillRopes(inst)
+		return
 	end
 	
 	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() and inst.ropes ~= nil and inst:GetDistanceSqToInst(inst.target) ~= nil then
@@ -207,20 +278,31 @@ local function Vac(inst)
 			local rad2 = math.rad(inst:GetAngleToPoint(p2x, p2y, p2z))
 			local velx2 = math.cos(rad2) --* 4.5
 			local velz2 = -math.sin(rad2) --* 4.5
-
-			local dx, dy, dz = x + ((i2 * velx2) / 2), (0.06 * i2), z + ((i2 * velz2) / 2)
 			
-			if i2 <= (scale + 1) then
-				ropes:Show()
-				ropes.Transform:SetPosition(dx, dy, dz)
+			local dx, dy, dz = x + ((i2 * velx2) / 2), (0.06 * i2), z + ((i2 * velz2) / 2)
+			if p2y < 5 then
+				if i2 <= (scale + 2) then
+					--[[local dest = inst.target:GetPosition()
+					local direction = (dest - ropes:GetPosition()):GetNormalized()
+					local angle = math.acos(direction:Dot(Vector3(1, 0, 0))) / DEGREES
+					ropes.Transform:SetRotation(angle)
+					ropes:FacePoint(dest)]]
+					
+					--ropes:FacePoint(inst.target.Transform:GetWorldPosition())
+					ropes.Transform:SetRotation(inst:GetAngleToPoint(p2x, p2y, p2z))
+					ropes:Show()
+					ropes.Transform:SetPosition(dx, (0.06 * i2) + (p2y * (i2 / 25)), dz)
+				else
+					ropes:Hide()
+				end
 			else
-				ropes:Hide()
+				KillRopes(inst)
+				return
 			end
 		end
 	elseif inst.ropes ~= nil then
-		for i, ropes in ipairs(inst.ropes) do
-			ropes:Remove()
-		end
+		
+		KillRopes(inst)
 	end
 end
 
@@ -229,23 +311,16 @@ local function InitializeRope(inst)
 	
 	inst.ropes = {}
 	
-	for i = 1, 20 do
+	for i = 1, 25 do
 		local ropes = SpawnPrefab("uncompromising_harpoonrope")
 		ropes.Transform:SetPosition(x, y, z)
 		table.insert(inst.ropes, ropes)
 	end
 end
 
-local function OnCooldown(inst)
-    inst._cdtask = nil
-end
-
 local function DoPuff(inst, channeler)
-	if inst._cdtask == nil then
-        inst._cdtask = inst:DoTaskInTime(1, OnCooldown)
-		if inst.distance > 20 then
-			inst.distance = inst.distance - 20
-		end
+	if inst.distance > 15 then
+		inst.distance = inst.distance - 15
 	end
 end
 
@@ -285,7 +360,8 @@ local function reel()
     inst.components.channelable.use_channel_longaction_noloop = true
     inst.components.channelable.skip_state_channeling = true
 	inst:DoTaskInTime(0, InitializeRope)
-	inst:DoPeriodicTask(FRAMES, Vac)
+	inst.harpoontask = inst:DoPeriodicTask(FRAMES, Vac)
+	inst:DoTaskInTime(30, KillRopes)
 	
 	inst.persists = false
 	
@@ -300,9 +376,10 @@ local function rope()
     inst.entity:AddSoundEmitter()
     inst.entity:AddNetwork()
 
-    inst.AnimState:SetBank("snowball")
-    inst.AnimState:SetBuild("snowball")
+    inst.AnimState:SetBank("harpoon_rope")
+    inst.AnimState:SetBuild("harpoon_rope")
     inst.AnimState:PlayAnimation("idle")
+	inst.Transform:SetEightFaced()
 	
 	inst:AddTag("NOCLICK")
 	inst:AddTag("NOBLOCK")
@@ -319,6 +396,7 @@ local function rope()
     return inst
 end
 -------------------------------------------------------------------------------
-return Prefab("uncompromising_harpoon", pipe, assets, prefabs),
+return Prefab("uncompromising_harpoon", fn, assets, prefabs),
+		Prefab("uncompromising_harpoon_projectile", harpoon, assets, prefabs),
 		Prefab("uncompromising_harpoonreel", reel, assets, prefabs),
 		Prefab("uncompromising_harpoonrope", rope, assets, prefabs)

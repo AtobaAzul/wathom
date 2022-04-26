@@ -807,6 +807,9 @@ Assets = {
 	Asset("ANIM", "anim/driftwood_rod_ground.zip"),
 	Asset("ANIM", "anim/oculet.zip"),
 	Asset("ANIM", "anim/oculet_ground.zip"),
+	
+	Asset("ANIM", "anim/harpoon_rope.zip"),
+	
 	Asset("IMAGE", "images/inventoryimages/oculet.tex"),
 	Asset("ATLAS", "images/inventoryimages/oculet.xml"),
 	
