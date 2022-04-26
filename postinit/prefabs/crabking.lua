@@ -59,4 +59,18 @@ env.AddPrefabPostInit("crabking", function(inst)
 			messagebottletreasures.GenerateTreasure(pos, "sunkenchest").Transform:SetPosition(pos.x + math.random(-normalpos, normalpos), pos.y, pos.z + math.random(-normalpos, normalpos))
 		end
 	end)
+
+	local DAMAGE_SCALE = 0.5
+	local function OnCollide(inst, data)
+		local boat_physics = data.other.components.boatphysics
+		if boat_physics ~= nil then
+			local hit_velocity = math.floor(math.abs(boat_physics:GetVelocity() * data.hit_dot_velocity) * DAMAGE_SCALE / boat_physics.max_velocity + 0.5)
+			print(hit_velocity)
+			if inst.components.health ~= nil then
+				inst.components.health:DoDelta(-400*hit_velocity)
+			end
+		end
+	end
+	inst:ListenForEvent("on_collide", OnCollide)
+
 end)
