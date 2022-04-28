@@ -363,6 +363,16 @@ local function reel()
 	inst.harpoontask = inst:DoPeriodicTask(FRAMES, Vac)
 	inst:DoTaskInTime(30, KillRopes)
 	
+	inst:AddComponent("combat")
+	inst:AddComponent("health")
+	inst.components.health.nofadeout = true
+	inst.components.health.maxhealth = 1
+	inst:ListenForEvent("attacked", function(inst, data)
+		if data ~= nil and data.attacker ~= nil and data.attacker:HasTag("player") then
+			KillRopes(inst)
+		end
+	end)
+	
 	inst.persists = false
 	
     return inst
