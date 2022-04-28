@@ -46,6 +46,7 @@ env.AddPrefabPostInit("wx78", function(inst)
     if TUNING.DSTU.WX78_CONFIG then
 		if inst.components.playerlightningtarget ~= nil then
 			inst.components.playerlightningtarget:SetOnStrikeFn(OnLightningStrike)
+			inst.OnLesserCharge = OnLightningStrike
 		end
     end
 end)
