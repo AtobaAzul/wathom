@@ -38,18 +38,23 @@ local function onhit(inst, attacker, target)
         end
     end
 	
+	
 	if inst.x ~= nil then
-		--[[local hitpoint = SpawnPrefab("spear")
-		hitpoint.Transform:SetPosition(inst.x, inst.y, inst.z)
-		hitpoint.entity:SetParent(target.entity)]]
+		local ground = TheWorld.Map:IsPassableAtPoint(inst.x, inst.y, inst.z)
+		local boat = TheWorld.Map:GetPlatformAtPoint(inst.x, inst.z)
 		
-		local reel = SpawnPrefab("uncompromising_harpoonreel")
-		reel.Transform:SetPosition(inst.x, inst.y, inst.z)
-		reel.target = target
-		reel.damagemax = inst.damagemax
-		reel.tensionmax = inst.tensionmax
-		reel.ropetype = inst.ropetype
-		
+		if ground or boat then
+			--[[local hitpoint = SpawnPrefab("spear")
+			hitpoint.Transform:SetPosition(inst.x, inst.y, inst.z)
+			hitpoint.entity:SetParent(target.entity)]]
+			
+			local reel = SpawnPrefab("uncompromising_harpoonreel")
+			reel.Transform:SetPosition(inst.x, inst.y, inst.z)
+			reel.target = target
+			reel.damagemax = inst.damagemax
+			reel.tensionmax = inst.tensionmax
+			reel.ropetype = inst.ropetype
+		end
 	end
 	
     inst:Remove()
@@ -231,6 +236,8 @@ local function harpoon()
 end
 
 local function KillRopes(inst)
+	inst:AddTag("NOCLICK")
+
 	if inst.harpoontask ~= nil then
 		inst.harpoontask:Cancel()
 	end
@@ -372,6 +379,8 @@ local function InitializeRope(inst)
 end
 
 local function DoPuff(inst, channeler)
+    inst.components.activatable.inactive = true
+	
 	if inst.distance > 15 then
 		inst.distance = inst.distance - 15
 	end
@@ -379,6 +388,10 @@ end
 
 local function OnStopChanneling(inst)
 	inst.channeler = nil
+end
+
+local function GetVerb(inst)
+	return STRINGS.ACTIONS.ACTIVATE.GENERIC
 end
 
 local function reel()
@@ -412,23 +425,25 @@ local function reel()
 
     inst:AddComponent("inspectable")
 	
+	inst:AddComponent("activatable")
+    inst.components.activatable.OnActivate = DoPuff
+    inst.components.activatable.inactive = true
+    inst.components.activatable.getverb = GetVerb
+	inst.components.activatable.quickaction = true
+	
+    inst:AddComponent("machine")
+    inst.components.machine.turnonfn = KillRopes
+    inst.components.machine.turnofffn = KillRopes
+    inst.components.machine.cooldowntime = 0.5
+	--[[
     inst:AddComponent("channelable")
     inst.components.channelable:SetChannelingFn(DoPuff, OnStopChanneling)
     inst.components.channelable.use_channel_longaction_noloop = true
-    inst.components.channelable.skip_state_channeling = true
+    inst.components.channelable.skip_state_channeling = true]]
+	
 	inst:DoTaskInTime(0, InitializeRope)
 	inst.harpoontask = inst:DoPeriodicTask(FRAMES, Vac)
 	inst:DoTaskInTime(30, KillRopes)
-	
-	inst:AddComponent("combat")
-	inst:AddComponent("health")
-	inst.components.health.nofadeout = true
-	inst.components.health.maxhealth = 1
-	inst:ListenForEvent("attacked", function(inst, data)
-		if data ~= nil and data.attacker ~= nil and data.attacker:HasTag("player") then
-			KillRopes(inst)
-		end
-	end)
 	
 	inst.persists = false
 	
