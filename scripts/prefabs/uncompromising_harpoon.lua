@@ -5,6 +5,13 @@ local assets =
     Asset("ANIM", "anim/swap_blowdart_pipe.zip"),
 }
 
+local _turnoffstring = ACTIONS.TURNOFF.strfn
+
+ACTIONS.TURNOFF.strfn = function(act)
+    local tar = act.target
+	return tar ~= nil and tar:HasTag("harpoonreel") and "HARPOON" or _turnoffstring(act)
+end
+
 local prefabs =
 {
     "impact",
@@ -97,6 +104,8 @@ local function spawntornado(inst, target)
 	proj.damagemax = inst.damagemax
 	proj.tensionmax = inst.tensionmax
 	proj.ropetype = inst.ropetype
+	
+	inst:Remove()
 end
 
 local function fncommon(ropetype)
@@ -116,7 +125,7 @@ local function fncommon(ropetype)
     inst:AddTag("quickcast")
     inst:AddTag("nopunch")
 
-    inst.spelltype = "SCIENCE"
+    inst.spelltype = "HARPOON"
 
     --weapon (from weapon component) added to pristine state for optimization
     inst:AddTag("weapon")
@@ -247,7 +256,7 @@ local function KillRopes(inst)
 	for i, ropes in ipairs(inst.ropes) do
 		ropes:DoTaskInTime(1/i, function(ropes)
 			if ropes.entity:IsVisible() then
-				SpawnPrefab("wood_splinter_jump").Transform:SetPosition(ropes.Transform:GetWorldPosition())
+				SpawnPrefab(ropes.breakfx).Transform:SetPosition(ropes.Transform:GetWorldPosition())
 			end
 			
 			ropes:Remove()
@@ -274,13 +283,13 @@ local function Vac(inst)
 				if inst._cdtask == nil then
 					local rowdistmult = (inst:GetDistanceSqToInst(inst.target) / 100)
 				
-					inst._cdtask = inst:DoTaskInTime(1, OnCooldown)
+					inst._cdtask = inst:DoTaskInTime(.5, OnCooldown)
 					
 					local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
 					
 					local boat_physics = platform.components.boatphysics
 				
-					boat_physics:ApplyRowForce(row_dir_x, row_dir_z, 1 * rowdistmult, 3)
+					boat_physics:ApplyForce(row_dir_x, row_dir_z, .5 * rowdistmult, 1 * boat_physics:GetForceDampening())
 				end
 			elseif inst.target.components.locomotor ~= nil then
 				local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
@@ -391,7 +400,7 @@ local function OnStopChanneling(inst)
 end
 
 local function GetVerb(inst)
-	return STRINGS.ACTIONS.ACTIVATE.GENERIC
+	return "HARPOON"
 end
 
 local function reel()
@@ -402,12 +411,16 @@ local function reel()
     inst.entity:AddSoundEmitter()
     inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
+	
+	inst:AddTag("harpoonreel")
 
     inst.AnimState:SetBank("boat_wheel")
     inst.AnimState:SetBuild("boat_wheel")
     inst.AnimState:PlayAnimation("idle")
 
     MakeSnowCoveredPristine(inst)
+	
+	inst.GetActivateVerb = GetVerb
 
     inst.entity:SetPristine()
 
@@ -428,13 +441,13 @@ local function reel()
 	inst:AddComponent("activatable")
     inst.components.activatable.OnActivate = DoPuff
     inst.components.activatable.inactive = true
-    inst.components.activatable.getverb = GetVerb
 	inst.components.activatable.quickaction = true
 	
     inst:AddComponent("machine")
     inst.components.machine.turnonfn = KillRopes
     inst.components.machine.turnofffn = KillRopes
     inst.components.machine.cooldowntime = 0.5
+	inst.components.machine.ison = true
 	--[[
     inst:AddComponent("channelable")
     inst.components.channelable:SetChannelingFn(DoPuff, OnStopChanneling)
@@ -473,6 +486,8 @@ local function rope()
         return inst
     end
 	
+	inst.breakfx = "wood_splinter_jump"
+	
 	inst.persists = false
 	
     return inst
@@ -500,6 +515,8 @@ local function chain()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.breakfx = "mining_fx"
 	
 	inst.persists = false
 	
