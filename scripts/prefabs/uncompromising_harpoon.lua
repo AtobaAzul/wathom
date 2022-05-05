@@ -5,6 +5,13 @@ local assets =
     Asset("ANIM", "anim/swap_blowdart_pipe.zip"),
 }
 
+local _turnoffstring = ACTIONS.TURNOFF.strfn
+
+ACTIONS.TURNOFF.strfn = function(act)
+    local tar = act.target
+	return tar ~= nil and tar:HasTag("harpoonreel") and "HARPOON" or _turnoffstring(act)
+end
+
 local prefabs =
 {
     "impact",
@@ -38,10 +45,23 @@ local function onhit(inst, attacker, target)
         end
     end
 	
+	
 	if inst.x ~= nil then
-		local reel = SpawnPrefab("uncompromising_harpoonreel")
-		reel.Transform:SetPosition(inst.x, inst.y, inst.z)
-		reel.target = target
+		local ground = TheWorld.Map:IsPassableAtPoint(inst.x, inst.y, inst.z)
+		local boat = TheWorld.Map:GetPlatformAtPoint(inst.x, inst.z)
+		
+		if ground or boat then
+			--[[local hitpoint = SpawnPrefab("spear")
+			hitpoint.Transform:SetPosition(inst.x, inst.y, inst.z)
+			hitpoint.entity:SetParent(target.entity)]]
+			
+			local reel = SpawnPrefab("uncompromising_harpoonreel")
+			reel.Transform:SetPosition(inst.x, inst.y, inst.z)
+			reel.target = target
+			reel.damagemax = inst.damagemax
+			reel.tensionmax = inst.tensionmax
+			reel.ropetype = inst.ropetype
+		end
 	end
 	
     inst:Remove()
@@ -64,8 +84,8 @@ local function pipethrown(inst)
     inst.persists = false
 end
 
-local function spawntornado(staff, target)
-	local owner = staff.components.inventoryitem.owner
+local function spawntornado(inst, target)
+	local owner = inst.components.inventoryitem.owner
 	
 	if owner == nil then
 		return
@@ -81,9 +101,14 @@ local function spawntornado(staff, target)
 	local proj = SpawnPrefab("uncompromising_harpoon_projectile")
 	proj.Transform:SetPosition(x, y, z)
 	proj.components.projectile:Throw(owner, target)
+	proj.damagemax = inst.damagemax
+	proj.tensionmax = inst.tensionmax
+	proj.ropetype = inst.ropetype
+	
+	inst:Remove()
 end
 
-local function fn()
+local function fncommon(ropetype)
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -100,7 +125,7 @@ local function fn()
     inst:AddTag("quickcast")
     inst:AddTag("nopunch")
 
-    inst.spelltype = "SCIENCE"
+    inst.spelltype = "HARPOON"
 
     --weapon (from weapon component) added to pristine state for optimization
     inst:AddTag("weapon")
@@ -112,6 +137,8 @@ local function fn()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.ropetype = ropetype
 
     inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(34)
@@ -142,6 +169,32 @@ local function fn()
     inst.components.equippable:SetOnUnequip(onunequip)
 
     MakeHauntableLaunch(inst)
+
+    return inst
+end
+
+local function fnlight()
+    local inst = fncommon("uncompromising_harpoonrope")
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	
+	inst.tensionmax = 100
+	inst.damagemax = 100
+
+    return inst
+end
+
+local function fnheavy()
+    local inst = fncommon("uncompromising_harpoonchain")
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	
+	inst.tensionmax = 200
+	inst.damagemax = 200
 
     return inst
 end
@@ -192,6 +245,8 @@ local function harpoon()
 end
 
 local function KillRopes(inst)
+	inst:AddTag("NOCLICK")
+
 	if inst.harpoontask ~= nil then
 		inst.harpoontask:Cancel()
 	end
@@ -201,7 +256,7 @@ local function KillRopes(inst)
 	for i, ropes in ipairs(inst.ropes) do
 		ropes:DoTaskInTime(1/i, function(ropes)
 			if ropes.entity:IsVisible() then
-				SpawnPrefab("wood_splinter_jump").Transform:SetPosition(ropes.Transform:GetWorldPosition())
+				SpawnPrefab(ropes.breakfx).Transform:SetPosition(ropes.Transform:GetWorldPosition())
 			end
 			
 			ropes:Remove()
@@ -228,13 +283,13 @@ local function Vac(inst)
 				if inst._cdtask == nil then
 					local rowdistmult = (inst:GetDistanceSqToInst(inst.target) / 100)
 				
-					inst._cdtask = inst:DoTaskInTime(1, OnCooldown)
+					inst._cdtask = inst:DoTaskInTime(.5, OnCooldown)
 					
 					local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
 					
 					local boat_physics = platform.components.boatphysics
 				
-					boat_physics:ApplyRowForce(row_dir_x, row_dir_z, 1 * rowdistmult, 3)
+					boat_physics:ApplyForce(row_dir_x, row_dir_z, .5 * rowdistmult, 1 * boat_physics:GetForceDampening())
 				end
 			elseif inst.target.components.locomotor ~= nil then
 				local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
@@ -250,17 +305,31 @@ local function Vac(inst)
 				end
 			end
 			
-			local tensionmult = inst.target:HasTag("epic") and 2 or inst.target:HasTag("smallcreature") and .5 or 1
-			inst.tension = inst.tension + (1 * tensionmult)
-		elseif inst.tension > 1 then
-			inst.tension = inst.tension - 0.1
+			if inst.tension > inst.tensionmax * 1.5 then
+				local tensionmult = inst.target:HasTag("epic") and 2 or inst.target:HasTag("smallcreature") and .5 or 1
+				inst.tension = inst.tension + (1 * tensionmult)
+			end
+			
+			if inst.tension >= inst.tensionmax then
+				inst.damage = inst.damage + (1 * tensionmult)
+				
+				if math.random() > 0.3 then
+	                inst.reel.SoundEmitter:PlaySound("dontstarve/characters/walter/slingshot/stretch")
+				end
+			end
+		elseif inst.tension > 1 or inst.damage > 1 then
+			if inst.tension > 1 then
+				inst.tension = inst.tension - 0.1
+			elseif inst.damage > 1 then
+				inst.damage = inst.damage - 0.1
+			end
 		end
 	else
 		KillRopes(inst)
 		return
 	end
 		
-	if inst ~= nil and inst.tension >= 200 then
+	if inst ~= nil and inst.damage >= inst.damagemax then
 		if inst.harpoontask ~= nil then
 			inst.harpoontask:Cancel()
 		end
@@ -271,7 +340,7 @@ local function Vac(inst)
 	end
 	
 	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() and inst.ropes ~= nil and inst:GetDistanceSqToInst(inst.target) ~= nil then
-		local scale = (inst:GetDistanceSqToInst(inst.target) / 5)
+		local scale = (inst:GetDistanceSqToInst(inst.target) / 2.6)
 		
 		for i2, ropes in ipairs(inst.ropes) do
 			local p2x, p2y, p2z = inst.target.Transform:GetWorldPosition()
@@ -279,9 +348,9 @@ local function Vac(inst)
 			local velx2 = math.cos(rad2) --* 4.5
 			local velz2 = -math.sin(rad2) --* 4.5
 			
-			local dx, dy, dz = x + ((i2 * velx2) / 2), (0.06 * i2), z + ((i2 * velz2) / 2)
+			local dx, dy, dz = x + ((i2 * velx2) / 3.5), 0, z + ((i2 * velz2) / 3.5)
 			if p2y < 5 then
-				if i2 <= (scale + 2) then
+				if i2 <= scale + 1 then
 					--[[local dest = inst.target:GetPosition()
 					local direction = (dest - ropes:GetPosition()):GetNormalized()
 					local angle = math.acos(direction:Dot(Vector3(1, 0, 0))) / DEGREES
@@ -291,7 +360,7 @@ local function Vac(inst)
 					--ropes:FacePoint(inst.target.Transform:GetWorldPosition())
 					ropes.Transform:SetRotation(inst:GetAngleToPoint(p2x, p2y, p2z))
 					ropes:Show()
-					ropes.Transform:SetPosition(dx, (0.06 * i2) + (p2y * (i2 / 25)), dz)
+					ropes.Transform:SetPosition(dx, (0.01 * i2) + (p2y * (i2 / 40)), dz)
 				else
 					ropes:Hide()
 				end
@@ -311,14 +380,16 @@ local function InitializeRope(inst)
 	
 	inst.ropes = {}
 	
-	for i = 1, 25 do
-		local ropes = SpawnPrefab("uncompromising_harpoonrope")
+	for i = 1, 40 do
+		local ropes = SpawnPrefab(inst.ropetype)
 		ropes.Transform:SetPosition(x, y, z)
 		table.insert(inst.ropes, ropes)
 	end
 end
 
 local function DoPuff(inst, channeler)
+    inst.components.activatable.inactive = true
+	
 	if inst.distance > 15 then
 		inst.distance = inst.distance - 15
 	end
@@ -326,6 +397,10 @@ end
 
 local function OnStopChanneling(inst)
 	inst.channeler = nil
+end
+
+local function GetVerb(inst)
+	return "HARPOON"
 end
 
 local function reel()
@@ -336,12 +411,16 @@ local function reel()
     inst.entity:AddSoundEmitter()
     inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
+	
+	inst:AddTag("harpoonreel")
 
     inst.AnimState:SetBank("boat_wheel")
     inst.AnimState:SetBuild("boat_wheel")
     inst.AnimState:PlayAnimation("idle")
 
     MakeSnowCoveredPristine(inst)
+	
+	inst.GetActivateVerb = GetVerb
 
     inst.entity:SetPristine()
 
@@ -352,26 +431,32 @@ local function reel()
 	inst.target = nil
 	inst.distance = 100
 	inst.tension = 1
+	inst.tensionmax = 0
+	inst.damage = 1
+	inst.damagemax = 0
+	inst.ropetype = nil
 
     inst:AddComponent("inspectable")
 	
+	inst:AddComponent("activatable")
+    inst.components.activatable.OnActivate = DoPuff
+    inst.components.activatable.inactive = true
+	inst.components.activatable.quickaction = true
+	
+    inst:AddComponent("machine")
+    inst.components.machine.turnonfn = KillRopes
+    inst.components.machine.turnofffn = KillRopes
+    inst.components.machine.cooldowntime = 0.5
+	inst.components.machine.ison = true
+	--[[
     inst:AddComponent("channelable")
     inst.components.channelable:SetChannelingFn(DoPuff, OnStopChanneling)
     inst.components.channelable.use_channel_longaction_noloop = true
-    inst.components.channelable.skip_state_channeling = true
+    inst.components.channelable.skip_state_channeling = true]]
+	
 	inst:DoTaskInTime(0, InitializeRope)
 	inst.harpoontask = inst:DoPeriodicTask(FRAMES, Vac)
 	inst:DoTaskInTime(30, KillRopes)
-	
-	inst:AddComponent("combat")
-	inst:AddComponent("health")
-	inst.components.health.nofadeout = true
-	inst.components.health.maxhealth = 1
-	inst:ListenForEvent("attacked", function(inst, data)
-		if data ~= nil and data.attacker ~= nil and data.attacker:HasTag("player") then
-			KillRopes(inst)
-		end
-	end)
 	
 	inst.persists = false
 	
@@ -401,12 +486,46 @@ local function rope()
         return inst
     end
 	
+	inst.breakfx = "wood_splinter_jump"
+	
+	inst.persists = false
+	
+    return inst
+end
+
+local function chain()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddNetwork()
+
+    inst.AnimState:SetBank("harpoon_rope")
+    inst.AnimState:SetBuild("harpoon_rope")
+    inst.AnimState:PlayAnimation("chainidle")
+	inst.Transform:SetEightFaced()
+	
+	inst:AddTag("NOCLICK")
+	inst:AddTag("NOBLOCK")
+	inst:AddTag("fx")
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	
+	inst.breakfx = "mining_fx"
+	
 	inst.persists = false
 	
     return inst
 end
 -------------------------------------------------------------------------------
-return Prefab("uncompromising_harpoon", fn, assets, prefabs),
+return Prefab("uncompromising_harpoon", fnlight, assets, prefabs),
 		Prefab("uncompromising_harpoon_projectile", harpoon, assets, prefabs),
 		Prefab("uncompromising_harpoonreel", reel, assets, prefabs),
-		Prefab("uncompromising_harpoonrope", rope, assets, prefabs)
+		Prefab("uncompromising_harpoonrope", rope, assets, prefabs),
+		Prefab("uncompromising_harpoon_heavy", fnheavy, assets, prefabs),
+		Prefab("uncompromising_harpoonchain", chain, assets, prefabs)

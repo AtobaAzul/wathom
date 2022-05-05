@@ -1,25 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r11">
     <folder id="0" name="bits">
         <file id="0" name="bits/rope.png" width="74" height="74" pivot_x="0.496592" pivot_y="0.463409"/>
+        <file id="1" name="bits/chain.png" width="74" height="74" pivot_x="0.511353" pivot_y="0.475495"/>
     </folder>
     <entity id="0" name="harpoon_rope">
-        <animation id="0" name="idle_up" length="1000">
+        <animation id="0" name="chainidle_up" length="1000" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="rope" folder="0" file="0" abs_x="0.003408" abs_y="0.036591" abs_pivot_x="0.496592" abs_pivot_y="0.463409" abs_angle="360" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="rope">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="0.003408" y="0.036591"/>
+                    <object folder="0" file="1" angle="0"/>
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="idle_upside" length="1000">
+        <animation id="1" name="chainidle_upside" length="1000" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="rope" folder="0" file="0" abs_x="0.003408" abs_y="0.036591" abs_pivot_x="0.496592" abs_pivot_y="0.463409" abs_angle="315" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="rope">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="0.003408" y="0.036591" angle="315"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="chainidle_side" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="rope">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="0.003408" y="0.036591" angle="270"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="chainidle_downside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="rope">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="0.003408" y="0.036591" angle="225"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="4" name="chainidle_down" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="rope">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="0.003408" y="0.036591" angle="180"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="5" name="idle_up" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="rope">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="6" name="idle_upside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="rope">
@@ -28,39 +89,39 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="2" name="idle_side" length="1000">
+        <animation id="7" name="idle_side" length="1000" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="rope" folder="0" file="0" abs_x="0.003408" abs_y="0.036591" abs_pivot_x="0.496592" abs_pivot_y="0.463409" abs_angle="270" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="rope">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="270" scale_y="1"/>
+                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="270"/>
                 </key>
             </timeline>
         </animation>
-        <animation id="3" name="idle_downside" length="1000">
+        <animation id="8" name="idle_downside" length="1000" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="rope" folder="0" file="0" abs_x="0.003408" abs_y="0.036591" abs_pivot_x="0.496592" abs_pivot_y="0.463409" abs_angle="225" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="rope">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="225" scale_y="1"/>
+                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="225"/>
                 </key>
             </timeline>
         </animation>
-        <animation id="4" name="idle_down" length="1000">
+        <animation id="9" name="idle_down" length="1000" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" name="rope" folder="0" file="0" abs_x="0.003408" abs_y="0.036591" abs_pivot_x="0.496592" abs_pivot_y="0.463409" abs_angle="180" abs_scale_x="1" abs_scale_y="1" abs_a="1" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="rope">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="180" scale_y="1"/>
+                    <object folder="0" file="0" x="0.003408" y="0.036591" angle="180"/>
                 </key>
             </timeline>
         </animation>
