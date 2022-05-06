@@ -7,11 +7,8 @@ PreloadAssets = {
 }
 ReloadPreloadAssets()
 --Start the game mode
-modimport("init/init_gamemodes/init_uncompromising_mode")
 
-GLOBAL.FUELTYPE.BATTERYPOWER = "BATTERYPOWER"
-GLOBAL.FUELTYPE.SALT = "SALT"
-GLOBAL.FUELTYPE.EYE = "EYE"
+modimport("init/init_gamemodes/init_uncompromising_mode")
 
 if GetModConfigData("funny rat") then
 	AddModCharacter("winky")
@@ -21,6 +18,10 @@ if GetModConfigData("funny rat") then
 	GLOBAL.TUNING.WINKY_SANITY = 125
 	GLOBAL.STRINGS.CHARACTER_SURVIVABILITY.winky = "Stinky"
 end
+
+GLOBAL.FUELTYPE.BATTERYPOWER = "BATTERYPOWER"
+GLOBAL.FUELTYPE.SALT = "SALT"
+GLOBAL.FUELTYPE.EYE = "EYE"
 
 RemapSoundEvent( "dontstarve/together_FE/DST_theme_portaled", "UMMusic/music/uncomp_char_select" )
 

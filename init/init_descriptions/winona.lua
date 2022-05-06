@@ -347,3 +347,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "Now if I could just see its insides..."
 	--DESCRIBE.UM_SIREN = "Heh, she certainly knows how to run her workplace."
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "This thing is about to pack up and leave me sinking!"

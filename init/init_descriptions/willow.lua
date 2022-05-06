@@ -357,3 +357,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WILLOW.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "What's this big dumb machine doing all the way out here?"
 	--DESCRIBE.UM_SIREN = "Oh yeah!? I can blow bubbles twice as big! Watch!"
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "My life raft is about to be a dead raft!"

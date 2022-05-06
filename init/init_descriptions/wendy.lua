@@ -343,3 +343,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "Its busted and hollow inside. Only playing dreary tunes."
 	--DESCRIBE.UM_SIREN = "She manipulates her pawns through song. A very potentent ability..."
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "This raft is about to leave me to drown."

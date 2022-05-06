@@ -426,6 +426,9 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Hey! It's carrying off all of our valuables!"
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "Well this seems awfully out of place." --Lame guy. Lame quote.
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I can't retrieve this raft if I drown!"
+	
 	--DESCRIBE.UM_SIREN = "Science says we may be able to \"help\" each other."
 	--WHAT THE FUCK VARIANT
 	--DESCRIBE.UM_SIREN = "Science says she may not be from around here."

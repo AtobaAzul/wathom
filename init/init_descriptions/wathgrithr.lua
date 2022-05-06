@@ -344,3 +344,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
 	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "We live together or drown together, my faithful vessel!"

@@ -350,4 +350,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "You know, I used to be king. Here I am unable to recognize half the stuff I find in these wretched waters."
 	--DESCRIBE.UM_SIREN = "How grotesque. Yet somewhat alluring... hrmpf."
-
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "If I drown, I'm leaving you behind."

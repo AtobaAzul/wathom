@@ -344,4 +344,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WEBBER.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "I want to get closer but he seems weary."
 	--DESCRIBE.UM_SIREN = "Her songs make our head all fuzzy..."
-
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "The raft won't sink, but we will!"

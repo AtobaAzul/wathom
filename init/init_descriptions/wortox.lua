@@ -343,4 +343,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WORTOX.ACTIONFAIL
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "He'll take all our stuff with that pack, get it back!"
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "It plays a tune that could spell our doom. Hyuyu!" --Oh gee oh fuck I'm out of luck!!!!!
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "Pop goes the weasel!"
+	
 	--DESCRIBE.UM_SIREN = "My, is that a siren on the horizon?"

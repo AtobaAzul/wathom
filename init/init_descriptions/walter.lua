@@ -346,4 +346,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Whoa, he could be a great Pinetree Pioneer!"
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "I wonder if Woby can hear its frequency?"
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I'd better find some solid ground before this thing pops!"
+	
+	
+	
 	--DESCRIBE.UM_SIREN = "Woah!! A REAL sea monster!!"

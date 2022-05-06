@@ -350,3 +350,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 	DESCRIBE.WINONA_TOOLBOX = ""
 	DESCRIBE.OCEAN_SPEAKER = "My, not something you'd expect to see all the way out here."
 	--DESCRIBE.UM_SIREN = "My, she appears to carry a very maniuplative frequency."
+	
+	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "We can retrieve this raft, if we can get to shore!"
