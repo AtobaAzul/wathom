@@ -1973,9 +1973,11 @@ local function CheckPlayers(forced)
 					if TheWorld:HasTag("cave") then
 						DoCaveRNE(player)
 					else
-						if TheWorld.state.isfullmoon and self.moontear_available then
-							self.moontear_available = false
-							DoFullMoonRNE(player)--DoFullMoonRNE(v)
+						if TheWorld.state.isfullmoon then
+							if self.moontear_available then
+								self.moontear_available = false
+								DoFullMoonRNE(player)--DoFullMoonRNE(v)
+							end
 						elseif TheWorld.state.isnewmoon then
 							--print("newmoon")
 							DoNewMoonRNE(player)--DoNewMoonRNE(v)
@@ -1989,9 +1991,11 @@ local function CheckPlayers(forced)
 					if TheWorld:HasTag("cave") then
 						DoCaveRNE(player)
 					else
-						if TheWorld.state.isfullmoon and self.moontear_available then
-							self.moontear_available = false
-							DoFullMoonRNE(player)--DoFullMoonRNE(v)
+						if TheWorld.state.isfullmoon then
+							if self.moontear_available then
+								self.moontear_available = false
+								DoFullMoonRNE(player)--DoFullMoonRNE(v)
+							end
 						elseif TheWorld.state.isnewmoon then
 							--print("newmoon")
 							DoNewMoonRNE(player)--DoNewMoonRNE(v)
@@ -2062,6 +2066,7 @@ local function OnSave()
 	return {
 		storedrne = self.storedrne,
 		LastNewMoonRNE = self.LastNewMoonRNE,
+		moontear_available = self.moontear_available,
 	}
 end
 
@@ -2074,6 +2079,10 @@ local function OnLoad(data)
 
 		if data.LastNewMoonRNE ~= nil then
 			self.LastNewMoonRNE = data.LastNewMoonRNE
+		end
+		
+		if data.moontear_available ~= nil then
+			self.moontear_available = data.moontear_available
 		end
 	end
 end

@@ -16,8 +16,14 @@ local function onunequip(inst, owner)
     owner.AnimState:Show("ARM_normal")
 end
 
-local function onattack(inst, attacker, target)
+local function onattack(inst, attacker, target, naughtlock)
     if target ~= nil and target:IsValid() then
+		local naughtlockmult = 1
+		
+		if naughtlock ~= nil then
+			naughtlockmult = 2
+		end
+		
         local chance = TUNING.WHIP_SUPERCRACK_CREATURE_CHANCE
 
         local snap = SpawnPrefab("impact")
@@ -42,7 +48,7 @@ local function onattack(inst, attacker, target)
 			local scalingvalue = hunger * value
 			
 			snap.Transform:SetScale(scalingvalue / 1.25, scalingvalue / 1.25, scalingvalue / 1.25)
-			local damage = (34 / 3) * scalingvalue
+			local damage = ((34 / 3) * scalingvalue) / naughtlockmult
 			
             if target.SoundEmitter ~= nil then
 				target.SoundEmitter:PlaySound("dontstarve/common/whip_small")
@@ -55,7 +61,7 @@ local function onattack(inst, attacker, target)
 			
 			if attacker.components.hunger ~= nil and attacker.components.hunger:GetPercent() > 0 then
 				local burnrate = attacker.components.hunger.burnratemodifiers:Get()
-				attacker.components.hunger:DoDelta(-scalingvalue * burnrate)
+				attacker.components.hunger:DoDelta((-scalingvalue * burnrate) / naughtlockmult)
 			end
 			local uses1 = 1
 			local uses2 = 1
@@ -77,7 +83,9 @@ local function onattack(inst, attacker, target)
 			print("Final Uses = "..uses)
 			print("=======================")
 			
-			inst.components.fueled:DoDelta(-uses)
+			if naughtlock == nil then 
+				inst.components.fueled:DoDelta(-uses)
+			end
         end
     end
 end
