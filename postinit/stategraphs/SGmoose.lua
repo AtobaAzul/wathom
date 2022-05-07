@@ -104,10 +104,6 @@ local states = {
                 
 		end,
 		
-		onupdate = function(inst)
-			ArtificialLocomote(inst,inst.hopPoint,15)
-		end,
-		
 		timeline=
 		{
 			TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("dontstarve_DLC001/creatures/moose/preen") end),
@@ -150,7 +146,7 @@ local states = {
 		end,
 
 		onupdate = function(inst)
-			ArtificialLocomote(inst,inst.hopPoint,10)
+			ArtificialLocomote(inst,inst.hopPoint,15)
 		end,
 
 		events=

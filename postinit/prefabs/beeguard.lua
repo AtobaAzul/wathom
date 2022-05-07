@@ -1,8 +1,6 @@
 local env = env
 GLOBAL.setfenv(1, GLOBAL)
 -----------------------------------------------------------------
-local UpvalueHacker = require("tools/upvaluehacker")
-
 local function MortarAttack(inst)
 	if inst.components.health and not inst.components.health:IsDead() and inst.components.combat and inst.components.combat.target then
 		inst.stabtarget = inst.components.combat.target --This is actually the fallback, we want them to attack the closest target
