@@ -37,6 +37,27 @@ local function FaceTarget(inst)
     end
 end
 
+local function AdjustGuardSpeeds(inst,speed)
+	local soldiers = inst.components.commander:GetAllSoldiers()
+	if #soldiers > 0 then
+		for i, soldier in ipairs(soldiers) do	
+			if soldier.components.health and not soldier.components.health:IsDead() then
+				soldier.chargeSpeed = speed
+			end
+		end
+	end		
+end
+
+local function PutArmyToSleep(inst)
+	local soldiers = inst.components.commander:GetAllSoldiers()
+	if #soldiers > 0 then
+		for i, soldier in ipairs(soldiers) do	
+			if soldier.components.health and not soldier.components.health:IsDead() and soldier.components.sleeper then
+				soldier.components.sleeper:GoToSleep(12)
+			end
+		end
+	end	
+end
 
 env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's called "SGbeequeen" instead of just... beequeen, funky
 local function TrySpawnBigLeak(inst)
@@ -151,6 +172,7 @@ local states = {
         },
 		
         onexit = function(inst)
+			inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
 			inst.components.timer:StartTimer("mortar_atk", 20)
         end,
 		
@@ -158,6 +180,166 @@ local states = {
         {
             CommonHandlers.OnNoSleepAnimOver("idle"),
         },
+
+    },
+	
+    State{
+        name = "command_charge_loop",
+        tags = { "focustarget", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+			AdjustGuardSpeeds(inst,15)
+            inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("command2")
+        end,
+
+        timeline =
+        {
+			--Finish the 1st Charge
+            TimeEvent(14 * FRAMES, DoScreech),
+            TimeEvent(18 * FRAMES, DoScreechAlert),
+            TimeEvent(20 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+				DoScreech(inst)
+				DoScreechAlert(inst)
+				AdjustGuardSpeeds(inst,20)
+				inst:TellSoldiersToCharge(inst)
+            end),
+			
+			
+			--2nd Charge
+            TimeEvent(50 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				--TheNet:Announce("Starting Second")
+				AdjustGuardSpeeds(inst,20)
+				inst.direction2 = "back"
+                inst:CrossChargeRepeat(inst)
+            end),
+            TimeEvent(80 * FRAMES, function(inst)
+				AdjustGuardSpeeds(inst,25)
+				DoScreech(inst)
+				DoScreechAlert(inst)
+                inst:TellSoldiersToCharge(inst)
+				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),
+	
+			--3rd Charge
+            TimeEvent(110 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				--TheNet:Announce("Starting Third")
+				AdjustGuardSpeeds(inst,30)
+				inst.direction2 = "forth"
+                inst:CrossChargeRepeat(inst)
+            end),
+            TimeEvent(140 * FRAMES, function(inst)
+				AdjustGuardSpeeds(inst,30)
+				DoScreech(inst)
+				DoScreechAlert(inst)
+                inst:TellSoldiersToCharge(inst)
+				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),	
+
+			--4th Charge
+            TimeEvent(170 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				--TheNet:Announce("Starting Fourth")
+				inst.direction2 = "back"
+				AdjustGuardSpeeds(inst,30)
+                inst:CrossChargeRepeat(inst)
+            end),
+            TimeEvent(200 * FRAMES, function(inst)
+				AdjustGuardSpeeds(inst,35)
+				DoScreech(inst)
+				DoScreechAlert(inst)
+                inst:TellSoldiersToCharge(inst)
+				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),	
+
+			--5th Charge
+            TimeEvent(230 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				--TheNet:Announce("Starting Fifth")
+				inst.direction2 = "forth"
+				AdjustGuardSpeeds(inst,40)
+                inst:CrossChargeRepeat(inst)
+            end),
+            TimeEvent(250 * FRAMES, function(inst)
+				AdjustGuardSpeeds(inst,35)
+				DoScreech(inst)
+				DoScreechAlert(inst)
+                inst:TellSoldiersToCharge(inst)
+				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),	
+			
+            TimeEvent(280 * FRAMES, function(inst)
+                inst.sg:AddStateTag("caninterrupt")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+				inst.sg:GoToState("tired")
+            end),
+        },
+		
+        onexit = function(inst)
+			inst.components.sanityaura.aura = 0
+			inst:ReleaseArmyFromState(inst)
+			PutArmyToSleep(inst)
+			inst.components.timer:StartTimer("cross_atk", math.random(30,60))
+        end,
+    },
+	
+    State{
+        name = "command_charge_pre",
+        tags = { "focustarget", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("command2")
+        end,
+
+        timeline =
+        {
+            TimeEvent(8 * FRAMES, DoScreech),
+            TimeEvent(9 * FRAMES, DoScreechAlert),
+            TimeEvent(11 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(25 * FRAMES, function(inst)
+                inst.sg:AddStateTag("caninterrupt")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+		
+        onexit = function(inst)
+			inst.components.sanityaura.aura = 0
+			inst.chargeTask = inst:DoPeriodicTask(0.1, function(inst) inst:CheckForReadyCharge(inst) end)
+			--inst.components.timer:StartTimer("mortar_atk", 20)
+        end,
+		
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+
+    },
+	
+    State{
+        name = "tired", --Bee Queen is Tired after rapidly commanding the army
+        tags = {"busy"},
+
+        onenter = function(inst)
+			inst.AnimState:PlayAnimation("sleep_pre")
+			inst.AnimState:PushAnimation("sleep_loop",true)
+			inst.sg:SetTimeout(9)
+        end,
+		
+        ontimeout = function(inst)
+			inst.sg:GoToState("idle")
+        end, 		
 
     },
 }

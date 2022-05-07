@@ -23,10 +23,34 @@ local function MortarAttack(inst)
 	end
 end
 
+
+local function OnHitOther(inst,data)
+	inst.stuckcount = 100
+	local other = data.target
+	if other ~= nil and other.components.inventory ~= nil and inst.armorcrunch == true and not (data.target.sg and data.target.sg:HasStateTag("shell")) then
+		local helm = other.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
+		local chest = other.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
+		local hand = other.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+		if helm ~= nil and helm.components.armor ~= nil then
+			helm.components.armor:TakeDamage(200)
+		end
+		if chest ~= nil and chest.components.armor ~= nil then
+			chest.components.armor:TakeDamage(200)
+		end
+		if hand ~= nil and hand.components.armor ~= nil then
+			hand.components.armor:TakeDamage(200)
+		end
+	end	
+end
+
+
 env.AddPrefabPostInit("beeguard", function(inst)
 	if not TheWorld.ismastersim then
 		return
 	end	
+	inst.chargeSpeed = 15 --This is just the default value.
+	inst.holding = false
 	inst.MortarAttack = MortarAttack
-	--inst:DoTaskInTime(5,function(inst) inst:MortarAttack(inst) end) For testing purposes
+	inst.armorcrunch = false
+	inst:ListenForEvent("onhitother", OnHitOther)
 end)

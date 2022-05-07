@@ -7,6 +7,32 @@ end
 local function StopBuzz(inst)
     inst:EnableBuzz(false)
 end
+
+local function StopCollide(inst)
+	inst.Physics:ClearCollisionMask()
+	inst.Physics:CollidesWith(COLLISION.GROUND)
+end
+
+local function StartCollide(inst)
+	inst.Physics:CollidesWith(COLLISION.FLYERS)
+	inst.Physics:CollidesWith(COLLISION.CHARACTERS)
+end
+
+local function ArtificialLocomote(inst,destination,speed)
+	if destination and speed then
+		speed = speed*FRAMES
+		local hypoten = math.sqrt(inst:GetDistanceSqToPoint(destination))
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local x_final,y_final,z_final
+		
+		x_final = ((destination.x-x)/hypoten)*speed+x
+		z_final = ((destination.z-z)/hypoten)*speed+z
+		
+		inst.Transform:SetPosition(x_final,y,z_final)
+	
+	end
+end
+
 env.AddStategraphPostInit("SGbeeguard", function(inst) --beeguard time
 local events={}
 local states = {
@@ -87,6 +113,7 @@ local states = {
         tags = { "busy", "nosleep", "nofreeze", "attack", "noattack"}, --We don't want the beeguard to try and attack, but we do need to let the game know this is an attacking state.
 
         onenter = function(inst)
+			inst.stuckcount = 0
 			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition()) --I like the effects XD
 			if inst.SoundEmitter:PlayingSound("buzz") then
 				inst.SoundEmitter:KillSound("buzz")
@@ -107,7 +134,6 @@ local states = {
         events=
         {
             EventHandler("animover", function(inst)
-				inst.stuckcount = 0
                 inst.sg:GoToState("stuck")
             end),
         },
@@ -121,9 +147,10 @@ local states = {
 			StartBuzz(inst)
 			inst.SoundEmitter:PlaySound(inst.sounds.hit)
 			inst.components.locomotor:StopMoving()
-            inst.AnimState:PlayAnimation("stuck_loop",false)
 			if inst.stuckcount > 5 then
 				inst.AnimState:PushAnimation("stuck_pst",false)
+			else
+				inst.AnimState:PlayAnimation("stuck_loop",false)
 			end
         end,
 		
@@ -146,6 +173,123 @@ local states = {
             end),
         },
     },
+    State{
+        name = "charge", --CHARGE! Beeguards charge at the player in formation.
+        tags = {"attack","busy","nofreeze","nosleep","noattack","flight","moving"}, --Tags galore...
+
+        onenter = function(inst)
+			inst.armorcrunch = true
+			StopCollide(inst)
+			inst.brain:Stop()
+			inst.components.combat:RestartCooldown()
+			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition()) --I like the effects XD
+			if inst.SoundEmitter:PlayingSound("buzz") then
+				inst.SoundEmitter:KillSound("buzz")
+				inst.SoundEmitter:PlaySound(inst.sounds.buzz, "buzz")
+			end	
+			inst.alreadyStabbed = {}
+			inst.AnimState:PlayAnimation("run_loop",true)
+        end,
+		
+		onupdate = function(inst)
+			inst:ForceFacePoint(inst.chargePoint)
+			ArtificialLocomote(inst,inst.chargePoint,inst.chargeSpeed)
+			local stabbed = FindEntity(inst,1,function(guy) 
+				for i,ent in ipairs(inst.alreadyStabbed) do 
+					if guy == ent then
+						return false
+					end
+				end
+				return true
+			end,
+			{"_combat"},{"bee","shadow"})
+			if stabbed then
+				table.insert(inst.alreadyStabbed,stabbed)
+				if stabbed.components.health and not stabbed.components.health:IsDead() then
+					local mult = (stabbed:HasTag("player") and 2) or 1
+					stabbed.components.combat:GetAttacked(inst,mult*75)
+				end
+			end
+			if inst:GetDistanceSqToPoint(inst.chargePoint) < 1 then
+				inst.holdPoint = inst.chargePoint
+				inst.sg:GoToState("hold_position")
+			end
+		end,
+		
+		onexit = function(inst)
+			StartCollide(inst)
+			inst.brain:Start()
+			inst.armorcrunch = false
+		end,
+		
+    },
+    State{
+        name = "hold_position",	--All this does is make the beeguard stick on a single position after he finishes charging
+        tags = {"busy","nofreeze","nosleep","flight"}, --Tags galore...
+
+        onenter = function(inst)
+			StopCollide(inst)
+			inst.holding = true
+			inst.brain:Stop()
+			inst.components.combat:RestartCooldown()
+			inst.AnimState:PlayAnimation("idle",true)
+			--inst:DoTaskInTime(3,function(inst) inst.sg:GoToState("charge") end) --Temp
+			inst.sg:SetTimeout(5)
+        end,
+		 
+        ontimeout = function(inst)
+			inst.sg:GoToState("idle")
+        end,  	
+		
+		onupdate = function(inst)
+			if inst.components.combat and inst.components.combat.target then
+				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
+			end
+			if inst.holdPoint then
+				inst.Transform:SetPosition(inst.holdPoint.x,inst.holdPoint.y,inst.holdPoint.z)
+			end
+		end,
+		
+        onexit = function(inst)
+			StartCollide(inst)
+			inst.brain:Start()
+			inst.holding = false
+        end,
+    },
+    State{
+        name = "rally_at_point", --Similar to CHARGE but doesn't do damage, bees are just getting ready to charge
+        tags = {"attack","busy","nofreeze","nosleep","noattack","flight","moving"}, --Tags galore...
+
+        onenter = function(inst)
+			StopCollide(inst)
+			inst.brain:Stop()
+			inst.components.combat:RestartCooldown()
+			if inst.SoundEmitter:PlayingSound("buzz") then
+				inst.SoundEmitter:KillSound("buzz")
+				inst.SoundEmitter:PlaySound(inst.sounds.buzz, "buzz")
+			end	
+			inst.AnimState:PlayAnimation("run_loop",true)
+        end,
+		
+		onupdate = function(inst)
+			inst:ForceFacePoint(inst.rallyPoint)
+			ArtificialLocomote(inst,inst.rallyPoint,inst.chargeSpeed)
+			if inst:GetDistanceSqToPoint(inst.rallyPoint) < 1 then
+				inst.holdPoint = inst.rallyPoint
+				inst.sg:GoToState("hold_position")
+			end
+		end,
+		
+		onexit = function(inst)
+			StartCollide(inst)
+			inst.brain:Start()
+			if inst:GetDistanceSqToPoint(inst.rallyPoint) > 1 then
+				--inst:DoTaskInTime(0.05,function(inst) TheNet:Announce("Tried to go to"..inst.sg.currentstate.name) end)
+				inst:DoTaskInTime(0.1,function(inst) 
+				inst.sg:GoToState("rally_at_point") end)
+			end	
+		end,
+	},
 }
 
 	for k, v in pairs(events) do
