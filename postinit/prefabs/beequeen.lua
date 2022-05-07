@@ -221,12 +221,12 @@ local function prepareForCross(inst) --VVe need there to be a certain number of 
 end
 
 local function UM_BQ_Checks(inst,data)
-	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 then
+	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() > 0.5 then
 		inst.sg:GoToState("command_mortar")
 	elseif data.name == "mortar_atk" then
 		inst.components.timer:StartTimer("mortar_atk", 30)
 	end
-	if data.name == "cross_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() > 0.5 then
+	if data.name == "cross_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 then
 		inst.prepareForCross = inst:DoPeriodicTask(4,prepareForCross)
 	elseif data.name =="cross_atk" then
 		inst.components.timer:StartTimer("cross_atk", 30)

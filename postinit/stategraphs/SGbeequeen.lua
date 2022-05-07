@@ -53,7 +53,7 @@ local function PutArmyToSleep(inst)
 	if #soldiers > 0 then
 		for i, soldier in ipairs(soldiers) do	
 			if soldier.components.health and not soldier.components.health:IsDead() and soldier.components.sleeper then
-				soldier.components.sleeper:GoToSleep(12)
+				soldier.components.sleeper:GoToSleep(20)
 			end
 		end
 	end	
