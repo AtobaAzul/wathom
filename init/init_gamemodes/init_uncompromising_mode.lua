@@ -176,10 +176,7 @@ local require = GLOBAL.require
 		modimport("init/init_character_changes/webber")
 		modimport("init/init_character_changes/winona")
 		modimport("init/init_character_changes/wanda")
-		
-	if GetModConfigData("wortox") == true then
 		modimport("init/init_character_changes/wortox")
-	end
 	
 	if GetModConfigData("wormwood") then
 		modimport("init/init_character_changes/wormwood")

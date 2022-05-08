@@ -156,7 +156,19 @@ configuration_options =
 	BinaryConfig("maxhealthwell", "New Maxwell Downside", "Maxwell's max health is reduced by 20% of the damage he takes.", false),
 	BinaryConfig("winonaworker", "Improved Winona", "Winona now scales her work/picking efficiency, and tool/weapon durability, off of her hunger level. Drains hunger when taking actions.", true),
 	BinaryConfig("winona_gen", "Winona-restricted Generators", "Limits access to Winona's Generators to only allow her to use them", true),
-	BinaryConfig("wortox", "Rebalanced Wortox", "Wortox has 150 health instead of 200. A few enemies no longer drop souls.", true),
+		{
+		name = "wortox",
+		label = "Wortox changes",
+		hover = "Wortox has different settings that change his characteristics. \nSHOT- SoulsHealOverTime | Classic- Less Soul Sources, Less Max Health",
+		options =
+		{
+			{description = "SHOT", data = "SHOT"},
+			{description = "Classic", data = "UMNERF"},
+			{description = "Vanilla", data = "off"},
+		},
+		default = "SHOT",
+	},
+	
 	BinaryConfig("wickerbottom", "Wickerbottom Balance", "Wickerbottom/Maxwell can no longer read books while insane.", true),
 	BinaryConfig("on tentacles", "On Tentacles Re-Balance", "On Tentacles now spawns friendly tentacles that die over time, and do not drop tentacle spots.", true),
 	BinaryConfig("applied horticulture", "Horticulture, Abridged recipe Re-Balance", "Horticulture, Abridged now takes 1 Leafy Meat instead of 5 seeds, to better balance it from being too easily spammable early game.", true),

@@ -21,8 +21,8 @@ TUNING = GLOBAL.TUNING
 -- [              DSTU Related Overrides                  ]
 
 --moved outside of tuning.dstu
-if GetModConfigData("wortox") == true then
-TUNING.WORTOX_HEALTH = 150
+if GetModConfigData("wortox") == "UMNERF" then
+	TUNING.WORTOX_HEALTH = 150
 end
 	
 TUNING.DSTU = 
@@ -282,6 +282,9 @@ TUNING.DSTU =
 
     --Wanda
     WANDA_NERF = GetModConfigData("wandanerf"),
+	
+	--Voretox
+	WORTOX = GetModConfigData("wortox"),
 	
 	--Mobs
 	RAIDRAT_HEALTH = 100,
