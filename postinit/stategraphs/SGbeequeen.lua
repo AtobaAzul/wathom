@@ -59,7 +59,34 @@ local function PutArmyToSleep(inst)
 	end	
 end
 
+local function SetSpinSpeed(inst,speed,changeDir)
+	if inst.beeHolder then
+		for i, beeHolder in ipairs(inst.beeHolder) do	
+			beeHolder.components.linearcircler.setspeed = speed
+		end
+	end
+end
+
 env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's called "SGbeequeen" instead of just... beequeen, funky
+
+	local _OldOnExit 
+	if inst.states["spawnguards"].onexit then
+		_OldOnExit = inst.states["spawnguards"].onexit
+	end
+	inst.states["spawnguards"].onexit = function(inst)
+		if inst.mode == "defensive" then
+			inst.AllocatebeeHolders(inst)
+			inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("defensive_spin") end)
+		end
+		if _OldOnExit then
+			_OldOnExit(inst)
+		end
+	end
+
+
+
+
+
 local function TrySpawnBigLeak(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
     local boat = inst:GetCurrentPlatform()
@@ -82,7 +109,7 @@ local events=
 local states = {
     State{
         name = "stomp",
-        tags = { "busy", "nosleep", "nofreeze", "noattack" },
+        tags = { "busy", "nosleep", "nofreeze", "noattack", "ability" },
 
         onenter = function(inst)
 			--inst.brain:Stop()
@@ -105,7 +132,7 @@ local states = {
             TimeEvent(35 * FRAMES, StartFlapping),]]
             CommonHandlers.OnNoSleepTimeEvent(38 * FRAMES, function(inst)
 				local function isvalid(ent)
-					local tags = { "INLIMBO", "epic", "notarget", "invisible", "noattack", "flight", "playerghost", "shadow", "shadowchesspiece", "shadowcreature","bee"}
+					local tags = { "INLIMBO", "epic", "notarget", "invisible", "noattack", "flight", "playerghost", "shadow", "shadowchesspiece", "shadowcreature","bee","beehive"}
 					for i,v in ipairs(tags) do
 						if ent:HasTag(v) then
 							return false
@@ -135,7 +162,7 @@ local states = {
 	
     State{
         name = "command_mortar",
-        tags = { "focustarget", "busy", "nosleep", "nofreeze" },
+        tags = { "focustarget", "busy", "nosleep", "nofreeze", "ability"  },
 
         onenter = function(inst)
             FaceTarget(inst)
@@ -185,7 +212,7 @@ local states = {
 	
     State{
         name = "command_charge_loop",
-        tags = { "focustarget", "busy", "nosleep", "nofreeze" },
+        tags = { "focustarget", "busy", "nosleep", "nofreeze",  "ability"  },
 
         onenter = function(inst)
             FaceTarget(inst)
@@ -218,7 +245,7 @@ local states = {
                 inst:CrossChargeRepeat(inst)
             end),
             TimeEvent(80 * FRAMES, function(inst)
-				AdjustGuardSpeeds(inst,25)
+				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
                 inst:TellSoldiersToCharge(inst)
@@ -229,12 +256,12 @@ local states = {
             TimeEvent(110 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Third")
-				AdjustGuardSpeeds(inst,30)
+				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "forth"
                 inst:CrossChargeRepeat(inst)
             end),
             TimeEvent(140 * FRAMES, function(inst)
-				AdjustGuardSpeeds(inst,30)
+				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
                 inst:TellSoldiersToCharge(inst)
@@ -246,11 +273,11 @@ local states = {
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Fourth")
 				inst.direction2 = "back"
-				AdjustGuardSpeeds(inst,30)
+				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
             TimeEvent(200 * FRAMES, function(inst)
-				AdjustGuardSpeeds(inst,35)
+				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
                 inst:TellSoldiersToCharge(inst)
@@ -262,11 +289,11 @@ local states = {
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Fifth")
 				inst.direction2 = "forth"
-				AdjustGuardSpeeds(inst,40)
+				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
             TimeEvent(250 * FRAMES, function(inst)
-				AdjustGuardSpeeds(inst,35)
+				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
                 inst:TellSoldiersToCharge(inst)
@@ -291,7 +318,7 @@ local states = {
 	
     State{
         name = "command_charge_pre",
-        tags = { "focustarget", "busy", "nosleep", "nofreeze" },
+        tags = { "focustarget", "busy", "nosleep", "nofreeze", "ability"},
 
         onenter = function(inst)
             FaceTarget(inst)
@@ -326,10 +353,64 @@ local states = {
         },
 
     },
+
+    State{
+        name = "defensive_spin",
+        tags = {"busy", "ability" },
+
+        onenter = function(inst)
+			inst.AnimState:PlayAnimation("command1")
+			inst.AnimState:PushAnimation("command2",false)
+			inst.AnimState:PushAnimation("command3",false)
+			inst.AnimState:PushAnimation("command1",false)
+            FaceTarget(inst)
+            inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
+            inst.components.locomotor:StopMoving()
+			inst.spinUp = true
+			inst.spinSpeed = 0.01
+			SetSpinSpeed(inst,inst.spinSpeed)
+        end,
+		
+        timeline =
+        {
+            TimeEvent(8 * FRAMES, DoScreech),
+            TimeEvent(9 * FRAMES, DoScreechAlert),
+            TimeEvent(11 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
+            end),
+        },	
+		
+		onupdate = function(inst)
+			if inst.spinUp == true then
+				inst.spinSpeed = inst.spinSpeed + FRAMES/10
+				if inst.spinSpeed > 0.2 then
+					inst.spinUp = false
+				end
+			elseif inst.spinSpeed > 0 and inst.components.health and inst.components.health:GetPercent() > 0.5 then
+				inst.spinSpeed = inst.spinSpeed - FRAMES/10
+			else
+				inst.spinSpeed = 0
+			end
+			SetSpinSpeed(inst,inst.spinSpeed)
+		end,
+		
+        events=
+        {
+            EventHandler("animqueueover", function(inst)
+				if inst.components.health and inst.components.health:GetPercent() < 0.5 then
+					SetSpinSpeed(inst,0.1)
+				else
+					SetSpinSpeed(inst,0)
+				end
+				inst.components.sanityaura.aura = 0
+                inst.sg:GoToState("idle")
+            end),
+        },
+    },
 	
     State{
         name = "tired", --Bee Queen is Tired after rapidly commanding the army
-        tags = {"busy"},
+        tags = {"busy", "ability" },
 
         onenter = function(inst)
 			inst.AnimState:PlayAnimation("sleep_pre")

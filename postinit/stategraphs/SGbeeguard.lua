@@ -33,6 +33,41 @@ local function ArtificialLocomote(inst,destination,speed)
 	end
 end
 
+local function FindSpotForShadow(target,shadow,distance)
+	local x,y,z = target.Transform:GetWorldPosition()
+	x = x + math.random(-distance,distance)
+	z = z + math.random(-distance,distance)
+	local redo = false
+	local shadows = TheSim:FindEntities(x,y,z,1.5,{"FX"})
+	if shadows then
+		for i,v in ipairs(shadows) do--For later, finding the location vvhere the shadovv should spavvn.
+			if v.prefab == "warningshadow" then
+				redo = true
+			end
+		end
+	end
+	if redo == false then
+		shadow.Transform:SetPosition(x,y,z)
+	else
+		FindSpotForShadow(target,shadow,distance+3)
+	end
+end
+
+
+local function UpdateShadow(inst)
+	if inst.bee then
+		local x,y,z = inst.bee.Transform:GetWorldPosition()
+		if y > 0.5 then
+			local scaleFactor = Lerp(.5, 1.5, y / 35)
+			inst.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
+		else
+			inst:Remove()
+		end
+	else
+		inst:Remove()
+	end
+end
+
 env.AddStategraphPostInit("SGbeeguard", function(inst) --beeguard time
 local events={}
 local states = {
@@ -51,8 +86,8 @@ local states = {
 			inst.components.locomotor:StopMoving()
             inst.AnimState:PlayAnimation("ascend_pre",false)
 			inst.AnimState:PushAnimation("ascend",true)
-			inst.sg.statemem.vel = Vector3(3, 10, 0)
-			inst.maxflyheight = math.random(8,13)
+			inst.sg.statemem.vel = Vector3(3, 15, 0)
+			inst.maxflyheight = math.random(15,20)
         end,
 
 		onupdate = function(inst)
@@ -72,6 +107,7 @@ local states = {
         tags = {"busy", "nosleep", "nofreeze", "noattack","flight"},
 
         onenter = function(inst)
+			StopCollide(inst)
 			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
 			if inst.SoundEmitter:PlayingSound("buzz") then
 				inst.SoundEmitter:KillSound("buzz")
@@ -82,11 +118,19 @@ local states = {
             inst.AnimState:PlayAnimation("stab_pre",false)
 			inst.AnimState:PushAnimation("stab",true)
 			local horizVel = 3
-			local verticalVel = 20
+			local verticalVel = 15
 			if inst.stabtarget then
-				inst:ForceFacePoint(inst.stabtarget:GetPosition())
+				local shadow = SpawnPrefab("warningshadow")
+				FindSpotForShadow(inst.stabtarget,shadow,0) --Aim the shadovv first, the bee aims at the shadovv after that, simple!
+				
+				local scaleFactor = Lerp(.5, 1.5, 1)
+				shadow.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
+				shadow.bee = inst
+				shadow.updatetask = shadow:DoPeriodicTask(FRAMES, UpdateShadow, nil, 5)
+				
+				inst:ForceFacePoint(shadow:GetPosition())
 				local x,y,z = inst.Transform:GetWorldPosition()
-				local x1,y1,z1 = inst.stabtarget.Transform:GetWorldPosition()
+				local x1,y1,z1 = shadow.Transform:GetWorldPosition()
 				local dist = math.sqrt((x-x1)^2+(z-z1)^2)
 				horizVel = dist/(inst.maxflyheight/verticalVel) -- It will be around 0.333 seconds (inst.maxflyheight Length / 25 Length/s) for the bee to reach the ground, so we want to reach the player in this time too! We'll do this by dividing the x-z plane distance between the player and bee by the time the bee should reach the ground.
 			end
@@ -105,6 +149,10 @@ local states = {
 					inst.sg:GoToState("stab")				
 				end
 			end
+		end,
+		
+		onexit = function(inst)
+			StartCollide(inst)
 		end,
     },
 	
@@ -141,7 +189,7 @@ local states = {
 	
     State{
         name = "stuck",
-        tags = {"busy"},
+        tags = {"busy","stuck"},
 
         onenter = function(inst)
 			StartBuzz(inst)
@@ -202,7 +250,7 @@ local states = {
 				end
 				return true
 			end,
-			{"_combat"},{"bee","shadow"})
+			{"_combat"},{"bee","shadow","beehive"})
 			if stabbed then
 				table.insert(inst.alreadyStabbed,stabbed)
 				if stabbed.components.health and not stabbed.components.health:IsDead() then
@@ -257,6 +305,29 @@ local states = {
         end,
     },
     State{
+        name = "hold_position_ring",	--All this does is make the beeguard stick on a single position after he finishes charging
+        tags = {"busy",}, 
+
+        onenter = function(inst)
+			inst.brain:Stop()
+			inst.AnimState:PlayAnimation("idle",true)
+			inst.holding = true
+        end,
+		 
+		onupdate = function(inst)
+			if inst.components.combat and inst.components.combat.target then
+				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
+			end
+			if inst.beeHolder then
+				inst.Transform:SetPosition(inst.beeHolder:GetPosition().x,inst.beeHolder:GetPosition().y,inst.beeHolder:GetPosition().z)
+			end
+		end,
+		
+        onexit = function(inst)
+			inst.holding = false
+        end,
+    },
+    State{
         name = "rally_at_point", --Similar to CHARGE but doesn't do damage, bees are just getting ready to charge
         tags = {"attack","busy","nofreeze","nosleep","noattack","flight","moving"}, --Tags galore...
 
@@ -272,24 +343,74 @@ local states = {
         end,
 		
 		onupdate = function(inst)
-			inst:ForceFacePoint(inst.rallyPoint)
-			ArtificialLocomote(inst,inst.rallyPoint,inst.chargeSpeed)
-			if inst:GetDistanceSqToPoint(inst.rallyPoint) < 1 then
-				inst.holdPoint = inst.rallyPoint
-				inst.sg:GoToState("hold_position")
+			if inst.beeHolder then
+				local position = inst.beeHolder:GetPosition()
+				inst:ForceFacePoint(inst.beeHolder:GetPosition())
+				ArtificialLocomote(inst,position,inst.chargeSpeed)
+				if inst:GetDistanceSqToPoint(position) < 1 then
+					inst.sg:GoToState("hold_position_ring")
+				end			
+			else
+				inst:ForceFacePoint(inst.rallyPoint)
+				ArtificialLocomote(inst,inst.rallyPoint,inst.chargeSpeed)
+				if inst:GetDistanceSqToPoint(inst.rallyPoint) < 1 then
+					inst.holdPoint = inst.rallyPoint
+					inst.sg:GoToState("hold_position")
+				end
 			end
 		end,
 		
 		onexit = function(inst)
 			StartCollide(inst)
 			inst.brain:Start()
-			if inst:GetDistanceSqToPoint(inst.rallyPoint) > 1 then
+			if inst.rallyPoint and inst:GetDistanceSqToPoint(inst.rallyPoint) > 1 then
 				--inst:DoTaskInTime(0.05,function(inst) TheNet:Announce("Tried to go to"..inst.sg.currentstate.name) end)
 				inst:DoTaskInTime(0.1,function(inst) 
 				inst.sg:GoToState("rally_at_point") end)
 			end	
 		end,
 	},
+	
+    State{
+        name = "defensiveattack",
+        tags = { "attack", "busy", "caninterrupt" },
+
+        onenter = function(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("atk")
+            inst.components.combat:StartAttack()
+            inst.sg.statemem.target = inst.components.combat.target
+        end,
+
+        timeline =
+        {
+            TimeEvent(10 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound(inst.sounds.attack)
+            end),
+            TimeEvent(13 * FRAMES, function(inst)
+                inst.components.combat:DoAttack(inst.sg.statemem.target)
+            end),
+            TimeEvent(21 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+            end),
+        },
+
+		onupdate = function(inst)
+			if inst.components.combat and inst.components.combat.target then
+				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
+			end
+			if inst.beeHolder then
+				inst.Transform:SetPosition(inst.beeHolder:GetPosition().x,inst.beeHolder:GetPosition().y,inst.beeHolder:GetPosition().z)
+			end
+		end,
+		
+        events =
+        {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("hold_position_ring")
+            end),
+        },
+    },
 }
 
 	for k, v in pairs(events) do

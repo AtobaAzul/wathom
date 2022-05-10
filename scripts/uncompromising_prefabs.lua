@@ -317,6 +317,7 @@ return {
 	"sludgestack",
 	"sludge_sack",
 	"sludge_patch",
+	"beequeen_beering",
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",

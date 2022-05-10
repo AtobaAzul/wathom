@@ -221,15 +221,101 @@ local function prepareForCross(inst) --VVe need there to be a certain number of 
 end
 
 local function UM_BQ_Checks(inst,data)
-	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() > 0.5 then
+	if data.name == "mortar_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() > 0.5 and inst.mode == "aggressive" then
 		inst.sg:GoToState("command_mortar")
 	elseif data.name == "mortar_atk" then
-		inst.components.timer:StartTimer("mortar_atk", 30)
+		inst.components.timer:StartTimer("mortar_atk", 20)
 	end
-	if data.name == "cross_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 then
+	if data.name == "cross_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 and inst.mode == "aggressive" then
 		inst.prepareForCross = inst:DoPeriodicTask(4,prepareForCross)
 	elseif data.name =="cross_atk" then
 		inst.components.timer:StartTimer("cross_atk", 30)
+	end
+end
+
+local function SpawnbeeHolder(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local LIMIT = 4
+	inst.beeHolder = {}
+	for i = 1,8 do
+		inst.beeHolder[i] = SpawnPrefab("beequeen_beering")
+		inst.beeHolder[i].WINDSTAFF_CASTER = inst
+		inst.beeHolder[i].components.linearcircler:SetCircleTarget(inst)
+		inst.beeHolder[i].components.linearcircler:Start()
+		inst.beeHolder[i].components.linearcircler.randAng = i*0.125/1.5
+		inst.beeHolder[i].components.linearcircler.clockwise = false
+		inst.beeHolder[i].components.linearcircler.distance_limit = LIMIT
+		inst.beeHolder[i].components.linearcircler.setspeed = 0
+	end
+end
+
+local function ReleasebeeHolders(inst)
+	local soldiers = inst.components.commander:GetAllSoldiers()
+	if #soldiers > 0 then
+		for i, soldier in ipairs(soldiers) do
+			if soldier.components.health and not soldier.components.health:IsDead() then
+				soldier:BeeFree(soldier)
+			end
+		end
+	end
+	for i,beeHolder in ipairs(inst.beeHolder) do
+		if beeHolder.bee then
+			beeHolder.bee = nil
+		end
+	end
+end
+
+local function AllocatebeeHolders(inst)
+	local soldiers = inst.components.commander:GetAllSoldiers()
+	if #soldiers > 0 then
+		for i, soldier in ipairs(soldiers) do
+			--TheNet:Announce("i = "..i)
+			--print("i = "..i)
+			if soldier.components.health and not soldier.components.health:IsDead() and not soldier.notGuarding then
+				if soldier.beeHolder == nil then
+					for j,v in ipairs(inst.beeHolder) do
+						--TheNet:Announce("j = "..j)
+						--print("j = "..j)
+						if v.bee == nil and soldier.beeHolder == nil then
+							--print("ALLOCATED")
+							v.bee = soldier
+							soldier.beeHolder = v
+							soldier:BeeHold(soldier)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+local function ModeChange(inst)
+	if inst.components.health and not inst.components.health:IsDead() then
+		local soldier_is_stuck = false -- Are my soldiers pinned?????
+		local soldiers = inst.components.commander:GetAllSoldiers()
+		if #soldiers > 0 then
+			for i, soldier in ipairs(soldiers) do
+				if soldier.components.health and not soldier.components.health:IsDead() and soldier.sg:HasStateTag("stuck") then
+					soldier_is_stuck = true
+				end
+			end
+		end
+		if inst.sg:HasStateTag("ability") or inst.sg:HasStateTag("sleep") or inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("attack") or soldier_is_stuck == true then
+			inst:DoTaskInTime(1,ModeChange) --If I'm super busy then mode change after I'm done.
+		else
+			if inst.mode == "aggressive" then
+				inst.mode = "defensive"
+				inst.sg:GoToState("spawnguards")
+			elseif	inst.mode == "defensive" then
+				ReleasebeeHolders(inst)
+				inst.mode = "aggressive"
+				if inst.components.health:GetPercent() > 0.5 then
+					inst.sg:GoToState("command_mortar")
+				else
+					inst.prepareForCross = inst:DoPeriodicTask(4,prepareForCross)
+				end
+			end
+		end
 	end
 end
 
@@ -270,13 +356,19 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst.CheckForReadyCharge = CheckForReadyCharge
 	inst.CrossChargeRepeat = CrossChargeRepeat
 	inst.ReleaseArmyFromState = ReleaseArmyFromState
+	inst.AllocatebeeHolders = AllocatebeeHolders
+	
 	
 	-- No more honey when attacking
 	local OnMissOther = UpvalueHacker.GetUpvalue(Prefabs.beequeen.fn, "OnMissOther")
 	local OnAttackOther = UpvalueHacker.GetUpvalue(Prefabs.beequeen.fn, "OnAttackOther")
     inst:RemoveEventCallback("onattackother", OnAttackOther)
     inst:RemoveEventCallback("onmissother", OnMissOther)
-
+	
+	inst:DoTaskInTime(0,SpawnbeeHolder)
+	--inst:DoTaskInTime(10,AllocatebeeHolders)
+	inst.mode = "aggressive"
+	inst:DoPeriodicTask(math.random(40,60),ModeChange)
 end)
 
 local function OnTagTimer(inst, data)

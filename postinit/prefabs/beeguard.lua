@@ -41,6 +41,40 @@ local function OnHitOther(inst,data)
 	end	
 end
 
+local function DefensiveTask(inst)
+	if inst:GetDistanceSqToInst(inst.beeHolder) > 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
+		inst.sg:GoToState("rally_at_point")
+	end
+	if inst:GetDistanceSqToInst(inst.beeHolder) < 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
+		local target = FindEntity(inst,TUNING.BEEGUARD_ATTACK_RANGE^2,nil,{"_combat"},{"playerghost","bee","beehive"})
+		if inst.components.combat then
+			if target then
+				inst.components.combat:SuggestTarget(target)
+				inst.sg:GoToState("defensiveattack")
+			end
+			if inst.components.combat.target then
+				inst:ForceFacePoint(inst.components.combat.target.Transform:GetWorldPosition())
+			end
+		end
+	end
+end
+
+local function BeeFree(inst)
+	if inst.defensiveTask then
+		inst.beeHolder = nil
+		inst.defensiveTask:Cancel()
+		inst.defensiveTask = nil
+		inst.brain:Start()
+		inst.rallyPoint = nil
+		inst.chargePoint = nil
+	end
+end
+
+local function BeeHold(inst)
+	if inst.beeHolder then
+		inst.defensiveTask = inst:DoPeriodicTask(FRAMES,DefensiveTask)
+	end
+end
 
 env.AddPrefabPostInit("beeguard", function(inst)
 	if not TheWorld.ismastersim then
@@ -49,6 +83,8 @@ env.AddPrefabPostInit("beeguard", function(inst)
 	inst.chargeSpeed = 15 --This is just the default value.
 	inst.holding = false
 	inst.MortarAttack = MortarAttack
+	inst.BeeHold = BeeHold
+	inst.BeeFree = BeeFree
 	inst.armorcrunch = false
 	inst:ListenForEvent("onhitother", OnHitOther)
 end)
