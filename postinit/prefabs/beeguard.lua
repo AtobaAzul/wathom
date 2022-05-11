@@ -82,6 +82,12 @@ local function BeeHold(inst)
 	end
 end
 
+local function IHaveDied(inst)
+	if inst.beeHolder then
+		inst.beeHolder.bee = nil
+	end
+end
+
 env.AddPrefabPostInit("beeguard", function(inst)
 	if not TheWorld.ismastersim then
 		return
@@ -93,4 +99,5 @@ env.AddPrefabPostInit("beeguard", function(inst)
 	inst.BeeFree = BeeFree
 	inst.armorcrunch = false
 	inst:ListenForEvent("onhitother", OnHitOther)
+	inst:ListenForEvent("ondeath",IHaveDied)
 end)

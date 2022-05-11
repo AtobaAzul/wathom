@@ -318,6 +318,7 @@ return {
 	"sludge_sack",
 	"sludge_patch",
 	"beequeen_beering",
+	"siren_bubble",
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",
