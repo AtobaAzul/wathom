@@ -18,7 +18,11 @@ end)
 
 local function StompHandler(inst,data)
 	--TheNet:Announce(inst.stomprage)
-	inst.stomprage = inst.stomprage + 0.25
+	if inst.mode == "aggressive" then
+		inst.stomprage = inst.stomprage + 0.25
+	else
+		inst.stomprage = inst.stomprage + 2
+	end
 	if data.attacker ~= nil and inst.stompready then
 		if inst.components.combat.target ~= nil then
 			if data.attacker ~= inst.components.combat.target then
@@ -200,8 +204,9 @@ local function CrossCharge(inst)
 				soldier.rallyPoint = pt
 				soldier.chargePoint = pt2
 
- 
-				soldier.sg:GoToState("rally_at_point")
+				if soldier.components.health and not soldier.components.health:IsDead() then
+					soldier.sg:GoToState("rally_at_point")
+				end
 			end  
 		end
 	end
@@ -229,7 +234,12 @@ local function UM_BQ_Checks(inst,data)
 	if data.name == "cross_atk" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 and inst.mode == "aggressive" then
 		inst.prepareForCross = inst:DoPeriodicTask(4,prepareForCross)
 	elseif data.name =="cross_atk" then
-		inst.components.timer:StartTimer("cross_atk", 30)
+		inst.components.timer:StartTimer("cross_atk", 20)
+	end
+	if data.name == "spin_bees" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent()  and inst.mode == "defensive" then
+		inst.sg:GoToState("defensive_spin")
+	elseif data.name =="spin_bees" then
+		inst.components.timer:StartTimer("spin_bees", 20)		
 	end
 end
 
@@ -310,8 +320,14 @@ local function ModeChange(inst)
 				ReleasebeeHolders(inst)
 				inst.mode = "aggressive"
 				if inst.components.health:GetPercent() > 0.5 then
+					if inst.components.timer:TimerExists("mortar_atk") then
+						inst.components.timer:StopTimer("mortar_atk")
+					end
 					inst.sg:GoToState("command_mortar")
 				else
+					if inst.components.timer:TimerExists("cross_atk") then
+						inst.components.timer:StopTimer("cross_atk")
+					end
 					inst.prepareForCross = inst:DoPeriodicTask(4,prepareForCross)
 				end
 			end
@@ -346,7 +362,9 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	
 	inst.components.timer:StartTimer("mortar_atk", 15)
 	
-	inst.components.timer:StartTimer("cross_atk", 10)
+	inst.components.timer:StartTimer("cross_atk", 15)
+	
+	inst.components.timer:StartTimer("spin_bees", 15)
 	
 	inst:ListenForEvent("timerdone", UM_BQ_Checks)
 	
@@ -368,7 +386,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst:DoTaskInTime(0,SpawnbeeHolder)
 	--inst:DoTaskInTime(10,AllocatebeeHolders)
 	inst.mode = "aggressive"
-	inst:DoPeriodicTask(math.random(40,60),ModeChange)
+	inst:DoPeriodicTask(math.random(20,20),ModeChange)
 end)
 
 local function OnTagTimer(inst, data)

@@ -121,7 +121,6 @@ local states = {
 			inst.AnimState:PushAnimation("stomp",false)
             inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/enter")
             inst.sg.mem.wantstoscreech = true
-			inst.components.locomotor:WalkForward()
         end,
 
         timeline =
@@ -182,7 +181,6 @@ local states = {
                 inst.sg.mem.wantstofocustarget = nil
                 inst.sg.mem.focuscount = 0
                 inst.sg.mem.focustargets = nil
-                inst.components.timer:StartTimer("focustarget_cd", inst.focustarget_cd)
 
                 local soldiers = inst.components.commander:GetAllSoldiers()
                 if #soldiers > 0 and inst.components.combat and inst.components.combat.target then
@@ -199,7 +197,7 @@ local states = {
         },
 		
         onexit = function(inst)
-			inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
+			inst.components.sanityaura.aura = 0
 			inst.components.timer:StartTimer("mortar_atk", 20)
         end,
 		
@@ -226,8 +224,8 @@ local states = {
         {
 			--Finish the 1st Charge
             TimeEvent(14 * FRAMES, DoScreech),
-            TimeEvent(18 * FRAMES, DoScreechAlert),
-            TimeEvent(20 * FRAMES, function(inst)
+            TimeEvent(20 * FRAMES, DoScreechAlert),
+            TimeEvent(30 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -237,14 +235,14 @@ local states = {
 			
 			
 			--2nd Charge
-            TimeEvent(50 * FRAMES, function(inst)
+            TimeEvent(70 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Second")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "back"
                 inst:CrossChargeRepeat(inst)
             end),
-            TimeEvent(80 * FRAMES, function(inst)
+            TimeEvent(100 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -253,14 +251,14 @@ local states = {
             end),
 	
 			--3rd Charge
-            TimeEvent(110 * FRAMES, function(inst)
+            TimeEvent(130 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Third")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "forth"
                 inst:CrossChargeRepeat(inst)
             end),
-            TimeEvent(140 * FRAMES, function(inst)
+            TimeEvent(170 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -269,14 +267,14 @@ local states = {
             end),	
 
 			--4th Charge
-            TimeEvent(170 * FRAMES, function(inst)
+            TimeEvent(200 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Fourth")
 				inst.direction2 = "back"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
-            TimeEvent(200 * FRAMES, function(inst)
+            TimeEvent(230 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -285,14 +283,14 @@ local states = {
             end),	
 
 			--5th Charge
-            TimeEvent(230 * FRAMES, function(inst)
+            TimeEvent(270 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Fifth")
 				inst.direction2 = "forth"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
-            TimeEvent(250 * FRAMES, function(inst)
+            TimeEvent(300 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -300,7 +298,7 @@ local states = {
 				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
             end),	
 			
-            TimeEvent(280 * FRAMES, function(inst)
+            TimeEvent(350 * FRAMES, function(inst)
                 inst.sg:AddStateTag("caninterrupt")
                 inst.sg:RemoveStateTag("nosleep")
                 inst.sg:RemoveStateTag("nofreeze")
@@ -312,7 +310,7 @@ local states = {
 			inst.components.sanityaura.aura = 0
 			inst:ReleaseArmyFromState(inst)
 			PutArmyToSleep(inst)
-			inst.components.timer:StartTimer("cross_atk", math.random(30,60))
+			inst.components.timer:StartTimer("cross_atk", math.random(40,60))
         end,
     },
 	
@@ -359,10 +357,11 @@ local states = {
         tags = {"busy", "ability" },
 
         onenter = function(inst)
+			if inst.components.timer:TimerExists("spin_bees") then
+				inst.components.timer:StopTimer("spin_bees")
+			end
 			inst.AnimState:PlayAnimation("command1")
-			inst.AnimState:PushAnimation("command2",false)
 			inst.AnimState:PushAnimation("command3",false)
-			inst.AnimState:PushAnimation("command1",false)
             FaceTarget(inst)
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
@@ -398,10 +397,11 @@ local states = {
         {
             EventHandler("animqueueover", function(inst)
 				if inst.components.health and inst.components.health:GetPercent() < 0.5 then
-					SetSpinSpeed(inst,0.1)
+					SetSpinSpeed(inst,0.05)
 				else
 					SetSpinSpeed(inst,0)
 				end
+				inst.components.timer:StartTimer("spin_bees",15)
 				inst.components.sanityaura.aura = 0
                 inst.sg:GoToState("idle")
             end),

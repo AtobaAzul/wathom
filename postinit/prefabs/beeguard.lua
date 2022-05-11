@@ -42,12 +42,12 @@ local function OnHitOther(inst,data)
 end
 
 local function DefensiveTask(inst)
-	if inst:GetDistanceSqToInst(inst.beeHolder) > 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
+	if inst:GetDistanceSqToInst(inst.beeHolder) > 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) and inst.components.health and not inst.components.health:IsDead()  then
 		inst.sg:GoToState("rally_at_point")
 	end
 	if inst:GetDistanceSqToInst(inst.beeHolder) < 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
 		local target = FindEntity(inst,TUNING.BEEGUARD_ATTACK_RANGE^2,nil,{"_combat"},{"playerghost","bee","beehive"})
-		if inst.components.combat then
+		if inst.components.combat and inst.components.health and not inst.components.health:IsDead() then
 			if target then
 				inst.components.combat:SuggestTarget(target)
 				inst.sg:GoToState("defensiveattack")
@@ -61,13 +61,19 @@ end
 
 local function BeeFree(inst)
 	if inst.defensiveTask then
-		inst.beeHolder = nil
 		inst.defensiveTask:Cancel()
 		inst.defensiveTask = nil
-		inst.brain:Start()
-		inst.rallyPoint = nil
-		inst.chargePoint = nil
 	end
+	inst.beeHolder = nil
+	inst.rallyPoint = nil
+	inst.chargePoint = nil
+	inst.brain:Start()
+	if inst.components.health and not inst.components.health:IsDead() then
+		inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("idle") end)
+	end
+	local x,y,z = inst.Transform:GetWorldPosition()
+	inst.entity:SetParent(nil)
+	inst.Transform:SetPosition(x,y,z)
 end
 
 local function BeeHold(inst)

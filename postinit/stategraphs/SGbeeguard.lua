@@ -73,7 +73,7 @@ local events={}
 local states = {
     State{
         name = "flyup",
-        tags = {"busy", "nosleep", "nofreeze", "noattack","flight"},
+        tags = {"busy", "nosleep", "nofreeze", "noattack","flight","mortar"},
 
         onenter = function(inst)
 			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
@@ -104,7 +104,7 @@ local states = {
 	
     State{
         name = "flydown",
-        tags = {"busy", "nosleep", "nofreeze", "noattack","flight"},
+        tags = {"busy", "nosleep", "nofreeze", "noattack","flight","mortar"},
 
         onenter = function(inst)
 			StopCollide(inst)
@@ -182,6 +182,7 @@ local states = {
         events=
         {
             EventHandler("animover", function(inst)
+				StopCollide(inst)
                 inst.sg:GoToState("stuck")
             end),
         },
@@ -213,6 +214,7 @@ local states = {
         {
             EventHandler("animqueueover", function(inst)
 				if inst.stuckcount > 5 then
+					StartCollide(inst)
 					inst.sg:GoToState("idle")
 				else
 					inst.stuckcount = inst.stuckcount + 1
@@ -290,9 +292,6 @@ local states = {
         end,  	
 		
 		onupdate = function(inst)
-			if inst.components.combat and inst.components.combat.target then
-				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
-			end
 			if inst.holdPoint then
 				inst.Transform:SetPosition(inst.holdPoint.x,inst.holdPoint.y,inst.holdPoint.z)
 			end
@@ -310,20 +309,23 @@ local states = {
 
         onenter = function(inst)
 			inst.brain:Stop()
+			StopCollide(inst)
 			inst.AnimState:PlayAnimation("idle",true)
 			inst.holding = true
         end,
 		 
 		onupdate = function(inst)
-			if inst.components.combat and inst.components.combat.target then
+			--[[if inst.components.combat and inst.components.combat.target then
 				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
-			end
-			if inst.beeHolder then
-				inst.Transform:SetPosition(inst.beeHolder:GetPosition().x,inst.beeHolder:GetPosition().y,inst.beeHolder:GetPosition().z)
+			end]]
+			local queen = inst.components.entitytracker:GetEntity("queen")
+			if inst.beeHolder and inst.beeHolder:GetPosition() and queen and math.sqrt(queen:GetDistanceSqToInst(inst.beeHolder)) < 20 then
+				inst.Transform:SetPosition(inst.beeHolder:GetPosition().x,inst.beeHolder:GetPosition().y,inst.beeHolder:GetPosition().z)	
 			end
 		end,
 		
         onexit = function(inst)
+			StartCollide(inst)
 			inst.holding = false
         end,
     },
@@ -353,7 +355,7 @@ local states = {
 			else
 				inst:ForceFacePoint(inst.rallyPoint)
 				ArtificialLocomote(inst,inst.rallyPoint,inst.chargeSpeed)
-				if inst:GetDistanceSqToPoint(inst.rallyPoint) < 1 then
+				if inst.rallyPoint and inst:GetDistanceSqToPoint(inst.rallyPoint) and inst:GetDistanceSqToPoint(inst.rallyPoint) < 1 then
 					inst.holdPoint = inst.rallyPoint
 					inst.sg:GoToState("hold_position")
 				end
@@ -400,7 +402,8 @@ local states = {
 				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
 			end
 			if inst.beeHolder then
-				inst.Transform:SetPosition(inst.beeHolder:GetPosition().x,inst.beeHolder:GetPosition().y,inst.beeHolder:GetPosition().z)
+				local x,y,z = inst.beeHolder.Transform:GetWorldPosition()
+				inst.Transform:SetPosition(x,y,z)
 			end
 		end,
 		
