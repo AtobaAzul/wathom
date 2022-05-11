@@ -1960,10 +1960,10 @@ local function FoodScoreCalculations(inst,container,v)
 		if IsAVersionOfRot(v) then
 			delta = ((5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("stale") and v.components.farmplantable ~= nil then
+		if v:HasTag("stale") and v.components.farmplantable ~= nil and TUNING.DSTU.SEEDCHECK then
 			delta = ((1.5 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("spoiled") and v.components.farmplantable ~= nil then
+		if v:HasTag("spoiled") and v.components.farmplantable ~= nil and TUNING.DSTU.SEEDCHECK then
 			delta = ((3 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
 	else
@@ -1979,10 +1979,10 @@ local function FoodScoreCalculations(inst,container,v)
 		if IsAVersionOfRot(v) then
 			delta = ((15 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("stale") and v.components.farmplantable ~= nil then
+		if v:HasTag("stale") and v.components.farmplantable ~= nil and TUNING.DSTU.SEEDCHECK then
 			delta = ((3 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
-		if v:HasTag("spoiled") and v.components.farmplantable ~= nil then
+		if v:HasTag("spoiled") and v.components.farmplantable ~= nil and TUNING.DSTU.SEEDCHECK then
 			delta = ((6 * inst.preparedmultiplier) * inst.multiplier) * SmellProtection(v,container)
 		end
 	end
