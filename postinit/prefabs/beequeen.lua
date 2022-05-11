@@ -23,10 +23,9 @@ local function StompHandler(inst,data)
 	else
 		inst.stomprage = inst.stomprage + 2
 	end
-	if data.attacker ~= nil and data.attacker.components.combat and not data.attacker and inst.stompready then
+	if data.attacker and data.attacker.components.combat and inst.stompready then
 		if inst.components.combat.target ~= nil then
 			if data.attacker ~= inst.components.combat.target then
-				--TheNet:Announce("Was attacked by multiple things")
 				inst.stomprage = inst.stomprage + 1
 			end
 		end
@@ -386,7 +385,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst:DoTaskInTime(0,SpawnbeeHolder)
 	--inst:DoTaskInTime(10,AllocatebeeHolders)
 	inst.mode = "aggressive"
-	inst:DoPeriodicTask(math.random(20,20),ModeChange)
+	inst:DoPeriodicTask(math.random(40,60),ModeChange)
 end)
 
 local function OnTagTimer(inst, data)
