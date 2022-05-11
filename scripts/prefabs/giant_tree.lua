@@ -2,13 +2,13 @@ require "prefabutil"
 
 local assets =
 {
-	Asset("ANIM", "anim/giant_tree.zip"),
+	Asset("ANIM", "anim/giant_tree1.zip"),
 	Asset("ANIM", "anim/giant_tree2.zip"),
-	Asset("ANIM", "anim/giant_tree_infested.zip"),
+	Asset("ANIM", "anim/giant_tree1_infested.zip"),
 }
 local CANOPY_SHADOW_DATA = require("prefabs/canopyshadows")
 
------------------Nabbed canopy code
+-----------------------------Canopy and Lightning Handling
 local DROP_ITEMS_DIST_MIN = 6
 local DROP_ITEMS_DIST_VARIANCE = 10
 
@@ -108,7 +108,11 @@ local function OnLightningStrike(inst)
 
     inst._lightning_drop_task = inst:DoTaskInTime(20*FRAMES, DropLightningItems, items_to_drop)
 end
---------------------------
+-----------------------------
+
+
+
+-----------------------------Chop Loot Tables
 local choploots = 
 {
 	oceantree_leaf_fx_fall = 4,
@@ -132,7 +136,9 @@ local infestedloots =
 	oceantree_leaf_fx_fall = 0.5,
 	log = 0.5,
 }
+-----------------------------
 
+----------------------------- Debris Handling
 local QUAKEDEBRIS_CANT_TAGS = { "quakedebris" }
 local QUAKEDEBRIS_ONEOF_TAGS = { "INLIMBO" }
 local SMASHABLE_TAGS = { "smashable", "_combat" }
@@ -248,24 +254,15 @@ local function GetDebris(loottable)
 	return loot
 end
 
+
 local function SpawnDebris(inst,chopper,loottable)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	if math.random() < 0.5 then
-		if math.random() < 0.5 then
-			x = x + math.random(2,5)
-		else
-			x = x - math.random(2,5)
-		end
-		z = z + math.random(-5,5)
-	else --This prevents the loot from spawning directly at the tree
-		if math.random() < 0.5 then
-			z = z + math.random(2,5)
-		else
-			z = z - math.random(2,5)
-		end
-		x = x + math.random(-5,5)
-	end
 	
+	local radius = math.random(2.5,5)
+	local angle = math.random(0,2*PI)
+	x = x + radius*math.sin(angle)
+	z = z + radius*math.cos(angle)
+
 	local prefab = GetDebris(loottable)
     if prefab ~= nil and prefab ~= "oceantree_leaf_fx_fall" then
         local debris = SpawnPrefab(prefab)
@@ -318,8 +315,43 @@ local function SpawnDebris(inst,chopper,loottable)
 		end)
 	end
 end
+-----------------------------
 
 
+-----------------------------Infest Handlers
+local function InfestMe(inst)
+	inst:AddTag("infestedtree")
+    inst:AddComponent("childspawner")
+    inst.components.childspawner.childname = "aphid"
+    inst.components.childspawner:SetRegenPeriod(TUNING.SPIDERDEN_REGEN_TIME)
+    inst.components.childspawner:SetSpawnPeriod(TUNING.SPIDERDEN_RELEASE_TIME)
+    inst.components.childspawner.allowboats = true
+	inst.infested = true
+	inst:PickBank(inst)
+end
+
+local function UnInfestMe(inst)
+	inst:RemoveTag("infestedtree")
+	inst:RemoveComponent("childspawner")
+	inst.infested = false
+	inst:PickBank(inst)
+end
+
+local function InfestedInit(inst)
+	if inst.infested and inst.infested == true then
+		inst:AddTag("infestedtree")
+		inst:AddComponent("childspawner")
+		inst.components.childspawner.childname = "aphid"
+		inst.components.childspawner:SetRegenPeriod(TUNING.SPIDERDEN_REGEN_TIME)
+		inst.components.childspawner:SetSpawnPeriod(TUNING.SPIDERDEN_RELEASE_TIME)
+		inst.components.childspawner.allowboats = true
+	else
+		inst.infested = false
+	end
+end
+-----------------------------
+
+-----------------------------VVorkable handling
 local function on_chop(inst, chopper, remaining_chops)
     if not (chopper ~= nil and chopper:HasTag("playerghost")) then
         inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")
@@ -361,6 +393,7 @@ local function on_chop(inst, chopper, remaining_chops)
 		if remaining_chops == 0 or remaining_chops < 0 then
 			phase = 4
 		end			
+		TheNet:Announce("I told nevv anim")
 		inst.AnimState:PlayAnimation("damaged-"..phase,true)	
 	end
 end
@@ -387,22 +420,19 @@ local function on_chopped_down(inst, chopper)
 		inst.SoundEmitter:PlaySound("dontstarve/forest/appear_wood")
 		inst.SoundEmitter:PlaySound("dontstarve/forest/treeCrumble",nil,.4)
 		inst:RemoveComponent("workable")
-		inst.AnimState:PlayAnimation("damaged-4")
 		BringTheForestDown(inst,chopper)--!
-	if inst:HasTag("infestedtree") then
-		local newtree = SpawnPrefab("giant_tree")
-		newtree:AddTag("midgame")
-		newtree.Transform:SetPosition(inst.Transform:GetWorldPosition())
-		newtree:RemoveComponent("workable")
-		newtree.AnimState:PlayAnimation("damaged-4")
-		newtree.components.timer:StartTimer("regrow", 3840)
-		inst:Remove()
-	end
+		if inst:HasTag("infestedtree") then
+			UnInfestMe(inst)
+			inst:RemoveComponent("workable")
+		end
+		inst.AnimState:PlayAnimation("damaged-4")
 		inst.components.timer:StartTimer("regrow", 3840)
 	end
 end
---Workable Stuff^
+-----------------------------
 
+
+-----------------------------Regrovvth Timer Handler
 local function Regrow(inst, data)
 	if data.name == "regrow" then
 		inst.chopped = false
@@ -414,39 +444,15 @@ local function Regrow(inst, data)
 		inst.AnimState:PlayAnimation("damaged-0")
 	end
 	if data.name == "infest" then
-		local newtree = SpawnPrefab("giant_tree_infested")
-		newtree:AddTag("midgame")
-		newtree.Transform:SetPosition(inst.Transform:GetWorldPosition())
-		inst:Remove()
+		InfestMe(inst)
 	end
 end
+-----------------------------
 
-local function onsave(inst, data)
-	data.previouschops = inst.previouschops
-	data.chopped = inst.chopped
-end
 
-local function onload(inst,data)
-	if data then
-		inst.previouschops = data.previouschops
-		if data.chopped == true then
-			inst:RemoveComponent("workable")
-		end
-	else
-		inst.previouschops = 25
-	end
-	if inst.components.workable ~= nil and inst.components.workable:CanBeWorked() then
-		inst.AnimState:PlayAnimation("damaged-0")
-	else
-		inst.AnimState:PlayAnimation("damaged-4")
-	end
-end
-
+-----------------------------Spavvner Handling
 local function StartSpawning(inst)
-    if inst.components.childspawner ~= nil and
-        not (inst.components.freezable ~= nil and
-            inst.components.freezable:IsFrozen()) and
-        not TheWorld.state.isnight then
+    if inst.components.childspawner then
         inst.components.childspawner:StartSpawning()
     end
 end
@@ -465,12 +471,72 @@ local function OnIsNight(inst, isnight)
     end
 end
 
-local function OnInit(inst)
+local function SpawnerInit(inst)
     inst:WatchWorldState("isnight", OnIsNight)
     OnIsNight(inst, TheWorld.state.isnight)
 end
+-----------------------------
 
-local function makefn(infested)
+
+----------------------------- Animation Handling
+local function PickType(inst)
+	inst.bankType = math.random(1,1) --RN only have 1 type
+end
+
+local function PickBank(inst)
+	local bank
+	if inst.bankType then
+		bank = "giant_tree"..inst.bankType
+		if inst.infested == true then
+			bank = bank.."_infested"
+		end
+		inst.AnimState:SetBank(bank)
+		inst.AnimState:SetBuild(bank)
+		inst.AnimState:PlayAnimation("damaged-0")
+	else
+		PickType(inst)
+		PickBank(inst)
+	end
+end
+-----------------------------
+
+
+---------------------------------- Saving and loading 
+local function onsave(inst, data)
+	data.previouschops = inst.previouschops
+	data.chopped = inst.chopped
+	data.bankType = inst.bankType
+	data.infested = inst.infested
+end
+
+local function onload(inst,data)
+	if data then
+		inst.previouschops = data.previouschops
+		if data.chopped == true then
+			inst:RemoveComponent("workable")
+		end
+		if data.bankType then
+			inst.bankType = data.bankType
+		end
+		if data.infested then
+			inst.infested = data.infested
+		end
+	else
+		inst.previouschops = 25
+	end
+	if inst.components.workable and inst.components.workable:CanBeWorked() then
+		inst.AnimState:PlayAnimation("damaged-0")
+	else
+		inst.AnimState:PlayAnimation("damaged-4")
+	end
+end
+----------------------------------
+
+----------------------------------
+--Glorious Tree Main Function GTMF
+----------------------------------
+
+local function giant_treefn()
     local inst = CreateEntity()
 	inst.entity:AddTransform()
     inst.entity:AddAnimState()
@@ -483,24 +549,11 @@ local function makefn(infested)
     inst.MiniMapEntity:SetPriority(-1)
     MakeObstaclePhysics(inst, 2.35)
 	
-	local bank
-	if infested == true then
-		bank = "giant_tree_infested"
-	else
-		if math.random() > 0.5 then --Temp
-			bank = "giant_tree"
-		else
-			bank = "giant_tree2"
-		end
-	end
-	
-    inst.AnimState:SetBank(bank)
-    inst.AnimState:SetBuild(bank)
-    inst.AnimState:PlayAnimation("damaged-0", true)
 
 	inst:AddTag("tree")
 	inst:AddTag("giant_tree")
 	inst:AddTag("shadecanopysmall")
+	
     if not TheNet:IsDedicated() then
         inst:AddComponent("distancefade")
         inst.components.distancefade:Setup(15,25)
@@ -523,6 +576,7 @@ local function makefn(infested)
     if not TheWorld.ismastersim then        
         return inst
     end
+	inst:DoTaskInTime(0,PickBank)
 	----------------------------------	
 	inst:AddComponent("workable")
 	inst.components.workable:SetWorkAction(ACTIONS.CHOP)
@@ -539,31 +593,39 @@ local function makefn(infested)
 	inst.partchops = 0
 	inst.OnSave = onsave
 	inst.OnLoad = onload
-		
-		
 	inst:AddComponent("lightningblocker")
 	inst.components.lightningblocker:SetBlockRange(TUNING.SHADE_CANOPY_RANGE_SMALL)
 	inst.components.lightningblocker:SetOnLightningStrike(OnLightningStrike)
 	
-	if infested == true then
-		inst:DoTaskInTime(0, OnInit)	
-		inst:AddTag("infestedtree")
-        inst:AddComponent("childspawner")
-        inst.components.childspawner.childname = "aphid"
-        inst.components.childspawner:SetRegenPeriod(TUNING.SPIDERDEN_REGEN_TIME)
-        inst.components.childspawner:SetSpawnPeriod(TUNING.SPIDERDEN_RELEASE_TIME)
-        inst.components.childspawner.allowboats = true
-	end
+	inst:DoTaskInTime(0, SpawnerInit)
+	inst:DoTaskInTime(0, InfestedInit)
+	
+	inst.PickBank = PickBank
+
 	return inst
 end
 
-local function gianttreefn()
-	return makefn(false)
+local function MakeInfestedTree_gen(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local infested_tree = SpawnPrefab("giant_tree")
+	infested_tree.Transform:SetPosition(x,y,z)
+	infested_tree.infested = true
 end
 
 local function infestedfn()
-	return makefn(true)
+    local inst = CreateEntity()
+	inst.entity:AddTransform()
+    inst.entity:AddNetwork()
+	
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then        
+        return inst
+    end
+	
+	inst:DoTaskInTime(0,MakeInfestedTree_gen)
+	return inst
 end
 
-return Prefab("giant_tree", gianttreefn, assets),
+return Prefab("giant_tree", giant_treefn, assets),
 	Prefab("giant_tree_infested", infestedfn, assets)
