@@ -352,3 +352,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 	--DESCRIBE.UM_SIREN = "My, she appears to carry a very maniuplative frequency."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "We can retrieve this raft, if we can get to shore!"
+
+	ACTIONFAIL.CHARGE_FROM =
+	{
+		NOT_ENOUGH_CHARGE = "test",
+		CHARGE_FULL = "test",
+	}

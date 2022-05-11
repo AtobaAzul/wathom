@@ -349,3 +349,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	--DESCRIBE.UM_SIREN = "Heh, she certainly knows how to run her workplace."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "This thing is about to pack up and leave me sinking!"
+
+	ACTIONFAIL.CHARGE_FROM =
+	{
+		NOT_ENOUGH_CHARGE = "It's outta juice!",
+		CHARGE_FULL = "It's fully charged!",
+	}

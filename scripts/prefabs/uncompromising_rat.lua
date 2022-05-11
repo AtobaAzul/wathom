@@ -2055,12 +2055,13 @@ local function TimeForACheckUp(inst,dev)
 							inst.foodscore = inst.foodscore + ((15 * inst.preparedmultiplier) * inst.multiplier)
 						end
 					end
-	]]
-					if not (v:HasTag("balloon") or v:HasTag("heavy") or v:HasTag("projectile")) then
-						if (v:HasTag("_equippable") or v:HasTag("gem") or v:HasTag("tool"))  then
-							inst.itemscore = inst.itemscore + 30 -- Oooh, wants wants! We steal!
-						elseif v:HasTag("molebait") then
-							inst.itemscore = inst.itemscore + 2 -- Oooh, wants wants! We steal!
+	]]				if TUNING.DSTU.ITEMCHECK then
+						if not (v:HasTag("balloon") or v:HasTag("heavy") or v:HasTag("projectile") or v.prefab == "lantern") then
+							if (v:HasTag("_equippable") or v:HasTag("gem") or v:HasTag("tool"))  then
+								inst.itemscore = inst.itemscore + 30 -- Oooh, wants wants! We steal!
+							elseif v:HasTag("molebait") then
+								inst.itemscore = inst.itemscore + 2 -- Oooh, wants wants! We steal!
+							end
 						end
 					end
 				end

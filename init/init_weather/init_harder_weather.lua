@@ -41,8 +41,9 @@ env.AddPrefabPostInit("cave", function(inst)
     if not TheWorld.ismastersim then
         return
     end
-    
+    if TUNING.DSTU.CAVECLOPS then
     inst:AddComponent("cavedeerclopsspawner")
+	end
     inst:AddComponent("randomnighteventscaves")
 	inst:AddComponent("ratacombs_junk_manager")
 end)
@@ -97,13 +98,13 @@ env.AddPrefabPostInit("forest", function(inst)
 	inst:AddComponent("toadrain")
 	--inst:AddComponent("hayfever_tracker")
 	inst:AddComponent("firefallwarning")
-	
 	inst:RemoveComponent("deerclopsspawner")
 
 	
 	
 	
 	inst:AddComponent("uncompromising_deerclopsspawner")
+
 	inst:AddComponent("pollenmitedenspawner")
 	--inst:ListenForEvent("seasontick", OnSeasonTick)
 	if TUNING.DSTU.SNOWSTORMS then

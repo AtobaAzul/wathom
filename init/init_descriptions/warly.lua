@@ -346,3 +346,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 	--DESCRIBE.UM_SIREN = "Apologies Mademoiselle Wigfrid, but it is the supperior singer."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "Don't pack up and leave me to the sea!"
+
+	ACTIONFAIL.CHARGE_FROM =
+	{
+		NOT_ENOUGH_CHARGE = "test",
+		CHARGE_FULL = "test",
+	}

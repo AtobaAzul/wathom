@@ -346,3 +346,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "We live together or drown together, my faithful vessel!"
+
+	ACTIONFAIL.CHARGE_FROM =
+	{
+		NOT_ENOUGH_CHARGE = "test",
+		CHARGE_FULL = "test",
+	}
