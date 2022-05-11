@@ -23,7 +23,7 @@ local function StompHandler(inst,data)
 	else
 		inst.stomprage = inst.stomprage + 2
 	end
-	if data.attacker ~= nil and inst.stompready then
+	if data.attacker ~= nil and data.attacker.components.combat and not data.attacker and inst.stompready then
 		if inst.components.combat.target ~= nil then
 			if data.attacker ~= inst.components.combat.target then
 				--TheNet:Announce("Was attacked by multiple things")
