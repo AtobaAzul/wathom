@@ -385,6 +385,13 @@ TUNING.DSTU =
     HOODEDFOREST = GetModConfigData("hoodedforest"),
     GHOSTWALRUS = GetModConfigData("ghostwalrus"),
     WINONA_GEN = GetModConfigData("winona_gen"),
+    RICE = GetModConfigData("rice"),
+    NEWRECIPES = GetModConfigData("newrecipes"),
+    CAVECLOPS = GetModConfigData("caveclops"),
+    HOTCAVES = GetModConfigData("hotcaves"),
+    ITEMCHECK = GetModConfigData("itemcheck"),
+
+
 --boss hp qol
     BEEQUEEN_HEALTH = GetModConfigData("bee queen health"),
     TOADSTOOL_HEALTH = GetModConfigData("toadstool health"),
