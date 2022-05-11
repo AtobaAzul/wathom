@@ -346,3 +346,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOODIE.ACTIONFAIL
 	--DESCRIBE.UM_SIREN = "Not half bad lookin' for an ocean critter, eh?"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I'm going to lose my gear if I don't get to shore!"
+
+	ACTIONFAIL.CHARGE_FROM =
+	{
+		NOT_ENOUGH_CHARGE = "test",
+		CHARGE_FULL = "test",
+	}
