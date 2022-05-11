@@ -6,12 +6,6 @@ local function beering_fn()
     inst.entity:AddNetwork()
 	inst.entity:AddLight()
 	inst.entity:AddDynamicShadow()
-	
-	
-
-	
-    MakeInventoryPhysics(inst)
-    RemovePhysicsColliders(inst)
 
     inst.entity:SetPristine()
 
