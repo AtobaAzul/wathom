@@ -1,6 +1,10 @@
+local assets = {
+	Asset("ANIM", "anim/siren_bubble.zip"),
+}
+
 local function Pop(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local ents = TheSim:FindEntities(x,y,z,1.5,{"_health"},{"siren"})
+	local ents = TheSim:FindEntities(x,y,z,2,{"_health"},{"siren"})
 	for i,v in ipairs(ents) do
 		if not v.components.health:IsDead() and v.components.combat then
 			v.components.combat:GetAttacked(inst,20)
@@ -11,9 +15,9 @@ end
 local function ShouldPop(inst)
 	if FindEntity(inst,2,nil,{"_combat"}) then
 		inst.popping = true
-		inst.AnimState:PushAnimation("rumble",false)
-		inst.AnimState:PushAnimation("explode",false)
-		inst:DoTaskInTime(0.7,Pop)
+		inst.AnimState:PushAnimation("disappear",false)
+		inst.AnimState:PushAnimation("blast",false)
+		inst:DoTaskInTime(0.5,Pop)
 		inst:ListenForEvent("animqueueover",function(inst) inst:Remove() end)
 	end
 end
@@ -99,10 +103,10 @@ local function Locomotion(inst)
 end
 
 local function OnUpdate(inst)
-	if inst.target then
+	if inst.target and inst.target.components.health and not inst.target.components.health:IsDead() then
 		Locomotion(inst)
-	else
-		inst.targetTask = inst:DoPeriodicTask(3,FindTarget)
+	elseif not inst.targetTask then
+		inst.targetTask = inst:DoPeriodicTask(1,FindTarget)
 	end
 	if not inst.popping then
 		ShouldPop(inst)
@@ -134,10 +138,9 @@ local function fn()
         return inst
     end
 	
-    inst.AnimState:SetBank("spore_moon")
-    inst.AnimState:SetBuild("mushroom_spore_moon")
-    inst.AnimState:PlayAnimation("cough_out",false)
-	inst.AnimState:PlayAnimation("idle_flight_loop",true)
+    inst.AnimState:SetBank("siren_bubble")
+    inst.AnimState:SetBuild("siren_bubble")
+	inst.AnimState:PlayAnimation("idle_loop",true)
 	
 	inst.target = nil
 	inst.persists = false
@@ -147,4 +150,4 @@ local function fn()
     return inst
 end
 
-return Prefab("siren_bubble", fn)
+return Prefab("siren_bubble", fn, assets)
