@@ -81,6 +81,7 @@ local function fn(bank, build, anim, minimap, isbackground)
     end]]
 	inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
 	inst.Transform:SetScale(1.2,1.2,1.2)
+	inst.AnimState:SetLayer(LAYER_BACKGROUND)
 	
     --[[if TheNet:GetServerIsClientHosted() and not (TheShard:IsMaster() or TheShard:IsSecondary()) then
         --On non-sharded servers we'll make these vanish for now, but still generate them

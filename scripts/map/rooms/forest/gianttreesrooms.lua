@@ -224,11 +224,11 @@ AddRoom("QuestionableDecisions",
 	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
-			distributepercent = 0.3,
+			distributepercent = 0.7,
 			distributeprefabs =
 			{
 				giant_tree = 0.01,
-				hooded_fern = 0.5,
+				hooded_fern = 20,
 				lightrays_canopy = 0.25,
 			},
 			countstaticlayouts={["cave_entrance_lush"]=1},

@@ -393,7 +393,7 @@ local function on_chop(inst, chopper, remaining_chops)
 		if remaining_chops == 0 or remaining_chops < 0 then
 			phase = 4
 		end			
-		TheNet:Announce("I told nevv anim")
+		--TheNet:Announce("I told nevv anim")
 		inst.AnimState:PlayAnimation("damaged-"..phase,true)	
 	end
 end
