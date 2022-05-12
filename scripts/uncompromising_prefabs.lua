@@ -319,6 +319,8 @@ return {
 	"sludge_patch",
 	"beequeen_beering",
 	"siren_bubble",
+	"cave_entrance_lush",
+	"uncompromising_rocks",
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",

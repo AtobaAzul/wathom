@@ -1,3 +1,10 @@
+require "map/room_functions"
+
+local Layouts = require ("map/layouts").Layouts
+local StaticLayout = require ("map/static_layout")
+
+Layouts["cave_entrance_lush"] = StaticLayout.Get("map/static_layouts/cave_entrance_lush")
+
 AddRoom("GiantTrees", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
@@ -210,6 +217,26 @@ AddRoom("MoonBaseGiantTrees", {
 					                },
 					            }
 					})
+AddRoom("QuestionableDecisions", 
+{
+	colour = {r=1,g=1,b=1,a=.50}, 
+	value = GROUND.HOODEDFOREST,
+	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
+	contents =  
+	{	
+			distributepercent = 0.3,
+			distributeprefabs =
+			{
+				giant_tree = 0.01,
+				hooded_fern = 0.5,
+				lightrays_canopy = 0.25,
+			},
+			countstaticlayouts={["cave_entrance_lush"]=1},
+			countprefabs =	
+			{
+			giant_tree = function () return 1 + math.random(0,1) end,
+			},
+}})
 AddRoom("HoodedTown", {
 					colour={r=.8,g=0.5,b=.6,a=.50},
 					value = GROUND.HOODEDFOREST,
