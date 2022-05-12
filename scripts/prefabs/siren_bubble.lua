@@ -1,13 +1,20 @@
 local function Pop(inst)
-
-	inst:Remove()
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local ents = TheSim:FindEntities(x,y,z,1.5,{"_health"},{"siren"})
+	for i,v in ipairs(ents) do
+		if not v.components.health:IsDead() and v.components.combat then
+			v.components.combat:GetAttacked(inst,20)
+		end
+	end
 end
 
 local function ShouldPop(inst)
 	if FindEntity(inst,2,nil,{"_combat"}) then
-		--inst.AnimState:PushAnimation("rumble",false)
+		inst.popping = true
+		inst.AnimState:PushAnimation("rumble",false)
 		inst.AnimState:PushAnimation("explode",false)
-		inst:ListenForEvent("animover",Pop)
+		inst:DoTaskInTime(0.7,Pop)
+		inst:ListenForEvent("animqueueover",function(inst) inst:Remove() end)
 	end
 end
 
@@ -22,24 +29,72 @@ local function FindTarget(inst)
 	end
 end
 
-local function Locomotion(inst)
-	if inst.target then
-		local x_t,y_t,z_t = inst.target.Transform:GetWorldPosition()
+local function ArtificialLocomote(inst,destination,speed)
+	if destination and speed then
+		speed = speed*FRAMES
+		local hypoten = math.sqrt(inst:GetDistanceSqToPoint(destination))
 		local x,y,z = inst.Transform:GetWorldPosition()
-		if math.abs(x-x_t) > math.abs(z-z_t) then
-			if x > x_t then
-				inst:ForceFacePoint(x-1,y,z)
-			else
-				inst:ForceFacePoint(x+1,y,z)
-			end
+		local x_final,y_final,z_final
+		
+		x_final = ((destination.x-x)/hypoten)*speed+x
+		z_final = ((destination.z-z)/hypoten)*speed+z
+		
+		inst.Transform:SetPosition(x_final,y,z_final)
+	
+	end
+end
+
+local function PointCalc_x(inst)
+	local x = inst:GetPosition().x
+	local x_target = inst.target:GetPosition().x
+	if math.abs(x_target - x) < 0.5 then
+		inst.direction = "z"
+	else
+		inst.targetPoint = inst:GetPosition()
+		if (x_target - x) > 0 then
+			inst.targetPoint.x = inst.targetPoint.x + 4
 		else
-			if z > z_t then
-				inst:ForceFacePoint(x,y,z-1)
-			else
-				inst:ForceFacePoint(x,y,z+1)
-			end
+			inst.targetPoint.x = inst.targetPoint.x - 4
 		end
-		inst.components.locomotor:WalkForward()
+	end
+end
+
+local function PointCalc_z(inst)
+	local z = inst:GetPosition().z
+	local z_target = inst.target:GetPosition().z
+	if math.abs(z_target - z) < 0.5 then
+		inst.direction = "x"
+	else
+		inst.targetPoint = inst:GetPosition()
+		if z_target - z > 0 then
+			inst.targetPoint.z = inst.targetPoint.z + 4
+		else
+			inst.targetPoint.z = inst.targetPoint.z - 4
+		end
+	end
+end
+
+
+local function PickDirection(inst)
+	if math.abs(inst:GetPosition().x - inst.target:GetPosition().x) > math.abs(inst:GetPosition().z - inst.target:GetPosition().z) then
+		inst.direction = "z"
+	else
+		inst.direction = "x"
+	end
+end
+
+local function Locomotion(inst)
+	if inst.direction then
+		if inst.direction == "x" then
+			PointCalc_x(inst)
+		else
+			PointCalc_z(inst)
+		end
+		if inst.targetPoint then
+			ArtificialLocomote(inst,inst.targetPoint,2)
+		end
+	else
+		PickDirection(inst)
 	end
 end
 
@@ -49,7 +104,9 @@ local function OnUpdate(inst)
 	else
 		inst.targetTask = inst:DoPeriodicTask(3,FindTarget)
 	end
-	ShouldPop(inst)
+	if not inst.popping then
+		ShouldPop(inst)
+	end
 end
 
 local function fn()
@@ -81,9 +138,6 @@ local function fn()
     inst.AnimState:SetBuild("mushroom_spore_moon")
     inst.AnimState:PlayAnimation("cough_out",false)
 	inst.AnimState:PlayAnimation("idle_flight_loop",true)
-
-    inst:AddComponent("locomotor")
-	inst.components.locomotor.walkspeed = TUNING.BAT_WALK_SPEED/4
 	
 	inst.target = nil
 	inst.persists = false
