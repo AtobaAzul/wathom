@@ -23,7 +23,8 @@ local component_post = {
 	"ambientsound",
 	"foodaffinity",
 	"eater",
-	"edible"
+	"edible",
+	"inventory" -- This is an attempt at manually fixing an issue when people are checked for insulation. -scrimbles
 }
 
 local prefab_post = {
