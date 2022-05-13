@@ -319,6 +319,7 @@ return {
 	"sludge_patch",
 	"beequeen_beering",
 	"siren_bubble",
+	"siren_debrisbarrier",
 	"cave_entrance_lush",
 	"uncompromising_rocks",
 	
