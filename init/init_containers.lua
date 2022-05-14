@@ -303,6 +303,7 @@ end
 
 modparams.skullchest = containers.params.shadowchester
 modparams.winkyburrow = containers.params.shadowchester
+modparams.uncompromising_devcapture = containers.params.shadowchester
 
 local old_wsetup = containers.widgetsetup
 

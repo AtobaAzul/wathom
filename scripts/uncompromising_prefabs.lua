@@ -322,6 +322,8 @@ return {
 	"siren_debrisbarrier",
 	"cave_entrance_lush",
 	"uncompromising_rocks",
+	"uncompromising_superspawner",
+	"uncompromising_devcapture",
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",
