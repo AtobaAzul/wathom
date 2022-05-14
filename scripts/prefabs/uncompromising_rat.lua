@@ -1021,7 +1021,7 @@ local function MakeRatBurrow(inst)
 	local x, y, z = inst.Transform:GetWorldPosition()
 
     local function IsValidRatBurrowPosition(x, z)
-        if #TheSim:FindEntities(x, 0, z, TUNING.ANTLION_SINKHOLE.RADIUS, { "antlion_sinkhole_blocker" }) > 0 then
+        if #TheSim:FindEntities(x, 0, z, TUNING.ANTLION_SINKHOLE.RADIUS * 2, { "antlion_sinkhole_blocker" }) > 0 then
             return false
         end
 		
@@ -1272,7 +1272,7 @@ local function MakeScoutBurrow(inst)
 	local x, y, z = inst.Transform:GetWorldPosition()
 
     local function IsValidRatBurrowPosition(x, z)
-        if #TheSim:FindEntities(x, 0, z, TUNING.ANTLION_SINKHOLE.RADIUS, { "antlion_sinkhole_blocker" }) > 0 then
+        if #TheSim:FindEntities(x, 0, z, TUNING.ANTLION_SINKHOLE.RADIUS * 2, { "antlion_sinkhole_blocker" }) > 0 then
             return false
         end
 		
