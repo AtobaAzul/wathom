@@ -822,4 +822,5 @@ Assets = {
 	--under the weather--
 	Asset("ANIM", "anim/speaker_test.zip"),
 	Asset("ANIM", "anim/sunken_royalchest.zip"),
+    Asset("ANIM", "anim/crabapple_tree_build.zip"),
 }

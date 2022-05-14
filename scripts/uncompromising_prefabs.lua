@@ -324,6 +324,11 @@ return {
 	"uncompromising_rocks",
 	"uncompromising_superspawner",
 	"uncompromising_devcapture",
+	"crab_apple_plant",
+	"driftwood_waterlogged",
+	"kelpstack",
+	"sirenstack",
+	"spider_crabbit_den",
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",

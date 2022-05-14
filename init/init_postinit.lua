@@ -180,7 +180,6 @@ local brain_post = {
 	"perd",
 	"catcoon",
 	"deer",
-	"leif",
 }
 
 if GetModConfigData("hangyperds") then
@@ -210,6 +209,7 @@ if GetModConfigData("harder_leifs") then
 table.insert(stategraph_post,"Leif")
 table.insert(prefab_post,"leif")
 table.insert(prefab_post,"leif_sparse")
+table.insert(brain_post, "leif")
 end
 
 if GetModConfigData("rework_minotaur_") --[[and not GetModConfigData("beta_compatibility")]] then
