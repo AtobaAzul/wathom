@@ -391,7 +391,7 @@ configuration_options =
 	},
 	BinaryConfig("buttmuffin", "Butter Muffin Buff", "Butter muffin restores 30 health 10 sanity instead of 20 health 5 sanity.", true),
 	BinaryConfig("icecreambuff", "Ice Cream Buff", "Ice Cream now restores 100 sanity, but does it slowly.", true),
-	BinaryConfig("farmfoodredux", "Farmpot Food Redux", "Reallocates most dishes that involve crockpot foods. Typically a buff, but may exchange some stats.", true),
+	BinaryConfig("farmfoodredux", "Farmplot Food Redux", "Reallocates most dishes that involve crockpot foods. Typically a buff, but may exchange some stats.", true),
 
 	SkipSpace(),
 	Header("General Food Tweaks"),
@@ -448,7 +448,7 @@ configuration_options =
 	Header("Wave Changes"),
 	BinaryConfig("lategamehoundspread", "Descreased Lategame Frequency", "Enabling this decreases the frequency in the lategame so hounds are still a threat, but not annoying.", true),
 
-	BinaryConfig("vargwaves", "Vargs in Hound Waves", "In the lategame, vargs will accompany hounds in houndwaves.", true),
+	--[[BinaryConfig("vargwaves", "Vargs in Hound Waves", "In the lategame, vargs will accompany hounds in houndwaves.", true),
 	{
 		name = "vargwaves grace",
 		label = "Varg Grace Period.",
@@ -485,7 +485,7 @@ configuration_options =
 			{description = "30 days", data = 30},
 		},
 		default = 15,
-	},
+	},]]
 
 	SkipSpace(),
 	Header("New Depths Worms"),
