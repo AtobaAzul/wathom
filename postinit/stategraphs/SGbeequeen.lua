@@ -82,10 +82,20 @@ env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's ca
 			_OldOnExit(inst)
 		end
 	end
+	
+	local _OldOnEnter
+	if inst.states["flyaway"].onenter then
+		_OldOnEnter = inst.states["flyaway"].onenter
+	end
 
-
-
-
+	inst.states["flyaway"].onenter = function(inst)
+		for i,v in ipairs(inst.beeHolder) do
+			v:Remove()
+		end
+		if _OldOnEnter then
+			_OldOnEnter(inst)
+		end
+	end
 
 local function TrySpawnBigLeak(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
@@ -161,7 +171,7 @@ local states = {
 	
     State{
         name = "command_mortar",
-        tags = { "focustarget", "busy", "nosleep", "nofreeze", "ability"  },
+        tags = { "busy", "nosleep", "nofreeze", "ability"  },
 
         onenter = function(inst)
             FaceTarget(inst)
@@ -179,8 +189,6 @@ local states = {
             end),
             TimeEvent(18 * FRAMES, function(inst)
                 inst.sg.mem.wantstofocustarget = nil
-                inst.sg.mem.focuscount = 0
-                inst.sg.mem.focustargets = nil
 
                 local soldiers = inst.components.commander:GetAllSoldiers()
                 if #soldiers > 0 and inst.components.combat and inst.components.combat.target then
@@ -210,7 +218,7 @@ local states = {
 	
     State{
         name = "command_charge_loop",
-        tags = { "focustarget", "busy", "nosleep", "nofreeze",  "ability"  },
+        tags = { "busy", "nosleep", "nofreeze",  "ability"  },
 
         onenter = function(inst)
             FaceTarget(inst)
@@ -316,7 +324,7 @@ local states = {
 	
     State{
         name = "command_charge_pre",
-        tags = { "focustarget", "busy", "nosleep", "nofreeze", "ability"},
+        tags = {"busy", "nosleep", "nofreeze", "ability"},
 
         onenter = function(inst)
             FaceTarget(inst)
@@ -393,16 +401,20 @@ local states = {
 			SetSpinSpeed(inst,inst.spinSpeed)
 		end,
 		
+		
+		onexit = function(inst)
+			if inst.components.health and inst.components.health:GetPercent() < 0.5 then
+				SetSpinSpeed(inst,0.05)--spinnning vvhile moving makes bees disappear
+			else
+				SetSpinSpeed(inst,0)
+			end
+			inst.components.timer:StartTimer("spin_bees",15)
+			inst.components.sanityaura.aura = 0		
+		end,
+		
         events=
         {
             EventHandler("animqueueover", function(inst)
-				if inst.components.health and inst.components.health:GetPercent() < 0.5 then
-					SetSpinSpeed(inst,0)--spinnning vvhile moving makes bees disappear
-				else
-					SetSpinSpeed(inst,0)
-				end
-				inst.components.timer:StartTimer("spin_bees",15)
-				inst.components.sanityaura.aura = 0
                 inst.sg:GoToState("idle")
             end),
         },
