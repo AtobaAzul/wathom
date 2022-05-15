@@ -397,6 +397,9 @@ TUNING.DSTU =
     TOADSTOOL_HEALTH = GetModConfigData("toadstool health"),
     TWIN1_HEALTH = GetModConfigData("twins health"),
     TWIN2_HEALTH = GetModConfigData("twins health"),
+
+    --mod compat
+    ISLAND_ADVENTURES = GLOBAL.KnownModIndex("1467214795"),
 }
 
 TUNING.NO_BOSS_TIME = 24
