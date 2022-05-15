@@ -3,6 +3,7 @@ require "prefabutil"
 local assets =
 {
 	Asset("ANIM", "anim/giant_tree1.zip"),
+	Asset("ANIM", "anim/giant_tree_damaged1.zip"),
 	Asset("ANIM", "anim/giant_tree2.zip"),
 	Asset("ANIM", "anim/giant_tree1_infested.zip"),
 }
@@ -394,7 +395,7 @@ local function on_chop(inst, chopper, remaining_chops)
 			phase = 4
 		end			
 		--TheNet:Announce("I told nevv anim")
-		inst.AnimState:PlayAnimation("damaged-"..phase,true)	
+		--inst.AnimState:PlayAnimation("damaged-"..phase,true)	
 	end
 end
 
@@ -425,7 +426,8 @@ local function on_chopped_down(inst, chopper)
 			UnInfestMe(inst)
 			inst:RemoveComponent("workable")
 		end
-		inst.AnimState:PlayAnimation("damaged-4")
+		inst.AnimState:SetBuild("giant_tree_damaged"..inst.bankType)
+		inst.AnimState:PlayAnimation("damaged-0")
 		inst.components.timer:StartTimer("regrow", 3840)
 	end
 end
@@ -487,6 +489,11 @@ local function PickBank(inst)
 	local bank
 	if inst.bankType then
 		bank = "giant_tree"..inst.bankType
+		if inst.components.workable then
+			bank = "giant_tree"..inst.bankType
+		else
+			bank = "giant_tree_damaged"..inst.bankType
+		end
 		if inst.infested == true then
 			bank = bank.."_infested"
 		end
@@ -527,7 +534,8 @@ local function onload(inst,data)
 	if inst.components.workable and inst.components.workable:CanBeWorked() then
 		inst.AnimState:PlayAnimation("damaged-0")
 	else
-		inst.AnimState:PlayAnimation("damaged-4")
+		inst.AnimState:SetBuild("giant_tree_damaged"..inst.bankType)
+		inst.AnimState:PlayAnimation("damaged-0")
 	end
 end
 ----------------------------------
