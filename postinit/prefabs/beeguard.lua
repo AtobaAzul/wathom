@@ -100,4 +100,17 @@ env.AddPrefabPostInit("beeguard", function(inst)
 	inst.armorcrunch = false
 	inst:ListenForEvent("onhitother", OnHitOther)
 	inst:ListenForEvent("ondeath",IHaveDied)
+	
+	local _FocusTarget = inst.FocusTarget
+	
+	local function FocusTarget(inst,target)
+		TheNet:Announce("triedfocus")
+		if inst.beeHolder == nil then
+			TheNet:Announce("nobeeHolder")
+			_FocusTarget(inst,target)
+		end
+	end
+	
+	inst.FocusTarget = FocusTarget
+	
 end)
