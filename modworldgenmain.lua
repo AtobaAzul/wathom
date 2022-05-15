@@ -305,13 +305,13 @@ LOCKS["HF"] = lockcount + 1
 LOCKS_KEYS[LOCKS.RICE] = {KEYS.RICE}
 LOCKS_KEYS[LOCKS.HF] = {KEYS.HF}
 
-if GetModConfigData("rice") and TUNING.DSTU.ISLAND_ADVENTURES then
+if GetModConfigData("rice") and not GLOBAL.TUNING.DSTU.ISLAND_ADVENTURES then
 	AddTaskPreInit("Squeltch",function(task)
 		task.room_choices["ricepatch"] = 1 --Comment to test task based rice worldgen
 		task.room_choices["densericepatch"] = 1      --Comment to test task based rice worldgen
 	end)
 end
-if GetModConfigData("hoodedforest") and TUNING.DSTU.ISLAND_ADVENTURES then
+if GetModConfigData("hoodedforest") and not GLOBAL.TUNING.DSTU.ISLAND_ADVENTURES then
 GLOBAL.require("map/tasks/gianttrees")
 end
 --[[GLOBAL.require("map/tasks/ratacombs")
@@ -334,7 +334,7 @@ else
 	end)
 end]]
 
-if GetModConfigData("hoodedforest") and TUNING.DSTU.ISLAND_ADVENTURES then
+if GetModConfigData("hoodedforest") and not GLOBAL.TUNING.DSTU.ISLAND_ADVENTURES then
 	AddTaskPreInit("Forest hunters",function(task) --Leave Forest Hunters in incase someone adds something to its setpieces.
 		task.room_choices={
 			["Forest"] = 1,
@@ -387,7 +387,7 @@ AddTaskSetPreInitAny(function(tasksetdata)
     if tasksetdata.location ~= "forest" then
         return
     end
-	if GetModConfigData("hoodedforest") and TUNING.DSTU.ISLAND_ADVENTURES then
+	if GetModConfigData("hoodedforest") and not GLOBAL.TUNING.DSTU.ISLAND_ADVENTURES then
 		table.insert(tasksetdata.tasks,"GiantTrees")
 	end
 	if GetModConfigData("rice") then
@@ -442,7 +442,7 @@ Layouts["RatLockBlocker1"] =
 							scale = 0.1,
 }
 
-if GetModConfigData("hoodedforest") and TUNING.DSTU.ISLAND_ADVENTURES then
+if GetModConfigData("hoodedforest") and not GLOBAL.TUNING.DSTU.ISLAND_ADVENTURES then
 	AddRoomPreInit("HoodedTown", function(room)
 		if not room.contents.countstaticlayouts then
 			room.contents.countstaticlayouts = {}
