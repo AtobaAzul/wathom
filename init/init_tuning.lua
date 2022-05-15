@@ -445,3 +445,7 @@ TUNING.SHARK.DAMAGE = 50 / 3
 TUNING.MESSAGEBOTTLE_NOTE_CHANCE = 0.66
 
 -- [              DST Related Overrides                  ]
+
+if TUNING.DSTU.ISLAND_ADVENTURES then --IA check just in case...
+    TUNING.DSTU.RNE_CHANCE = 100 --rnes probably would be funky with the water.
+end
