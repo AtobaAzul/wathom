@@ -57,7 +57,14 @@ local function Capture(inst)
 		local vx = px-x
 		local vy = py-y
 		local vz = pz-z
-		totaltable = totaltable.."	{x = "..vx..", z = "..vz..", prefab = \""..v.prefab.."\"}, "
+		totaltable = totaltable.."	{x = "..vx..", z = "..vz..", prefab = \""..v.prefab.."\""
+		if v.components.pickable and v.components.pickable:IsBarren() then
+			totaltable = totaltable..", barren = true"
+		end
+		if v.components.witherable and v.components.witherable:IsWithered() then
+			totaltable = totaltable..", withered = true"
+		end
+		totaltable = totaltable.."},"
 	end
 	totaltable = totaltable.."}"
 	print(totaltable)

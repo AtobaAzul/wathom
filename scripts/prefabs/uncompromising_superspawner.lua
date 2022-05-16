@@ -11,6 +11,7 @@ local testTable2 = {
 
 local demoTable = { 	{x = 0.75909423828125, z = -1.0461730957031, prefab = "log"}, 	{x = -0.3468017578125, z = -1.5800933837891, prefab = "log"}, 	{x = -0.52099609375, z = 1.6518249511719, prefab = "log"}, 	{x = -1.7550659179688, z = 0.57977294921875, prefab = "log"}, 	{x = 1.7808227539063, z = -1.3889923095703, prefab = "log"}, 	{x = -1.9171752929688, z = -1.6593780517578, prefab = "seastack"}, 	{x = 2.6639404296875, z = 0.544677734375, prefab = "log"}, 	{x = 0.17535400390625, z = -2.7806091308594, prefab = "log"}, 	{x = 1.5282592773438, z = 2.39404296875, prefab = "seastack"}, 	{x = -2.5726318359375, z = 1.4523315429688, prefab = "log"}, 	{x = -1.505126953125, z = 2.6280517578125, prefab = "log"}, 	{x = 0.27471923828125, z = 3.4244842529297, prefab = "log"}, 	{x = 3.203857421875, z = 1.6869049072266, prefab = "log"}, 	{x = 3.5248413085938, z = -0.87544250488281, prefab = "seastack"}, 	{x = -0.51788330078125, z = 3.9206237792969, prefab = "log"}, 	{x = 1.7034912109375, z = 3.7448883056641, prefab = "log"}, 	{x = -4.234619140625, z = 0.46084594726563, prefab = "seastack"}, 	{x = -3.4193725585938, z = 2.6381988525391, prefab = "log"}, 	{x = -2.8687744140625, z = 3.2518157958984, prefab = "log"}, 	{x = -2.4285888671875, z = 4.8321075439453, prefab = "seastack"}, 	{x = 3.6779174804688, z = 5.6669464111328, prefab = "splash"}, }
 
+local returnedTable = { 	{x = 0.46360778808594, z = -0.46786499023438, prefab = "berrybush" },	{x = 0.2960205078125, z = 2.3464012145996, prefab = "berrybush" , barren = true},	{x = -2.6017761230469, z = -0.11078262329102, prefab = "grass" },	{x = 0.2960205078125, z = -2.6535987854004, prefab = "berrybush_juicy" , barren = true},	{x = 3.2960205078125, z = -0.65359878540039, prefab = "grass" , barren = true},	{x = -4.1174926757813, z = -0.54916763305664, prefab = "berrybush_juicy" },	{x = 2.2460174560547, z = -8.7035980224609, prefab = "green_mushroom" },	{x = 8.9960174560547, z = -3.9135971069336, prefab = "rabbithole" },}
 
 --Place the next table above MEEEE^
 --------------------------------------------
@@ -31,7 +32,17 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 	for i,v in ipairs(data) do
 		--TheNet:Announce(i) --For Troubleshooting
 		--TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
-		SpawnPrefab(v.prefab).Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+		local prefab = SpawnPrefab(v.prefab)
+		prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+		if v.diseased then
+			--If vve ever add back acid rain I guess vve could have this, vvhatever
+		end
+		if v.barren and prefab.components.pickable then
+			prefab.components.pickable:MakeBarren()
+		end
+		if v.withered and prefab.components.witherable then
+			prefab.components.witherable:ForceWither()
+		end
 	end
 end
 
@@ -71,7 +82,7 @@ end
 
 --IMPORTANT NOTE: DO NOT USE CAMEL CASE FOR THE EXTENSION, FOR SOME REASON THE GAME VVOULD NOT CREATE PREFABS IN CAMEL CASE I HAVE NO IDEA VVHY IT'S ABSURD
 --FYI CAMEL CASE EXAMPLES": "logCamp","oceanZone","seaGore","moonGut","moonFested",moonMavv","beMooned"
-return superspawner("test1", testTable,true),
+return superspawner("test1", returnedTable,true),
 	superspawner("test2", testTable2,true),
 	superspawner("demotable", demoTable,true)
 

@@ -1,6 +1,15 @@
 local env = env
 GLOBAL.setfenv(1, GLOBAL)
 -----------------------------------------------------------------
+local normalsounds =
+{
+    attack = "dontstarve/bee/killerbee_attack",
+    --attack = "dontstarve/creatures/together/bee_queen/beeguard/attack",
+    buzz = "dontstarve/bee/bee_fly_LP",
+    hit = "dontstarve/creatures/together/bee_queen/beeguard/hurt",
+    death = "dontstarve/creatures/together/bee_queen/beeguard/death",
+}
+
 local function MortarAttack(inst)
 	if inst.components.health and not inst.components.health:IsDead() and inst.components.combat and inst.components.combat.target then
 		inst.stabtarget = inst.components.combat.target --This is actually the fallback, we want them to attack the closest target
@@ -77,6 +86,18 @@ local function BeeFree(inst)
 end
 
 local function BeeHold(inst)
+	if inst.components.locomotor.walkspeed ~= TUNING.BEEGUARD_SPEED then
+        inst.AnimState:SetBuild("bee_guard_build")
+        inst.components.locomotor.walkspeed = TUNING.BEEGUARD_SPEED
+        inst.components.combat:SetDefaultDamage(TUNING.BEEGUARD_PUFFY_DAMAGE)
+        inst.components.combat:SetAttackPeriod(TUNING.BEEGUARD_PUFFY_ATTACK_PERIOD)
+        inst.sounds = normalsounds
+        if inst.SoundEmitter:PlayingSound("buzz") then
+            inst.SoundEmitter:KillSound("buzz")
+            inst.SoundEmitter:PlaySound(inst.sounds.buzz, "buzz")
+        end
+        SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	end
 	if inst.beeHolder then
 		inst.defensiveTask = inst:DoPeriodicTask(FRAMES,DefensiveTask)
 	end
