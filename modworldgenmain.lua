@@ -355,6 +355,7 @@ AddRoomPreInit("OceanRough", function(room)
 									{
 										--speaker_rusted = 1,
 										sludgestack_spawner = function() return math.random(6,10) end,
+										umss_failedfisherman = 1,
 									} 
 end)
 Layouts["brine_bogs"] = StaticLayout.Get("map/static_layouts/brine_bogs",{
@@ -565,4 +566,11 @@ if GetModConfigData("depthsvipers")then
 		}
 	end)
 end
+
+AddRoomPreInit("BGNoise", function(room)
+	room.contents.countprefabs =
+	{
+		umss_moonoil =  1
+	}
+end)
 modimport("init/init_food/init_food_worldgen")
