@@ -24,7 +24,10 @@ TUNING = GLOBAL.TUNING
 if GetModConfigData("wortox") == "UMNERF" then
 	TUNING.WORTOX_HEALTH = 150
 end
-	
+
+
+local ia_check = GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795")
+
 TUNING.DSTU = 
 {
 	----------------------------------------------------------------------------
@@ -398,8 +401,7 @@ TUNING.DSTU =
     TWIN1_HEALTH = GetModConfigData("twins health"),
     TWIN2_HEALTH = GetModConfigData("twins health"),
 
-    --mod compat
-    ISLAND_ADVENTURES = GLOBAL.KnownModIndex("1467214795"),
+    ISLAND_ADVENTURES = ia_check,
 }
 
 TUNING.NO_BOSS_TIME = 24
