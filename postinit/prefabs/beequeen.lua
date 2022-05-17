@@ -33,7 +33,7 @@ local function StompHandler(inst,data)
 		if TheWorld.Map:GetPlatformAtPoint(x, z) ~= nil then
 			inst.stomprage = inst.stomprage + 10
 		end
-		if inst.stomprage > 20 then
+		if inst.stomprage > 20 and not inst.sg:HasStateTag("ability") then
 			inst:ForceFacePoint(x,y,z)
 			inst.stomprage = 0
 			inst.stompready = false
@@ -353,6 +353,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
     inst.components.groundpounder.platformPushingRings = 2
     inst.components.groundpounder.numRings = 1
 	inst:ListenForEvent("death", DisableThatStuff)
+	inst:ListenForEvent("death", ReleasebeeHolders)
 	
 	inst.stomprage = 0
 	inst.stompready = true
