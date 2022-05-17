@@ -279,7 +279,7 @@ if GetModConfigData("scalemailbuff") then
 	table.insert(prefab_post,"armor_dragonfly")
 end
 
-if GetModConfigData("um_music") then
+if GetModConfigData("um_music") and TUNING.DSTU.ISLAND_ADVENTURES then
 	table.insert(component_post,"dynamicmusic")
 end
 
