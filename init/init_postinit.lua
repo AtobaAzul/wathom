@@ -139,6 +139,7 @@ local prefab_post = {
 	"alterguardian",
 	"boat",
 	"seasonal_shoals",
+	"petals",
 }
 
 local stategraph_post = {
