@@ -321,7 +321,9 @@ local states = {
 			local queen = inst.components.entitytracker:GetEntity("queen")
 			if inst.beeHolder and queen and math.sqrt(queen:GetDistanceSqToInst(inst.beeHolder)) < 20 then
 				local x,y,z = inst.beeHolder.Transform:GetWorldPosition()
-				inst.Transform:SetPosition(x,y,z)	
+				if x and y and z then
+					inst.Transform:SetPosition(x,y,z)
+				end
 			end
 		end,
 		
