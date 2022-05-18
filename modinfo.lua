@@ -167,7 +167,7 @@ configuration_options =
 			{description = "Classic", data = "UMNERF"},
 			{description = "Vanilla", data = "off"},
 		},
-		default = "SHOT",
+		default = "UMNERF",
 	},
 	
 	BinaryConfig("wickerbottom", "Wickerbottom Balance", "Wickerbottom/Maxwell can no longer read books while insane.", true),
