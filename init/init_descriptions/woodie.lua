@@ -216,6 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOODIE.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It'll clear your nose up come hayfever season."
     ANNOUNCE.CURSED_ITEM_EQUIP = "Ouch, this ones a jumper!"
+    DESCRIBE.VETSITEM = "I'm usually not the cursing type, despite my curse."
 	DESCRIBE.SCREECHER_TRINKET = "Symbols like these are what got me in trouble in the first place."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "Perhaps I should try again when the moons out, eh?"}
 

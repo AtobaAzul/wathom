@@ -231,6 +231,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WILLOW.ACTIONFAIL
 	}
 	DESCRIBE.ANTIHISTAMINE = "It'll clear my snot."
     ANNOUNCE.CURSED_ITEM_EQUIP = "OUCH! Is that what burning feels like?"
+    DESCRIBE.VETSITEM = "What's that? You want me to curse myself? If you say so..."
 	DESCRIBE.SCREECHER_TRINKET = "I... I don't think I should burn this."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "I'll try waiting until night. UGH."}
 

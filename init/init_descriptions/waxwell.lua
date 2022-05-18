@@ -217,6 +217,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It'll help keep allergies down."
     ANNOUNCE.CURSED_ITEM_EQUIP = "It seems I've lost my touch!"
+    DESCRIBE.VETSITEM = "They are tempting us with fancy trinkets. Shall we tap into darker powers?"
 	DESCRIBE.SCREECHER_TRINKET = "It came from someplace far away."
 	
 	ANNOUNCE.ANNOUNCE_NOSANITY = "I have the worst headache!"

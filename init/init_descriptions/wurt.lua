@@ -217,6 +217,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WURT.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "Keep nose strong!"
     ANNOUNCE.CURSED_ITEM_EQUIP = "FLORP! HURTS!"
+    DESCRIBE.VETSITEM = "Wants me to curse? FLORP! ...Not that kind of curse?"
 	DESCRIBE.SCREECHER_TRINKET = "Glurp, scary!"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "It sleepy? Wake up at night maybe."}
 

@@ -221,6 +221,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "I believe this has antihistamine properties."
     ANNOUNCE.CURSED_ITEM_EQUIP = "It seems a cursed power lingers here."
+    DESCRIBE.VETSITEM = "Curses? There is no such thing, and I shall prove it!"
 	DESCRIBE.SCREECHER_TRINKET = "A pagan symbol, perhaps?"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "Moon magic seems to work best when the moon is around."}
 

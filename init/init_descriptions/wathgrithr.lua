@@ -216,6 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It shall keep mine nose safe!"
     ANNOUNCE.CURSED_ITEM_EQUIP = "This tool fights back!"
+    DESCRIBE.VETSITEM = "I must challenge myself further in order to use this!"
 	DESCRIBE.SCREECHER_TRINKET = "A cursed symbol, no doubt!"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "The great moon in the sky will give it power."}
 

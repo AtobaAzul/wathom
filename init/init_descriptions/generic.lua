@@ -132,6 +132,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.GENERIC.ACTIONFAIL
 		OVERSTUFFED = "Oooh... I shouldn't eat more!",
     }
     ANNOUNCE.CURSED_ITEM_EQUIP = "Ow, my hand!"
+    DESCRIBE.VETSITEM = "I need to seek out a dark power to use this!"
 	DESCRIBE.SCREECHER_TRINKET = "Great, just what I needed."
 	
 	DESCRIBE.SAND = "A handy pile of pocket sand."

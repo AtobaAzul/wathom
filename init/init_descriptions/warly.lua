@@ -215,6 +215,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "I hate sneezing near food, this will help."
     ANNOUNCE.CURSED_ITEM_EQUIP = "My hands been sizzled!"
+    DESCRIBE.VETSITEM = "I seem to be missing some dark ingredient."
 	DESCRIBE.SCREECHER_TRINKET = "Something dark stirs."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "Some dishes are best served in the evening."}
 	

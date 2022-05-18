@@ -217,6 +217,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It'll help my lungs stay clean."
     ANNOUNCE.CURSED_ITEM_EQUIP = "Seems like safety gloves aren't enough!"
+    DESCRIBE.VETSITEM = "I'd accept any bargain to use a tool like this!"
 	DESCRIBE.SCREECHER_TRINKET = "What practical use does it have, other than being creepy?"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "This ones a night owl."}
 

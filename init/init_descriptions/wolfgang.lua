@@ -216,6 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "Good for sneeze time."
     ANNOUNCE.CURSED_ITEM_EQUIP = "The harder Wolfgang squeeze, the more it hurts!"
+    DESCRIBE.VETSITEM = "What you say? Need more curses?"
 	DESCRIBE.SCREECHER_TRINKET = "Ah! Looks scary!"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "Needs big moon?"}
 
