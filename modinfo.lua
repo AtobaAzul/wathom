@@ -301,16 +301,18 @@ configuration_options =
 		default = 9600,
 	},
 	{
-		name = "ratsnifftimer",
+		name = "ratsnifftimer_",
 		label = "Rat Sniff Timer",
 		hover = "The rate at which your base is checked for messiness.",
 		options =
 		{
-			{description = "Lowered[30 seconds]", data = 30},
-			{description = "Default[60 seconds]", data = 60},
-			{description = "Raised[120 seconds]", data = 120},
+			{description = "Lowest[1 Minute]", data = 60},
+			{description = "Lowered[2 Minutes]", data = 120},
+			{description = "Default[3 Minutes]", data = 180},
+			{description = "Raised[4 Minutes]", data = 240},
+			{description = "Extended[8 Minutes]", data = 480}
 		},
-		default = 60,
+		default = 180,
 	},
 -----------------------------
 -- Items and Structures--
