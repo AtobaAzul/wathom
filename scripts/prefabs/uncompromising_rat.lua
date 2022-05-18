@@ -1629,10 +1629,7 @@ local function fn_winkyburrow()
 	inst.OnSave = onsave_winkyburrow
 	inst.OnLoad = onload_winkyburrow
 	
-    inst:DoTaskInTime(0, OnInit)
     inst:DoTaskInTime(60, WinkyBurrowDespawn)
-	
-    inst:ListenForEvent("onremove", OnRemoved)
 	
 	return inst
 end
@@ -1694,10 +1691,6 @@ local function fn_winkyhomeburrow()
 	inst.winkyburrowremove = winkyburrowremove
 	inst.OnSave = onsave_winkyburrow
 	inst.OnLoad = onload_winkyburrow
-	
-    inst:DoTaskInTime(0, OnInit)
-	
-    inst:ListenForEvent("onremove", OnRemoved)
 	
 	return inst
 end
@@ -1766,6 +1759,12 @@ local function SlumberParty(inst)
 	end
 end
 
+local function CheckIfEmpty(inst)
+	if inst.components.herd.membercount == 0 then
+		inst:Remove()
+	end
+end
+
 local function fn_scoutburrow()
 	local inst = CreateEntity()
 	
@@ -1791,6 +1790,7 @@ local function fn_scoutburrow()
 	inst.components.herd:SetGatherRange(40)
 	inst.components.herd:SetUpdateRange(nil)
 	inst.components.herd:SetOnEmptyFn(inst.Remove)
+	inst.components.herd:SetRemoveMemberFn(CheckIfEmpty)
 	inst.components.herd.maxsize = 8
 	inst.components.herd.nomerging = true
     inst.components.herd.updateposincombat = true
