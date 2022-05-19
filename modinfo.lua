@@ -406,7 +406,7 @@ configuration_options =
 			{description = "2.5x", data = 2.5},
 			{description = "3x", data = 3},
 		},
-		default = 2,
+		default = 1.5,
 	},
 	BinaryConfig("butterflywings_nerf", "Weaker Butterfly Wings", "Butterfly wings have been nerfed to not be cheap healing", true),
 	BinaryConfig("rawcropsnerf", "Raw Crops Nerf", "Farm crops are nerfed in their base value when raw/cooked to incentivize using crockpot recipes.", true),
