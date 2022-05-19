@@ -184,8 +184,8 @@ AddRecipe2(
     {"CHARACTER"}
 )
 
-AddRecipe2("ice", {Ingredient("snowball_throwable", 4)}, TECH.SCIENCE_ONE, nil, {"REFINE"})
-ChangeSortKey("ice", "beeswax", "REFINE", true)
+AddRecipe2("ice_snowball", {Ingredient("snowball_throwable", 4)}, TECH.SCIENCE_ONE, {product = "ice"}, {"REFINE"})
+ChangeSortKey("ice_snowball", "beeswax", "REFINE", true)
 
 AddRecipe2(
     "gasmask",

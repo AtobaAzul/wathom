@@ -108,7 +108,7 @@ env.AddPrefabPostInit("forest", function(inst)
 	end
 
 	--inst:ListenForEvent("seasontick", OnSeasonTick)
-	if TUNING.DSTU.SNOWSTORMS and TUNING.DSTU.ISLAND_ADVENTURES then
+	if TUNING.DSTU.SNOWSTORMS and not TUNING.DSTU.ISLAND_ADVENTURES then
 		inst:AddComponent("snowstorminitiator")
 	end
 	
@@ -124,16 +124,16 @@ env.AddPrefabPostInit("forest", function(inst)
 	--inst.OnLoad = OnLoad
 end)
 
-if TUNING.DSTU.SPAWNMOTHERGOOSE and TUNING.DSTU.ISLAND_ADVENTURES then
-env.AddPrefabPostInit("forest", function(inst)
-    if not TheWorld.ismastersim then
-        return
-    end
-	inst:AddComponent("gmoosespawner")
-end)
+if TUNING.DSTU.SPAWNMOTHERGOOSE and not TUNING.DSTU.ISLAND_ADVENTURES then
+	env.AddPrefabPostInit("forest", function(inst)
+		if not TheWorld.ismastersim then
+			return
+		end
+		inst:AddComponent("gmoosespawner")
+	end)
 end
 
-if TUNING.DSTU.SPAWNWILTINGFLY and TUNING.DSTU.ISLAND_ADVENTURES then
+if TUNING.DSTU.SPAWNWILTINGFLY and not TUNING.DSTU.ISLAND_ADVENTURES then
 env.AddPrefabPostInit("forest", function(inst)
     if not TheWorld.ismastersim then
         return
