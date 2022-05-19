@@ -19,7 +19,7 @@ AddComponentPostInit("sewing", DoSewing)
 --]]
 -------------Torches only smolder objects now---------------
 local _OldLightAction = GLOBAL.ACTIONS.LIGHT.fn
-if TUNING.DSTU.WINTER_BURNING and TUNING.DSTU.ISLAND_ADVENTURES then
+if TUNING.DSTU.WINTER_BURNING and not TUNING.DSTU.ISLAND_ADVENTURES then
 	GLOBAL.ACTIONS.LIGHT.fn = function(act)
     	if act.invobject ~= nil and act.invobject.components.lighter ~= nil then
 			if GLOBAL.TheWorld.state.season == "winter" and not act.doer:HasTag("pyromaniac") and act.target.components.burnable then
@@ -134,12 +134,12 @@ if TUNING.DSTU.SPAWNMOTHERGOOSE and not TUNING.DSTU.ISLAND_ADVENTURES then
 end
 
 if TUNING.DSTU.SPAWNWILTINGFLY and not TUNING.DSTU.ISLAND_ADVENTURES then
-env.AddPrefabPostInit("forest", function(inst)
-    if not TheWorld.ismastersim then
-        return
-    end
-	inst:AddComponent("mock_dragonflyspawner")
-end)
+	env.AddPrefabPostInit("forest", function(inst)
+		if not TheWorld.ismastersim then
+			return
+		end
+		inst:AddComponent("mock_dragonflyspawner")
+	end)
 end
 
 env.AddPrefabPostInit("cave", function(inst)
