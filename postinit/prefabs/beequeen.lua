@@ -18,6 +18,10 @@ end)
 
 local function StompHandler(inst,data)
 	--TheNet:Announce(inst.stomprage)
+	if inst.sg:HasStateTag("tired") then
+		inst.AnimState:PlayAnimation("tired_hit")
+		inst.AnimState:PushAnimation("tired_loop",true)
+	end
 	if inst.mode == "aggressive" then
 		inst.stomprage = inst.stomprage + 0.25
 	else

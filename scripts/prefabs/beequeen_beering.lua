@@ -14,8 +14,8 @@ local function beering_fn()
         return inst
     end
 
-	--[[inst:AddComponent("linearcircler")
-    inst.AnimState:SetBank("moonmaw_lavae")
+	inst:AddComponent("linearcircler")
+    --[[inst.AnimState:SetBank("moonmaw_lavae")
     inst.AnimState:SetBuild("moonmaw_lavae")
 	inst.AnimState:PlayAnimation("hover",true)]]
     inst.WINDSTAFF_CASTER = nil

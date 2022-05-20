@@ -67,6 +67,21 @@ local function SetSpinSpeed(inst,speed,changeDir)
 	end
 end
 
+local function StartFlapping(inst)
+    inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/wings_LP", "flying")
+end
+
+local function RestoreFlapping(inst)
+    if not inst.SoundEmitter:PlayingSound("flying") then
+        StartFlapping(inst)
+    end
+end
+
+local function StopFlapping(inst)
+    inst.SoundEmitter:KillSound("flying")
+end
+
+
 env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's called "SGbeequeen" instead of just... beequeen, funky
 
 	local _OldOnExit 
@@ -226,6 +241,7 @@ local states = {
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
             inst.AnimState:PlayAnimation("command2")
+			inst.AnimState:PushAnimation("idle_loop",true)
         end,
 
         timeline =
@@ -245,6 +261,7 @@ local states = {
 			--2nd Charge
             TimeEvent(70 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Second")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "back"
@@ -261,6 +278,7 @@ local states = {
 			--3rd Charge
             TimeEvent(130 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Third")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "forth"
@@ -277,6 +295,7 @@ local states = {
 			--4th Charge
             TimeEvent(200 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Fourth")
 				inst.direction2 = "back"
 				AdjustGuardSpeeds(inst,20)
@@ -293,6 +312,7 @@ local states = {
 			--5th Charge
             TimeEvent(270 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Fifth")
 				inst.direction2 = "forth"
 				AdjustGuardSpeeds(inst,20)
@@ -331,6 +351,7 @@ local states = {
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
             inst.AnimState:PlayAnimation("command2")
+			inst.AnimState:PushAnimation("idle_loop",true)
         end,
 
         timeline =
@@ -422,17 +443,39 @@ local states = {
 	
     State{
         name = "tired", --Bee Queen is Tired after rapidly commanding the army
-        tags = {"busy", "ability" },
+        tags = {"busy", "ability","tired"},
 
         onenter = function(inst)
-			inst.AnimState:PlayAnimation("sleep_pre")
-			inst.AnimState:PushAnimation("sleep_loop",true)
+			inst.AnimState:PlayAnimation("tired_pre")
+			inst.AnimState:PushAnimation("tired_loop",true)
 			inst.sg:SetTimeout(9)
         end,
+		
+        timeline =
+        {
+            TimeEvent(9 * FRAMES, StopFlapping),
+        },		
 		
         ontimeout = function(inst)
 			inst.sg:GoToState("idle")
         end, 		
+
+    },
+    State{
+        name = "tired_pst", --Bee Queen is Tired after rapidly commanding the army
+        tags = {"busy", "ability" },
+
+        onenter = function(inst)
+			inst.AnimState:PlayAnimation("tired_pst")
+        end,
+		
+        events=
+        {
+            EventHandler("animover", function(inst)
+				StartFlapping(inst)
+                inst.sg:GoToState("idle")
+            end),
+        },	
 
     },
 }
