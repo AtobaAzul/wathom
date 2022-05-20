@@ -394,9 +394,9 @@ local states = {
 					inst.spinUp = false
 				end
 			elseif inst.spinSpeed > 0 and inst.components.health and inst.components.health:GetPercent() > 0.5 then
-				inst.spinSpeed = inst.spinSpeed - FRAMES/10
-			else
-				inst.spinSpeed = 0
+					inst.spinSpeed = inst.spinSpeed - FRAMES/10
+				else
+					inst.spinSpeed = 0.05
 			end
 			SetSpinSpeed(inst,inst.spinSpeed)
 		end,

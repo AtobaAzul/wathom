@@ -319,9 +319,10 @@ local states = {
 				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
 			end]]
 			local queen = inst.components.entitytracker:GetEntity("queen")
+			local x,y,z = inst.Transform:GetWorldPosition()
 			if inst.beeHolder and queen and math.sqrt(queen:GetDistanceSqToInst(inst.beeHolder)) < 20 then
 				local x,y,z = inst.beeHolder.Transform:GetWorldPosition()
-				if x and y and z then
+				if x == x and z == z then
 					inst.Transform:SetPosition(x,y,z)
 				end
 			end
