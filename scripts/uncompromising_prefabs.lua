@@ -332,4 +332,6 @@ return {
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",
+	
+	"siren_fish",
 }
