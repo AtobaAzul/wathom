@@ -240,33 +240,40 @@ local states = {
 			AdjustGuardSpeeds(inst,15)
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
-            inst.AnimState:PlayAnimation("command2")
 			inst.AnimState:PushAnimation("idle_loop",true)
         end,
 
         timeline =
         {
+			TimeEvent(22 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
 			--Finish the 1st Charge
-            TimeEvent(14 * FRAMES, DoScreech),
-            TimeEvent(20 * FRAMES, DoScreechAlert),
             TimeEvent(30 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
 				DoScreech(inst)
 				DoScreechAlert(inst)
 				AdjustGuardSpeeds(inst,20)
 				inst:TellSoldiersToCharge(inst)
+				DoScreech(inst)
+				DoScreechAlert(inst)
             end),
 			
 			
 			--2nd Charge
             TimeEvent(70 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
-				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Second")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "back"
                 inst:CrossChargeRepeat(inst)
             end),
+			
+			TimeEvent(92 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
+				
             TimeEvent(100 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -277,13 +284,16 @@ local states = {
 	
 			--3rd Charge
             TimeEvent(130 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
-				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Third")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "forth"
                 inst:CrossChargeRepeat(inst)
             end),
+			
+			TimeEvent(162 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
             TimeEvent(170 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -294,13 +304,17 @@ local states = {
 
 			--4th Charge
             TimeEvent(200 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
-				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Fourth")
 				inst.direction2 = "back"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
+			
+			TimeEvent(222 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
+			
             TimeEvent(230 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -311,13 +325,17 @@ local states = {
 
 			--5th Charge
             TimeEvent(270 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
-				inst.AnimState:PushAnimation("idle_loop",true)
 				--TheNet:Announce("Starting Fifth")
 				inst.direction2 = "forth"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
+
+			TimeEvent(292 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
+			
             TimeEvent(300 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
