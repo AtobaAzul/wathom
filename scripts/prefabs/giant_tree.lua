@@ -3,9 +3,11 @@ require "prefabutil"
 local assets =
 {
 	Asset("ANIM", "anim/giant_tree1.zip"),
-	Asset("ANIM", "anim/giant_tree_damaged1.zip"),
+	Asset("ANIM", "anim/giant_tree1_damaged.zip"),
+	Asset("ANIM", "anim/giant_tree2_damaged.zip"),
 	Asset("ANIM", "anim/giant_tree2.zip"),
-	Asset("ANIM", "anim/giant_tree1_infested.zip"),
+	Asset("ANIM", "anim/giant_tree1_sick.zip"),
+	Asset("ANIM", "anim/giant_tree2_sick.zip"),
 }
 local CANOPY_SHADOW_DATA = require("prefabs/canopyshadows")
 
@@ -119,7 +121,7 @@ local choploots =
 	oceantree_leaf_fx_fall = 4,
 	twigs = 1,
 	log = 0.5,
-	spider = 0.25,
+	--spider = 0.25,
 }
 
 local felloots =
@@ -128,7 +130,7 @@ local felloots =
 	oceantree_leaf_fx_fall = 1,
 	bird_egg = 0.5,
 	feather = 0.5,
-	spider = 0.01,
+	--spider = 0.01,
 }
 local infestedloots = 
 {
@@ -414,7 +416,7 @@ local function on_chopped_down(inst, chopper)
 		inst.components.workable:SetWorkLeft(inst.previouschops)
 		inst.components.workable:SetOnWorkCallback(on_chop)
 		inst.components.workable:SetOnFinishCallback(on_chopped_down)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:PlayAnimation("idle")
 	else
 		inst.previouschops = 0
 		inst.chopped = true
@@ -426,8 +428,8 @@ local function on_chopped_down(inst, chopper)
 			UnInfestMe(inst)
 			inst:RemoveComponent("workable")
 		end
-		inst.AnimState:SetBuild("giant_tree_damaged"..inst.bankType)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
+		inst.AnimState:PlayAnimation("idle")
 		inst.components.timer:StartTimer("regrow", 3840)
 	end
 end
@@ -443,7 +445,7 @@ local function Regrow(inst, data)
 		inst.components.workable:SetWorkLeft(25)
 		inst.components.workable:SetOnWorkCallback(on_chop)
 		inst.components.workable:SetOnFinishCallback(on_chopped_down)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:PlayAnimation("idle")
 	end
 	if data.name == "infest" then
 		InfestMe(inst)
@@ -482,7 +484,21 @@ end
 
 ----------------------------- Animation Handling
 local function PickType(inst)
-	inst.bankType = math.random(1,1) --RN only have 1 type
+	inst.bankType = math.random(1,2) --RN only have 2 type
+	if math.random() > 0.6 then
+		inst.reverse = true
+	end
+	inst.stretchx = math.random(-0.1,0.1)
+	inst.stretchy = math.random(-0.1,0.1)
+end
+
+local function AnimNext(inst)
+	if inst.components.workable and inst.components.workable:CanBeWorked() then
+		inst.AnimState:PlayAnimation("idle")
+	else
+		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
+		inst.AnimState:PlayAnimation("idle")
+	end
 end
 
 local function PickBank(inst)
@@ -492,14 +508,20 @@ local function PickBank(inst)
 		if inst.components.workable then
 			bank = "giant_tree"..inst.bankType
 		else
-			bank = "giant_tree_damaged"..inst.bankType
+			bank = "giant_tree"..inst.bankType.."_damaged"
 		end
 		if inst.infested == true then
-			bank = bank.."_infested"
+			bank = bank.."_sick"
 		end
-		inst.AnimState:SetBank(bank)
+		inst.AnimState:SetBank("giant_tree1")
 		inst.AnimState:SetBuild(bank)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:PlayAnimation("idle")
+		local mult = 1
+		if inst.reverse then
+			mult = -1
+		end
+		inst.AnimState:SetScale(mult*(1 + inst.stretchx), 1+inst.stretchy)
+		AnimNext(inst)
 	else
 		PickType(inst)
 		PickBank(inst)
@@ -514,6 +536,11 @@ local function onsave(inst, data)
 	data.chopped = inst.chopped
 	data.bankType = inst.bankType
 	data.infested = inst.infested
+	data.stretchx = inst.stretchx
+	data.stretchy = inst.stretchy
+	if inst.reverse then
+		data.reverse = inst.reverse
+	end
 end
 
 local function onload(inst,data)
@@ -528,14 +555,17 @@ local function onload(inst,data)
 		if data.infested then
 			inst.infested = data.infested
 		end
+		if data.reverse then
+			inst.reverse = true
+		end
+		if data.stretchx then
+			inst.stretchx = data.stretchx
+		end
+		if data.stretchy then
+			inst.stretchy = data.stretchy
+		end
 	else
 		inst.previouschops = 25
-	end
-	if inst.components.workable and inst.components.workable:CanBeWorked() then
-		inst.AnimState:PlayAnimation("damaged-0")
-	else
-		inst.AnimState:SetBuild("giant_tree_damaged"..inst.bankType)
-		inst.AnimState:PlayAnimation("damaged-0")
 	end
 end
 ----------------------------------
@@ -609,7 +639,8 @@ local function giant_treefn()
 	inst:DoTaskInTime(0, InfestedInit)
 	
 	inst.PickBank = PickBank
-
+	
+	inst:ListenForEvent("animover",AnimNext)
 	return inst
 end
 
