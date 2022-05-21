@@ -121,7 +121,8 @@ local choploots =
 	oceantree_leaf_fx_fall = 4,
 	twigs = 1,
 	log = 0.5,
-	--spider = 0.25,
+	frog = 0.05,
+	spider = 0.005,
 }
 
 local felloots =
@@ -130,7 +131,8 @@ local felloots =
 	oceantree_leaf_fx_fall = 1,
 	bird_egg = 0.5,
 	feather = 0.5,
-	--spider = 0.01,
+	spider = 0.01,
+	frog = 0.05,
 }
 local infestedloots = 
 {
@@ -254,6 +256,9 @@ local function GetDebris(loottable)
 			end
 		end
 	end
+	if loot == "frog" and not TheWorld.state.isspring then
+		loot = GetDebris(loottable)
+	end
 	return loot
 end
 
@@ -261,13 +266,13 @@ end
 local function SpawnDebris(inst,chopper,loottable)
 	local x,y,z = inst.Transform:GetWorldPosition()
 	
-	local radius = math.random(2.5,5)
+	local radius = math.random(3,5)
 	local angle = math.random(0,2*PI)
 	x = x + radius*math.sin(angle)
 	z = z + radius*math.cos(angle)
 
 	local prefab = GetDebris(loottable)
-    if prefab ~= nil and prefab ~= "oceantree_leaf_fx_fall" then
+    if prefab ~= nil and prefab ~= "oceantree_leaf_fx_fall" and prefab ~= "frog" then
         local debris = SpawnPrefab(prefab)
         if debris ~= nil then
             debris.entity:SetCanSleep(false)
@@ -302,13 +307,21 @@ local function SpawnDebris(inst,chopper,loottable)
 						if debris.components.combat ~= nil and not chopper:HasTag("spiderwhisperer") then
 							debris.components.combat:SuggestTarget(chopper)
 						end
+						debris.sg:GoToState("enter_loop")
 					end
 				else
 					debris:Remove()
 				end
 			end
-		end																				 
+		end
+	end
+	
+	if prefab == "frog" then
+		local debris = SpawnPrefab(prefab)
+		debris.Physics:Teleport(x, 35, z)
+		debris.sg:GoToState("fall")
     end
+	
 	if prefab == "oceantree_leaf_fx_fall" then
 	    local dist = DROP_ITEMS_DIST_MIN + DROP_ITEMS_DIST_VARIANCE * math.random()
         local theta = 2 * PI * math.random()
