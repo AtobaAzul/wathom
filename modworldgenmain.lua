@@ -568,7 +568,7 @@ if GetModConfigData("depthsvipers")then
 	end)
 end
 
-AddRoomPreInit("BGNoise", function(room)
+AddRoomPreInit("HFHolidays", function(room)
 	room.contents.countprefabs =
 	{
 		umss_moonoil =  1
