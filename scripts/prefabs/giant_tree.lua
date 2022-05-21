@@ -330,14 +330,14 @@ local function InfestMe(inst)
     inst.components.childspawner:SetSpawnPeriod(TUNING.SPIDERDEN_RELEASE_TIME)
     inst.components.childspawner.allowboats = true
 	inst.infested = true
-	inst:PickBank(inst)
+	inst:PickBuild(inst)
 end
 
 local function UnInfestMe(inst)
 	inst:RemoveTag("infestedtree")
 	inst:RemoveComponent("childspawner")
 	inst.infested = false
-	inst:PickBank(inst)
+	inst:PickBuild(inst)
 end
 
 local function InfestedInit(inst)
@@ -484,26 +484,23 @@ end
 
 ----------------------------- Animation Handling
 
---[[local function HideAllMoss(inst) --Depricated
-	TheNet:Announce("hidingmoss")
+local function HideAllMoss(inst) --Depricated
+	--TheNet:Announce("hidingmoss")
 	--Bottom Group
-	--inst.AnimState:HideSymbol("bottom_moss_1")
-	inst.AnimState:OverrideSymbol("bottom_moss_1", "swap_thurible", "swap_thurible_stick")
-	inst.AnimState:OverrideSymbol("bottom_moss_2", "swap_thurible", "swap_thurible_stick")
-	inst.AnimState:OverrideSymbol("bottom_moss_3", "swap_thurible", "swap_thurible_stick")
-	--inst.AnimState:HideSymbol("bottom_moss_2")
-	--inst.AnimState:HideSymbol("bottom_moss_3")
+	inst.AnimState:HideSymbol("mossa")
+	inst.AnimState:HideSymbol("mossb")
+	inst.AnimState:HideSymbol("mossc")
 	
 	--Middle Group
-	inst.AnimState:HideSymbol("middle_moss_1")
-	inst.AnimState:HideSymbol("middle_moss_2")
-	inst.AnimState:HideSymbol("middle_moss_3")
+	inst.AnimState:HideSymbol("mossd")
+	inst.AnimState:HideSymbol("mosse")
+	inst.AnimState:HideSymbol("mossf")
 
 	--Top Group
-	inst.AnimState:HideSymbol("top_moss_1")
-	inst.AnimState:HideSymbol("top_moss_2")
-	inst.AnimState:HideSymbol("top_moss_3")
-end]]
+	inst.AnimState:HideSymbol("mossg")
+	inst.AnimState:HideSymbol("mossh")
+	inst.AnimState:HideSymbol("mossi")
+end
 
 local function PickType(inst)
 	inst.bankType = math.random(1,2) --RN only have 2 type
@@ -515,16 +512,16 @@ local function PickType(inst)
 end
 
 local function AnimNext(inst)
-	--HideAllMoss(inst)
+	HideAllMoss(inst)
 	if inst.components.workable and inst.components.workable:CanBeWorked() then
-		inst.AnimState:PlayAnimation("sway_weak")
+		inst.AnimState:PlayAnimation("idle")
 	else
 		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
-		inst.AnimState:PlayAnimation("sway_weak")
+		inst.AnimState:PlayAnimation("idle")
 	end
 end
 
-local function PickBank(inst)
+local function PickBuild(inst)
 	local bank
 	if inst.bankType then
 		bank = "giant_tree"..inst.bankType
@@ -536,7 +533,7 @@ local function PickBank(inst)
 		if inst.infested == true then
 			bank = bank.."_sick"
 		end
-		inst.AnimState:SetBank("giant_tree1")
+		inst.AnimState:SetBank("giant_tree")
 		inst.AnimState:SetBuild(bank)
 		inst.AnimState:PlayAnimation("idle")
 		local mult = 1
@@ -547,7 +544,7 @@ local function PickBank(inst)
 		AnimNext(inst)
 	else
 		PickType(inst)
-		PickBank(inst)
+		PickBuild(inst)
 	end
 end
 -----------------------------
@@ -637,7 +634,7 @@ local function giant_treefn()
     if not TheWorld.ismastersim then        
         return inst
     end
-	inst:DoTaskInTime(0,PickBank)
+	inst:DoTaskInTime(0,PickBuild)
 	----------------------------------	
 	inst:AddComponent("workable")
 	inst.components.workable:SetWorkAction(ACTIONS.CHOP)
@@ -661,7 +658,7 @@ local function giant_treefn()
 	inst:DoTaskInTime(0, SpawnerInit)
 	inst:DoTaskInTime(0, InfestedInit)
 	
-	inst.PickBank = PickBank
+	inst.PickBuild = PickBuild
 	
 	inst:ListenForEvent("animover",AnimNext)
 	return inst
