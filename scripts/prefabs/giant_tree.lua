@@ -483,6 +483,28 @@ end
 
 
 ----------------------------- Animation Handling
+
+--[[local function HideAllMoss(inst) --Depricated
+	TheNet:Announce("hidingmoss")
+	--Bottom Group
+	--inst.AnimState:HideSymbol("bottom_moss_1")
+	inst.AnimState:OverrideSymbol("bottom_moss_1", "swap_thurible", "swap_thurible_stick")
+	inst.AnimState:OverrideSymbol("bottom_moss_2", "swap_thurible", "swap_thurible_stick")
+	inst.AnimState:OverrideSymbol("bottom_moss_3", "swap_thurible", "swap_thurible_stick")
+	--inst.AnimState:HideSymbol("bottom_moss_2")
+	--inst.AnimState:HideSymbol("bottom_moss_3")
+	
+	--Middle Group
+	inst.AnimState:HideSymbol("middle_moss_1")
+	inst.AnimState:HideSymbol("middle_moss_2")
+	inst.AnimState:HideSymbol("middle_moss_3")
+
+	--Top Group
+	inst.AnimState:HideSymbol("top_moss_1")
+	inst.AnimState:HideSymbol("top_moss_2")
+	inst.AnimState:HideSymbol("top_moss_3")
+end]]
+
 local function PickType(inst)
 	inst.bankType = math.random(1,2) --RN only have 2 type
 	if math.random() > 0.6 then
@@ -493,11 +515,12 @@ local function PickType(inst)
 end
 
 local function AnimNext(inst)
+	--HideAllMoss(inst)
 	if inst.components.workable and inst.components.workable:CanBeWorked() then
-		inst.AnimState:PlayAnimation("idle")
+		inst.AnimState:PlayAnimation("sway_weak")
 	else
 		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
-		inst.AnimState:PlayAnimation("idle")
+		inst.AnimState:PlayAnimation("sway_weak")
 	end
 end
 
