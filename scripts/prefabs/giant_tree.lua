@@ -431,24 +431,15 @@ local function on_chopped_down(inst, chopper)
 		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
 		inst.AnimState:PlayAnimation("idle")
 		inst.components.timer:StartTimer("regrow", 3840)
-	end
-end
------------------------------
-
-
------------------------------Regrovvth Timer Handler
-local function Regrow(inst, data)
-	if data.name == "regrow" then
-		inst.chopped = false
-		inst:AddComponent("workable")
-		inst.components.workable:SetWorkAction(ACTIONS.CHOP)
-		inst.components.workable:SetWorkLeft(25)
-		inst.components.workable:SetOnWorkCallback(on_chop)
-		inst.components.workable:SetOnFinishCallback(on_chopped_down)
-		inst.AnimState:PlayAnimation("idle")
-	end
-	if data.name == "infest" then
-		InfestMe(inst)
+		if inst.mossy == true then
+			inst.HideAllMoss(inst,true)
+		else
+			inst.HideAllMoss(inst)
+		end
+		if inst.components.timer:TimerExists("remoss") then
+			inst.components.timer:StopTimer("remoss")
+		end
+		inst.components.timer:StartTimer("remoss", 4800) --10 days to regrovv moss
 	end
 end
 -----------------------------
@@ -484,22 +475,42 @@ end
 
 ----------------------------- Animation Handling
 
-local function HideAllMoss(inst) --Depricated
-	--TheNet:Announce("hidingmoss")
-	--Bottom Group
-	inst.AnimState:HideSymbol("mossa")
-	inst.AnimState:HideSymbol("mossb")
-	inst.AnimState:HideSymbol("mossc")
-	
-	--Middle Group
-	inst.AnimState:HideSymbol("mossd")
-	inst.AnimState:HideSymbol("mosse")
-	inst.AnimState:HideSymbol("mossf")
 
-	--Top Group
-	inst.AnimState:HideSymbol("mossg")
-	inst.AnimState:HideSymbol("mossh")
-	inst.AnimState:HideSymbol("mossi")
+local mosses = {
+	"mossa",
+	"mossb",
+	"mossc",
+	"mossd",
+	"mosse",
+	"mossf",
+	"mossg",
+	"mossh",
+	"mossi",
+}
+
+local function HideAllMoss(inst,poof) --Depricated
+	--TheNet:Announce("inst.mossy is false")
+	for i,moss in ipairs(mosses) do
+		if poof and poof == true then
+			local pine = SpawnPrefab("pine_needles_chop")
+			pine.entity:AddFollower()
+			pine.Follower:FollowSymbol(inst.GUID, moss, 0, 0, 0)
+		end	
+		inst.AnimState:HideSymbol(moss)
+	end
+end
+
+local function ShowAllMoss(inst,poof)
+	--TheNet:Announce("inst.mossy is true")
+	inst.mossy = true
+	for i,moss in ipairs(mosses) do
+		if poof and poof == true then
+			local pine = SpawnPrefab("pine_needles_chop")
+			pine.entity:AddFollower()
+			pine.Follower:FollowSymbol(inst.GUID, moss, 0, 0, 0)
+		end		
+		inst.AnimState:ShowSymbol(moss)
+	end
 end
 
 local function PickType(inst)
@@ -509,10 +520,15 @@ local function PickType(inst)
 	end
 	inst.stretchx = math.random(-0.1,0.1)
 	inst.stretchy = math.random(-0.1,0.1)
+	if math.random() > 0.9 then
+		ShowAllMoss(inst,false)
+	else
+		inst.components.timer:StartTimer("remoss", 3000+math.random(1000,4000))
+		HideAllMoss(inst,false)
+	end
 end
 
 local function AnimNext(inst)
-	HideAllMoss(inst)
 	if inst.components.workable and inst.components.workable:CanBeWorked() then
 		inst.AnimState:PlayAnimation("idle")
 	else
@@ -541,6 +557,7 @@ local function PickBuild(inst)
 			mult = -1
 		end
 		inst.AnimState:SetScale(mult*(1 + inst.stretchx), 1+inst.stretchy)
+		
 		AnimNext(inst)
 	else
 		PickType(inst)
@@ -549,6 +566,26 @@ local function PickBuild(inst)
 end
 -----------------------------
 
+-----------------------------Regrovvth Timer Handler
+local function Regrow(inst, data)
+	if data.name == "regrow" then
+		inst.chopped = false
+		inst:AddComponent("workable")
+		inst.components.workable:SetWorkAction(ACTIONS.CHOP)
+		inst.components.workable:SetWorkLeft(25)
+		inst.components.workable:SetOnWorkCallback(on_chop)
+		inst.components.workable:SetOnFinishCallback(on_chopped_down)
+		inst.AnimState:PlayAnimation("idle")
+		PickBuild(inst)
+	end
+	if data.name == "infest" then
+		InfestMe(inst)
+	end
+	if data.name == "remoss" then
+		ShowAllMoss(inst,true)
+	end
+end
+-----------------------------
 
 ---------------------------------- Saving and loading 
 local function onsave(inst, data)
@@ -561,6 +598,7 @@ local function onsave(inst, data)
 	if inst.reverse then
 		data.reverse = inst.reverse
 	end
+	data.mossy = inst.mossy
 end
 
 local function onload(inst,data)
@@ -583,6 +621,12 @@ local function onload(inst,data)
 		end
 		if data.stretchy then
 			inst.stretchy = data.stretchy
+		end
+		if data.mossy then
+			inst.mossy = data.mossy
+			ShowAllMoss(inst)
+		else
+			HideAllMoss(inst)
 		end
 	else
 		inst.previouschops = 25
@@ -659,7 +703,24 @@ local function giant_treefn()
 	inst:DoTaskInTime(0, InfestedInit)
 	
 	inst.PickBuild = PickBuild
+	inst.HideAllMoss = HideAllMoss
+	inst:DoTaskInTime(math.random(0,0.1),function(inst) --Keep giant trees spaced out
+		if FindEntity(inst,2^2,nil,{"giant_tree"}) then
+			inst:Remove()
+		end
+	end)
 	
+	--[[inst:DoTaskInTime(1,function(inst) 
+		if inst.mossy then
+			if inst.mossy == true then
+				TheNet:Announce("inst.mossy is true")
+			else
+				TheNet:Announce("inst.mossy is false")
+			end
+		else
+			TheNet:Announce("inst.mossy is nil")
+		end
+	end)]]
 	inst:ListenForEvent("animover",AnimNext)
 	return inst
 end
