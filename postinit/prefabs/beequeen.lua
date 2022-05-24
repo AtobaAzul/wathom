@@ -18,6 +18,10 @@ end)
 
 local function StompHandler(inst,data)
 	--TheNet:Announce(inst.stomprage)
+	if inst.sg:HasStateTag("tired") then
+		inst.AnimState:PlayAnimation("tired_hit")
+		inst.AnimState:PushAnimation("tired_loop",true)
+	end
 	if inst.mode == "aggressive" then
 		inst.stomprage = inst.stomprage + 0.25
 	else
@@ -235,7 +239,7 @@ local function UM_BQ_Checks(inst,data)
 	elseif data.name =="cross_atk" then
 		inst.components.timer:StartTimer("cross_atk", 20)
 	end
-	if data.name == "spin_bees" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent()  and inst.mode == "defensive" then
+	if data.name == "spin_bees" and inst.components.combat and inst.components.combat.target and inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent()  and inst.mode == "defensive" and inst.components.health:GetPercent() > 0.5 then
 		inst.sg:GoToState("defensive_spin")
 	elseif data.name =="spin_bees" then
 		inst.components.timer:StartTimer("spin_bees", 20)		

@@ -67,6 +67,21 @@ local function SetSpinSpeed(inst,speed,changeDir)
 	end
 end
 
+local function StartFlapping(inst)
+    inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/wings_LP", "flying")
+end
+
+local function RestoreFlapping(inst)
+    if not inst.SoundEmitter:PlayingSound("flying") then
+        StartFlapping(inst)
+    end
+end
+
+local function StopFlapping(inst)
+    inst.SoundEmitter:KillSound("flying")
+end
+
+
 env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's called "SGbeequeen" instead of just... beequeen, funky
 
 	local _OldOnExit 
@@ -225,31 +240,40 @@ local states = {
 			AdjustGuardSpeeds(inst,15)
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
-            inst.AnimState:PlayAnimation("command2")
+			inst.AnimState:PushAnimation("idle_loop",true)
         end,
 
         timeline =
         {
+			TimeEvent(22 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
 			--Finish the 1st Charge
-            TimeEvent(14 * FRAMES, DoScreech),
-            TimeEvent(20 * FRAMES, DoScreechAlert),
             TimeEvent(30 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
 				DoScreech(inst)
 				DoScreechAlert(inst)
 				AdjustGuardSpeeds(inst,20)
 				inst:TellSoldiersToCharge(inst)
+				DoScreech(inst)
+				DoScreechAlert(inst)
             end),
 			
 			
 			--2nd Charge
             TimeEvent(70 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Second")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "back"
                 inst:CrossChargeRepeat(inst)
             end),
+			
+			TimeEvent(92 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
+				
             TimeEvent(100 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -260,12 +284,16 @@ local states = {
 	
 			--3rd Charge
             TimeEvent(130 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Third")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "forth"
                 inst:CrossChargeRepeat(inst)
             end),
+			
+			TimeEvent(162 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
             TimeEvent(170 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -276,12 +304,17 @@ local states = {
 
 			--4th Charge
             TimeEvent(200 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Fourth")
 				inst.direction2 = "back"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
+			
+			TimeEvent(222 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
+			
             TimeEvent(230 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -292,12 +325,17 @@ local states = {
 
 			--5th Charge
             TimeEvent(270 * FRAMES, function(inst)
-				inst.AnimState:PlayAnimation("command2")
 				--TheNet:Announce("Starting Fifth")
 				inst.direction2 = "forth"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
+
+			TimeEvent(292 * FRAMES, function(inst)
+				inst.AnimState:PlayAnimation("command2")
+				inst.AnimState:PushAnimation("idle_loop",true)
+			end),	
+			
             TimeEvent(300 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
@@ -331,6 +369,7 @@ local states = {
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
             inst.AnimState:PlayAnimation("command2")
+			inst.AnimState:PushAnimation("idle_loop",true)
         end,
 
         timeline =
@@ -394,9 +433,9 @@ local states = {
 					inst.spinUp = false
 				end
 			elseif inst.spinSpeed > 0 and inst.components.health and inst.components.health:GetPercent() > 0.5 then
-				inst.spinSpeed = inst.spinSpeed - FRAMES/10
-			else
-				inst.spinSpeed = 0
+					inst.spinSpeed = inst.spinSpeed - FRAMES/10
+				else
+					inst.spinSpeed = 0.05
 			end
 			SetSpinSpeed(inst,inst.spinSpeed)
 		end,
@@ -422,17 +461,39 @@ local states = {
 	
     State{
         name = "tired", --Bee Queen is Tired after rapidly commanding the army
-        tags = {"busy", "ability" },
+        tags = {"busy", "ability","tired"},
 
         onenter = function(inst)
-			inst.AnimState:PlayAnimation("sleep_pre")
-			inst.AnimState:PushAnimation("sleep_loop",true)
+			inst.AnimState:PlayAnimation("tired_pre")
+			inst.AnimState:PushAnimation("tired_loop",true)
 			inst.sg:SetTimeout(9)
         end,
+		
+        timeline =
+        {
+            TimeEvent(9 * FRAMES, StopFlapping),
+        },		
 		
         ontimeout = function(inst)
 			inst.sg:GoToState("idle")
         end, 		
+
+    },
+    State{
+        name = "tired_pst", --Bee Queen is Tired after rapidly commanding the army
+        tags = {"busy", "ability" },
+
+        onenter = function(inst)
+			inst.AnimState:PlayAnimation("tired_pst")
+        end,
+		
+        events=
+        {
+            EventHandler("animover", function(inst)
+				StartFlapping(inst)
+                inst.sg:GoToState("idle")
+            end),
+        },	
 
     },
 }

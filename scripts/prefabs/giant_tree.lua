@@ -3,9 +3,11 @@ require "prefabutil"
 local assets =
 {
 	Asset("ANIM", "anim/giant_tree1.zip"),
-	Asset("ANIM", "anim/giant_tree_damaged1.zip"),
+	Asset("ANIM", "anim/giant_tree1_damaged.zip"),
+	Asset("ANIM", "anim/giant_tree2_damaged.zip"),
 	Asset("ANIM", "anim/giant_tree2.zip"),
-	Asset("ANIM", "anim/giant_tree1_infested.zip"),
+	Asset("ANIM", "anim/giant_tree1_sick.zip"),
+	Asset("ANIM", "anim/giant_tree2_sick.zip"),
 }
 local CANOPY_SHADOW_DATA = require("prefabs/canopyshadows")
 
@@ -119,7 +121,8 @@ local choploots =
 	oceantree_leaf_fx_fall = 4,
 	twigs = 1,
 	log = 0.5,
-	spider = 0.25,
+	frog = 0.05,
+	spider = 0.005,
 }
 
 local felloots =
@@ -129,6 +132,7 @@ local felloots =
 	bird_egg = 0.5,
 	feather = 0.5,
 	spider = 0.01,
+	frog = 0.05,
 }
 local infestedloots = 
 {
@@ -252,6 +256,9 @@ local function GetDebris(loottable)
 			end
 		end
 	end
+	if loot == "frog" and not TheWorld.state.isspring then
+		loot = GetDebris(loottable)
+	end
 	return loot
 end
 
@@ -259,13 +266,13 @@ end
 local function SpawnDebris(inst,chopper,loottable)
 	local x,y,z = inst.Transform:GetWorldPosition()
 	
-	local radius = math.random(2.5,5)
+	local radius = math.random(3,5)
 	local angle = math.random(0,2*PI)
 	x = x + radius*math.sin(angle)
 	z = z + radius*math.cos(angle)
 
 	local prefab = GetDebris(loottable)
-    if prefab ~= nil and prefab ~= "oceantree_leaf_fx_fall" then
+    if prefab ~= nil and prefab ~= "oceantree_leaf_fx_fall" and prefab ~= "frog" then
         local debris = SpawnPrefab(prefab)
         if debris ~= nil then
             debris.entity:SetCanSleep(false)
@@ -300,13 +307,21 @@ local function SpawnDebris(inst,chopper,loottable)
 						if debris.components.combat ~= nil and not chopper:HasTag("spiderwhisperer") then
 							debris.components.combat:SuggestTarget(chopper)
 						end
+						debris.sg:GoToState("enter_loop")
 					end
 				else
 					debris:Remove()
 				end
 			end
-		end																				 
+		end
+	end
+	
+	if prefab == "frog" then
+		local debris = SpawnPrefab(prefab)
+		debris.Physics:Teleport(x, 35, z)
+		debris.sg:GoToState("fall")
     end
+	
 	if prefab == "oceantree_leaf_fx_fall" then
 	    local dist = DROP_ITEMS_DIST_MIN + DROP_ITEMS_DIST_VARIANCE * math.random()
         local theta = 2 * PI * math.random()
@@ -328,14 +343,14 @@ local function InfestMe(inst)
     inst.components.childspawner:SetSpawnPeriod(TUNING.SPIDERDEN_RELEASE_TIME)
     inst.components.childspawner.allowboats = true
 	inst.infested = true
-	inst:PickBank(inst)
+	inst:PickBuild(inst)
 end
 
 local function UnInfestMe(inst)
 	inst:RemoveTag("infestedtree")
 	inst:RemoveComponent("childspawner")
 	inst.infested = false
-	inst:PickBank(inst)
+	inst:PickBuild(inst)
 end
 
 local function InfestedInit(inst)
@@ -414,7 +429,7 @@ local function on_chopped_down(inst, chopper)
 		inst.components.workable:SetWorkLeft(inst.previouschops)
 		inst.components.workable:SetOnWorkCallback(on_chop)
 		inst.components.workable:SetOnFinishCallback(on_chopped_down)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:PlayAnimation("idle")
 	else
 		inst.previouschops = 0
 		inst.chopped = true
@@ -426,27 +441,18 @@ local function on_chopped_down(inst, chopper)
 			UnInfestMe(inst)
 			inst:RemoveComponent("workable")
 		end
-		inst.AnimState:SetBuild("giant_tree_damaged"..inst.bankType)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
+		inst.AnimState:PlayAnimation("idle")
 		inst.components.timer:StartTimer("regrow", 3840)
-	end
-end
------------------------------
-
-
------------------------------Regrovvth Timer Handler
-local function Regrow(inst, data)
-	if data.name == "regrow" then
-		inst.chopped = false
-		inst:AddComponent("workable")
-		inst.components.workable:SetWorkAction(ACTIONS.CHOP)
-		inst.components.workable:SetWorkLeft(25)
-		inst.components.workable:SetOnWorkCallback(on_chop)
-		inst.components.workable:SetOnFinishCallback(on_chopped_down)
-		inst.AnimState:PlayAnimation("damaged-0")
-	end
-	if data.name == "infest" then
-		InfestMe(inst)
+		if inst.mossy == true then
+			inst.HideAllMoss(inst,true)
+		else
+			inst.HideAllMoss(inst)
+		end
+		if inst.components.timer:TimerExists("remoss") then
+			inst.components.timer:StopTimer("remoss")
+		end
+		inst.components.timer:StartTimer("remoss", 4800) --10 days to regrovv moss
 	end
 end
 -----------------------------
@@ -481,32 +487,118 @@ end
 
 
 ----------------------------- Animation Handling
-local function PickType(inst)
-	inst.bankType = math.random(1,1) --RN only have 1 type
+
+
+local mosses = {
+	"mossa",
+	"mossb",
+	"mossc",
+	"mossd",
+	"mosse",
+	"mossf",
+	"mossg",
+	"mossh",
+	"mossi",
+}
+
+local function HideAllMoss(inst,poof) --Depricated
+	--TheNet:Announce("inst.mossy is false")
+	for i,moss in ipairs(mosses) do
+		if poof and poof == true then
+			local pine = SpawnPrefab("pine_needles_chop")
+			pine.entity:AddFollower()
+			pine.Follower:FollowSymbol(inst.GUID, moss, 0, 0, 0)
+		end	
+		inst.AnimState:HideSymbol(moss)
+	end
 end
 
-local function PickBank(inst)
+local function ShowAllMoss(inst,poof)
+	--TheNet:Announce("inst.mossy is true")
+	inst.mossy = true
+	for i,moss in ipairs(mosses) do
+		if poof and poof == true then
+			local pine = SpawnPrefab("pine_needles_chop")
+			pine.entity:AddFollower()
+			pine.Follower:FollowSymbol(inst.GUID, moss, 0, 0, 0)
+		end		
+		inst.AnimState:ShowSymbol(moss)
+	end
+end
+
+local function PickType(inst)
+	inst.bankType = math.random(1,2) --RN only have 2 type
+	if math.random() > 0.6 then
+		inst.reverse = true
+	end
+	inst.stretchx = math.random(-0.1,0.1)
+	inst.stretchy = math.random(-0.1,0.1)
+	if math.random() > 0.9 then
+		ShowAllMoss(inst,false)
+	else
+		inst.components.timer:StartTimer("remoss", 3000+math.random(1000,4000))
+		HideAllMoss(inst,false)
+	end
+end
+
+local function AnimNext(inst)
+	if inst.components.workable and inst.components.workable:CanBeWorked() then
+		inst.AnimState:PlayAnimation("idle")
+	else
+		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
+		inst.AnimState:PlayAnimation("idle")
+	end
+end
+
+local function PickBuild(inst)
 	local bank
 	if inst.bankType then
 		bank = "giant_tree"..inst.bankType
 		if inst.components.workable then
 			bank = "giant_tree"..inst.bankType
 		else
-			bank = "giant_tree_damaged"..inst.bankType
+			bank = "giant_tree"..inst.bankType.."_damaged"
 		end
 		if inst.infested == true then
-			bank = bank.."_infested"
+			bank = bank.."_sick"
 		end
-		inst.AnimState:SetBank(bank)
+		inst.AnimState:SetBank("giant_tree")
 		inst.AnimState:SetBuild(bank)
-		inst.AnimState:PlayAnimation("damaged-0")
+		inst.AnimState:PlayAnimation("idle")
+		local mult = 1
+		if inst.reverse then
+			mult = -1
+		end
+		inst.AnimState:SetScale(mult*(1 + inst.stretchx), 1+inst.stretchy)
+		
+		AnimNext(inst)
 	else
 		PickType(inst)
-		PickBank(inst)
+		PickBuild(inst)
 	end
 end
 -----------------------------
 
+-----------------------------Regrovvth Timer Handler
+local function Regrow(inst, data)
+	if data.name == "regrow" then
+		inst.chopped = false
+		inst:AddComponent("workable")
+		inst.components.workable:SetWorkAction(ACTIONS.CHOP)
+		inst.components.workable:SetWorkLeft(25)
+		inst.components.workable:SetOnWorkCallback(on_chop)
+		inst.components.workable:SetOnFinishCallback(on_chopped_down)
+		inst.AnimState:PlayAnimation("idle")
+		PickBuild(inst)
+	end
+	if data.name == "infest" then
+		InfestMe(inst)
+	end
+	if data.name == "remoss" then
+		ShowAllMoss(inst,true)
+	end
+end
+-----------------------------
 
 ---------------------------------- Saving and loading 
 local function onsave(inst, data)
@@ -514,6 +606,12 @@ local function onsave(inst, data)
 	data.chopped = inst.chopped
 	data.bankType = inst.bankType
 	data.infested = inst.infested
+	data.stretchx = inst.stretchx
+	data.stretchy = inst.stretchy
+	if inst.reverse then
+		data.reverse = inst.reverse
+	end
+	data.mossy = inst.mossy
 end
 
 local function onload(inst,data)
@@ -528,14 +626,23 @@ local function onload(inst,data)
 		if data.infested then
 			inst.infested = data.infested
 		end
+		if data.reverse then
+			inst.reverse = true
+		end
+		if data.stretchx then
+			inst.stretchx = data.stretchx
+		end
+		if data.stretchy then
+			inst.stretchy = data.stretchy
+		end
+		if data.mossy then
+			inst.mossy = data.mossy
+			ShowAllMoss(inst)
+		else
+			HideAllMoss(inst)
+		end
 	else
 		inst.previouschops = 25
-	end
-	if inst.components.workable and inst.components.workable:CanBeWorked() then
-		inst.AnimState:PlayAnimation("damaged-0")
-	else
-		inst.AnimState:SetBuild("giant_tree_damaged"..inst.bankType)
-		inst.AnimState:PlayAnimation("damaged-0")
 	end
 end
 ----------------------------------
@@ -584,7 +691,7 @@ local function giant_treefn()
     if not TheWorld.ismastersim then        
         return inst
     end
-	inst:DoTaskInTime(0,PickBank)
+	inst:DoTaskInTime(0,PickBuild)
 	----------------------------------	
 	inst:AddComponent("workable")
 	inst.components.workable:SetWorkAction(ACTIONS.CHOP)
@@ -608,8 +715,26 @@ local function giant_treefn()
 	inst:DoTaskInTime(0, SpawnerInit)
 	inst:DoTaskInTime(0, InfestedInit)
 	
-	inst.PickBank = PickBank
-
+	inst.PickBuild = PickBuild
+	inst.HideAllMoss = HideAllMoss
+	inst:DoTaskInTime(math.random(0,0.1),function(inst) --Keep giant trees spaced out
+		if FindEntity(inst,2^2,nil,{"giant_tree"}) then
+			inst:Remove()
+		end
+	end)
+	
+	--[[inst:DoTaskInTime(1,function(inst) 
+		if inst.mossy then
+			if inst.mossy == true then
+				TheNet:Announce("inst.mossy is true")
+			else
+				TheNet:Announce("inst.mossy is false")
+			end
+		else
+			TheNet:Announce("inst.mossy is nil")
+		end
+	end)]]
+	inst:ListenForEvent("animover",AnimNext)
 	return inst
 end
 
