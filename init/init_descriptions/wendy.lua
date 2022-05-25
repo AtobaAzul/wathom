@@ -215,6 +215,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "I suppose this would clear blocked sinuses."
     ANNOUNCE.CURSED_ITEM_EQUIP = "It burns at the touch."
+    DESCRIBE.VETSITEM = "It believes my hands are pure, and untainted."
 	DESCRIBE.SCREECHER_TRINKET = "The stench of death lingers here."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "It's waiting for nightfall."}
 

@@ -215,6 +215,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WEBBER.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It stops us from sneezing! We're not sure how, but it does!"
     ANNOUNCE.CURSED_ITEM_EQUIP = "Ouchies!"
+    DESCRIBE.VETSITEM = "Our hands aren't cursed enough for this!"
 	DESCRIBE.SCREECHER_TRINKET = "I don't like it."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "I think its sleeping? But, in the day time?"}
 

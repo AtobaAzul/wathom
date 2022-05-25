@@ -146,8 +146,9 @@ configuration_options =
 ------------------------------
 -- Character Reworks --
 ------------------------------
-    Header("Character Reworks"),
+    Header("Characters"),
 ------------------------------
+	BinaryConfig("funny rat", "Winky", "The Vile Vermin", true),
     BinaryConfig("willow", "Willow Rework", "Willow's Lighter now has infinite durability, Willow can cast explosions, etc.", true),
     BinaryConfig("bernie", "Big Bernie", "Enable Big BERNIE!!", true),
     BinaryConfig("warly", "Improved Warly", "Warly gets increased stats from food, like Singleplayer. However, he remembers foods for 3 days instead of 2.", true),
@@ -166,7 +167,7 @@ configuration_options =
 			{description = "Classic", data = "UMNERF"},
 			{description = "Vanilla", data = "off"},
 		},
-		default = "SHOT",
+		default = "UMNERF",
 	},
 	
 	BinaryConfig("wickerbottom", "Wickerbottom Balance", "Wickerbottom/Maxwell can no longer read books while insane.", true),
@@ -177,7 +178,7 @@ configuration_options =
 	BinaryConfig("wormwood_plants", "Prevent Infinite Sanity Loop", "Increases the sanity loss from digging plants.", true),
 	BinaryConfig("wendy", "Nerfed Wendy", "Abigail was nerfed to not increase Wendy's maximum damage above average.", true),
 	BinaryConfig("wx78", "Tweaked WX-78", "No longer heals from lightning", true),
-	BinaryConfig("woodie", "Nerfed Weregoose", "Weregoose gains wetness when over water.", false),
+	BinaryConfig("woodie", "Weregoose Wetness", "Weregoose gains wetness when over water.", false),
 	SkipSpace(),
 ------------------------------
 -- Weather --
@@ -233,7 +234,7 @@ configuration_options =
 	default = 22,
 	},]]
     BinaryConfig("snowstorms", "Snowstorms", "Snowtorms impede on players' speed and vision if they are not wearing eye protection. Snowstorms also causes snow to build up on structures.", true),
-    BinaryConfig("hayfever_", "Hayfever", "Hayfever makes a return from Hamlet, but tweaked so it doesn't make you want to die. Prevent sneezing with antihistamines and certain hats.", false),
+    BinaryConfig("hayfever", "Hayfever", "Hayfever makes a return from Hamlet, but tweaked so it doesn't make you want to die. Prevent sneezing with antihistamines and certain hats.", false),
     BinaryConfig("winter_burning", "Harder Burning", "Winter makes it so setting stuff alight takes more time, and also finish burning faster.", true),
 	--BinaryConfig("acidrain", "Acid Rain", "After the First Year, Toadstool will grow poisionous mushtrees aboveground and pollute the world, making the rain acidic.", true),
 	BinaryConfig("hotcaves", "Hotter Caves", "During summer, caves are just hot enough to heat you without any gear.", true),
@@ -300,19 +301,19 @@ configuration_options =
 		default = 9600,
 	},
 	{
-		name = "ratsnifftimer",
+		name = "ratsnifftimer_",
 		label = "Rat Sniff Timer",
 		hover = "The rate at which your base is checked for messiness.",
 		options =
 		{
-			{description = "Lowered[30 seconds]", data = 30},
-			{description = "Default[60 seconds]", data = 60},
-			{description = "Raised[120 seconds]", data = 120},
+			{description = "Lowest[1 Minute]", data = 60},
+			{description = "Lowered[2 Minutes]", data = 120},
+			{description = "Default[3 Minutes]", data = 180},
+			{description = "Raised[4 Minutes]", data = 240},
+			{description = "Extended[8 Minutes]", data = 480}
 		},
-		default = 60,
+		default = 180,
 	},
-	BinaryConfig("itemcheck", "Item Check", "Toggles the item check mechanic, where rats will sniff items and equipment on the floor.", true),
-	BinaryConfig("seedcheck", "Seed Check", "Toggles wether seeds count towards the rat food score.", true),
 -----------------------------
 -- Items and Structures--
 -----------------------------
@@ -407,7 +408,7 @@ configuration_options =
 			{description = "2.5x", data = 2.5},
 			{description = "3x", data = 3},
 		},
-		default = 2,
+		default = 1.5,
 	},
 	BinaryConfig("butterflywings_nerf", "Weaker Butterfly Wings", "Butterfly wings have been nerfed to not be cheap healing", true),
 	BinaryConfig("rawcropsnerf", "Raw Crops Nerf", "Farm crops are nerfed in their base value when raw/cooked to incentivize using crockpot recipes.", true),
@@ -556,8 +557,7 @@ configuration_options =
 	Header(""),
 
 	BinaryConfig("harder_beequeen", "Harder Bee Queen", "Bee Queen now has AOE attached to her main attack.", true),
-	--renamed it so it forces reset when we push the update live.
-	BinaryConfig("rework_minotaur_", "Ancient Guardian Rework", "The Ancient Guardian's fight is reworked, includes more attacks, now changed to better match Klei's rework.", true),
+	BinaryConfig("rework_minotaur_disabled", "Ancient Guardian Rework", "[CURRENTLY BROKEN] The Ancient Guardian's fight is reworked, includes more attacks and a stunning mechanic.", false),
 	BinaryConfig("reworked_eyes", "Reworked Eyes of Terror", "Eye of Terror and the Twins have new attacks, inspired by their Terraria counterparts.", true),
 	Header(""),
 
@@ -645,10 +645,9 @@ configuration_options =
 	BinaryConfig("announce_basestatus", "[DEV] Announce Ratsniffer","[Developer Tool] Prints the exact rat sniff values to chat to be viewed in real time.",false),
 	BinaryConfig("eyebrellarework", "Eyebrella Rework","Eyebrella stats restored to vanilla value, can't be repaired, 12 day durability.",false),
 	BinaryConfig("cooldown_orangestaff", "Cooldown Based Lazy Explorer", "Lazy explorer no longer has durabilty, but instead has cooldown, like Wanda's watches.\nSuggested by Lux.", false),
-	BinaryConfig("funny rat", "???", "The Vile Vermin", false)
 ------------------------------
 -- Secret --
-------------------------------
+-------------------------------
     --Header("Secret"),
 ------------------------------
 

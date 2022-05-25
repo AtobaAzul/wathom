@@ -216,6 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "May give some allergy protection, for a time."
     ANNOUNCE.CURSED_ITEM_EQUIP = "Ouch! It's not meant for uncursed hands."
+    DESCRIBE.VETSITEM = "It's not meant for uncursed hands."
 	DESCRIBE.SCREECHER_TRINKET = "It's from another timeline..."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "The moon needs to be out."}
 	

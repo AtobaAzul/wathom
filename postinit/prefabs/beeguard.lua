@@ -125,9 +125,9 @@ env.AddPrefabPostInit("beeguard", function(inst)
 	local _FocusTarget = inst.FocusTarget
 	
 	local function FocusTarget(inst,target)
-		TheNet:Announce("triedfocus")
+		--TheNet:Announce("triedfocus")
 		if inst.beeHolder == nil then
-			TheNet:Announce("nobeeHolder")
+			--TheNet:Announce("nobeeHolder")
 			_FocusTarget(inst,target)
 		end
 	end

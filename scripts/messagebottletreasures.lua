@@ -259,7 +259,7 @@ sunkenchest =
 
 		}
 	},
-sunken_royalchest =
+sunkenchest_royal =
 {
 	treasure_type_weight = 0.5,
 

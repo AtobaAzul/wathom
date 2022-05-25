@@ -311,7 +311,7 @@ return {
 	"winona_toolbox",
 	"searock_arches",
 	"minotaur_organ",
-	"sunken_royalchest",
+	"sunkenchest_royal",
 	"speaker",
 	"sludge",
 	"sludgestack",
@@ -332,4 +332,6 @@ return {
 	
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",
+	
+	"siren_fish",
 }
