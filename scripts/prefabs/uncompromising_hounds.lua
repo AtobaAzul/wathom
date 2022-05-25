@@ -689,6 +689,7 @@ local function fnglacial()
 	
     inst:AddComponent("timer")
     inst:ListenForEvent("timerdone", ontimerdone)
+	inst.Transform:SetScale(1.3, 1.3, 1.3)
 
 	inst.task = nil
 	
