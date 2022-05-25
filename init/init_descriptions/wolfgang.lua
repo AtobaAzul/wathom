@@ -35,8 +35,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "Is greedy little hair puff!"
     DESCRIBE.UNCOMPROMISING_RATHERD = "Beady eye hole make Wolfgang uncomfortable."
     DESCRIBE.UNCOMPROMISING_RATBURROW = "Beady eye hole make Wolfgang uncomfortable."
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Beady eye hole make Wolfgang uncomfortable."
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "Beady eye hole make Wolfgang uncomfortable."
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Wolfgang is not sure if he can trust this rat..."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "Very, smelly rat hole. But there are goodies inside?"
 	
 	DESCRIBE.WINKY =
         {
@@ -216,7 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "Good for sneeze time."
     ANNOUNCE.CURSED_ITEM_EQUIP = "The harder Wolfgang squeeze, the more it hurts!"
-    DESCRIBE.VETSITEM = "What you say? Need more curses?"
+	DESCRIBE.VETSITEM = "What you say? Need more curses?"
 	DESCRIBE.SCREECHER_TRINKET = "Ah! Looks scary!"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "Needs big moon?"}
 
@@ -344,7 +344,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Aaaah! Biggest rat!"
 	DESCRIBE.PIED_PIPER_FLUTE = "At least rat is dead."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Little rat has backpack!"
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "Tiny box can hold many tools."
 	DESCRIBE.OCEAN_SPEAKER = "Is speaker! Had many in circus!"
 	--DESCRIBE.UM_SIREN = "Hah! Is puny lady of song!"
 	
@@ -352,6 +352,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "Has no lighting in it.",
+		CHARGE_FULL = "Ow! Thingabob zapped fingers!",
 	}
