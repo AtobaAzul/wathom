@@ -54,14 +54,14 @@ local function DoGooTrail(inst)
         end
 
         local fx = nil
-        --eif TheWorld.Map:IsPassableAtPoint(hx, hy, hz) then
+        if TheWorld.Map:IsPassableAtPoint(hx, hy, hz) then
             fx = SpawnPrefab("honey_trail")
             fx:SetVariation(PickGoo(inst), GetRandomMinMax(level.min_scale, level.max_scale), level.duration + math.random() * .5)
-        --else
-            --fx = SpawnPrefab("splash_sink")
-        --end
+			fx.AnimState:SetMultColour(0.05,0.2,0.4,1)
+        else
+            fx = SpawnPrefab("splash_sink")
+        end
         fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
-		fx.AnimState:SetMultColour(0.05,0.2,0.4,1)
 		fx.Transform:SetScale(0.5,0.5,0.5)
     end
 end
