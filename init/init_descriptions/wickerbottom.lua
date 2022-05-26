@@ -36,7 +36,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "Rodentia kleptomanis, and quite the large specimen!"
     DESCRIBE.UNCOMPROMISING_RATHERD = "One entrance to a no doubt vast tunnel system!"
     DESCRIBE.UNCOMPROMISING_RATBURROW = "One entrance to a no doubt vast tunnel system!"
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Another entrance, albiet temporary."
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Another entrance, albeit temporary."
     DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "Well, at least this one appears to be providing us instead."
 	
 	DESCRIBE.WINKY =
@@ -348,7 +348,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Drenched in filth."
 	DESCRIBE.PIED_PIPER_FLUTE = "Filled with horrid diseases, I'm sure."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Have they gained intelligence, or did they steal it?"
-	DESCRIBE.WINONA_TOOLBOX = "An organized work place is an efficent work place."
+	DESCRIBE.WINONA_TOOLBOX = "An organized work place is an efficient work place."
 	DESCRIBE.OCEAN_SPEAKER = "My, not something you'd expect to see all the way out here."
 	--DESCRIBE.UM_SIREN = "My, she appears to carry a very maniuplative frequency."
 	

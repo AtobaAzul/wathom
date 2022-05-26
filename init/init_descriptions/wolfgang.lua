@@ -352,6 +352,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "Has no lighting in it.",
+		NOT_ENOUGH_CHARGE = "Has no lightning in it.",
 		CHARGE_FULL = "Ow! Thingabob zapped fingers!",
 	}
