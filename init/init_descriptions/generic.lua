@@ -46,8 +46,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.GENERIC.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "They're rataliating!"
     DESCRIBE.UNCOMPROMISING_RATHERD = "It must lead to their labo-rat-ory."
     DESCRIBE.UNCOMPROMISING_RATBURROW = "It must lead to their labo-rat-ory."
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "It must lead to their labo-rat-ory."
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "It must lead to their labo-rat-ory."
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "She keeps leaving these around, I hope no rats come out..."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "I think that's supposed to be that rat things home. Maybe I should look inside?"
 	
 	DESCRIBE.WINKY =
         {
@@ -425,7 +425,7 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	DESCRIBE.PIED_RAT = "He must be leading the vermin!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Maybe I could lead some of the rats myself?"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Hey! It's carrying off all of our valuables!"
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "I had one like this for all of my scientific tools."
 	DESCRIBE.OCEAN_SPEAKER = "Well this seems awfully out of place." --Lame guy. Lame quote.
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I can't retrieve this raft if I drown!"
@@ -433,8 +433,8 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "I need to restore the power before I can do that.",
+		CHARGE_FULL = "What a shocking result.",
 	}
 
 	--DESCRIBE.UM_SIREN = "Science says we may be able to \"help\" each other."

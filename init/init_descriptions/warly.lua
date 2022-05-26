@@ -35,8 +35,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "Don't let the filthy little pestes near my kitchen!"
     DESCRIBE.UNCOMPROMISING_RATHERD = "A trouble trou!"
     DESCRIBE.UNCOMPROMISING_RATBURROW = "A trouble trou!"
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "A trouble trou!"
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "A trouble trou!"
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "That better not cause any trouble."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "I'm not trusting any ingredients that come from there!"
 	
 	DESCRIBE.WINKY =
         {
@@ -215,7 +215,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "I hate sneezing near food, this will help."
     ANNOUNCE.CURSED_ITEM_EQUIP = "My hands been sizzled!"
-    DESCRIBE.VETSITEM = "I seem to be missing some dark ingredient."
+	DESCRIBE.VETSITEM = "I seem to be missing some dark ingredient."
 	DESCRIBE.SCREECHER_TRINKET = "Something dark stirs."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "Some dishes are best served in the evening."}
 	
@@ -342,7 +342,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "How greasy!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Must I really touch it?"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Hands off the goods!"
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "Not meant for pots and pans, but I can make do."
 	DESCRIBE.OCEAN_SPEAKER = "I never was one for machines."
 	--DESCRIBE.UM_SIREN = "Apologies Mademoiselle Wigfrid, but it is the supperior singer."
 	
@@ -350,6 +350,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "Out of juice.",
+		CHARGE_FULL = "That was a little dangerous.",
 	}

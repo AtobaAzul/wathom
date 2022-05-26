@@ -35,8 +35,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "Get away from my clocks!"
     DESCRIBE.UNCOMPROMISING_RATHERD = "I think they just wanted an escape from the Ratacombs."
     DESCRIBE.UNCOMPROMISING_RATBURROW = "I think they just wanted an escape from the Ratacombs."
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "I think they just wanted an escape from the Ratacombs."
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "I think they just wanted an escape from the Ratacombs."
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "It wasn't made to last."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "At least this one is helping. Although I'd rather not risk it."
 	
 	DESCRIBE.WINKY =
         {
@@ -64,7 +64,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
     DESCRIBE.GASMASK = "Oh botheration, I'll look like a fool wearing that!"
 	DESCRIBE.MOCK_DRAGONFLY = DESCRIBE.DRAGONFLY
 	DESCRIBE.MOTHERGOOSE = DESCRIBE.MOOSE
-	DESCRIBE.SPIDERQUEENCORPSE = "Mon dieu! That must get rid of!"
+	DESCRIBE.SPIDERQUEENCORPSE = "It's only a matter of time before something worse happens..."
 	ANNOUNCE.ANNOUNCE_SNEEZE = "Auuchoo! My goodness!"
 	ANNOUNCE.ANNOUNCE_HAYFEVER = "Allergies... I dread this time of year."
 	ANNOUNCE.ANNOUNCE_HAYFEVER_OFF = "Ah, clean air... about time!"
@@ -216,7 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "May give some allergy protection, for a time."
     ANNOUNCE.CURSED_ITEM_EQUIP = "Ouch! It's not meant for uncursed hands."
-    DESCRIBE.VETSITEM = "It's not meant for uncursed hands."
+	DESCRIBE.VETSITEM = "It's not meant for uncursed hands."
 	DESCRIBE.SCREECHER_TRINKET = "It's from another timeline..."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "The moon needs to be out."}
 	
@@ -343,12 +343,12 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "How did we let it get this bad?"
 	DESCRIBE.PIED_PIPER_FLUTE = "Maybe it'd be worth the time to play."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "We must focus on that one!"
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "I keep everything I need on me."
 	DESCRIBE.OCEAN_SPEAKER = "I remember these! I can't quite... remember what they do though..."
 	--DESCRIBE.UM_SIREN = "Oh botheration! Its YOU again."
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "I'm not going to wait around for it to recharge.",
+		CHARGE_FULL = "Clearly the constructor didn't have the time to make it safe.",
 	}

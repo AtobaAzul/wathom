@@ -35,8 +35,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "Wreched daemons wrought to topple the pillars of vanity."
     DESCRIBE.UNCOMPROMISING_RATHERD = "But one mouth of a den of thieves."
     DESCRIBE.UNCOMPROMISING_RATBURROW = "But one mouth of a den of thieves."
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "But one mouth of a den of thieves."
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "But one mouth of a den of thieves."
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "It leads everywhere, and nowhere."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "A wretched vile home."
 	
 	DESCRIBE.WINKY =
         {
@@ -215,7 +215,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "I suppose this would clear blocked sinuses."
     ANNOUNCE.CURSED_ITEM_EQUIP = "It burns at the touch."
-    DESCRIBE.VETSITEM = "It believes my hands are pure, and untainted."
+	DESCRIBE.VETSITEM = "It believes my hands are pure, and untainted."
 	DESCRIBE.SCREECHER_TRINKET = "The stench of death lingers here."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "It's waiting for nightfall."}
 
@@ -341,7 +341,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "What a horrible sound."
 	DESCRIBE.PIED_PIPER_FLUTE = "Filled with the spit of that beast."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Your pack will not help you carry the burden of the world."
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "If empty it has no purpose."
 	DESCRIBE.OCEAN_SPEAKER = "Its busted and hollow inside. Only playing dreary tunes."
 	--DESCRIBE.UM_SIREN = "She manipulates her pawns through song. A very potentent ability..."
 	
@@ -349,6 +349,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "There's no life inside of it.",
+		CHARGE_FULL = "It could've electrocuted me. I wish it did.",
 	}

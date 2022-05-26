@@ -36,8 +36,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "And thus cometh a plague upon both our houses!"
     DESCRIBE.UNCOMPROMISING_RATHERD = "Den of the little beasts!"
     DESCRIBE.UNCOMPROMISING_RATBURROW = "Den of the little beasts!"
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Den of the little beasts!"
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "Den of the little beasts!"
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Goods travel with the speed of Ratatoskr."
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "Lair of the beast, and the treasure that lie within."
 	
 	DESCRIBE.WINKY =
         {
@@ -216,7 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It shall keep mine nose safe!"
     ANNOUNCE.CURSED_ITEM_EQUIP = "This tool fights back!"
-    DESCRIBE.VETSITEM = "I must challenge myself further in order to use this!"
+	DESCRIBE.VETSITEM = "I must challenge myself further in order to use this!"
 	DESCRIBE.SCREECHER_TRINKET = "A cursed symbol, no doubt!"
 	ACTIONFAIL.GIVE = {NOTNIGHT = "The great moon in the sky will give it power."}
 
@@ -342,7 +342,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "I will fell you, commander!"
 	DESCRIBE.PIED_PIPER_FLUTE = "The songs I could play!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Coward, stop running off!"
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "Not needed, I have every tool for battle I require."
 	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
 	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
 	
@@ -350,6 +350,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "It lies dormant.",
+		CHARGE_FULL = "I hath received Thors blessing!",
 	}

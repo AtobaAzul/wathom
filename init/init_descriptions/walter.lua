@@ -36,8 +36,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
     DESCRIBE.UNCOMPROMISING_RAT = "I'd share, but they seem more interested in just TAKING our stuff."
     DESCRIBE.UNCOMPROMISING_RATHERD = "A Pine Tree Pioneer never enters a rat den head first!"
     DESCRIBE.UNCOMPROMISING_RATBURROW = "A Pine Tree Pioneer never enters a rat den head first!"
-    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "A Pine Tree Pioneer never enters a rat den head first!"
-    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "A Pine Tree Pioneer never enters a rat den head first!"
+    DESCRIBE.UNCOMPROMISING_WINKYBURROW = "Wow! She can dig holes just as good as Woby!"
+    DESCRIBE.UNCOMPROMISING_WINKYHOMEBURROW = "She puts everything in there, I hope she doesn't mind sharing."
 	
 	DESCRIBE.WINKY =
         {
@@ -216,7 +216,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
         }
 	DESCRIBE.ANTIHISTAMINE = "It'll keep my allergies from flaring up!"
     ANNOUNCE.CURSED_ITEM_EQUIP = "OWWW! First aid please!"
-    DESCRIBE.VETSITEM = "Are more curses required? I hope so!"
+	DESCRIBE.VETSITEM = "Are more curses required? I hope so!"
 	DESCRIBE.SCREECHER_TRINKET = "Our Scout Masters told us to keep away from symbols like this."
 	ACTIONFAIL.GIVE = {NOTNIGHT = "I think moon power works best when the moon is around."}
 
@@ -345,15 +345,15 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Keep it down, you might hurt Woby's ears!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Woby doesn't want me to play it."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Whoa, he could be a great Pinetree Pioneer!"
-	DESCRIBE.WINONA_TOOLBOX = ""
+	DESCRIBE.WINONA_TOOLBOX = "I wonder what kind of gadgets and do-hickeys are inside."
 	DESCRIBE.OCEAN_SPEAKER = "I wonder if Woby can hear its frequency?"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I'd better find some solid ground before this thing pops!"
 	
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "test",
-		CHARGE_FULL = "test",
+		NOT_ENOUGH_CHARGE = "Does it need a new pair of batteries?",
+		CHARGE_FULL = "Woah! I think I almost got electrocuted.",
 	}
 	
 	--DESCRIBE.UM_SIREN = "Woah!! A REAL sea monster!!"

@@ -2,6 +2,85 @@ local assets = {
 	Asset("ANIM", "anim/siren_bubble.zip"),
 }
 
+local MAX_GOO_VARIATIONS = 7
+local MAX_RECENT_GOO = 4
+local GOO_PERIOD = .2
+
+local GOO_LEVELS =
+{
+    {
+        min_scale = .5,
+        max_scale = .8,
+        threshold = 8,
+        duration = 1.2,
+    },
+    {
+        min_scale = .5,
+        max_scale = 1.1,
+        threshold = 2,
+        duration = 2,
+    },
+    {
+        min_scale = 1,
+        max_scale = 1.3,
+        threshold = 1,
+        duration = 4,
+    },
+}
+
+local function PickGoo(inst)
+    local rand = table.remove(inst.availablegoo, math.random(#inst.availablegoo))
+    table.insert(inst.usedgoo, rand)
+    if #inst.usedgoo > MAX_RECENT_GOO then
+        table.insert(inst.availablegoo, table.remove(inst.usedgoo, 1))
+    end
+    return rand
+end
+
+local function DoGooTrail(inst)
+    local level = GOO_LEVELS[3]
+
+    inst.goocount = inst.goocount + 1
+
+    if inst.goothreshold > level.threshold then
+        inst.goothreshold = level.threshold
+    end
+
+    if inst.goocount >= inst.goothreshold then
+        local hx, hy, hz = inst.Transform:GetWorldPosition()
+        inst.goocount = 0
+        if inst.goothreshold < level.threshold then
+            inst.goothreshold = math.ceil((inst.goothreshold + level.threshold) * .5)
+        end
+
+        local fx = nil
+        if TheWorld.Map:IsPassableAtPoint(hx, hy, hz) then
+            fx = SpawnPrefab("honey_trail")
+            fx:SetVariation(PickGoo(inst), GetRandomMinMax(level.min_scale, level.max_scale), level.duration + math.random() * .5)
+			fx.AnimState:SetMultColour(0.05,0.2,0.4,1)
+        else
+            fx = SpawnPrefab("splash_sink")
+        end
+        fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+		fx.Transform:SetScale(0.5,0.5,0.5)
+    end
+end
+
+local function StartGoo(inst)
+    if inst.gootask == nil then
+        inst.goothreshold = GOO_LEVELS[1].threshold
+        inst.goocount = math.ceil(inst.goothreshold * .5)
+        inst.gootask = inst:DoPeriodicTask(GOO_PERIOD, DoGooTrail, 0)
+    end
+end
+
+local function StopGoo(inst)
+    if inst.gootask ~= nil then
+        inst.gootask:Cancel()
+        inst.gootask = nil
+    end
+end
+
 local function Pop(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
 	local ents = TheSim:FindEntities(x,y,z,2,{"_health"},{"siren"})
@@ -127,7 +206,7 @@ local function fn()
     inst.Light:SetColour(1, 1, 1)
     inst.Light:Enable(false)
 	
-    MakeInventoryPhysics(inst)
+	MakeFlyingCharacterPhysics(inst, 1, .5)
 	
     inst:AddTag("projectile")
 
@@ -146,6 +225,16 @@ local function fn()
 	inst.persists = false
 	inst:DoTaskInTime(0,FindTarget)
 	inst:DoPeriodicTask(FRAMES,OnUpdate)
+	
+    inst.gootask = nil
+    inst.goocount = 0
+    inst.goothreshold = 0
+    inst.usedgoo = {}	
+	inst.availablegoo = {}
+    for i = 1, MAX_GOO_VARIATIONS do
+        table.insert(inst.availablegoo, i)
+    end
+	StartGoo(inst)
 	
     return inst
 end
