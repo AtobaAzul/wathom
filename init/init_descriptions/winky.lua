@@ -379,4 +379,8 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	{
 		NOT_ENOUGH_CHARGE = "test",
 		CHARGE_FULL = "test",
-	}
+	}--wacky you forgor :skull:
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "There's the socket!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "There's the socket!"

@@ -358,3 +358,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "No power, what a shame.",
 		CHARGE_FULL = "That could've killed me!",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "That could've killed me!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "That could've killed me!"

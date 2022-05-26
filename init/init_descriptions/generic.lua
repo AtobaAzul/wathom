@@ -437,6 +437,10 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 		CHARGE_FULL = "What a shocking result.",
 	}
 
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "What a shocking result."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "What a shocking result."
+	
+
 	--DESCRIBE.UM_SIREN = "Science says we may be able to \"help\" each other."
 	--WHAT THE FUCK VARIANT
 	--DESCRIBE.UM_SIREN = "Science says she may not be from around here."

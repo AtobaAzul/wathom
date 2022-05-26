@@ -359,3 +359,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "It requires a fuel source to function.",
 		CHARGE_FULL = "A succesful conversion of energy!",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "A succesful conversion of energy!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "A succesful conversion of energy!"

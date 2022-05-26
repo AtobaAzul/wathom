@@ -353,3 +353,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "It lies dormant.",
 		CHARGE_FULL = "I hath received Thors blessing!",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "I hath received Thors blessing!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "I hath received Thors blessing!"

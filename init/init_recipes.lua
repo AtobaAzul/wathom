@@ -312,7 +312,7 @@ AddRecipe2(
     "turf_hoodedmoss",
     {Ingredient("twigs", 1), Ingredient("foliage", 1), Ingredient("moonrocknugget", 1)},
     TECH.TURFCRAFTING_TWO,
-    {num_to_give = 4},
+    {numtogive = 4},
     {"DECOR"}
 )
 ChangeSortKey("turf_hoodedmoss", "turf_deciduous", "DECOR", true)
@@ -321,7 +321,7 @@ AddRecipe2(
     "turf_ancienthoodedturf",
     {Ingredient("turf_hoodedmoss", 1), Ingredient("moonrocknugget", 1), Ingredient("thulecite_pieces", 1)},
     TECH.TURFCRAFTING_TWO,
-    {num_to_give = 4},
+    {numtogive = 4},
     {"DECOR"}
 )
 ChangeSortKey("turf_ancienthoodedturf", "turf_hoodedmoss", "DECOR", true)

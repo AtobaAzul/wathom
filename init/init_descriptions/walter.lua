@@ -356,4 +356,9 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 		CHARGE_FULL = "Woah! I think I almost got electrocuted.",
 	}
 	
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Woah! I think I almost got electrocuted."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Woah! I think I almost got electrocuted."
+	
+
 	--DESCRIBE.UM_SIREN = "Woah!! A REAL sea monster!!"

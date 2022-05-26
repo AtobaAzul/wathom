@@ -355,3 +355,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "Has no lighting in it.",
 		CHARGE_FULL = "Ow! Thingabob zapped fingers!",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Ow! Thingabob zapped fingers!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Ow! Thingabob zapped fingers!"

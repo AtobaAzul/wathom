@@ -352,3 +352,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "There's no life inside of it.",
 		CHARGE_FULL = "It could've electrocuted me. I wish it did.",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "It could've electrocuted me. I wish it did."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "It could've electrocuted me. I wish it did."

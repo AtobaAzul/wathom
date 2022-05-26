@@ -200,8 +200,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
         {
             BROKEN = "This can't be the end. We'll fix this!",
             GENERIC = "It looks well-loved.",
-            BROKEN = "This can't be the end. We'll fix this!",
-            GENERIC = "It looks well-loved.",
         }
 	
 	DESCRIBE.BERNIE_ACTIVE =
@@ -352,3 +350,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "I'm not going to wait around for it to recharge.",
 		CHARGE_FULL = "Clearly the constructor didn't have the time to make it safe.",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Clearly the constructor didn't have the time to make it safe!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Clearly the constructor didn't have the time to make it safe!"

@@ -18,10 +18,12 @@ env.AddPlayerPostInit(function(inst)
 
     local function OnChargeFromBattery(inst, battery)
         if inst.components.upgrademoduleowner == nil then
+
             local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             if item ~= nil and item:HasTag("electricaltool") and item.components.fueled ~= nil then
                 local percent = item.components.fueled:GetPercent()
                 local refuelnumber = 0
+
                 if percent + 0.33 > 1 then
                     refuelnumber = 1
                 else
@@ -37,14 +39,21 @@ env.AddPlayerPostInit(function(inst)
                     refuelnumber = percent + 0.33
                 end
                 item.components.finiteuses:SetPercent(refuelnumber)
-            elseif item == nil or not item:HasTag("electricaltool") then
-                return false
+            elseif item == nil or not item:HasTag("electricaltool") or percent > 0.99 then
+                return false, "CHARGE_FULL"
             end
 
             if not inst.components.inventory:IsInsulated() then
                 inst.sg:GoToState("electrocute")
-                inst.components.health:DoDelta(-TUNING.HEALING_SMALL, false, "lightning")
+                inst.components.health:DoDelta(TUNING.HEALING_SMALL, false, "lightning")
                 inst.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
+                if inst.components.talker ~= nil then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_INSULATED"))
+                end
+            else
+                if inst.components.talker ~= nil then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED"))
+                end
             end
             return true
         elseif inst.components.upgrademoduleowner ~= nil and inst.components.upgrademoduleowner:ChargeIsMaxed() then
@@ -67,13 +76,21 @@ env.AddPlayerPostInit(function(inst)
                     refuelnumber = percent + 0.33
                 end
                 item.components.finiteuses:SetPercent(refuelnumber)
-            elseif item == nil or not item:HasTag("electricaltool") then
-                return false
+            elseif item == nil or not item:HasTag("electricaltool") or percent > 0.99 then
+                return false, "CHARGE_FULL"
             end
+
             if not inst.components.inventory:IsInsulated() then
                 inst.sg:GoToState("electrocute")
-                inst.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
                 inst.components.health:DoDelta(TUNING.HEALING_SMALL, false, "lightning")
+                inst.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
+                if inst.components.talker ~= nil then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_INSULATED"))
+                end
+            else
+                if inst.components.talker ~= nil then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED"))
+                end
             end
             return true
         elseif inst.components.upgrademoduleowner ~= nil and not inst.components.upgrademoduleowner:ChargeIsMaxed() then
@@ -105,8 +122,14 @@ env.AddPlayerPostInit(function(inst)
                 inst.sg:GoToState("electrocute")
                 inst.components.health:DoDelta(TUNING.HEALING_SMALL, false, "lightning")
                 inst.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
+                if inst.components.talker ~= nil then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_INSULATED"))
+                end
+            else
+                if inst.components.talker ~= nil then
+                    inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED"))
+                end
             end
-
             return true
         end
     end

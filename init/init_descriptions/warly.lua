@@ -353,3 +353,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "Out of juice.",
 		CHARGE_FULL = "That was a little dangerous.",
 	}
+
+
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "That was a little dangerous."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "That was a little dangerous."
