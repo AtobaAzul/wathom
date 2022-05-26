@@ -348,18 +348,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Drenched in filth."
 	DESCRIBE.PIED_PIPER_FLUTE = "Filled with horrid diseases, I'm sure."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Have they gained intelligence, or did they steal it?"
-	DESCRIBE.WINONA_TOOLBOX = "An organized work place is an efficient work place."
-	DESCRIBE.OCEAN_SPEAKER = "My, not something you'd expect to see all the way out here."
-	--DESCRIBE.UM_SIREN = "My, she appears to carry a very maniuplative frequency."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "We can retrieve this raft, if we can get to shore!"
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "It requires a fuel source to function.",
-		CHARGE_FULL = "A succesful conversion of energy!",
+		CHARGE_FULL = "That simply isn't possible.",
 	}
-
-
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "A succesful conversion of energy!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "A succesful conversion of energy!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "I did not expect to become the conduit!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "An organized work place is an efficient work place."
+	DESCRIBE.OCEAN_SPEAKER = "My, not something you'd expect to see all the way out here."
+	--DESCRIBE.UM_SIREN = "My, she appears to carry a very maniuplative frequency."
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

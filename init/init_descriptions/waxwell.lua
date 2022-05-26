@@ -348,17 +348,28 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "That poor suit, ruined!"
 	DESCRIBE.PIED_PIPER_FLUTE = "I am NOT touching that, let alone putting it on my mouth."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Think you're clever, do you?"
-	DESCRIBE.WINONA_TOOLBOX = "I will not lug that around."
-	DESCRIBE.OCEAN_SPEAKER = "You know, I used to be king. Here I am unable to recognize half the stuff I find in these wretched waters."
-	--DESCRIBE.UM_SIREN = "How grotesque. Yet somewhat alluring... hrmpf."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "If I drown, I'm leaving you behind."
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "No power, what a shame.",
-		CHARGE_FULL = "That could've killed me!",
+		CHARGE_FULL = "That would be overkill.",
 	}
-
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "That could've killed me!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "That could've killed me!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Charged and raring to go"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "That's Smarts!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "I will not lug that around."
+	DESCRIBE.OCEAN_SPEAKER = "You know, I used to be king. Here I am unable to recognize half the stuff I find in these wretched waters."
+	--DESCRIBE.UM_SIREN = "How grotesque. Yet somewhat alluring... hrmpf."
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

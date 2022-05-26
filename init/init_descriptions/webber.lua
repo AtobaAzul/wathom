@@ -342,18 +342,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WEBBER.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Can we have your hat?"
 	DESCRIBE.PIED_PIPER_FLUTE = "We always wanted to learn how to play."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Nice backpack!"
-	DESCRIBE.WINONA_TOOLBOX = "Can we make it into a toy box?"
-	DESCRIBE.OCEAN_SPEAKER = "I want to get closer but he seems weary."
-	--DESCRIBE.UM_SIREN = "Her songs make our head all fuzzy..."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "The raft won't sink, but we will!"
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "Did we do it right?",
-		CHARGE_FULL = "I think we did it right!",
+		CHARGE_FULL = "Already fully charged.",
 	}
-
-
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "I think we did it right!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "I think we did it right!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Agh! We don't think that's right."
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "Can we make it into a toy box?"
+	DESCRIBE.OCEAN_SPEAKER = "I want to get closer but he seems weary."
+	--DESCRIBE.UM_SIREN = "Her songs make our head all fuzzy..."
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

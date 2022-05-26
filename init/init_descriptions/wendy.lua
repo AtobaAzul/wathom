@@ -341,18 +341,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "What a horrible sound."
 	DESCRIBE.PIED_PIPER_FLUTE = "Filled with the spit of that beast."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Your pack will not help you carry the burden of the world."
-	DESCRIBE.WINONA_TOOLBOX = "If empty it has no purpose."
-	DESCRIBE.OCEAN_SPEAKER = "Its busted and hollow inside. Only playing dreary tunes."
-	--DESCRIBE.UM_SIREN = "She manipulates her pawns through song. A very potentent ability..."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "This raft is about to leave me to drown."
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "There's no life inside of it.",
-		CHARGE_FULL = "It could've electrocuted me. I wish it did.",
+		CHARGE_FULL = "The battery is full already.",
 	}
-
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "It could've electrocuted me. I wish it did."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "It could've electrocuted me."
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "It could've electrocuted me. I wish it did."
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "If empty it has no purpose."
+	DESCRIBE.OCEAN_SPEAKER = "Its busted and hollow inside. Only playing dreary tunes."
+	--DESCRIBE.UM_SIREN = "She manipulates her pawns through song. A very potentent ability..."
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

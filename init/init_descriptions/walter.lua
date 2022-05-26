@@ -345,20 +345,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Keep it down, you might hurt Woby's ears!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Woby doesn't want me to play it."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Whoa, he could be a great Pinetree Pioneer!"
-	DESCRIBE.WINONA_TOOLBOX = "I wonder what kind of gadgets and do-hickeys are inside."
-	DESCRIBE.OCEAN_SPEAKER = "I wonder if Woby can hear its frequency?"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I'd better find some solid ground before this thing pops!"
 	
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "Does it need a new pair of batteries?",
-		CHARGE_FULL = "Woah! I think I almost got electrocuted.",
+		CHARGE_FULL = "It's already fully charged.",
 	}
-	
-
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Woah! I think I almost got electrocuted."
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Woah! I think I almost got electrocuted."
 	
-
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "I wonder what kind of gadgets and do-hickeys are inside."
+	DESCRIBE.OCEAN_SPEAKER = "I wonder if Woby can hear its frequency?"
 	--DESCRIBE.UM_SIREN = "Woah!! A REAL sea monster!!"
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

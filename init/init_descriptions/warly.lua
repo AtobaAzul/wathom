@@ -342,18 +342,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "How greasy!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Must I really touch it?"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Hands off the goods!"
-	DESCRIBE.WINONA_TOOLBOX = "Not meant for pots and pans, but I can make do."
-	DESCRIBE.OCEAN_SPEAKER = "I never was one for machines."
-	--DESCRIBE.UM_SIREN = "Apologies Mademoiselle Wigfrid, but it is the supperior singer."
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "Don't pack up and leave me to the sea!"
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-		NOT_ENOUGH_CHARGE = "Out of juice.",
-		CHARGE_FULL = "That was a little dangerous.",
+		NOT_ENOUGH_CHARGE = "No more juice.",
+		CHARGE_FULL = "It's already juiced up!",
 	}
-
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "That was a little dangerous."
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "That was a little dangerous."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "That was still a little dangerous."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "OW! I can't cook with singed fingers!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "Not meant for pots and pans, but I can make do."
+	DESCRIBE.OCEAN_SPEAKER = "I never was one for machines."
+	--DESCRIBE.UM_SIREN = "Apologies Mademoiselle Wigfrid, but it she the supperior singer!"
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

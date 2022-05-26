@@ -344,18 +344,30 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Aaaah! Biggest rat!"
 	DESCRIBE.PIED_PIPER_FLUTE = "At least rat is dead."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Little rat has backpack!"
-	DESCRIBE.WINONA_TOOLBOX = "Tiny box can hold many tools."
-	DESCRIBE.OCEAN_SPEAKER = "Is speaker! Had many in circus!"
-	--DESCRIBE.UM_SIREN = "Hah! Is puny lady of song!"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "Floaty boat is sinking!"
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "Has no lightning in it.",
-		CHARGE_FULL = "Ow! Thingabob zapped fingers!",
+		CHARGE_FULL = "It is not working, because it is good already.",
 	}
-
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Ow! Thingabob zapped fingers!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Did not shock Wolfgang this time. Very good."
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Ow! Thingabob zapped fingers!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "Not needed, I have every tool for battle I require."
+	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
+	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 
+	

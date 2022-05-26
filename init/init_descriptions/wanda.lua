@@ -341,16 +341,28 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "How did we let it get this bad?"
 	DESCRIBE.PIED_PIPER_FLUTE = "Maybe it'd be worth the time to play."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "We must focus on that one!"
-	DESCRIBE.WINONA_TOOLBOX = "I keep everything I need on me."
-	DESCRIBE.OCEAN_SPEAKER = "I remember these! I can't quite... remember what they do though..."
-	--DESCRIBE.UM_SIREN = "Oh botheration! Its YOU again."
+	
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "I'm not going to wait around for it to recharge.",
-		CHARGE_FULL = "Clearly the constructor didn't have the time to make it safe.",
+		CHARGE_FULL = "It doesn't need a re-charge!",
 	}
-
-
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Clearly the constructor didn't have the time to make it safe!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Clearly the constructor didn't have the time to make it safe!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "It's not even insulated properly!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "I keep everything I need on me."
+	DESCRIBE.OCEAN_SPEAKER = "I remember these! I can't quite... remember what they do though..."
+	--DESCRIBE.UM_SIREN = "Oh botheration! Its YOU again."
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

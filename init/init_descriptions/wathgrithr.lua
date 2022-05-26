@@ -342,18 +342,30 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "I will fell you, commander!"
 	DESCRIBE.PIED_PIPER_FLUTE = "The songs I could play!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Coward, stop running off!"
-	DESCRIBE.WINONA_TOOLBOX = "Not needed, I have every tool for battle I require."
-	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
-	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "We live together or drown together, my faithful vessel!"
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "It lies dormant.",
-		CHARGE_FULL = "I hath received Thors blessing!",
+		CHARGE_FULL = "It already holds great power!",
 	}
-
-
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "I hath received Thors blessing!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "I hath received Thors blessing!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Thor punishes my ineptitude!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "Not needed, I have every tool for battle I require."
+	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
+	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 
+	

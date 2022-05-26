@@ -345,9 +345,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "Must be the boss of those rats."
 	DESCRIBE.PIED_PIPER_FLUTE = "I never was the best leader."
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "I think we've found ourselves a target."
-	DESCRIBE.WINONA_TOOLBOX = "Wouldn't leave home with out it."
-	DESCRIBE.OCEAN_SPEAKER = "Now if I could just see its insides..."
-	--DESCRIBE.UM_SIREN = "Heh, she certainly knows how to run her workplace."
+
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "This thing is about to pack up and leave me sinking!"
 
@@ -356,7 +354,21 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 		NOT_ENOUGH_CHARGE = "It's outta juice!",
 		CHARGE_FULL = "It's fully charged!",
 	}
-
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "There's the socket!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "There's the socket!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "There's the socket."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Better wear some gloves next time!"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "Wouldn't leave home with out it."
+	DESCRIBE.OCEAN_SPEAKER = "Now if I could just see its insides..."
+	--DESCRIBE.UM_SIREN = "Heh, she certainly knows how to run her workplace."
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 

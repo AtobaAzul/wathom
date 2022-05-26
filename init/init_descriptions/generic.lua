@@ -425,22 +425,31 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	DESCRIBE.PIED_RAT = "He must be leading the vermin!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Maybe I could lead some of the rats myself?"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Hey! It's carrying off all of our valuables!"
-	DESCRIBE.WINONA_TOOLBOX = "I had one like this for all of my scientific tools."
-	DESCRIBE.OCEAN_SPEAKER = "Well this seems awfully out of place." --Lame guy. Lame quote.
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I can't retrieve this raft if I drown!"
 	
-
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "I need to restore the power before I can do that.",
-		CHARGE_FULL = "What a shocking result.",
+		CHARGE_FULL = "That won't work when it's already charged.",
 	}
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "What a shocking result."
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "What a shocking result."
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "What a shocking result!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "OW! What a shocking result!"
 	
-
+	----UNDER THE WEATHER----
+	DESCRIBE.WINONA_TOOLBOX = "I had one like this for all of my scientific tools."
+	DESCRIBE.OCEAN_SPEAKER = "Well this seems awfully out of place." --Lame guy. Lame quote.
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 
+	
 	--DESCRIBE.UM_SIREN = "Science says we may be able to \"help\" each other."
 	--WHAT THE FUCK VARIANT
 	--DESCRIBE.UM_SIREN = "Science says she may not be from around here."

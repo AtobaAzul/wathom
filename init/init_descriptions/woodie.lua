@@ -342,18 +342,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOODIE.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "He's leading all those dang varmints!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Those varmints will have to listen to me!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "Darn varmints!"
-	DESCRIBE.WINONA_TOOLBOX = "Sorry, but I have all the tools I need."
-	DESCRIBE.OCEAN_SPEAKER = "Ya think what it's saying is important, Lucy?"
-	--DESCRIBE.UM_SIREN = "Not half bad lookin' for an ocean critter, eh?"
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "I'm going to lose my gear if I don't get to shore!"
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "I'm not sure it's working.",
-		CHARGE_FULL = "It's working now!",
+		CHARGE_FULL = "Bit redundant?",
 	}
-
-
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "It's working now!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "It's working now!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "Working, But I fried my hand!"
+	
+		----UNDER THE WEATHER----
+	DESCRIBE.WINONA_TOOLBOX = "Sorry, but I have all the tools I need."
+	DESCRIBE.OCEAN_SPEAKER = "Ya think what it's saying is important, Lucy?"
+	--DESCRIBE.UM_SIREN = "Not half bad lookin' for an ocean critter, eh?"
+	
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 
+	

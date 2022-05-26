@@ -342,19 +342,29 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WORTOX.ACTIONFAIL
 	DESCRIBE.PIED_RAT = "His song shall make them strong!"
 	DESCRIBE.PIED_PIPER_FLUTE = "Let us sing, and they'll come under our wing!"
 	DESCRIBE.UNCOMPROMISING_PACKRAT = "He'll take all our stuff with that pack, get it back!"
-	DESCRIBE.WINONA_TOOLBOX = "A place to put the tools of trade."
-	DESCRIBE.OCEAN_SPEAKER = "It plays a tune that could spell our doom. Hyuyu!" --Oh gee oh fuck I'm out of luck!!!!!
 	
 	ANNOUNCE.ANNOUNCE_PORTABLEBOAT_SINK = "Pop goes the weasel!"
 	
-	--DESCRIBE.UM_SIREN = "My, is that a siren on the horizon?"
-
 	ACTIONFAIL.CHARGE_FROM =
 	{
 		NOT_ENOUGH_CHARGE = "There's no spark!",
-		CHARGE_FULL ="What a shocking result!",
+		CHARGE_FULL ="Can't do that silly goose, Hyuhu!",
 	}
-
-
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "What a shocking result!"
-	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "What a shocking result!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "That's the ticket!"
+	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED = "/Zipped/ and /zapped!/"
+	
+	----UNDER THE WEATHER----
+	
+	DESCRIBE.WINONA_TOOLBOX = "A place to put the tools of trade."
+	DESCRIBE.OCEAN_SPEAKER = "It plays a tune that could spell our doom. Hyuyu!" --Oh gee oh fuck I'm out of luck!!!!!
+	--DESCRIBE.UM_SIREN = "My, is that a siren on the horizon?"
+		
+	DESCRIBE.OCUPUS_BEAK =
+	DESCRIBE.OCUPUS_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE = 
+	DESCRIBE.OCUPUS_TENTACLE_EYE = 
+	DESCRIBE.OCUPUS_TENTACLE_COOKED = 
+	
+	DESCRIBE.REEDSUIT_UM = 
+	DESCRIBE.SHARKSUIT_UM = 
+	DESCRIBE.ROCKJAWLEATHER = 
