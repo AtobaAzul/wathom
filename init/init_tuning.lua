@@ -33,7 +33,6 @@ TUNING.DSTU =
     ----------------------------------------------------------------------------
     --Armor
     ----------------------------------------------------------------------------
-	--leave out the multiplayer modifyer I want reed suit at 225 so it's higher than grass.
     ARMORREED_UM = TUNING.WILSON_HEALTH*2.1*multiplayer_armor_durability_modifier, 
 	----------------------------------------------------------------------------
     --Acid colour
