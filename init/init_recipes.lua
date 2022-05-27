@@ -436,7 +436,7 @@ ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
 --ChangeSortKey("sludge_oil", false)
 
 AddRecipe2(
-    "armorreed_um",
+    "armor_reed_um",
     {Ingredient("cutreeds", 8), Ingredient("twigs", 3)},
     TECH.NONE,
     {"ARMOUR", "RAIN"}
@@ -444,7 +444,7 @@ AddRecipe2(
 ChangeSortKey("ARMOUR", false)
 
 AddRecipe2(
-    "armorsharksuit_um",
+    "armor_sharksuit_um",
     {Ingredient("armorwood", 1), Ingredient("rockjawleather", 3), Ingredient("sludge", 8)},
     TECH.SCIENCE_TWO,
     {"SEAFARING", "ARMOUR", "RAIN"}
