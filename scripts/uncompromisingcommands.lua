@@ -65,7 +65,7 @@ end
 
 --spawns a sunken chest at mouse pos
 --useful for testing
---@royal: wheter to spawn royal chest
+--@royal: whether to spawn royal chest
 --examples:
 --c_spawnsunkenchest() spawns a vanilla treasure
 --c_spawnsunkenchest(true) spawns a royal chest

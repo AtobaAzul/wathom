@@ -452,3 +452,5 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	--DESCRIBE.UM_SIREN = "Science says we may be able to \"help\" each other."
 	--WHAT THE FUCK VARIANT
 	--DESCRIBE.UM_SIREN = "Science says she may not be from around here."
+
+	ACTIONFAIL.WINONATOOLBOX = "wacky, help!"
