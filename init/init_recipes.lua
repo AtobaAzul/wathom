@@ -436,7 +436,7 @@ ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
 --ChangeSortKey("sludge_oil", false)
 
 AddRecipe2(
-    "armorreed_um",
+    "armor_reed_um",
     {Ingredient("cutreeds", 8), Ingredient("twigs", 3)},
     TECH.NONE,
     {"ARMOUR", "RAIN"}
@@ -447,7 +447,7 @@ ChangeSortKey("armorreed_um","armorgrass","ARMOUR", true)
 --need to add the inv atlases 
 
 AddRecipe2(
-    "armorsharksuit_um",
+    "armor_sharksuit_um",
     {Ingredient("armorwood", 1), Ingredient("rockjawleather", 3), Ingredient("sludge", 8)},
     TECH.SCIENCE_TWO,
     {"SEAFARING", "ARMOUR", "RAIN"}
