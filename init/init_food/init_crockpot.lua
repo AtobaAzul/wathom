@@ -92,9 +92,9 @@ AddIngredientValues({"monstersmallmeat"}, {meat=0.5, monster=1}, true, true) --2
 AddIngredientValues({"cookedmonstersmallmeat"}, {meat=0.5, monster=1}, true, true) --2.5 monster total, Will be calculated with -1 meat
 AddIngredientValues({"monstersmallmeat_dried"}, {meat=0.5, monster=1}, true, true) --2 monster total, Will be calculated with -1 meat
 
-AddIngredientValues({"um_monsteregg"}, {egg=1, monster=1}, true)
+AddIngredientValues({"um_monsteregg"}, {egg=1, monster=GLOBAL.TUNING.DSTU.MONSTER_EGGS}, true)
 RegisterInventoryItemAtlas("images/inventoryimages/um_monsteregg.xml", "um_monsteregg.tex")
-AddIngredientValues({"um_monsteregg_cooked"}, {egg=1, monster=1}, true)
+AddIngredientValues({"um_monsteregg_cooked"}, {egg=1, monster=GLOBAL.TUNING.DSTU.MONSTER_EGGS}, true)
 RegisterInventoryItemAtlas("images/inventoryimages/um_monsteregg_cooked.xml", "um_monsteregg_cooked.tex")
 
 AddIngredientValues({"scorpioncarapace"}, {meat=0.5, monster=1, insectoid=0.5}, true, true)
