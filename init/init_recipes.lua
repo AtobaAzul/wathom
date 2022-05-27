@@ -417,6 +417,7 @@ ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", false)
 
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
+
 AddRecipe2(
     "sludge_patch",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
@@ -425,6 +426,30 @@ AddRecipe2(
     {"SEAFARING"}
 )
 ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+
+--AddRecipe2(
+  --  "sludge_oil",
+  --  {Ingredient("sludge", 4), Ingredient("cutstone", 1)},
+  --  TECH.SCIENCE_TWO,
+  --  {"REFINE"}
+--)
+--ChangeSortKey("sludge_oil", false)
+
+AddRecipe2(
+    "armorreed_um",
+    {Ingredient("cutreeds", 8), Ingredient("twigs", 3)},
+    TECH.NONE,
+    {"ARMOUR", "RAIN"}
+)
+ChangeSortKey("ARMOUR", false)
+
+AddRecipe2(
+    "armorsharksuit_um",
+    {Ingredient("armorwood", 1), Ingredient("rockjawleather", 3), Ingredient("sludge", 8)},
+    TECH.SCIENCE_TWO,
+    {"SEAFARING", "ARMOUR", "RAIN"}
+)
+ChangeSortKey("ARMOUR", false)
 
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})

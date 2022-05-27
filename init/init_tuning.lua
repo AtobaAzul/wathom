@@ -30,6 +30,11 @@ local ia_check = GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795")
 
 TUNING.DSTU = 
 {
+    ----------------------------------------------------------------------------
+    --Armor
+    ----------------------------------------------------------------------------
+	--leave out the multiplayer modifyer I want reed suit at 225 so it's higher than grass.
+    ARMORREED_UM = wilson_health*1.5* --multiplayer_armor_durability_modifier, 
 	----------------------------------------------------------------------------
     --Acid colour
     ----------------------------------------------------------------------------

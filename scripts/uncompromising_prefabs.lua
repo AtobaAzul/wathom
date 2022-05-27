@@ -334,4 +334,10 @@ return {
 	"uncompromising_axepoon",
 	
 	"siren_fish",
+	
+	"armor_reed_um",
+	"armor_sharksuit_um",
+	"rockjawleather",
+	"ocupus_beak",
+	"ocupus_tentacles",
 }
