@@ -311,7 +311,7 @@ sunkenchest_royal =
                 {nightstick = 0.5, bugzapper = 0.5},
 				{ancient_amulet_red = 1},
 				{plaguemask = 0.33, widowshead = 0.33, sunglasses = 0.33},
-                {viperjam = 0.33, beefalowings = 0.33, zaspberryparfeit = 0.33},
+                {viperjam = 0.33, beefalowings = 0.33, zaspberryparfait = 0.33},
                 {glass_scales = 0.33, pied_piper_flute = 0.33, widowsgrasp = 0.33},
 				{hat_bagmask = 0.25, hat_blackcatmask = 0.25, hat_clownmask = 0.25, hat_orangecatmask = 0.25},
 				{hat_devilmask = 0.25, hat_fiendmask = 0.25, hat_ghostmask = 0.25, hat_oozemask = 0.25},
