@@ -79,4 +79,4 @@ local function fn()
     return inst
 end
 
-return Prefab("armorsharksuit_um", fn, assets)
+return Prefab("armor_sharksuit_um", fn, assets)
