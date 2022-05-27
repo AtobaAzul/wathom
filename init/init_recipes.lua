@@ -441,7 +441,10 @@ AddRecipe2(
     TECH.NONE,
     {"ARMOUR", "RAIN"}
 )
-ChangeSortKey("ARMOUR", false)
+ChangeSortKey("armorreed_um","armorgrass","ARMOUR", true)
+
+--ChangeSortKey("PREFAB_NAME_OF_ITEM_THAT_YOURE_SORTING","PREFAB_NAME_OF_ITEM_YOU_VVANT_IT_TO_GO_AFTER","THE_TAB",true) you need to do this for each tab that you vvant it to be sorted in -AXE
+--need to add the inv atlases 
 
 AddRecipe2(
     "armorsharksuit_um",
@@ -449,7 +452,7 @@ AddRecipe2(
     TECH.SCIENCE_TWO,
     {"SEAFARING", "ARMOUR", "RAIN"}
 )
-ChangeSortKey("ARMOUR", false)
+ChangeSortKey("armorsharksuit_um","armordragonfly","ARMOUR", true)
 
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})

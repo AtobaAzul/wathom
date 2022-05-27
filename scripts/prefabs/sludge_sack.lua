@@ -76,7 +76,7 @@ local function fn()
     inst.components.waterproofer:SetEffectiveness(0)
 
     inst:AddComponent("container")
-    inst.components.container:WidgetSetup("piggyback")
+    inst.components.container:WidgetSetup("sludge_sack")
     inst.components.container.skipclosesnd = true
     inst.components.container.skipopensnd = true
 

@@ -445,7 +445,7 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	--DESCRIBE.OCUPUS_TENTACLE_EYE = "",
 	--DESCRIBE.OCUPUS_TENTACLE_COOKED = "",
 	
-	DESCRIBE.REEDSUIT_UM = "I'll still be light on my feet with it on.",
+	DESCRIBE.REEDSUIT_UM = "I'll still be light on my feet with it on."
 	--DESCRIBE.SHARKSUIT_UM = "",
 	--DESCRIBE.ROCKJAWLEATHER = "",
 	

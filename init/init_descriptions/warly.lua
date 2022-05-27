@@ -364,7 +364,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 	--DESCRIBE.OCUPUS_TENTACLE_EYE = "",
 	--DESCRIBE.OCUPUS_TENTACLE_COOKED = "",
 	
-	DESCRIBE.REEDSUIT_UM = "I can still feel the breeze going through it...",
+	DESCRIBE.REEDSUIT_UM = "I can still feel the breeze going through it..."
 	--DESCRIBE.SHARKSUIT_UM = "",
 	--DESCRIBE.ROCKJAWLEATHER = "",
 	
