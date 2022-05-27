@@ -313,12 +313,12 @@ sunkenchest_royal =
 				{plaguemask = 0.33, widowshead = 0.33, sunglasses = 0.33},
                 {viperjam = 0.33, beefalowings = 0.33, zaspberryparfait = 0.33},
                 {glass_scales = 0.33, pied_piper_flute = 0.33, widowsgrasp = 0.33},
-				{hat_bagmask = 0.25, hat_blackcatmask = 0.25, hat_clownmask = 0.25, hat_orangecatmask = 0.25},
-				{hat_devilmask = 0.25, hat_fiendmask = 0.25, hat_ghostmask = 0.25, hat_oozemask = 0.25},
-				{hat_globmask = 0.25, hat_hockeymask = 0.25, hat_joyousmask = 0.25, hat_mermmask = 0.25},
-				{hat_phantommask = 0.25, hat_pigmask = 0.25, hat_pumpgoremask = 0.25, hat_wathommask = 0.25},
-				{hat_redskullmask = 0.25, hat_skullmask = 0.25, hat_spectremask = 0.25, hat_ratmask = 0.25},
-				{hat_whitecatmask = 0.25, hat_technomask = 0.25, hat_mandrakemask = 0.25, hat_opossummask = 0.25},
+				{hat_bagmask = 0.41, hat_blackcatmask = 0.41, hat_clownmask = 0.41, hat_orangecatmask = 0.41,
+				hat_devilmask = 0.41, hat_fiendmask = 0.41, hat_ghostmask = 0.41, hat_oozemask = 0.41,
+				hat_globmask = 0.41, hat_hockeymask = 0.41, hat_joyousmask = 0.41, hat_mermmask = 0.41,
+				hat_phantommask = 0.41, hat_pigmask = 0.41, hat_pumpgoremask = 0.41, hat_wathommask = 0.41,
+				hat_redskullmask = 0.41, hat_skullmask = 0.41, hat_spectremask = 0.41, hat_ratmask = 0.41,
+				hat_whitecatmask = 0.41, hat_technomask = 0.41, hat_mandrakemask = 0.41, hat_opossummask = 0.41},
               },
             }
 		}
