@@ -24,7 +24,9 @@ local component_post = {
 	"foodaffinity",
 	"eater",
 	"edible",
-	"inventory" -- This is an attempt at manually fixing an issue when people are checked for insulation. -scrimbles
+	"inventory", -- This is an attempt at manually fixing an issue when people are checked for insulation. -scrimbles
+	"weighable",
+	"messagebottlemanager",
 }
 
 local prefab_post = {

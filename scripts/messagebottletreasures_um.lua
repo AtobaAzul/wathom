@@ -1,4 +1,9 @@
---couldn't figure out a way to do this without overriding, sorry. -Atobá
+--yes, this *is* essentially a copy-paste of the original messagebottletreasures.
+--"why?" you may ask - originally, you had to replace the whole file - which isn't exactly compatible
+--with other mods and may break in the future. No, I can't use table.insert. I've tried. treasure_templates
+--is a "mod-hostile table". It only gets returned once *before* mods load. Any changes wouldn't work for
+--treasures, despite existing in the table (checked with prints).
+
 local treasure_templates =
 {
 --	TREASUREPREFAB1 = -- Prefab to spawn at point
@@ -40,79 +45,6 @@ sunkenchest =
 
 	presets =
 	{
-		saltminer =
-		{
-			preset_weight = 1,
-
-			guaranteed_loot =
-			{
-				cookiecuttershell = {4, 6},
-				boatpatch = {2, 4},
-				saltrock = {5, 8},
-				goldenpickaxe = 1,
-			},
-			randomly_selected_loot =
-			{
-				{ bluegem = 1, redgem = 1 },
-			},
-		},
-		---------------------------------------------------------------------------
-		traveler =
-		{
-			preset_weight = 1,
-
-			guaranteed_loot =
-			{
-				cane = 1,
-				heatrock = 1,
-				gnarwail_horn = 1,
-				papyrus = {4, 8},
-				featherpencil = {2, 4},
-				spoiled_fish = {3, 5},
-			},
-			randomly_selected_loot =
-			{
-				{ compass = .25, goggleshat = .75 },
-			},
-		},
-		---------------------------------------------------------------------------
-		fisher =
-		{
-			preset_weight = 1,
-
-			guaranteed_loot =
-			{
-				boatpatch = {4, 8},
-				malbatross_feather = {4, 10},
-				oceanfishingrod = 1,
-				oceanfishingbobber_robin_winter = {2, 5},
-				oceanfishinglure_spoon_green = {1, 4},
-				oceanfishinglure_hermit_heavy = {0, 2},
-			},
-			randomly_selected_loot =
-			{
-				{ boat_item = 1, anchor_item = 1, mast_item = 1, steeringwheel_item = 1, fish_box_blueprint = 1, rain_horn = 1},
-			},
-		},
-		---------------------------------------------------------------------------
-		miner =
-		{
-			preset_weight = 1,
-
-			guaranteed_loot =
-			{
-				cutstone = {3, 6},
-				goldnugget = {3, 6},
-				moonglass = {3, 6},
-				moonrocknugget = {3, 6},
-				goldenpickaxe = 1,
-			},
-			randomly_selected_loot =
-			{
-				{ purplegem = 0.5, greengem = 0.1, yellowgem = 0.2, orangegem = 0.2, },
-			},
-
-		},
 		---------------------------------------------------------------------------
 
 			splunker =  --tweaked
@@ -376,17 +308,17 @@ sunkenchest_royal =
               },
               randomly_selected_loot =
               {
-                {nightstick = 1, bugzapper = 1},
-				{ancient_amulet_red = 0.5},
-				{plaguemask = 1, widowshead = 1, sunglasses = 1},
-                {viperjam = 1, beefalowings = 1, zaspberryparfeit = 1},
-                {glass_scales = 1, pied_piper_flute = 1, widowsgrasp = 1},
-				{hat_bagmask = 1, hat_blackcatmask = 1, hat_clownmask = 1, hat_orangecatmask = 1},
-				{hat_devilmask = 1, hat_fiendmask = 1, hat_ghostmask = 1, hat_oozemask = 1},
-				{hat_globmask = 1, hat_hockeymask = 1, hat_joyousmask = 1, hat_mermmask = 1},
-				{hat_phantommask = 1, hat_pigmask = 1, hat_pumpgoremask = 1, hat_wathommask = 1},
-				{hat_redskullmask = 1, hat_skullmask = 1, hat_spectremask = 1, hat_ratmask = 1},
-				{hat_whitecatmask = 1, hat_technomask = 1, hat_mandrakemask = 1, hat_opossummask = 1},
+                {nightstick = 0.5, bugzapper = 0.5},
+				{ancient_amulet_red = 1},
+				{plaguemask = 0.33, widowshead = 0.33, sunglasses = 0.33},
+                {viperjam = 0.33, beefalowings = 0.33, zaspberryparfeit = 0.33},
+                {glass_scales = 0.33, pied_piper_flute = 0.33, widowsgrasp = 0.33},
+				{hat_bagmask = 0.25, hat_blackcatmask = 0.25, hat_clownmask = 0.25, hat_orangecatmask = 0.25},
+				{hat_devilmask = 0.25, hat_fiendmask = 0.25, hat_ghostmask = 0.25, hat_oozemask = 0.25},
+				{hat_globmask = 0.25, hat_hockeymask = 0.25, hat_joyousmask = 0.25, hat_mermmask = 0.25},
+				{hat_phantommask = 0.25, hat_pigmask = 0.25, hat_pumpgoremask = 0.25, hat_wathommask = 0.25},
+				{hat_redskullmask = 0.25, hat_skullmask = 0.25, hat_spectremask = 0.25, hat_ratmask = 0.25},
+				{hat_whitecatmask = 0.25, hat_technomask = 0.25, hat_mandrakemask = 0.25, hat_opossummask = 0.25},
               },
             }
 		}
