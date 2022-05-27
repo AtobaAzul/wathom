@@ -305,6 +305,9 @@ modparams.skullchest = containers.params.shadowchester
 modparams.winkyburrow = containers.params.shadowchester
 modparams.uncompromising_devcapture = containers.params.shadowchester
 
+
+modparams.sludge_sack = containers.params.piggyback
+
 local old_wsetup = containers.widgetsetup
 
 function containers.widgetsetup(container, prefab, data, ...)

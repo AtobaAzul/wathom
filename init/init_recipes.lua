@@ -409,14 +409,16 @@ ChangeSortKey("floral_bandage", "bandage", "RESTORATION", true)
 AddRecipe2(
     "winona_toolbox",
     {Ingredient("boards", 2), Ingredient("goldnugget", 4), Ingredient("sewing_tape", 1)},
-    TECH.SCIENCE_ONE,
+    TECH.NONE,
     {builder_tag = "handyperson"},
-    {"CHARACTER", "CONTAINERS"}
+    {"CONTAINERS","CHARACTER"}
 )
-ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", false)
+ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", true)
+ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
 
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
+
 AddRecipe2(
     "sludge_patch",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
@@ -425,6 +427,38 @@ AddRecipe2(
     {"SEAFARING"}
 )
 ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+
+--AddRecipe2(
+  --  "sludge_oil",
+  --  {Ingredient("sludge", 4), Ingredient("cutstone", 1)},
+  --  TECH.SCIENCE_TWO,
+  --  {"REFINE"}
+--)
+--ChangeSortKey("sludge_oil", false)
+
+AddRecipe2(
+    "armor_reed_um",
+    {Ingredient("cutreeds", 8), Ingredient("twigs", 3)},
+    TECH.NONE,
+    nil,
+    {"ARMOUR", "RAIN"}
+)
+ChangeSortKey("armor_reed_um","armorgrass","ARMOUR", true)
+ChangeSortKey("armor_reed_um","raincoat","RAIN", true)
+
+--ChangeSortKey("PREFAB_NAME_OF_ITEM_THAT_YOURE_SORTING","PREFAB_NAME_OF_ITEM_YOU_VVANT_IT_TO_GO_AFTER","THE_TAB",true) you need to do this for each tab that you vvant it to be sorted in -AXE
+--need to add the inv atlases 
+
+AddRecipe2(
+    "armor_sharksuit_um",
+    {Ingredient("armorwood", 1), Ingredient("rockjawleather", 3), Ingredient("sludge", 8)},
+    TECH.SCIENCE_TWO,
+    nil,
+    {"SEAFARING", "ARMOUR", "RAIN"}
+)
+ChangeSortKey("armor_sharksuit_um","armordragonfly","ARMOUR", true)
+ChangeSortKey("armor_sharksuit_um","balloonvest","SEAFARING", true)
+ChangeSortKey("armor_sharksuit_um","armor_reed_um","RAIN", true)
 
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})
