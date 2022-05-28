@@ -369,7 +369,7 @@ configuration_options =
 	Header("Food"),
 	Header("--------------------"),
 	Header("Crockpot Recipes"),
-	BinaryConfig("newrecipes", "New Recipes", "UM adds a few new recipes\nTurn this off if you're using mods that cause overlap such as HoF.", true),
+	BinaryConfig("newrecipes", "New Recipes", "UM adds a few new recipes\nTurn this off if you're using mods that can cause overlap, such as HoF.", true),
 	BinaryConfig("crockpotmonstmeat", "Harder Monster Meat", "Enables the new monster lagsana recipe, where you can only make recipes if the meat value is greater than monster value.", true),
 	BinaryConfig("generalcrockblocker", "Trash Filler Blocker", "Heavy use of certain low quality crockpot ingredients, such as twigs, ice, buttefly wings, and other inedibles results in wet goop.", true),
 	BinaryConfig("icecrockblocker", "Snowcones", "Snowcones prevent heavy use of ice specifically in crockpot dishes that don't call for it.", true),
@@ -412,6 +412,7 @@ configuration_options =
 	},
 	BinaryConfig("butterflywings_nerf", "Weaker Butterfly Wings", "Butterfly wings have been nerfed to not be cheap healing", true),
 	BinaryConfig("rawcropsnerf", "Raw Crops Nerf", "Farm crops are nerfed in their base value when raw/cooked to incentivize using crockpot recipes.", true),
+	BinaryConfig("seeds", "Lowered Seeds Hunger", "Seeds have had their hunger lowered.", true),
 	{
 		name = "monstereggs",
 		label = "Monster Eggs",
@@ -517,6 +518,7 @@ configuration_options =
 	BinaryConfig("desertscorpions", "Scorpions", "Scorpions plague the desert lands. They will spawn from desert turf within the desert during the day.", true),
 	BinaryConfig("pinelings", "Pinelings", "Stumps will become pinelings if awoken by a treeguard, or can happen naturally to existing old stumps.", true),
 	BinaryConfig("pollenmites", "Pollen Mites", "Pollen mites spawn in spring and quickly infest the nearby area.", false),
+	BinaryConfig("maxhphitters", "Max HP Damage", "Some monsters deal Max HP damage\nTurn this off if you're having problems with mods which also interact with it.", true),
 	Header("Standard Creatures"),
 
 	BinaryConfig("angrypenguins", "Territorial Penguins","Penguins will aggresively defend their land.", true),

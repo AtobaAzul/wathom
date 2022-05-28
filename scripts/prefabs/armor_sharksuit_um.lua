@@ -63,7 +63,6 @@ local function fn()
 	inst.components.waterproofer:SetEffectiveness(0.8)
 
  	inst:AddComponent("flotationdevice")
-	inst.components.flotationdevice.onpreventdrowningdamagefn = onpreventdrowningdamagefn
 
     inst:AddComponent("armor")
     inst.components.armor:InitCondition(TUNING.ARMOR_SANITY, TUNING.ARMORWOOD_ABSORPTION)

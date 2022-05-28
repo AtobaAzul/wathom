@@ -11,6 +11,7 @@
 
     Spawn a dirt mound that must be dug up to get loot?
 ]]
+local RuinsRespawner = require "prefabs/ruinsrespawner"
 
 local easing = require("easing")
 local assets =
@@ -540,6 +541,11 @@ local function fn()
     return inst
 end
 
+local function onruinsrespawn(inst)
+	inst.sg:GoToState("lure_enter")
+end
+
 return Prefab("viperworm", fn, assets, prefabs),
 Prefab("viperling",fnviperling),
-Prefab("viperlingfriend",fnviperlingfriend)
+Prefab("viperlingfriend",fnviperlingfriend),
+RuinsRespawner.Inst("viperworm", onruinsrespawn), RuinsRespawner.WorldGen("viperworm", onruinsrespawn)

@@ -2,11 +2,11 @@ GLOBAL.require("map/terrain")
 
 ------Turf Using Tile Adder From ADM's Turf Mod
 modimport("tile_adder.lua")
-local GROUND_OCEAN_COLOR = -- Color for the main island ground tiles 
-{ 
-    primary_color =         {  0,   0,   0,  25 }, 
-    secondary_color =       { 0,  20,  33,  0 }, 
-    secondary_color_dusk =  { 0,  20,  33,  80 }, 
+local GROUND_OCEAN_COLOR = -- Color for the main island ground tiles
+{
+    primary_color =         {  0,   0,   0,  25 },
+    secondary_color =       { 0,  20,  33,  0 },
+    secondary_color_dusk =  { 0,  20,  33,  80 },
     minimap_color =         { 46,  32,  18,  64 },
 }
 
@@ -42,20 +42,20 @@ AddTile(
 )
 
 	local worldtiledefs = require 'worldtiledefs'
-	
+
 	local MOD_TURF_PROPERTIES =
 	{
 		[GROUND.HOODEDFOREST] = 	{name = "hoodedmoss", 	anim = "hoodedmoss", 	bank_build = "hfturf"},
 		[GROUND.ANCIENTHOODEDFOREST] = {name = "ancienthoodedturf", 	anim = "ancienthoodedturf", 	bank_build = "hfturf"},
 	}
-	
+
 	for k, v in pairs(MOD_TURF_PROPERTIES) do
 		worldtiledefs.turf[k] = MOD_TURF_PROPERTIES[k]
 	end
-	
+
 	ChangeTileTypeRenderOrder(GLOBAL.GROUND.HOODEDFOREST, GLOBAL.GROUND.DIRT)
 	ChangeTileTypeRenderOrder(GLOBAL.GROUND.ANCIENTHOODEDFOREST, GLOBAL.GROUND.DIRT)
-	
+
 ------
 
 
@@ -138,7 +138,7 @@ end
 
 -----------Ghost Walrus
 if GetModConfigData("ghostwalrus") ~= "disabled" then
-	AddRoomPreInit("WalrusHut_Plains", function(room)					
+	AddRoomPreInit("WalrusHut_Plains", function(room)
 	room.contents.countprefabs=
 										{
 											um_bear_trap_old = function() return math.random(6,8) end,
@@ -147,7 +147,7 @@ if GetModConfigData("ghostwalrus") ~= "disabled" then
 											}
 	end)
 
-	AddRoomPreInit("WalrusHut_Grassy", function(room)					
+	AddRoomPreInit("WalrusHut_Grassy", function(room)
 	room.contents.countprefabs=
 										{
 											um_bear_trap_old = function() return math.random(6,8) end,
@@ -156,7 +156,7 @@ if GetModConfigData("ghostwalrus") ~= "disabled" then
 											}
 	end)
 
-	AddRoomPreInit("WalrusHut_Rocky", function(room)					
+	AddRoomPreInit("WalrusHut_Rocky", function(room)
 	room.contents.countprefabs=
 										{
 											um_bear_trap_old = function() return math.random(6,8) end,
@@ -166,7 +166,7 @@ if GetModConfigData("ghostwalrus") ~= "disabled" then
 	end)
 end
 -----------Marsh Grass
-AddRoomPreInit("BGMarsh", function(room)					
+AddRoomPreInit("BGMarsh", function(room)
 room.contents.countprefabs=
 									{
 										marsh_grass = function() return math.random(2,6) end,
@@ -174,15 +174,15 @@ room.contents.countprefabs=
 										}
 end)
 
-AddRoomPreInit("Marsh", function(room)						
+AddRoomPreInit("Marsh", function(room)
 room.contents.countprefabs=
 									{
 										marsh_grass = function() return math.random(2,6) end,
 										marshmist = function() return math.random(4,6) end,
-										} 
+										}
 end)
 
-AddRoomPreInit("SpiderMarsh", function(room)				
+AddRoomPreInit("SpiderMarsh", function(room)
 room.contents.countprefabs=
 									{
 										marsh_grass = function() return math.random(4,8) end,
@@ -190,12 +190,12 @@ room.contents.countprefabs=
 										}
 end)
 
-AddRoomPreInit("SlightlyMermySwamp", function(room)					
+AddRoomPreInit("SlightlyMermySwamp", function(room)
 room.contents.countprefabs=
 									{
 										marsh_grass = function() return math.random(4,8) end,
 										marshmist = function() return math.random(4,6) end,
-										} 
+										}
 end)
 
 --Waffle's Specific Task Remover Code
@@ -226,17 +226,17 @@ AddTaskSetPreInitAny(function(tasksetdata)
 end)
 --Waffle's Specific Task Remover Code
 
-AddRoomPreInit("RedMushPillars", function(room)			--red	
+AddRoomPreInit("RedMushPillars", function(room)			--red
 room.contents.countstaticlayouts = {
             ["ToadstoolArena"] = 1,
         }
 end)
-AddRoomPreInit("GreenMushNoise", function(room)		    --green		
+AddRoomPreInit("GreenMushNoise", function(room)		    --green
 room.contents.countstaticlayouts = {
             ["ToadstoolArena"] = 1,
         }
 end)
-AddRoomPreInit("DropperDesolation", function(room)	    --blue			
+AddRoomPreInit("DropperDesolation", function(room)	    --blue
 room.contents.countstaticlayouts = {
             ["ToadstoolArena"] = 1,
         }
@@ -256,7 +256,7 @@ AddGlobalClassPostConstruct("map/storygen", "Story", function(self)
 end)
 
 --All the desert rooms. I excluded "DragonflyArena", "LightningBluffAntlion", and "LightningBluffOasis"
-local deserts = { "BGBadlands", "Badlands", "HoundyBadlands", "BuzzardyBadlands", 
+local deserts = { "BGBadlands", "Badlands", "HoundyBadlands", "BuzzardyBadlands",
     "BGLightningBluff", "LightningBluffLightning" }
 
 --Add "scorpions" room tag to all desert rooms
@@ -281,7 +281,7 @@ if GetModConfigData("vetcurse") == "default" then
 end
 
 
----- KoreanWaffle's LOCK/KEY initialization code  --Inactive atm 
+---- KoreanWaffle's LOCK/KEY initialization code  --Inactive atm
 local LOCKS = GLOBAL.LOCKS
 local KEYS = GLOBAL.KEYS
 local LOCKS_KEYS = GLOBAL.LOCKS_KEYS
@@ -357,7 +357,7 @@ AddRoomPreInit("OceanRough", function(room)
 										--speaker_rusted = 1,
 										sludgestack_spawner = function() return math.random(6,10) end,
 										umss_failedfisherman = 1,
-									} 
+									}
 end)
 Layouts["brine_bogs"] = StaticLayout.Get("map/static_layouts/brine_bogs",{
 	min_dist_from_land = 0})
@@ -373,13 +373,13 @@ AddRoomPreInit("OceanHazardous", function(room)
 	if not room.contents.countstaticlayouts then
 		room.contents.countstaticlayouts = {}
 	end
-	--room.contents.countstaticlayouts["rusted_reef"] = 1 
+	--room.contents.countstaticlayouts["rusted_reef"] = 1
 	--can't figure out a way to make this work, biome spawning will be actually in the area handler instead.}
 	room.contents.countprefabs=
 									{
 										--speaker_rusted = 1,
 										um_rustedreef_areahandler = 1,
-									} 
+									}
 end)
 
 
@@ -412,7 +412,7 @@ AddTaskSetPreInitAny(function(tasksetdata)
 	table.insert(tasksetdata.tasks,"Ratty_Maze")
 	table.insert(tasksetdata.tasks,"Ratty_Maze2")
 	table.insert(tasksetdata.tasks,"Ratty_Maze3")
-	
+
 	if tasksetdata.required_prefabs ~= nil then
 		table.insert(tasksetdata.required_prefabs,"ratking")
 		table.insert(tasksetdata.required_prefabs,"ratacombslock")
@@ -425,7 +425,7 @@ end)]]
 	Layouts["rose_garden"] = StaticLayout.Get("map/static_layouts/rose_garden")
 	Layouts["hf_holidays"] = StaticLayout.Get("map/static_layouts/hf_holidays")
 
-Layouts["RatLockBlocker1"] = 						
+Layouts["RatLockBlocker1"] =
 						{
 							type = GLOBAL.LAYOUT.CIRCLE_EDGE,
 							start_mask = GLOBAL.PLACE_MASK.NORMAL,
@@ -553,17 +553,17 @@ end
 
 if GetModConfigData("depthseels")then
 	AddRoomPreInit("WetWilds", function(room)
-			room.contents.countprefabs=
-			{
-				shockworm = function() return math.random(1,2) end
-			}
+		room.contents.countprefabs =
+		{
+			shockworm_spawner =  function() return math.random(2,4)end
+		}
 	end)
 end
 if GetModConfigData("depthsvipers")then
 	AddRoomPreInit("ThuleciteDebris", function(room)
-		room.contents.countprefabs = 
+		room.contents.countprefabs =
 		{
-			viperworm =  function() return math.random(1,2) end
+			viperworm_spawner =  function() return math.random(2,4)end
 		}
 	end)
 end

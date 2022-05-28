@@ -411,17 +411,18 @@ end
 -----------------------------------------------------------------
 -- Reduce seeds hunger
 -----------------------------------------------------------------
-AddPrefabPostInit("seeds", function (inst)
-    if inst ~= nil and inst.components.edible ~= nil then
-        inst.components.edible.hungervalue = GLOBAL.TUNING.DSTU.FOOD_SEEDS_HUNGER
-    end
-end)
-AddPrefabPostInit("seeds_cooked", function (inst)
-    if inst ~= nil and inst.components.edible ~= nil then
-        inst.components.edible.hungervalue = GLOBAL.TUNING.DSTU.FOOD_SEEDS_HUNGER
-    end
-end)
-
+if TUNING.DSTU.SEEDS then
+	AddPrefabPostInit("seeds", function (inst)
+		if inst ~= nil and inst.components.edible ~= nil then
+			inst.components.edible.hungervalue = GLOBAL.TUNING.DSTU.FOOD_SEEDS_HUNGER
+		end
+	end)
+	AddPrefabPostInit("seeds_cooked", function (inst)
+		if inst ~= nil and inst.components.edible ~= nil then
+			inst.components.edible.hungervalue = GLOBAL.TUNING.DSTU.FOOD_SEEDS_HUNGER
+		end
+	end)
+end
 
 --sailing rebalanced related foood cahnges
 
