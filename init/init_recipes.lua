@@ -261,7 +261,8 @@ AddRecipe2(
     TECH.NONE,
     {builder_tag = "plantkin"},
     {"CHARACTER"}
-)--the fuck
+)
+ChangeSortKey("honey_log", "livinglog", "CHARACTER", true)
 
 AddRecipe2(
     "bugzapper",
@@ -360,6 +361,7 @@ AddRecipe2(
     {builder_tag = "spiderwhisperer"},
     {"CHARACTER"}
 )
+ChangeSortKey("mutator_trapdoor", "mutator_warrior", "CHARACTER", true)
 
 AddRecipe2(
     "book_rain",
@@ -368,6 +370,7 @@ AddRecipe2(
     {builder_tag = "bookbuilder"},
     {"CHARACTER"}
 )
+ChangeSortKey("book_rain", "book_tentacles", "CHARACTER", true)
 
 AddRecipe2(
     "driftwoodfishingrod",
