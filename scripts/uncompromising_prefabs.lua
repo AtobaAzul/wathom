@@ -341,4 +341,5 @@ return {
 	"ocupus_beak",
 	"ocupus_tentacles",
 	"winona_upgradekit",
+	"powercell",
 }

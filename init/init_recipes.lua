@@ -419,6 +419,15 @@ AddRecipe2(
 ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", true)
 ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
 
+AddRecipe2(
+    "powercell",
+    {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 1)},
+    TECH.NONE,
+    {builder_tag = "handyperson", numtogive = 3},
+    {"CHARACTER"}
+)
+ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)
+
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
 

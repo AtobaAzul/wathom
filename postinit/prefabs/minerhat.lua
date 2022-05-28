@@ -34,6 +34,7 @@ env.AddPrefabPostInit("minerhat", function(inst)
             inst.components.upgradeable.upgradetype = nil
             inst.components.fueled.accepting = false
             inst.components.fueled.maxfuel = inst.components.fueled.maxfuel*2
+            inst:AddTag("electricaltool")
         end --but wait! won't that fuck everything up?
     end     --maybe I could alter in onequip instead too.
 
