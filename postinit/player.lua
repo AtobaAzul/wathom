@@ -44,6 +44,20 @@ env.AddPlayerPostInit(function(inst)
 
     local function OnChargeFromBattery(inst, battery)
         local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        print(item)
+
+        if item == nil then
+            print("no handslot item - using headslot")
+            item =  inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
+            print(item)
+        end
+
+        if item == nil then
+            print("no headslot item - using bodyslot")
+            item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
+            print(item)
+        end
+
         if inst.components.upgrademoduleowner == nil then
             if (item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.995) then
                 return false, "CHARGE_FULL"

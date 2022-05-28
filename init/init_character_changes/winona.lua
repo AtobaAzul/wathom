@@ -241,6 +241,9 @@ env.AddPrefabPostInit("winona", function(inst)
 			end
 		end
 	end
+
+	inst:AddTag("electrical_upgradeuser")
+
 end)
 
 
