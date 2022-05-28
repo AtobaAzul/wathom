@@ -373,8 +373,7 @@ TUNING.DSTU =
 	EYEBRELLAREWORK = GetModConfigData("eyebrellarework"),
 
 --More Config
-    BETA_COMPATIBILITY = --[[GetModConfigData("beta_compatibility"),]] true, --I'm too lazy to really bother with the rest of the things
-    UPDATE_CHECK = CurrentRelease.GreaterOrEqualTo("R21_REFRESH_WX78"),
+    UPDATE_CHECK = CurrentRelease.GreaterOrEqualTo("R21_REFRESH_WX78"),--REMEMBER TO ALWAYS UPDATE THIS WITH NEW BETAS.
 	POCKET_POWERTRIP = GetModConfigData("pocket_powertrip"),
     WINTER_BURNING = GetModConfigData("winter_burning"),
     HUNGRY_VOID = GetModConfigData("hungry_void"),
@@ -399,8 +398,8 @@ TUNING.DSTU =
     CAVECLOPS = GetModConfigData("caveclops"),
     HOTCAVES = GetModConfigData("hotcaves"),
     ITEMCHECK = GetModConfigData("itemcheck"),
-
-
+    SEEDS = GetModConfigData("seeds"),
+    MAXHPHITTERS = GetModConfigData("maxhphitters"),
 --boss hp qol
     BEEQUEEN_HEALTH = GetModConfigData("bee queen health"),
     TOADSTOOL_HEALTH = GetModConfigData("toadstool health"),
