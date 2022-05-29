@@ -421,7 +421,7 @@ ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
 
 AddRecipe2(
     "powercell",
-    {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 1)},
+    {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 2)},
     TECH.NONE,
     {builder_tag = "handyperson", numtogive = 3},
     {"CHARACTER"}

@@ -25,14 +25,14 @@ local function OnBurnt(inst)
 						v.sg:GoToState("electrocute")
 					end
 
-					v.components.health:DoDelta(-30, nil, inst.prefab, nil, inst) --From the onhit stuff...
+					v.components.health:DoDelta(-30*inst.components.stackable:StackSize(), nil, inst.prefab, nil, inst) --From the onhit stuff...
 				else
-					v.components.health:DoDelta(-15, nil, inst.prefab, nil, inst)
+					v.components.health:DoDelta(-15*inst.components.stackable:StackSize(), nil, inst.prefab, nil, inst)
 				end
 					
 			else
 				if not inst:HasTag("electricdamageimmune") and v.components.health ~= nil then
-					v.components.health:DoDelta(-30, nil, inst.prefab, nil, inst) --From the onhit stuff...
+					v.components.health:DoDelta(-30*inst.components.stackable:StackSize(), nil, inst.prefab, nil, inst) --From the onhit stuff...
 				end
 			end
 		end
@@ -58,7 +58,7 @@ local function OnUse(inst)
         print(item)
     end
 
-    if ((item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.995)) and inst.components.upgrademoduleowner:ChargeIsMaxed() then
+    if ((item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.995)) and (inst.components.upgrademoduleowner ~= nil and inst.components.upgrademoduleowner:ChargeIsMaxed()) then
         return false, "CHARGE_FULL"
     else
         local battery = (inst.components.stackable and inst.components.stackable:Get(1)) or inst
@@ -110,9 +110,6 @@ local function fn()
     inst:AddComponent("battery")
     inst.components.battery.canbeused = true
     inst.components.battery.onused = discharge
-
-	inst:AddComponent("useableitem")
-	inst.components.useableitem:SetOnUseFn(OnUse)
 
     return inst
 end
