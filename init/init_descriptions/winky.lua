@@ -57,7 +57,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINKY.ACTIONFAIL
             REVIVER = "We're family.",
             GHOST = "You seem familar, are you part of my pack?",
             FIRESTARTER = "I can smell the ash on you fur, %s.",
-        },
+        }
 		
     DESCRIBE.RATPOISONBOTTLE = "Yuck! Are you trying to kill me?"
     DESCRIBE.RATPOISON = "Yuck! Are you trying to kill me?"

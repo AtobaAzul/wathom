@@ -984,7 +984,7 @@ return {
             GENERIC = "You don't look like you're from around here.",
             ATTACKER = "",
             MURDERER = "",
-            REVIVER = ",
+            REVIVER = "",
             GHOST = "",
             FIRESTARTER = ".",
         },
@@ -1623,7 +1623,7 @@ return {
 		CHESSPIECE_MINOTAUR = "",
         CHESSPIECE_BUTTERFLY = "",
         CHESSPIECE_ANCHOR = "",
-        CHESSPIECE_MOON = ."",
+        CHESSPIECE_MOON = "",
         CHESSPIECE_CARRAT = "Where is my statue?!",
         CHESSPIECE_MALBATROSS = "",
         CHESSPIECE_CRABKING = "",
@@ -1637,7 +1637,7 @@ return {
 		CHESSPIECE_CATCOON = "A monument to ugly kitties.",
         CHESSPIECE_GUARDIANPHASE3 = "",
         CHESSPIECE_EYEOFTERROR = "Terror is ",
-        CHESSPIECE_TWINSOFTERROR = "Eye see why everyone likes this one."
+        CHESSPIECE_TWINSOFTERROR = "Eye see why everyone likes this one.",
 
         CHESSJUNK1 = "Scrap metal in a pile.",
         CHESSJUNK2 = "Scrap metal in a pile. It should be in my pile.",
@@ -4356,7 +4356,7 @@ return {
         WX78_SCANNER = 
         {
             GENERIC ="A little propeller thing. At least it quiet.",
-            HUNTING = "It is chasing things."
+            HUNTING = "It is chasing things.",
             SCANNING = "It is looking for something?",
         },
 
