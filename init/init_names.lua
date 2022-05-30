@@ -340,4 +340,6 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.MINERHAT_ELECTRICAL = "Electrical Miner Hat"
 
 	STRINGS.POWERCELL = "Power Cell"--Single-Use Battery
+	
+	STRINGS.SEAROCK_RING = "Sea Stack"
 	--STRINGS.NAMES.UM_SIREN = "Siren"

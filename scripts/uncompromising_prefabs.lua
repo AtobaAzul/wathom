@@ -310,6 +310,7 @@ return {
 	--"resurrectionphonograph",
 	"winona_toolbox",
 	"searock_arches",
+	"searock_ring",
 	"minotaur_organ",
 	"sunkenchest_royal",
 	"speaker",
