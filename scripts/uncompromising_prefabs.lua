@@ -343,4 +343,5 @@ return {
 	"ocupus_tentacles",
 	"winona_upgradekit",
 	"powercell",
+	"rr_powerline",
 }
