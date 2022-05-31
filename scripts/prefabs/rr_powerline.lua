@@ -30,15 +30,14 @@ local function OnWork(inst, worker, workleft)
         local loot_dropper = inst.components.lootdropper
 
         inst:SetPhysicsRadiusOverride(nil)
-
-        loot_dropper:DropLoot(pt)
-
-        if inst:HasTag("burnt") then
-			inst.AnimState:PlayAnimation("fell_burnt"..inst.type)
-		else
-			inst.AnimState:PlayAnimation("fell"..inst.type)
+		if inst:HasTag("burnt") then
+			inst:RemoveTag("burnt")
 		end
-		inst:ListenForEvent("animover",function(inst) inst:Remove() end)
+        loot_dropper:DropLoot(pt)
+		local fx = SpawnPrefab("collapse_big")
+		fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+		fx:SetMaterial("wood")
+		inst:Remove()
     else
         updateanim(inst)
     end
@@ -151,8 +150,8 @@ local function fn()
     inst.components.lootdropper.y_speed_variance = 4
 
     inst:AddComponent("workable")
-    inst.components.workable:SetWorkAction(ACTIONS.CHOP)
-    inst.components.workable:SetWorkLeft(7)
+    inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
+    inst.components.workable:SetWorkLeft(4)
     inst.components.workable:SetOnWorkCallback(OnWork)
     inst.components.workable.savestate = true
 
@@ -168,7 +167,7 @@ local function fn()
 	
 	inst:AddComponent("burnable")
     MakeLargeBurnable(inst, TUNING.TREE_BURN_TIME)
-    inst.components.burnable:SetFXLevel(5)
+    inst.components.burnable:SetFXLevel(2)
     inst.components.burnable:SetOnBurntFn(OnBurnt)	
 	
     --------SaveLoad
