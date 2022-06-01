@@ -687,7 +687,7 @@ local theatercorn =
     foodtype = "VEGGIE",
     health = 3,
     hunger = 37.5,
-	oneat_desc = "Great with some amusement.",
+	oneat_desc = "Great with some amusement",
 	sanity = 0,
     perishtime = 10*TUNING.PERISH_TWO_DAY,
     cooktime = 1.8,
@@ -699,6 +699,28 @@ if TUNING.DSTU.NEWRECIPES then
     AddCookerRecipe("archive_cookpot", theatercorn)
 end
 RegisterInventoryItemAtlas("images/inventoryimages/theatercorn.xml", "theatercorn.tex")
+
+local stuffed_peeper_poppers =
+{
+    name = "stuffed_peeper_poppers",
+    test = function(cooker, names, tags) return (names.milkywhites) and (tags.monster and tags.monster >= 2) and (names.durian or names_durian_cooked) and not tags.inedible end,
+
+    priority = 52,
+    weight = 1,
+    foodtype = "MEAT",
+    health = -3,
+    hunger = 37.5,
+	oneat_desc = "A sight to behold",
+	sanity = -15,
+    perishtime = 4*TUNING.PERISH_TWO_DAY,
+    cooktime = 1.8,
+}
+if TUNING.DSTU.NEWRECIPES then
+    AddCookerRecipe("cookpot", stuffed_peeper_poppers)
+    AddCookerRecipe("portablecookpot", stuffed_peeper_poppers)
+    AddCookerRecipe("archive_cookpot", stuffed_peeper_poppers)
+end
+RegisterInventoryItemAtlas("images/inventoryimages/stuffed_peeper_poppers.xml", "stuffed_peeper_poppers.tex")
 
 --sailing rebalance related food changes.
 recipes.surfnturf.test = function(cooker, names, tags) return tags.meat and tags.meat >= 2.5 and tags.fish and tags.fish >= 2.0 and not tags.frozen end

@@ -338,13 +338,14 @@ local function fnviperling()
 end
 
 local function FindPerson(inst)
-local person = FindEntity(inst,10,nil,{"player"})
-if person ~= nil then
-person.components.leader:AddFollower(inst)
-else
-inst.sg:GoToState("death")
+	local person = FindEntity(inst,10,nil,{"player"})
+	if person ~= nil then
+		person.components.leader:AddFollower(inst)
+	else
+		inst.sg:GoToState("death")
+	end
 end
-end
+
 local function fnviperlingfriend()
     local inst = CreateEntity()
 
@@ -403,9 +404,11 @@ local function fnviperlingfriend()
 	inst.ShadowDespawn = ShadowDespawn
 	inst:DoTaskInTime(60,ShadowDespawn)
 	inst:DoTaskInTime(0,FindPerson)
-	inst.OnLoad = function(inst) inst:Remove() end
+	inst.persists = false
+	
     return inst
 end
+
 local function ViperlingBelch(inst, target)
 	if target ~= nil then
     local x, y, z = inst.Transform:GetWorldPosition()
