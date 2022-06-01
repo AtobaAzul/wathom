@@ -25,52 +25,20 @@ local function OnBurnt(inst)
 						v.sg:GoToState("electrocute")
 					end
 
-					v.components.health:DoDelta(-30, nil, inst.prefab, nil, inst) --From the onhit stuff...
+					v.components.health:DoDelta(-30*inst.components.stackable:StackSize(), nil, inst.prefab, nil, inst) --From the onhit stuff...
 				else
-					v.components.health:DoDelta(-15, nil, inst.prefab, nil, inst)
+					v.components.health:DoDelta(-15*inst.components.stackable:StackSize(), nil, inst.prefab, nil, inst)
 				end
 					
 			else
 				if not inst:HasTag("electricdamageimmune") and v.components.health ~= nil then
-					v.components.health:DoDelta(-30, nil, inst.prefab, nil, inst) --From the onhit stuff...
+					v.components.health:DoDelta(-30*inst.components.stackable:StackSize(), nil, inst.prefab, nil, inst) --From the onhit stuff...
 				end
 			end
 		end
     end
 	
     inst:Remove()
-end
-
-local function OnUse(inst)
-	local owner = inst.components.inventoryitem.owner
-    local item = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    print(item)
-
-    if item == nil then
-        print("no handslot item - using headslot")
-        item =  owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
-        print(item)
-    end
-
-    if item == nil then
-        print("no headslot item - using bodyslot")
-        item = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-        print(item)
-    end
-
-    if ((item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.995)) and inst.components.upgrademoduleowner:ChargeIsMaxed() then
-        return false, "CHARGE_FULL"
-    else
-        local battery = (inst.components.stackable and inst.components.stackable:Get(1)) or inst
-        if owner:HasTag("batteryuser") then
-            owner.components.batteryuser:ChargeFrom(battery)
-        else
-            return false
-        end
-        if inst.components.upgrademoduleowner ~= nil and not inst.components.upgrademoduleowner:ChargeIsMaxed() then
-            inst.components.upgrademoduleowner:AddCharge(1)
-        end
-    end
 end
 
 local function fn()
@@ -89,6 +57,8 @@ local function fn()
 
 
     inst.entity:SetPristine()
+
+    inst:AddTag("battery")
 
     if not TheWorld.ismastersim then
         return inst
@@ -110,9 +80,6 @@ local function fn()
     inst:AddComponent("battery")
     inst.components.battery.canbeused = true
     inst.components.battery.onused = discharge
-
-	inst:AddComponent("useableitem")
-	inst.components.useableitem:SetOnUseFn(OnUse)
 
     return inst
 end
