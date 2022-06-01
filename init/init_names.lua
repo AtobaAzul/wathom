@@ -342,4 +342,5 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.POWERCELL = "Power Cell"--Single-Use Battery
 	
 	STRINGS.SEAROCK_RING = "Sea Stack"
+	STRINGS.RR_POWERLINE = "Powerline"
 	--STRINGS.NAMES.UM_SIREN = "Siren"
