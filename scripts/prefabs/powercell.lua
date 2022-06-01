@@ -41,38 +41,6 @@ local function OnBurnt(inst)
     inst:Remove()
 end
 
-local function OnUse(inst)
-	local owner = inst.components.inventoryitem.owner
-    local item = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-    print(item)
-
-    if item == nil then
-        print("no handslot item - using headslot")
-        item =  owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
-        print(item)
-    end
-
-    if item == nil then
-        print("no headslot item - using bodyslot")
-        item = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-        print(item)
-    end
-
-    if ((item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.995)) and (inst.components.upgrademoduleowner ~= nil and inst.components.upgrademoduleowner:ChargeIsMaxed()) then
-        return false, "CHARGE_FULL"
-    else
-        local battery = (inst.components.stackable and inst.components.stackable:Get(1)) or inst
-        if owner:HasTag("batteryuser") then
-            owner.components.batteryuser:ChargeFrom(battery)
-        else
-            return false
-        end
-        if inst.components.upgrademoduleowner ~= nil and not inst.components.upgrademoduleowner:ChargeIsMaxed() then
-            inst.components.upgrademoduleowner:AddCharge(1)
-        end
-    end
-end
-
 local function fn()
     local inst = CreateEntity()
 
@@ -89,6 +57,8 @@ local function fn()
 
 
     inst.entity:SetPristine()
+
+    inst:AddTag("battery")
 
     if not TheWorld.ismastersim then
         return inst

@@ -43,11 +43,11 @@ local function Capture(inst)
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
 			range = range + 0.5*v.components.stackable:StackSize()
-		end
+		end --since each log is 0.5 - 8 logs = 1 tile!
 		v:AddTag("DEVBEHOLDER")
 	end
 	--TheNet:Announce(range)
-	local ents = TheSim:FindEntities(x,y,z,range,nil,{"DEVBEHOLDER","player","bird"})
+	local ents = TheSim:FindEntities(x,y,z,range,nil,{"DEVBEHOLDER","player","bird", "NOCLICK", "CLASSIFIED", "FX", "INLIMBO", "smalloceancreature"})
 	
 
 	local totaltable = "local returnedTable = { "
