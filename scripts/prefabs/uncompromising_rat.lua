@@ -523,7 +523,7 @@ local function fn()
 	
 	inst.OnSave = onsave_rat
 	inst.OnLoad = onload_rat
-	
+
 	return inst
 end
 
