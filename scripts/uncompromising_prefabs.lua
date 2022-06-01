@@ -347,4 +347,6 @@ return {
 	"eyeofterror_mini_ally",
 	"eyeofterror_mini_projectile_ally",
 	"stuffed_peeper_poppers",
+	
+	"siren_bird_nest",
 }
