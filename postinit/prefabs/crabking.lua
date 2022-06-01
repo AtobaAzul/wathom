@@ -13,7 +13,7 @@ env.AddPrefabPostInit("crabking", function(inst)
 	--hoarder ck
 	inst:ListenForEvent("death", function(inst)
 		local pos = inst:GetPosition()
-		local messagebottletreasures = require("messagebottletreasures")
+		local messagebottletreasures = require("messagebottletreasures_um")
 		local red = inst.countgems(inst).red
 		local blue = inst.countgems(inst).blue
 		local purple = inst.countgems(inst).purple
