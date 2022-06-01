@@ -136,6 +136,8 @@ local function fn()
     inst.AnimState:SetBank("rr_powerline")
     inst.AnimState:SetBuild("rr_powerline")
 
+    inst.Transform:SetScale(2, 1.5, 1.5)--wide boy
+
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
@@ -160,10 +162,17 @@ local function fn()
 
     MakeHauntableWork(inst)
 
+    MakeInventoryFloatable(inst, "small", 0.3, {0.75, 1, 0.75})
+    inst.components.floater.bob_percent = 0
+
+    local land_time = (POPULATING and math.random()*5*FRAMES) or 0
+    inst:DoTaskInTime(land_time, function(inst)
+        inst.components.floater:OnLandedServer()
+    end)
+
     inst:ListenForEvent("on_collide", OnCollide)
 
 	inst:DoTaskInTime(0,DecideType)
-	inst.Transform:SetScale(1.5,1.5,1.5)
 	
 	inst:AddComponent("burnable")
     MakeLargeBurnable(inst, TUNING.TREE_BURN_TIME)
