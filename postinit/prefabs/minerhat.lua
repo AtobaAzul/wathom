@@ -2,32 +2,38 @@ local env = env
 GLOBAL.setfenv(1, GLOBAL)
 
 env.AddPrefabPostInit("minerhat", function(inst)
-    local OnEquip_old = inst.components.equippable.onequipfn
+    if inst.components.equippable ~= nil then
+        local OnEquip_old = inst.components.equippable.onequipfn
 
-    inst.components.equippable.onequipfn = function(inst, owner)
-        local numupgrades = inst.components.upgradeable.numupgrades
-        print(numupgrades)
-        if numupgrades == 4 then
-            owner:AddTag("batteryuser")
+        inst.components.equippable.onequipfn = function(inst, owner)
+            local numupgrades = inst.components.upgradeable.numupgrades
+            print(numupgrades)
+            if numupgrades > 0 then
+                owner:AddTag("batteryuser")
+            end
+
+            if OnEquip_old ~= nil then
+                OnEquip_old(inst, owner)
+            end
         end
 
-        if OnEquip_old ~= nil then
-          OnEquip_old(inst, owner)
-       end
-    end
-    
-    local OnUnequip_old = inst.components.equippable.onunequipfn
-    
-    inst.components.equippable.onunequipfn = function(inst, owner)
-        if owner.components.upgrademoduleowner == nil then
-            owner:RemoveTag("batteryuser")
+        local OnUnequip_old = inst.components.equippable.onunequipfn
+
+        inst.components.equippable.onunequipfn = function(inst, owner)
+            if owner.components.upgrademoduleowner == nil then
+                local item = owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+
+                if (item ~= nil and not item:HasTag("electricaltool")) or item == nil then
+                    owner:RemoveTag("batteryuser")
+                end
+            end
+
+            if OnUnequip_old ~= nil then
+                OnUnequip_old (inst, owner)
+            end
         end
-
-        if OnUnequip_old ~= nil then
-         OnUnequip_old (inst, owner)
-      end
     end
-
+    
     local function OnUpgrade(inst)
         if inst ~= nil then
             inst:SetPrefabNameOverride("MINERHAT_ELECTRICAL")
