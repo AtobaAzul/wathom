@@ -11,7 +11,7 @@ local prefabs =
     "waterplant_destroy",
 }
 
-SetSharedLootTable( 'seastack',
+SetSharedLootTable( 'kelpstack',
 {
     {'rocks',  1.00},
     {'rocks',  1.00},
@@ -103,7 +103,7 @@ local function fn()
     end
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetChanceLootTable('seastack')
+    inst.components.lootdropper:SetChanceLootTable('kelpstack')
     inst.components.lootdropper.max_speed = 2
     inst.components.lootdropper.min_speed = 0.3
     inst.components.lootdropper.y_speed = 14

@@ -331,7 +331,7 @@ AddRecipe2(
     "um_bear_trap_equippable_tooth",
     {Ingredient("cutstone", 2), Ingredient("houndstooth", 3), Ingredient("rope", 1)},
     TECH.SCIENCE_TWO,
-    {nounlock = true},
+    {nil},
     {"WEAPONS"}
 )
 ChangeSortKey("um_bear_trap_equippable_tooth", "trap_teeth", "WEAPONS", true)
@@ -340,7 +340,7 @@ AddRecipe2(
     "um_bear_trap_equippable_gold",
     {Ingredient("goldnugget", 4), Ingredient("houndstooth", 3), Ingredient("rope", 1)},
     TECH.SCIENCE_TWO,
-    {nounlock = true},
+    {nil},
     {"WEAPONS"}
 )
 ChangeSortKey("um_bear_trap_equippable_gold", "um_bear_trap_equippable_tooth", "WEAPONS", true)
@@ -486,90 +486,116 @@ AddDeconstructRecipe("slobberlobber", {Ingredient("dragon_scales", 1), Ingredien
 AllRecipes["trident"].ingredients = {Ingredient("boneshard", 2), Ingredient("gnarwail_horn", 1), Ingredient("twigs", 2)}
 --hermitshop expansion
 AddRecipe2(
-    "hermit_oceanfishinglure_spoon_red",
+    "hermitshop_oceanfishinglure_spoon_red",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_red", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oceanfishinglure_spoon_red","hermitshop_oceanfishingbobber_canary","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_oceanfishinglure_spoon_green",
+    "hermitshop_oceanfishinglure_spoon_green",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_green", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oceanfishinglure_spoon_green","hermitshop_oceanfishinglure_spoon_red","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_oceanfishinglure_spoon_blue",
+    "hermitshop_oceanfishinglure_spoon_blue",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_blue", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oceanfishinglure_spoon_blue","hermitshop_oceanfishinglure_spoon_green","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_oceanfishinglure_spinner_red",
+    "hermitshop_oceanfishinglure_spinner_red",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_red", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oceanfishinglure_spinner_red","hermitshop_oceanfishinglure_spoon_blue","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_oceanfishinglure_spinner_green",
+    "hermitshop_oceanfishinglure_spinner_green",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_green", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oceanfishinglure_spinner_green","hermitshop_oceanfishinglure_spinner_red","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_oceanfishinglure_spinner_blue",
+    "hermitshop_oceanfishinglure_spinner_blue",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_blue", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oceanfishinglure_spinner_blue","hermitshop_oceanfishinglure_spinner_green","CRAFTING_STATION", true)
 
 AddRecipe2(
-    "hermit_boat",
+    "hermitshop_boat",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "boat_item", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_boat","hermitshop_hermitshop_bundle_shells","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_mast",
+    "hermitshop_mast",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "mast_item", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_mast","hermitshop_boat","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_anchor",
+    "hermitshop_anchor",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "anchor_item", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_anchor","hermitshop_mast","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_steeringwheel",
+    "hermitshop_steeringwheel",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "steeringwheel_item", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_steeringwheel","hermitshop_anchor","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_patch",
+    "hermitshop_patch",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "sludge_patch", sg_state = "give", numtogive = 4}
 )
+ChangeSortKey("hermitshop_patch","hermitshop_steeringwheel","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_blueprint",
+    "hermitshop_blueprint",
     {Ingredient("messagebottleempty", 1)},
     GLOBAL.TECH.HERMITCRABSHOP_THREE,
     {nounlock = true, product = "blueprint", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_blueprint","hermitshop_turf_shellbeach_blueprint","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_waterplant",
+    "hermitshop_waterplant",
     {Ingredient("messagebottleempty", 3)},
     TECH.HERMITCRABSHOP_FIVE,
     {nounlock = true, product = "waterplant_planter", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_waterplant","hermitshop_chum","CRAFTING_STATION", true)
+
 AddRecipe2(
-    "hermit_cookies",
+    "hermitshop_cookies",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_SEVEN,
     {nounlock = true, product = "pumpkincookie", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_cookies","hermitshop_supertacklecontainer","CRAFTING_STATION", true)
 
 AddRecipe2(
     "normal_chum",
@@ -583,11 +609,12 @@ AllRecipes["hermitshop_chum"].ingredients = {Ingredient("messagebottleempty", 1)
 AllRecipes["hermitshop_chum"].numtogive = 3
 
 AddRecipe2(
-    "hermit_oil",
+    "hermitshop_oil",
     {Ingredient("messagebottleempty", 3)},
     TECH.HERMITCRABSHOP_FIVE,
     {nounlock = true, product = "diseasecurebomb", sg_state = "give"}
 )
+ChangeSortKey("hermitshop_oil","hermitshop_cookies","CRAFTING_STATION", true)
 
 --pearlrusher
 CONSTRUCTION_PLANS["hermithouse_construction3"] = {
@@ -595,6 +622,7 @@ CONSTRUCTION_PLANS["hermithouse_construction3"] = {
     Ingredient("petals", 15),
     Ingredient("moonglass", 10)
 }
+
 --better moonstorm
 AddRecipe2(
     "moonstorm_static_item",
