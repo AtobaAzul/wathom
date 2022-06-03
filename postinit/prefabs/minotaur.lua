@@ -96,7 +96,8 @@ local function nodmgshielded(inst, amount, overtime, cause, ignore_invincible, a
 end
 
 local function OrganUpdate(inst)
-	if TheSim:FindFirstEntityWithTag("minotaur_organ") then
+	local organ = TheSim:FindFirstEntityWithTag("minotaur_organ")
+	if organ and organ.components.health and not organ.components.health:IsDead() then
 		if not inst:HasTag("forcefield") then
 			ActivateShield(inst)
 		end

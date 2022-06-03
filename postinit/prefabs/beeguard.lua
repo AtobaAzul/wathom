@@ -55,7 +55,7 @@ local function DefensiveTask(inst)
 		inst.sg:GoToState("rally_at_point")
 	end
 	if inst:GetDistanceSqToInst(inst.beeHolder) < 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
-		local target = FindEntity(inst,TUNING.BEEGUARD_ATTACK_RANGE^2,nil,{"_combat"},{"playerghost","bee","beehive"})
+		local target = FindEntity(inst,TUNING.BEEGUARD_ATTACK_RANGE^2,nil,{"_combat"},{"playerghost","bee","beehive","wall"})
 		if inst.components.combat and inst.components.health and not inst.components.health:IsDead() then
 			if target then
 				inst.components.combat:SuggestTarget(target)

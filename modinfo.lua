@@ -559,7 +559,7 @@ configuration_options =
 	Header(""),
 
 	BinaryConfig("harder_beequeen", "Harder Bee Queen", "Bee Queen now has AOE attached to her main attack.", true),
-	BinaryConfig("rework_minotaur_disabled", "Ancient Guardian Rework", "[CURRENTLY BROKEN] The Ancient Guardian's fight is reworked, includes more attacks and a stunning mechanic.", false),
+	BinaryConfig("rework_minotaur", "Ancient Guardian Rework", "The Ancient Guardian's fight is expanded, includes more attacks.", true),
 	BinaryConfig("reworked_eyes", "Reworked Eyes of Terror", "Eye of Terror and the Twins have new attacks, inspired by their Terraria counterparts.", true),
 	Header(""),
 
