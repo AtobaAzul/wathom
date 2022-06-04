@@ -418,7 +418,7 @@ AddRecipe2(
 )
 ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", true)
 ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
-
+--[[
 AddRecipe2(
     "powercell",
     {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 2)},
@@ -426,7 +426,15 @@ AddRecipe2(
     {builder_tag = "handyperson", numtogive = 3},
     {"CHARACTER"}
 )
-ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)
+ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)]]
+AddRecipe2(
+    "winona_upgradekit_electrical",
+    {Ingredient("goldnugget", 10), Ingredient("sewing_tape", 2), Ingredient("sludge", 1)--[[Ingredient("copperpipe")]]},
+    TECH.SCIENCE_TWO,
+    {builder_tag = "handyperson"},
+    {"CHARACTER", "LIGHT"}
+)
+ChangeSortKey("winona_upgradekit_electrical", "winona_toolbox", "CHARACTER", true)
 
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
@@ -676,7 +684,12 @@ STRINGS.RECIPE_DESC.DRIFTWOODFISHINGROD = "Go Fancy Fishing. For Fancy Fish."
 STRINGS.RECIPE_DESC.BOOK_RAIN = "A catalogue of weather effects."
 STRINGS.RECIPE_DESC.RAIN_HORN = "Drown the world."
 STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"
-STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened Healing!"
+STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened healing!"
+STRINGS.RECIPE_DESC.WINONA_TOOLBOX = "An engineer is always prepared."
+--STRINGS.RECIPE_DESC.POWERCELL = "Portable electricity!"
+STRINGS.RECIPE_DESC.SLUDGE_PATCH = "Impermeable goo."
+STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
+STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
 
 --sailing rebalance strings
 STRINGS.RECIPE_DESC.MOONSTORM_STATIC_ITEM = "The power of the moon, contained!"
