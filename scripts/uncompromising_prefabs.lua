@@ -349,4 +349,7 @@ return {
 	"stuffed_peeper_poppers",
 	
 	"siren_bird_nest",
+	"um_scorpionhole",
+	"um_scorpionhole_organizer",
+	"um_amber",
 }

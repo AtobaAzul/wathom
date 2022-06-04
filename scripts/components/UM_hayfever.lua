@@ -173,7 +173,7 @@ function UM_hayfever:Enable()
 	self.enabled = true
 	self.pollencounttask = self.inst:DoPeriodicTask(3,HealthManage)
     self.inst:StartUpdatingComponent(self)
-	TheNet:SystemMessage("Hayfever is active!")
+	--TheNet:SystemMessage("Hayfever is active!")
 end
 
 --Simple Disable function... nothing to see here
@@ -182,7 +182,7 @@ function UM_hayfever:Disable()
 	self.pollencounttask = nil
     self.inst:StopUpdatingComponent(self)
 	self.inst.components.locomotor:RemoveExternalSpeedMultiplier(self.inst, "hayfever")
-	TheNet:SystemMessage("Hayfever has been deactivated!")
+	--TheNet:SystemMessage("Hayfever has been deactivated!")
 end
 
 --Important saved data is whether hayfever is enabled as well as nosestuffyness

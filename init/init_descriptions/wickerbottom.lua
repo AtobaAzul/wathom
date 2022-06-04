@@ -116,7 +116,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WICKERBOTTOM.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "A large sack made from toad skin. It's scent is far from lovely."
 	DESCRIBE.SALTPACK = "The device releases sodium chloride into the atmosphere."
 	
-	DESCRIBE.SCORPION = "Scorpiones. It's a desert species of some sort."
+	DESCRIBE.UM_SCORPION = "Scorpiones. It's a desert species of some sort."
 	DESCRIBE.SCORPIONCARAPACE = "While it should not be poisonous, it is unfit to eat in this condition."
 	DESCRIBE.SCORPIONCARAPACECOOKED = "I believe it requires more than just an open flame."
 	DESCRIBE.HARDSHELLTACOS = "The scorpion tastes well like this."

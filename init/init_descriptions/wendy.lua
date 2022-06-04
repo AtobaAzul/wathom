@@ -115,7 +115,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "It reeks, just like everything else."
 	DESCRIBE.SALTPACK = "It deals with menial chores. My other problems remain unsolved."
 	
-	DESCRIBE.SCORPION = "One sting and it could be over."
+	DESCRIBE.UM_SCORPION = "One sting and it could be over."
 	DESCRIBE.SCORPIONCARAPACE = "Another piece of vile meat."
 	DESCRIBE.SCORPIONCARAPACECOOKED = "It was pointless to cook it."
 	DESCRIBE.HARDSHELLTACOS = "I like the dark shell."

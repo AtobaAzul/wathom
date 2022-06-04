@@ -116,7 +116,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "It's going to spread it's spores on everything. Gross!"
 	DESCRIBE.SALTPACK = "Melt all your troubles away."
 	
-	DESCRIBE.SCORPION = "Getting stung would be quite a bother!"
+	DESCRIBE.UM_SCORPION = "Getting stung would be quite a bother!"
 	DESCRIBE.SCORPIONCARAPACE = "Slightly poisonous."
 	DESCRIBE.SCORPIONCARAPACECOOKED = "Times are hard, and food can be scarce."
 	DESCRIBE.HARDSHELLTACOS = "I'm unfamiliar with this cuisine."

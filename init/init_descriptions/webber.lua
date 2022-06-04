@@ -115,7 +115,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WEBBER.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "We need a bubble bath after wearing it!"
 	DESCRIBE.SALTPACK = "We kinda want to play in the snow, though."
 	
-	DESCRIBE.SCORPION = "Hello, fellow arachnid."
+	DESCRIBE.UM_SCORPION = "Hello, fellow arachnid."
 	DESCRIBE.SCORPIONCARAPACE = "A little more crunchy than usual."
 	DESCRIBE.SCORPIONCARAPACECOOKED = "It's not that bad."
 	DESCRIBE.HARDSHELLTACOS = "I want another!"
