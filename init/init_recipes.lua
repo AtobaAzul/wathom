@@ -443,10 +443,20 @@ AddRecipe2(
     "sludge_patch",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
     TECH.NONE,
-    {numtogive = 2},
+    {numtogive = 3},
     {"SEAFARING"}
 )
 ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+
+AddRecipe2(
+    "sludge_sack",
+    {Ingredient("sludge", 6), Ingredient("rockjawleather", 1), Ingredient("rope", 3)},
+    TECH.SCIENCE_TWO,
+    nil,
+    {"CONTAINERS", "CLOTHING"}
+)
+ChangeSortKey("sludge_sack", "piggyback", "CONTAINERS", true)
+ChangeSortKey("sludge_sack", "piggyback", "CLOTHING", true)
 
 --AddRecipe2(
   --  "sludge_oil",
@@ -471,7 +481,7 @@ ChangeSortKey("armor_reed_um","raincoat","RAIN", true)
 
 AddRecipe2(
     "armor_sharksuit_um",
-    {Ingredient("armorwood", 1), Ingredient("rockjawleather", 3), Ingredient("sludge", 8)},
+    {Ingredient("armorwood", 1), Ingredient("rockjawleather", 2), Ingredient("sludge", 8)},
     TECH.SCIENCE_TWO,
     nil,
     {"SEAFARING", "ARMOUR", "RAIN"}

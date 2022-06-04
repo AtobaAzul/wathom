@@ -109,7 +109,7 @@ local function fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("harvestable")
-    inst.components.harvestable:SetUp("sludge", nil, 1, nil, nil)
+    inst.components.harvestable:SetUp("sludge", nil, TUNING.GRASS_REGROW_TIME, nil, nil)
 
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.MINE)
