@@ -15,24 +15,24 @@ function self:PickThreat() -- This function is called when the world decides to 
 	local threat = "monsoon"
 	if self.previousthreat == nil then -- First choice is always a 50/50
 		if math.random() > 0.5 then
-			threat = "monsoon"
+			threat = "lush"--"monsoon"
 		else
 			threat = "lush"
 		end
 	end
 	if self.previousthreat ~= nil then
-		TheNet:Announce("previousthreat wasn't nil!")
+		--TheNet:Announce("previousthreat wasn't nil!")
 		if TheWorld.state.cycles < 120 then -- Always pick the opposite threat during the second year
-			TheNet:Announce("world age is less than 120, cycles! previousthreat was ".. self.previousthreat)
+			--TheNet:Announce("world age is less than 120, cycles! previousthreat was ".. self.previousthreat)
 			if self.previousthreat == "lush" then
-				self.threat = "monsoon"
+				self.threat = "lush"--"monsoon"
 			else
 				self.threat = "lush"
 			end
 		else
 			if self.previousthreat == "lush" then -- Make it more likely, but not guaranteed, to choose the opposite
 				if math.random() > 0.25 then
-					self.threat = "monsoon"
+					self.threat = "lush"--"monsoon"
 				else
 					self.threat = "lush"
 				end
@@ -40,7 +40,7 @@ function self:PickThreat() -- This function is called when the world decides to 
 				if math.random() > 0.25 then
 					self.threat = "lush"
 				else
-					self.threat = "monsoon"
+					self.threat = "lush"--"monsoon"
 				end
 			end
 		end
@@ -74,7 +74,7 @@ local function OnSeasonTick(src, data)
 	--TheNet:SystemMessage("Time is: "..self.time)
 	if self.time <= 0 then
 		if TheWorld.state.isspring then
-			TheNet:SystemMessage("DECIDING")
+			--TheNet:SystemMessage("DECIDING")
 			self.threat = self:PickThreat()
 			self.previousthreat = self.threat -- For earlygame, making sure you can't get double early, and later making it less likely.
 			
@@ -94,14 +94,14 @@ local function OnSeasonTick(src, data)
 		end
     end
 	if self.threat ~= nil then
-		TheNet:SystemMessage("Threat is: "..self.threat)
+		--TheNet:SystemMessage("Threat is: "..self.threat)
 	else
-		TheNet:SystemMessage("No defined springthreat")
+		--TheNet:SystemMessage("No defined springthreat")
 	end
 	if self.previousthreat ~= nil then
-		TheNet:SystemMessage("Previous Threat is: "..self.previousthreat)
+		--TheNet:SystemMessage("Previous Threat is: "..self.previousthreat)
 	else
-		TheNet:SystemMessage("No defined previousthreat")
+		--TheNet:SystemMessage("No defined previousthreat")
 	end
 end
 

@@ -124,18 +124,23 @@ end)
 end
 
 if GetModConfigData("trapdoorspiders") == true then
-AddRoomPreInit("BGSavanna", function(room)					--This effects the outer areas of the Triple Mac and The Major Beefalo Plains
-room.contents.countprefabs=
-									{
-										trapdoorspawner = function() return math.random(4,5) end,}
-end)
-AddRoomPreInit("Plain", function(room)						--This effects areas in the Major Beefalo Plains and the Grasslands next to the portal
-room.contents.countprefabs=
-									{
-										trapdoorspawner = function() return math.random(2,4) end,} --returned number for whole area should be multiplied between 2-4 due to multiple rooms
-end)
+	AddRoomPreInit("BGSavanna", function(room)					--This effects the outer areas of the Triple Mac and The Major Beefalo Plains
+		room.contents.countprefabs=
+											{
+												trapdoorspawner = function() return math.random(4,5) end,}
+	end)
+	AddRoomPreInit("Plain", function(room)						--This effects areas in the Major Beefalo Plains and the Grasslands next to the portal
+	room.contents.countprefabs=
+										{
+											trapdoorspawner = function() return math.random(2,4) end,} --returned number for whole area should be multiplied between 2-4 due to multiple rooms
+	end)
 end
 
+AddRoomPreInit("BGLightningBluff", function(room) --Oasis Desert Has Scorpion Organizers vvhich determine hovv their burrovving should change.....
+	room.contents.countprefabs= { um_scorpionhole_organizer = 1,
+		um_scorpionhole = math.random(0,1)}
+end)
+	
 -----------Ghost Walrus
 if GetModConfigData("ghostwalrus") ~= "disabled" then
 	AddRoomPreInit("WalrusHut_Plains", function(room)

@@ -116,7 +116,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WURT.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "Smells like home!"
 	DESCRIBE.SALTPACK = "Eyes hurt!"
 	
-	DESCRIBE.SCORPION = "Look like spiderfolk?"
+	DESCRIBE.UM_SCORPION = "Look like spiderfolk?"
 	DESCRIBE.SCORPIONCARAPACE = "Yuck! Worse than just meat!"
 	DESCRIBE.SCORPIONCARAPACECOOKED = "Throw it away!"
 	DESCRIBE.HARDSHELLTACOS = "Get that thing away!"

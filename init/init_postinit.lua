@@ -218,7 +218,7 @@ if GetModConfigData("harder_leifs") then
 	table.insert(brain_post, "leif")
 end
 
-if GetModConfigData("rework_minotaur_")then
+if GetModConfigData("rework_minotaur")then
 	table.insert(stategraph_post,"minotaur")
 	table.insert(prefab_post,"minotaur")
 	table.insert(prefab_post,"pillar_ruins")

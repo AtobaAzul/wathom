@@ -5,24 +5,11 @@ local assets =
 {
 	Asset("ANIM", "anim/scorpion_basic.zip"),
 	Asset("ANIM", "anim/scorpion_build.zip"),
-	Asset("SOUND", "sound/spider.fsb"),
 }
-    
-    
-local prefabs =
-{
-	--"chitin",
-    "scorpioncarapace",
-    --"venomgland",
-    "stinger",
-	"sand_puff",
-}
-
+   
 SetSharedLootTable( 'scorpion',
 {
     {'scorpioncarapace',  1.00},
-    --{'chitin',  0.3},
-    --{'venomgland',  0.3},
     {'stinger',  0.3},
 })
 
@@ -42,11 +29,6 @@ local function NormalRetarget(inst)
     end)
 end
 
-local function FindWarriorTargets(guy)
-	return (guy:HasTag("character") or guy:HasTag("pig"))
-               and inst.components.combat:CanTarget(guy)
-               and not (inst.components.follower and inst.components.follower.leader == guy)
-end
 
 local function keeptargetfn(inst, target)
    return target
@@ -58,25 +40,10 @@ end
 
 local function ShouldSleep(inst)
     return false
---[[    
-    return GetClock():IsDay()
-           and not (inst.components.combat and inst.components.combat.target)
-           and not (inst.components.homeseeker and inst.components.homeseeker:HasHome() )
-           and not (inst.components.burnable and inst.components.burnable:IsBurning() )
-           and not (inst.components.follower and inst.components.follower.leader)
-           ]]
 end
 
 local function ShouldWake(inst)
     return true
-    --[[
-    return GetClock():IsNight()
-           or (inst.components.combat and inst.components.combat.target)
-           or (inst.components.homeseeker and inst.components.homeseeker:HasHome() )
-           or (inst.components.burnable and inst.components.burnable:IsBurning() )
-           or (inst.components.follower and inst.components.follower.leader)
-           or (inst:HasTag("spider_warrior") and FindEntity(inst, TUNING.SPIDER_WARRIOR_WAKE_RADIUS, function(...) return FindWarriorTargets(inst, ...) end ))
-           ]]
 end
 
 --[[
@@ -99,22 +66,13 @@ local function OnEntitySleep(inst)
 	end
 end
 ]]
---[[
-local function SummonFriends(inst, attacker)
-	local den = GetClosestInstWithTag("spiderden",inst, TUNING.SPIDER_SUMMON_WARRIORS_RADIUS)
-	if den and den.components.combat and den.components.combat.onhitfn then
-		den.components.combat.onhitfn(den, attacker)
-	end
-end
-]]
+
 
 local function OnAttacked(inst, data)
-    inst.components.combat:SetTarget(data.attacker)
-    --inst.components.combat:ShareTarget(data.target, SHARE_TARGET_DIST, function(dude) return dude:HasTag("scorpion") and not dude.components.health:IsDead() end, 5)
-end
-
-local function StartNight(inst)
-    inst.components.sleeper:WakeUp()
+	if data and data.attacker then
+		inst.components.combat:SetTarget(data.attacker)
+		inst.components.combat:ShareTarget(data.attacker, SHARE_TARGET_DIST, function(dude) return dude:HasTag("scorpion") and not dude.components.health:IsDead() end,1)
+	end
 end
 
 local function OnHitOther(inst, data)
@@ -138,29 +96,20 @@ local function OnHitOther(inst, data)
         end
     end
 end
-local function WhenDusk(inst)
-inst:AddTag("notactuallydead")
-if inst.components.health ~= nil and not inst.components.health:IsDead() then
-inst.components.health:Kill()
-end
-end
+
 local function fn(Sim)
 	local inst = CreateEntity()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
-    
-local shadow = inst.entity:AddDynamicShadow()
+	local shadow = inst.entity:AddDynamicShadow()
     shadow:SetSize( 1.5, .5 )
     inst.entity:AddNetwork()
     inst.entity:AddLightWatcher()
-
-    --inst.DynamicShadow:SetSize(1, .75)
     inst.Transform:SetFourFaced()
 
 	MakeCharacterPhysics(inst, 10, .5)
-	--MakePoisonableCharacter(inst)
 
 	inst.entity:SetPristine()
 	
@@ -240,9 +189,12 @@ local shadow = inst.entity:AddDynamicShadow()
     inst:SetBrain(brain)  
     inst:ListenForEvent("attacked", OnAttacked)
 	inst:ListenForEvent("onhitother", OnHitOther)
-	inst:WatchWorldState("isdusk", WhenDusk)
 
+	if not TUNING.DSTU.DESERTSCORPIONS then	
+		inst:Remove()
+	end
+	
     return inst
 end
 
-return Prefab( "scorpion", fn, assets, prefabs)
+return Prefab("um_scorpion", fn, assets)

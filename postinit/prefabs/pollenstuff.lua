@@ -151,7 +151,7 @@ local function PollenInit(inst) --inserts pollen generation into onwake for each
 		inst._OnEntityWake = inst.OnEntityWake
 	end
 	local function OnEntityWakeNew(inst)
-		inst.PollenTask = inst:DoPeriodicTask(2+math.random(2,5), PollenTask)
+		--inst.PollenTask = inst:DoPeriodicTask(2+math.random(2,5), PollenTask)
 		--[[if inst._OnEntityWake ~= nil then
 			inst._OnEntityWake(inst)
 		end]]
@@ -163,7 +163,7 @@ local function PollenInit(inst) --inserts pollen generation into onwake for each
 		inst._OnEntitySleep = inst.OnEntitySleep
 	end
 	local function OnEntitySleepNew(inst)
-		inst.PollenTask = nil
+		--inst.PollenTask = nil
 		--[[if inst._OnEntitySleep ~= nil then
 			inst._OnEntitySleep(inst)
 		end]]

@@ -112,10 +112,6 @@ env.AddPrefabPostInit("forest", function(inst)
 		inst:AddComponent("snowstorminitiator")
 	end
 	
-	if TUNING.DSTU.DESERTSCORPIONS then	
-		inst:AddComponent("scorpionspawner")
-	end
-	
 	inst:AddComponent("randomnightevents")
 	
 	

@@ -115,7 +115,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "Mushroom bag stinks."
 	DESCRIBE.SALTPACK = "Wolfgang is stronger than snow!"
 	
-	DESCRIBE.SCORPION = "Stay away from Wolfgang!"
+	DESCRIBE.UM_SCORPION = "Stay away from Wolfgang!"
 	DESCRIBE.SCORPIONCARAPACE = "Is not fit for mighty belly!"
 	DESCRIBE.SCORPIONCARAPACECOOKED = "Still is not fit for mighty belly!"
 	DESCRIBE.HARDSHELLTACOS = "Is fit for mighty belly!"

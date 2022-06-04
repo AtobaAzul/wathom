@@ -115,7 +115,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WARLY.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "Absolutely not."
 	DESCRIBE.SALTPACK = "Would anyone mind if I use this salt?"
 	
-	DESCRIBE.SCORPION = "Fried scorpion? Too dangerous."
+	DESCRIBE.UM_SCORPION = "Fried scorpion? Too dangerous."
 	DESCRIBE.SCORPIONCARAPACE = "I wouldn't dare eat this without a gallon of fry oil."
 	DESCRIBE.SCORPIONCARAPACECOOKED = "It's still not good."
 	DESCRIBE.HARDSHELLTACOS = "The shell is actually surprisingly pallatable."

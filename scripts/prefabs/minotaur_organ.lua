@@ -11,6 +11,7 @@ end
 
 local function OnKilled(inst)
 	inst.AnimState:PlayAnimation("death")
+	TellMinotaurImDead(inst)
 end
 
 local function AnimNext(inst)
@@ -119,7 +120,6 @@ local function organfn()
 	inst:ListenForEvent("death", OnKilled) --Forces the death animation as soon as the organ is killed.
 	inst:ListenForEvent("animqueueover",AnimNext) --Dynamically changes heartbeat based on how close players are and wether or not the organ has a shield.
 	inst:ListenForEvent("attacked",OnAttacked) --This updates the shield fx if you attack it when it's not ready.
-	inst:ListenForEvent("onremove",TellMinotaurImDead) --This lets AG know that I have been removed, must update shield status. Function doesn't stem from OnKilled due to delays.
 	inst:DoTaskInTime(1,ActivateShield)
 	inst.DeactivateShield = DeactivateShield
 	

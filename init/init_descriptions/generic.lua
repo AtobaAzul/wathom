@@ -168,7 +168,8 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.GENERIC.ACTIONFAIL
 	DESCRIBE.SHROOM_SKIN_FRAGMENT = "It's small, but the stench is still a punch in the face."
 	DESCRIBE.AIR_CONDITIONER = "Smells great!"
 	
-	DESCRIBE.SCORPION = "That better not be venomous."
+	DESCRIBE.UM_SCORPION = "That better not be venomous."
+	DESCRIBE.UM_SCORPIONHOLE = "Another inconspicious mark in the terrain."
 	DESCRIBE.SCORPIONCARAPACE = "I'll pass."
 	DESCRIBE.SCORPIONCARAPACECOOKED = "The shell is still pretty hard."
 	DESCRIBE.HARDSHELLTACOS = "Must be Tuesday."

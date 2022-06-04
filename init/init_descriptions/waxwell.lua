@@ -117,7 +117,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "That's revolting! I don't care how big it is!"
 	DESCRIBE.SALTPACK = "I'm not one for chores."
 	
-	DESCRIBE.SCORPION = "You'll not be stinging me."
+	DESCRIBE.UM_SCORPION = "You'll not be stinging me."
 	DESCRIBE.SCORPIONCARAPACE = "Ugh! Best leave it for the hounds!"
 	DESCRIBE.SCORPIONCARAPACECOOKED = "Cooking it doesn't cure the texture of the meat inside."
 	DESCRIBE.HARDSHELLTACOS = "Well, this is actually better."

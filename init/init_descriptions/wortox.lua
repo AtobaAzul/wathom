@@ -115,7 +115,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WORTOX.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "It is very rude, and rots your food!"
 	DESCRIBE.SALTPACK = "I can now frolic through the snow in peace!"
 	
-	DESCRIBE.SCORPION = "It crawls, creeps, and makes you sleep!"
+	DESCRIBE.UM_SCORPION = "It crawls, creeps, and makes you sleep!"
 	DESCRIBE.SCORPIONCARAPACE = "This food is below even mortal tastes!"
 	DESCRIBE.SCORPIONCARAPACECOOKED = "Willow was wrong this time, fire did not improve it."
 	DESCRIBE.HARDSHELLTACOS = "It may be acceptible to mortals now, but not me!"

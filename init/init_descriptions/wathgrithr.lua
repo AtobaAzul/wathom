@@ -116,7 +116,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	DESCRIBE.SPOREPACK = "It masks my scent!"
 	DESCRIBE.SALTPACK = "It clears the battlefield!"
 	
-	DESCRIBE.SCORPION = "Your pointy tail is no match for me!"
+	DESCRIBE.UM_SCORPION = "Your pointy tail is no match for me!"
 	DESCRIBE.SCORPIONCARAPACE = "Meat! Trapped within a black shell!"
 	DESCRIBE.SCORPIONCARAPACECOOKED = "The fire slightly freed the reward inside."
 	DESCRIBE.HARDSHELLTACOS = "The scorpion's reward!"
