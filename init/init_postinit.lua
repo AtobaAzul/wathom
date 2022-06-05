@@ -144,6 +144,7 @@ local prefab_post = {
 	"petals",
 	"lantern",
 	"minerhat",
+	"shark",
 }
 
 local stategraph_post = {

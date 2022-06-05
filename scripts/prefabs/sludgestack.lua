@@ -83,6 +83,7 @@ local function fn()
     inst.AnimState:SetBank("water_rock01")
     inst.AnimState:SetBuild("water_rock_01")
     inst.AnimState:PlayAnimation("1_full")
+    inst.AnimState:SetMultColour(0.5, 0.5, 0.5, 1)
 
     MakeInventoryFloatable(inst, "med", 0.1, {1.1, 0.9, 1.1})
     inst.components.floater.bob_percent = 0
@@ -109,7 +110,7 @@ local function fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("harvestable")
-    inst.components.harvestable:SetUp("sludge", nil, 1, nil, nil)
+    inst.components.harvestable:SetUp("sludge", nil, TUNING.GRASS_REGROW_TIME, nil, nil)
 
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.MINE)

@@ -418,7 +418,7 @@ AddRecipe2(
 )
 ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", true)
 ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
-
+--[[
 AddRecipe2(
     "powercell",
     {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 2)},
@@ -426,7 +426,15 @@ AddRecipe2(
     {builder_tag = "handyperson", numtogive = 3},
     {"CHARACTER"}
 )
-ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)
+ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)]]
+AddRecipe2(
+    "winona_upgradekit_electrical",
+    {Ingredient("goldnugget", 10), Ingredient("sewing_tape", 2), Ingredient("sludge", 1)--[[Ingredient("copperpipe")]]},
+    TECH.SCIENCE_TWO,
+    {builder_tag = "handyperson"},
+    {"CHARACTER", "LIGHT"}
+)
+ChangeSortKey("winona_upgradekit_electrical", "winona_toolbox", "CHARACTER", true)
 
 AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
@@ -435,10 +443,20 @@ AddRecipe2(
     "sludge_patch",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
     TECH.NONE,
-    {numtogive = 2},
+    {numtogive = 3},
     {"SEAFARING"}
 )
 ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+
+AddRecipe2(
+    "sludge_sack",
+    {Ingredient("sludge", 6), Ingredient("rockjawleather", 1), Ingredient("rope", 3)},
+    TECH.SCIENCE_TWO,
+    nil,
+    {"CONTAINERS", "CLOTHING"}
+)
+ChangeSortKey("sludge_sack", "piggyback", "CONTAINERS", true)
+ChangeSortKey("sludge_sack", "piggyback", "CLOTHING", true)
 
 --AddRecipe2(
   --  "sludge_oil",
@@ -463,7 +481,7 @@ ChangeSortKey("armor_reed_um","raincoat","RAIN", true)
 
 AddRecipe2(
     "armor_sharksuit_um",
-    {Ingredient("armorwood", 1), Ingredient("rockjawleather", 3), Ingredient("sludge", 8)},
+    {Ingredient("armorwood", 1), Ingredient("rockjawleather", 2), Ingredient("sludge", 8)},
     TECH.SCIENCE_TWO,
     nil,
     {"SEAFARING", "ARMOUR", "RAIN"}
@@ -676,7 +694,12 @@ STRINGS.RECIPE_DESC.DRIFTWOODFISHINGROD = "Go Fancy Fishing. For Fancy Fish."
 STRINGS.RECIPE_DESC.BOOK_RAIN = "A catalogue of weather effects."
 STRINGS.RECIPE_DESC.RAIN_HORN = "Drown the world."
 STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"
-STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened Healing!"
+STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened healing!"
+STRINGS.RECIPE_DESC.WINONA_TOOLBOX = "An engineer is always prepared."
+--STRINGS.RECIPE_DESC.POWERCELL = "Portable electricity!"
+STRINGS.RECIPE_DESC.SLUDGE_PATCH = "Impermeable goo."
+STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
+STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
 
 --sailing rebalance strings
 STRINGS.RECIPE_DESC.MOONSTORM_STATIC_ITEM = "The power of the moon, contained!"
