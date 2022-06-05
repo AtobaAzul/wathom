@@ -16,6 +16,9 @@ local function fn()
     inst.AnimState:SetBuild("charcoal")
     inst.AnimState:PlayAnimation("idle")
 
+    inst:AddTag("allow_action_on_impassable")
+    inst:AddTag("boat_patch")
+
     MakeInventoryFloatable(inst, "med", 0.05, 0.6)
 
     inst.entity:SetPristine()
@@ -24,21 +27,20 @@ local function fn()
         return inst
     end
 
+
     inst:AddComponent("stackable")
     inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
     inst:AddComponent("fuel")
     inst.components.fuel.fuelvalue = TUNING.LARGE_FUEL
-
-    inst:AddComponent("edible")
-    inst.components.edible.foodtype = FOODTYPE.BURNT
-    inst.components.edible.hungervalue = 20
-    inst.components.edible.healthvalue = 20
-
-    inst:AddComponent("tradable")
-
-    inst:AddComponent("bait")
-
+    
+    inst:AddComponent("boatpatch")
+    inst.components.boatpatch.patch_type = "treegrowth"--help, how could I turn this black?
+                                                       --I know SetMultColour would work but how would I run it on the patch prefab?
+    inst:AddComponent("repairer")
+    inst.components.repairer.repairmaterial = MATERIALS.WOOD
+    inst.components.repairer.healthrepairvalue = TUNING.REPAIR_TREEGROWTH_HEALTH
+    inst.components.repairer.boatrepairsound = "waterlogged1/common/use_figjam"
     MakeSmallBurnable(inst, TUNING.LARGE_BURNTIME)
     MakeSmallPropagator(inst)
 

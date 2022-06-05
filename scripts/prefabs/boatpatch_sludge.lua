@@ -59,4 +59,4 @@ local function fn()
     return inst
 end
 
-return Prefab("sludge_patch", fn, assets, prefabs)
+return Prefab("boatpatch_sludge", fn, assets, prefabs)

@@ -440,13 +440,13 @@ AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
 
 AddRecipe2(
-    "sludge_patch",
+    "boatpatch_sludge",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
     TECH.NONE,
     {numtogive = 3},
     {"SEAFARING"}
 )
-ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+ChangeSortKey("boatpatch_sludge", "boatpatch", "SEAFARING", false)
 
 AddRecipe2(
     "sludge_sack",
@@ -587,7 +587,7 @@ AddRecipe2(
     "hermitshop_patch",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, product = "sludge_patch", sg_state = "give", numtogive = 4}
+    {nounlock = true, product = "boatpatch_sludge", sg_state = "give", numtogive = 4}
 )
 ChangeSortKey("hermitshop_patch","hermitshop_steeringwheel","CRAFTING_STATION", true)
 
@@ -697,7 +697,7 @@ STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"
 STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened healing!"
 STRINGS.RECIPE_DESC.WINONA_TOOLBOX = "An engineer is always prepared."
 --STRINGS.RECIPE_DESC.POWERCELL = "Portable electricity!"
-STRINGS.RECIPE_DESC.SLUDGE_PATCH = "Impermeable goo."
+STRINGS.RECIPE_DESC.BOATPATCH_SLUDGE = "Impermeable goo."
 STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
 STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
 

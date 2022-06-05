@@ -325,7 +325,7 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.SPEAKER_BRINE = "Dilapidated Speaker"
 	STRINGS.SUNKENCHEST_ROYAL = "Royal Sunken Chest"
 	STRINGS.SLUDGE = "Sea Sludge"
-	STRINGS.SLUDGE_PATCH = "Driftwood Boat Patch"
+	STRINGS.BOATPATCH_SLUDGE = "Driftwood Boat Patch"
 	STRINGS.SLUDGESTACK = "Slugestack"
 	STRINGS.SLUDGE_SACK = "Sludge Sack"
 	
