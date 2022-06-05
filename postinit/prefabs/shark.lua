@@ -3,7 +3,7 @@ GLOBAL.setfenv(1, GLOBAL)
 -----------------------------------------------------------------
 
 env.AddPrefabPostInit("shark", function(inst)
-    if not GLOBAL.TheWorld.ismastersim then
+    if not TheWorld.ismastersim then
         return
     end
     inst.components.lootdropper:AddChanceLoot("rockjawleather", 1)
