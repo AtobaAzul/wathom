@@ -1997,7 +1997,7 @@ local function TimeForACheckUp(inst,dev)
 		for i, v in ipairs(ents) do
 			--if ShouldCountTowardsCheck(v) then
 				if v.components.inventoryitem:IsHeld() then
-					if v.components.inventoryitem and v.components.inventoryitem:GetGrandOwner() ~= nil and v.components.inventoryitem:GetGrandOwner().prefab == "lureplant" then
+					if v.components.inventoryitem and v.components.inventoryitem:GetGrandOwner() ~= nil and (v.components.inventoryitem:GetGrandOwner().prefab == "lureplant"or v.components.inventoryitem:GetGrandOwner().prefab == "catcoon") then
 						--print("lureplant is holding!")
 					else
 						if not v:HasTag("frozen") then
@@ -2044,7 +2044,7 @@ local function TimeForACheckUp(inst,dev)
 						end
 					end
 	]]				
-					if not (v:HasTag("balloon") or v:HasTag("heavy") or v:HasTag("projectile") or v.prefab == "lantern") then
+					if not (v:HasTag("balloon") or v:HasTag("heavy") or v:HasTag("projectile") or v:HasTag("NORATCHECK")) then
 						if (v:HasTag("_equippable") or v:HasTag("gem") or v:HasTag("tool"))  then
 							inst.itemscore = inst.itemscore + 30 -- Oooh, wants wants! We steal!
 						elseif v:HasTag("molebait") then

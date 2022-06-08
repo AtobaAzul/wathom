@@ -48,4 +48,6 @@ env.AddPrefabPostInit("lantern", function(inst)
     inst:AddComponent("upgradeable")
     inst.components.upgradeable.upgradetype = UPGRADETYPES.ELECTRICAL
     inst.components.upgradeable.onupgradefn = OnUpgrade
+
+    inst:AddTag("NORATCHECK")
 end)
