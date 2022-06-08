@@ -41,6 +41,17 @@ local function OnBurnt(inst)
     inst:Remove()
 end
 
+--hacky workaround but the best way I could do it
+--without having to mess with actions.
+local function ondeploy(inst, pt, deployer)
+    local cell = (inst.components.stackable and inst.components.stackable:Get(1)) or inst
+    if deployer:HasTag("batteryuser") then
+        deployer.components.batteryuser:ChargeFrom(cell)
+    else
+        return false
+    end
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -78,9 +89,12 @@ local function fn()
     inst.components.inventoryitem.sinks = true--thow batteries in the ocean wOOOOOOOO
 
     inst:AddComponent("battery")
-    inst.components.battery.canbeused = true
     inst.components.battery.onused = discharge
 
+    inst:AddComponent("deployable")
+    inst.components.deployable:SetDeployMode(DEPLOYMODE.ANYWHERE)
+    inst.components.deployable.ondeploy = ondeploy
+    inst.components.deployable.restrictedtag = "batteryuser"
     return inst
 end
 

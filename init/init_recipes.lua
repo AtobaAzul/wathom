@@ -418,7 +418,7 @@ AddRecipe2(
 )
 ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", true)
 ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
---[[
+
 AddRecipe2(
     "powercell",
     {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 2)},
@@ -426,7 +426,8 @@ AddRecipe2(
     {builder_tag = "handyperson", numtogive = 3},
     {"CHARACTER"}
 )
-ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)]]
+ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)
+
 AddRecipe2(
     "winona_upgradekit_electrical",
     {Ingredient("goldnugget", 10), Ingredient("sewing_tape", 2), Ingredient("sludge", 1)--[[Ingredient("copperpipe")]]},
