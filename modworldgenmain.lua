@@ -2,62 +2,57 @@ GLOBAL.require("map/terrain")
 
 ------Turf Using Tile Adder From ADM's Turf Mod
 modimport("tile_adder.lua")
-local GROUND_OCEAN_COLOR = -- Color for the main island ground tiles
-{
-    primary_color =         {  0,   0,   0,  25 },
-    secondary_color =       { 0,  20,  33,  0 },
-    secondary_color_dusk =  { 0,  20,  33,  80 },
-    minimap_color =         { 46,  32,  18,  64 },
+local GROUND_OCEAN_COLOR = { -- Color for the main island ground tiles
+    primary_color =        {0, 0, 0, 25},
+    secondary_color =      {0, 20, 33, 0},
+    secondary_color_dusk = {0, 20, 33, 80},
+    minimap_color =        {46, 32, 18, 64}
 }
 
-
-
 AddTile(
-	"HOODEDFOREST",
-	102,
-	"hoodedmoss",
-	{
-		noise_texture = "levels/textures/noise_hoodedmoss.tex",
-		runsound = "dontstarve/movement/walk_grass",
-		walksound = "dontstarve/movement/walk_grass",
-		snowsound = "dontstarve/movement/run_snow",
-		mudsound = "dontstarve/movement/run_mud",
-		colors = GROUND_OCEAN_COLOR,
-	},
-	{noise_texture = "levels/textures/mini_noise_hoodedmoss.tex"}
+    "HOODEDFOREST",
+    102,
+    "hoodedmoss",
+    {
+        noise_texture = "levels/textures/noise_hoodedmoss.tex",
+        runsound = "dontstarve/movement/walk_grass",
+        walksound = "dontstarve/movement/walk_grass",
+        snowsound = "dontstarve/movement/run_snow",
+        mudsound = "dontstarve/movement/run_mud",
+        colors = GROUND_OCEAN_COLOR
+    },
+    {noise_texture = "levels/textures/mini_noise_hoodedmoss.tex"}
 )
 AddTile(
-	"ANCIENTHOODEDFOREST",
-	110,
-	"ancienthoodedturf",
-	{
-		noise_texture = "levels/textures/noise_jungle.tex",
-		runsound = "dontstarve/movement/walk_grass",
-		walksound = "dontstarve/movement/walk_grass",
-		snowsound = "dontstarve/movement/run_snow",
-		mudsound = "dontstarve/movement/run_mud",
-		colors = GROUND_OCEAN_COLOR,
-	},
-	{noise_texture = "levels/textures/mini_noise_jungle.tex"}
+    "ANCIENTHOODEDFOREST",
+    110,
+    "ancienthoodedturf",
+    {
+        noise_texture = "levels/textures/noise_jungle.tex",
+        runsound = "dontstarve/movement/walk_grass",
+        walksound = "dontstarve/movement/walk_grass",
+        snowsound = "dontstarve/movement/run_snow",
+        mudsound = "dontstarve/movement/run_mud",
+        colors = GROUND_OCEAN_COLOR
+    },
+    {noise_texture = "levels/textures/mini_noise_jungle.tex"}
 )
 
-	local worldtiledefs = require 'worldtiledefs'
+local worldtiledefs = require "worldtiledefs"
 
-	local MOD_TURF_PROPERTIES =
-	{
-		[GROUND.HOODEDFOREST] = 	{name = "hoodedmoss", 	anim = "hoodedmoss", 	bank_build = "hfturf"},
-		[GROUND.ANCIENTHOODEDFOREST] = {name = "ancienthoodedturf", 	anim = "ancienthoodedturf", 	bank_build = "hfturf"},
-	}
+local MOD_TURF_PROPERTIES = {
+    [GROUND.HOODEDFOREST] = {name = "hoodedmoss", anim = "hoodedmoss", bank_build = "hfturf"},
+    [GROUND.ANCIENTHOODEDFOREST] = {name = "ancienthoodedturf", anim = "ancienthoodedturf", bank_build = "hfturf"}
+}
 
-	for k, v in pairs(MOD_TURF_PROPERTIES) do
-		worldtiledefs.turf[k] = MOD_TURF_PROPERTIES[k]
-	end
+for k, v in pairs(MOD_TURF_PROPERTIES) do
+    worldtiledefs.turf[k] = MOD_TURF_PROPERTIES[k]
+end
 
-	ChangeTileTypeRenderOrder(GLOBAL.GROUND.HOODEDFOREST, GLOBAL.GROUND.DIRT)
-	ChangeTileTypeRenderOrder(GLOBAL.GROUND.ANCIENTHOODEDFOREST, GLOBAL.GROUND.DIRT)
+ChangeTileTypeRenderOrder(GLOBAL.GROUND.HOODEDFOREST, GLOBAL.GROUND.DIRT)
+ChangeTileTypeRenderOrder(GLOBAL.GROUND.ANCIENTHOODEDFOREST, GLOBAL.GROUND.DIRT)
 
 ------
-
 
 -- <<Cave Update WIP: Toggle at your own risk you buffoons! (That means you atoba, don't leak it please eh?)>>
 -- I became a dev :sunglasses: - Atobá
@@ -69,7 +64,6 @@ AddTile(
 		level.overrides.no_joining_islands = true
     end
 end)]]
-
 --[[
 AddTaskPreInit("LichenLand",function(task) --This is the new "starting task" for the island (at least trying to make it that)
 task.region_id = "RuinsIsland"
@@ -109,160 +103,182 @@ end)
 
 --Ruins Split
 ]]
-
 if GetModConfigData("caved") == false then
+    AddTaskSetPreInitAny(
+        function(tasksetdata)
+            if tasksetdata.location ~= "forest" then
+                return
+            end
 
-    AddTaskSetPreInitAny(function(tasksetdata)
-    if tasksetdata.location ~= "forest" then
-        return
-    end
-
-tasksetdata.set_pieces["ToadstoolArena"] = { 1, tasks={"Guarded Squeltch","Merms ahoy","Sane-Blocked Swamp","Squeltch","Swamp start","Tentacle-Blocked Spider Swamp",}}
-
-end)
-
+            tasksetdata.set_pieces["ToadstoolArena"] = {
+                1,
+                tasks = {
+                    "Guarded Squeltch",
+                    "Merms ahoy",
+                    "Sane-Blocked Swamp",
+                    "Squeltch",
+                    "Swamp start",
+                    "Tentacle-Blocked Spider Swamp"
+                }
+            }
+        end
+    )
 end
 
 if GetModConfigData("trapdoorspiders") == true then
-	AddRoomPreInit("BGSavanna", function(room)					--This effects the outer areas of the Triple Mac and The Major Beefalo Plains
-		room.contents.countprefabs=
-											{
-												trapdoorspawner = function() return math.random(4,5) end,}
+    AddRoomPreInit("BGSavanna", function(room) --This effects the outer areas of the Triple Mac and The Major Beefalo Plains
+        room.contents.countprefabs =
+		{
+            trapdoorspawner = function() return math.random(4, 5) end
+        }
 	end)
-	AddRoomPreInit("Plain", function(room)						--This effects areas in the Major Beefalo Plains and the Grasslands next to the portal
-	room.contents.countprefabs=
-										{
-											trapdoorspawner = function() return math.random(2,4) end,} --returned number for whole area should be multiplied between 2-4 due to multiple rooms
-	end)
+    AddRoomPreInit("Plain", function(room) --This effects areas in the Major Beefalo Plains and the Grasslands next to the portal
+        room.contents.countprefabs =
+		{
+            trapdoorspawner = function() return math.random(2, 4) end
+        } --returned number for whole area should be multiplied between 2-4 due to multiple rooms
+    end)
 end
 
 AddRoomPreInit("BGLightningBluff", function(room) --Oasis Desert Has Scorpion Organizers vvhich determine hovv their burrovving should change.....
-	room.contents.countprefabs= { um_scorpionhole_organizer = 1,
-		um_scorpionhole = math.random(0,1)}
+    room.contents.countprefabs =
+	{
+        um_scorpionhole_organizer = 1,
+        um_scorpionhole = math.random(0, 1)
+    }
 end)
-	
+
 -----------Ghost Walrus
 if GetModConfigData("ghostwalrus") ~= "disabled" then
-	AddRoomPreInit("WalrusHut_Plains", function(room)
-	room.contents.countprefabs=
-										{
-											um_bear_trap_old = function() return math.random(6,8) end,
-											ghost_walrus = function() return math.random(2,4) end,
-											walrus_camp = 1,
-											}
-	end)
+    AddRoomPreInit("WalrusHut_Plains", function(room)
+        room.contents.countprefabs =
+		{
+            um_bear_trap_old = function() return math.random(6, 8) end,
+            ghost_walrus = function() return math.random(2, 4) end,
+            walrus_camp = 1
+        }
+    end)
 
-	AddRoomPreInit("WalrusHut_Grassy", function(room)
-	room.contents.countprefabs=
-										{
-											um_bear_trap_old = function() return math.random(6,8) end,
-											ghost_walrus = function() return math.random(2,4) end,
-											walrus_camp = 1,
-											}
-	end)
+    AddRoomPreInit("WalrusHut_Grassy", function(room)
+        room.contents.countprefabs =
+		{
+            um_bear_trap_old = function() return math.random(6, 8) end,
+            ghost_walrus = function() return math.random(2, 4) end,
+            walrus_camp = 1
+        }
+    end)
 
-	AddRoomPreInit("WalrusHut_Rocky", function(room)
-	room.contents.countprefabs=
-										{
-											um_bear_trap_old = function() return math.random(6,8) end,
-											ghost_walrus = function() return math.random(2,4) end,
-											walrus_camp = 1,
-											}
-	end)
+    AddRoomPreInit("WalrusHut_Rocky", function(room)
+        room.contents.countprefabs =
+		{
+            um_bear_trap_old = function() return math.random(6, 8) end,
+            ghost_walrus = function() return math.random(2, 4) end,
+            walrus_camp = 1
+        }
+    end)
 end
 -----------Marsh Grass
 AddRoomPreInit("BGMarsh", function(room)
-room.contents.countprefabs=
-									{
-										marsh_grass = function() return math.random(2,6) end,
-										marshmist = function() return math.random(4,6) end,
-										}
+    room.contents.countprefabs =
+	{
+        marsh_grass = function() return math.random(2, 6) end,
+        marshmist = function() return math.random(4, 6) end
+    }
 end)
 
 AddRoomPreInit("Marsh", function(room)
-room.contents.countprefabs=
-									{
-										marsh_grass = function() return math.random(2,6) end,
-										marshmist = function() return math.random(4,6) end,
-										}
+    room.contents.countprefabs =
+	{
+        marsh_grass = function() return math.random(2, 6) end,
+        marshmist = function() return math.random(4, 6) end
+    }
 end)
 
 AddRoomPreInit("SpiderMarsh", function(room)
-room.contents.countprefabs=
-									{
-										marsh_grass = function() return math.random(4,8) end,
-										marshmist = function() return math.random(4,6) end,
-										}
+    room.contents.countprefabs =
+	{
+        marsh_grass = function() return math.random(4, 8) end,
+        marshmist = function() return math.random(4, 6) end
+    }
 end)
 
 AddRoomPreInit("SlightlyMermySwamp", function(room)
-room.contents.countprefabs=
-									{
-										marsh_grass = function() return math.random(4,8) end,
-										marshmist = function() return math.random(4,6) end,
-										}
+    room.contents.countprefabs =
+	{
+        marsh_grass = function() return math.random(4, 8) end,
+        marshmist = function() return math.random(4, 6) end
+    }
 end)
 
 --Waffle's Specific Task Remover Code
 AddTaskSetPreInitAny(function(tasksetdata)
-  for _, task in pairs(tasksetdata.tasks) do
-    if task == "ToadStoolTask1" then
-      table.remove(tasksetdata.tasks, _)
+    for _, task in pairs(tasksetdata.tasks) do
+        if task == "ToadStoolTask1" then
+            table.remove(tasksetdata.tasks, _)
+        end
     end
-  end
 end)
 
---Waffle's Specific Task Remover Code
 AddTaskSetPreInitAny(function(tasksetdata)
-  for _, task in pairs(tasksetdata.tasks) do
-    if task == "ToadStoolTask2" then
-      table.remove(tasksetdata.tasks, _)
+    for _, task in pairs(tasksetdata.tasks) do
+        if task == "ToadStoolTask2" then
+            table.remove(tasksetdata.tasks, _)
+        end
     end
-  end
 end)
 
---Waffle's Specific Task Remover Code
 AddTaskSetPreInitAny(function(tasksetdata)
-  for _, task in pairs(tasksetdata.tasks) do
-    if task == "ToadStoolTask3" then
-      table.remove(tasksetdata.tasks, _)
+    for _, task in pairs(tasksetdata.tasks) do
+        if task == "ToadStoolTask3" then
+            table.remove(tasksetdata.tasks, _)
+        end
     end
-  end
 end)
 --Waffle's Specific Task Remover Code
 
-AddRoomPreInit("RedMushPillars", function(room)			--red
-room.contents.countstaticlayouts = {
-            ["ToadstoolArena"] = 1,
-        }
-end)
-AddRoomPreInit("GreenMushNoise", function(room)		    --green
-room.contents.countstaticlayouts = {
-            ["ToadstoolArena"] = 1,
-        }
-end)
-AddRoomPreInit("DropperDesolation", function(room)	    --blue
-room.contents.countstaticlayouts = {
-            ["ToadstoolArena"] = 1,
-        }
+AddRoomPreInit("RedMushPillars", function(room) --red
+    room.contents.countstaticlayouts = 
+	{
+        ["ToadstoolArena"] = 1
+    }
 end)
 
-AddRoomPreInit("DeepDeciduous", function(room)
-	room.contents.countprefabs.backupcatcoonden = 1
+AddRoomPreInit("GreenMushNoise", function(room) --green
+    room.contents.countstaticlayouts = 
+	{
+        ["ToadstoolArena"] = 1
+    }
+end)
+AddRoomPreInit("DropperDesolation", function(room) --blue
+    room.contents.countstaticlayouts = {
+        ["ToadstoolArena"] = 1
+    }
+end)
+
+AddRoomPreInit("DeepDeciduous",function(room)
+    room.contents.countprefabs.backupcatcoonden = 1
 end)
 
 -----KoreanWaffle's Spawner Limiter Tag Adding Code
 --Add new map tags to storygen
-local MapTags = {"scorpions", "hoodedcanopy","rattygas","ratkey1"}
-AddGlobalClassPostConstruct("map/storygen", "Story", function(self)
+local MapTags = {"scorpions", "hoodedcanopy", "rattygas", "ratkey1"}
+AddGlobalClassPostConstruct("map/storygen","Story", function(self)
     for k, v in pairs(MapTags) do
-        self.map_tags.Tag[v] = function(tagdata) return "TAG", v end
+        self.map_tags.Tag[v] = function(tagdata)
+            return "TAG", v
+        end
     end
 end)
 
 --All the desert rooms. I excluded "DragonflyArena", "LightningBluffAntlion", and "LightningBluffOasis"
-local deserts = { "BGBadlands", "Badlands", "HoundyBadlands", "BuzzardyBadlands",
-    "BGLightningBluff", "LightningBluffLightning" }
+local deserts = {
+    "BGBadlands",
+    "Badlands",
+    "HoundyBadlands",
+    "BuzzardyBadlands",
+    "BGLightningBluff",
+    "LightningBluffLightning"
+}
 
 --Add "scorpions" room tag to all desert rooms
 for k, v in pairs(deserts) do
@@ -275,16 +291,14 @@ for k, v in pairs(deserts) do
     end)
 end
 
-
 -----KoreanWaffle's Spawner Limiter Tag Adding Code
 GLOBAL.require("map/rooms/forest/extraswamp")
 if GetModConfigData("vetcurse") == "default" then
-	AddTaskPreInit("Make a pick",function(task)
-		GLOBAL.require("map/rooms/forest/challengespawner")
-		task.room_choices["veteranshrine"] = 1
-	end)
+    AddTaskPreInit("Make a pick", function(task)
+        GLOBAL.require("map/rooms/forest/challengespawner")
+        task.room_choices["veteranshrine"] = 1
+    end)
 end
-
 
 ---- KoreanWaffle's LOCK/KEY initialization code  --Inactive atm
 local LOCKS = GLOBAL.LOCKS
@@ -311,13 +325,13 @@ LOCKS_KEYS[LOCKS.RICE] = {KEYS.RICE}
 LOCKS_KEYS[LOCKS.HF] = {KEYS.HF}
 
 if GetModConfigData("rice") and not GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
-	AddTaskPreInit("Squeltch",function(task)
+    AddTaskPreInit("Squeltch", function(task)
 		task.room_choices["ricepatch"] = 1 --Comment to test task based rice worldgen
-		task.room_choices["densericepatch"] = 1      --Comment to test task based rice worldgen
-	end)
+		task.room_choices["densericepatch"] = 1 --Comment to test task based rice worldgen
+    end)
 end
 if GetModConfigData("hoodedforest") and not GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
-	GLOBAL.require("map/tasks/gianttrees")
+    GLOBAL.require("map/tasks/gianttrees")
 end
 --[[GLOBAL.require("map/tasks/ratacombs")
 GLOBAL.require("map/rooms/caves/ratacombsrooms")
@@ -338,73 +352,80 @@ else
 		task.room_choices["RattySinkhole"] = 1
 	end)
 end]]
-
 if GetModConfigData("hoodedforest") and not GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
-	AddTaskPreInit("Forest hunters",function(task) --Leave Forest Hunters in incase someone adds something to its setpieces.
-		task.room_choices={
-			["Forest"] = 1,
-			["Clearing"] = 1,
-	}
-	end)
+    AddTaskPreInit("Forest hunters", function(task) --Leave Forest Hunters in incase someone adds something to its setpieces.
+        task.room_choices = {
+            ["Forest"] = 1,
+            ["Clearing"] = 1
+        }
+    end)
 end
 local Layouts = GLOBAL.require("map/layouts").Layouts
 local StaticLayout = GLOBAL.require("map/static_layout")
-Layouts["specter_sea"] = StaticLayout.Get("map/static_layouts/specter_sea",{
-	min_dist_from_land = 0})
+Layouts["specter_sea"] = StaticLayout.Get(
+    "map/static_layouts/specter_sea",
+    {
+        min_dist_from_land = 0
+    }
+)
 
 AddRoomPreInit("OceanRough", function(room)
-	if not room.contents.countstaticlayouts then
-		room.contents.countstaticlayouts = {}
-	end
-	room.contents.countstaticlayouts["specter_sea"] = 1
-	room.contents.countprefabs=
-									{
-										--speaker_rusted = 1,
-										sludgestack_spawner = function() return math.random(6,10) end,
-										umss_failedfisherman = 1,
-									}
+    if not room.contents.countstaticlayouts then
+        room.contents.countstaticlayouts = {}
+    end
+    room.contents.countstaticlayouts["specter_sea"] = 1
+    room.contents.countprefabs = {
+        --speaker_rusted = 1,
+        sludgestack_spawner = function()
+            return math.random(6, 10)
+        end,
+        umss_failedfisherman = 1
+    }
 end)
-Layouts["brine_bogs"] = StaticLayout.Get("map/static_layouts/brine_bogs",{
-	min_dist_from_land = 0})
+
+Layouts["brine_bogs"] =
+    StaticLayout.Get(
+    "map/static_layouts/brine_bogs",
+    {
+        min_dist_from_land = 0
+    }
+)
 AddRoomPreInit("OceanSwell", function(room)
-	if not room.contents.countstaticlayouts then
-		room.contents.countstaticlayouts = {}
-	end
-	room.contents.countstaticlayouts["brine_bogs"] = 1
+    if not room.contents.countstaticlayouts then
+        room.contents.countstaticlayouts = {}
+    end
+    room.contents.countstaticlayouts["brine_bogs"] = 1
 end)
+
 --Layouts["rusted_reef"] = StaticLayout.Get("map/static_layouts/rusted_reef",{
 --	min_dist_from_land = 0})
 AddRoomPreInit("OceanHazardous", function(room)
-	if not room.contents.countstaticlayouts then
-		room.contents.countstaticlayouts = {}
-	end
-	--room.contents.countstaticlayouts["rusted_reef"] = 1
-	--can't figure out a way to make this work, biome spawning will be actually in the area handler instead.}
-	room.contents.countprefabs=
-									{
-										--speaker_rusted = 1,
-										um_rustedreef_areahandler = 1,
-									}
+    if not room.contents.countstaticlayouts then
+        room.contents.countstaticlayouts = {}
+    end
+    --room.contents.countstaticlayouts["rusted_reef"] = 1
+    --can't figure out a way to make this work, biome spawning will be actually in the area handler instead.}
+    room.contents.countprefabs = {
+        --speaker_rusted = 1,
+        um_rustedreef_areahandler = 1
+    }
 end)
-
-
 
 AddTaskSetPreInitAny(function(tasksetdata)
     if tasksetdata.location ~= "forest" then
         return
     end
-	if GetModConfigData("hoodedforest") and not GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
-		table.insert(tasksetdata.tasks,"GiantTrees")
-	end
-	if GetModConfigData("rice") then
-	table.insert(tasksetdata.required_prefabs,"riceplantspawnerlarge")
-	table.insert(tasksetdata.required_prefabs,"riceplantspawner")
-	end
-	--tasksetdata.ocean_prefill_setpieces["specter_sea"] = {count = 1}
-	table.insert(tasksetdata.required_prefabs,"um_spectersea_areahandler")
-	table.insert(tasksetdata.required_prefabs,"um_brinebogs_areahandler")
-	table.insert(tasksetdata.required_prefabs,"um_rustedreef_areahandler")
-
+    if GetModConfigData("hoodedforest") and not GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
+        table.insert(tasksetdata.tasks, "GiantTrees")
+    end
+    if GetModConfigData("rice") then
+        table.insert(tasksetdata.required_prefabs, "riceplantspawnerlarge")
+        table.insert(tasksetdata.required_prefabs, "riceplantspawner")
+    end
+    --tasksetdata.ocean_prefill_setpieces["specter_sea"] = {count = 1}
+    table.insert(tasksetdata.required_prefabs, "um_spectersea_areahandler")
+    table.insert(tasksetdata.required_prefabs, "um_brinebogs_areahandler")
+    table.insert(tasksetdata.required_prefabs, "um_rustedreef_areahandler")
 end)
 --[[
 AddTaskSetPreInitAny(function(tasksetdata)
@@ -425,158 +446,158 @@ AddTaskSetPreInitAny(function(tasksetdata)
 		tasksetdata.required_prefabs = {"ratking","ratacombslock"}
 	end
 end)]]
+Layouts["hooded_town"] = StaticLayout.Get("map/static_layouts/hooded_town")
+Layouts["rose_garden"] = StaticLayout.Get("map/static_layouts/rose_garden")
+Layouts["hf_holidays"] = StaticLayout.Get("map/static_layouts/hf_holidays")
 
-	Layouts["hooded_town"] = StaticLayout.Get("map/static_layouts/hooded_town")
-	Layouts["rose_garden"] = StaticLayout.Get("map/static_layouts/rose_garden")
-	Layouts["hf_holidays"] = StaticLayout.Get("map/static_layouts/hf_holidays")
-
-Layouts["RatLockBlocker1"] =
-						{
-							type = GLOBAL.LAYOUT.CIRCLE_EDGE,
-							start_mask = GLOBAL.PLACE_MASK.NORMAL,
-							fill_mask = GLOBAL.PLACE_MASK.IGNORE_IMPASSABLE_BARREN_RESERVED,
-							layout_position = GLOBAL.LAYOUT_POSITION.CENTER,
-							ground_types = {GLOBAL.GROUND.ROCKY},
-							defs =
-								{
-								 	rocks = { "ratacombslock_rock_spawner"},
-								},
-							count =
-								{
-									rocks = 1,
-								},
-							scale = 0.1,
+Layouts["RatLockBlocker1"] = {
+    type = GLOBAL.LAYOUT.CIRCLE_EDGE,
+    start_mask = GLOBAL.PLACE_MASK.NORMAL,
+    fill_mask = GLOBAL.PLACE_MASK.IGNORE_IMPASSABLE_BARREN_RESERVED,
+    layout_position = GLOBAL.LAYOUT_POSITION.CENTER,
+    ground_types = {GLOBAL.GROUND.ROCKY},
+    defs = {
+        rocks = {"ratacombslock_rock_spawner"}
+    },
+    count = {
+        rocks = 1
+    },
+    scale = 0.1
 }
 
 if GetModConfigData("hoodedforest") and not GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
-	AddRoomPreInit("HoodedTown", function(room)
-		if not room.contents.countstaticlayouts then
-			room.contents.countstaticlayouts = {}
-		end
-		room.contents.countstaticlayouts["hooded_town"] = 1
-	end)
+    AddRoomPreInit("HoodedTown", function(room)
+        if not room.contents.countstaticlayouts then
+            room.contents.countstaticlayouts = {}
+        end
+        room.contents.countstaticlayouts["hooded_town"] = 1
+    end)
 
-	AddRoomPreInit("RoseGarden", function(room)
-		if not room.contents.countstaticlayouts then
-			room.contents.countstaticlayouts = {}
-		end
-		room.contents.countstaticlayouts["rose_garden"] = 1
-	end)
+    AddRoomPreInit("RoseGarden", function(room)
+        if not room.contents.countstaticlayouts then
+            room.contents.countstaticlayouts = {}
+        end
+        room.contents.countstaticlayouts["rose_garden"] = 1
+    end)
 
-	AddRoomPreInit("HFHolidays", function(room)
-		if not room.contents.countstaticlayouts then
-			room.contents.countstaticlayouts = {}
-		end
-		room.contents.countstaticlayouts["hf_holidays"] = 1
-	end)
+    AddRoomPreInit("HFHolidays", function(room)
+        if not room.contents.countstaticlayouts then
+            room.contents.countstaticlayouts = {}
+        end
+        room.contents.countstaticlayouts["hf_holidays"] = 1
+    end)
 end
 
 if GetModConfigData("rice") then
-AddLevelPreInitAny(function(level)
-    if level.location == "forest" then
-        level.overrides.keep_disconnected_tiles = true
+    AddLevelPreInitAny(function(level)
+        if level.location == "forest" then
+            level.overrides.keep_disconnected_tiles = true
+        end
+    end)
+    for i = 1, 4 do
+        Layouts["ricepatchsmall" .. i] = StaticLayout.Get("map/static_layouts/ricepatchsmall" .. i)
     end
-end)
-	for i = 1,4 do
-	Layouts["ricepatchsmall"..i] = StaticLayout.Get("map/static_layouts/ricepatchsmall"..i)
-	end
-	for i = 1,1 do
-	Layouts["ricepatchlarge"..i] = StaticLayout.Get("map/static_layouts/ricepatchlarge"..i)
-	end
+    for i = 1, 1 do
+        Layouts["ricepatchlarge" .. i] = StaticLayout.Get("map/static_layouts/ricepatchlarge" .. i)
+    end
 
-	AddRoomPreInit("ricepatch", function(room)
-		if not room.contents.countstaticlayouts then
-			room.contents.countstaticlayouts = {}
-		end
-		local roomchoice = math.random(1,4)
-		local roomchoice2 = roomchoice
-		while roomchoice2 == roomchoice do
-			roomchoice2 = math.random(1,4)
-		end
-		room.contents.countstaticlayouts["ricepatchsmall"..roomchoice] = 1
-		if math.random() > 0.5 then
-		room.contents.countstaticlayouts["ricepatchsmall"..roomchoice2] = 1
-		end
-	end)
+    AddRoomPreInit("ricepatch", function(room)
+        if not room.contents.countstaticlayouts then
+            room.contents.countstaticlayouts = {}
+        end
+        local roomchoice = math.random(1, 4)
+        local roomchoice2 = roomchoice
+        while roomchoice2 == roomchoice do
+            roomchoice2 = math.random(1, 4)
+        end
+        room.contents.countstaticlayouts["ricepatchsmall" .. roomchoice] = 1
+        if math.random() > 0.5 then
+            room.contents.countstaticlayouts["ricepatchsmall" .. roomchoice2] = 1
+        end
+    end)
 
-	AddRoomPreInit("densericepatch", function(room)
-		if not room.contents.countstaticlayouts then
-			room.contents.countstaticlayouts = {}
-		end
-		room.contents.countstaticlayouts["ricepatchlarge1"] = 1
-	end)
+    AddRoomPreInit("densericepatch",function(room)
+        if not room.contents.countstaticlayouts then
+            room.contents.countstaticlayouts = {}
+        end
+        room.contents.countstaticlayouts["ricepatchlarge1"] = 1
+    end)
 end
-AddLevel(GLOBAL.LEVELTYPE.SURVIVAL, {
-	id = "UNCOMPROMISING",
-	name = GLOBAL.STRINGS.UI.CUSTOMIZATIONSCREEN.PRESETLEVELS.UNCOMPROMISING,
-	desc = GLOBAL.STRINGS.UI.CUSTOMIZATIONSCREEN.PRESETLEVELDESC.UNCOMPROMISING,
-	location = "forest",
-	version = 4,
-	overrides = {
+AddLevel(
+    GLOBAL.LEVELTYPE.SURVIVAL,
+    {
+        id = "UNCOMPROMISING",
+        name = GLOBAL.STRINGS.UI.CUSTOMIZATIONSCREEN.PRESETLEVELS.UNCOMPROMISING,
+        desc = GLOBAL.STRINGS.UI.CUSTOMIZATIONSCREEN.PRESETLEVELDESC.UNCOMPROMISING,
+        location = "forest",
+        version = 4,
+        overrides = {
+            antliontribute = "more" --unnecessary
+        }
+    }
+)
 
-		antliontribute = "more", --unnecessary
-	},
-})
-
-local pawnrooms =
-{
-	"RuinedCity",
-	"Vacant",
-	"Barracks",
-	"LabyrinthEntrance",
+local pawnrooms = {
+    "RuinedCity",
+    "Vacant",
+    "Barracks",
+    "LabyrinthEntrance"
 }
 
-local damagedpawnrooms =
-{
-	"Labyrinth",
-	"AtriumMazeEntrance",
+local damagedpawnrooms = {
+    "Labyrinth",
+    "AtriumMazeEntrance"
 }
 
 for i, room in ipairs(pawnrooms) do
-	AddRoomPreInit(room, function(room)
-		if room.contents == nil then
-			room.contents = {}
-		end
-		if room.contents.distributeprefabs == nil then
-			room.contents.distributeprefabs = {}
-		end
-		room.contents.distributeprefabs.pawn_hopper = 0.133
-	end)
+    AddRoomPreInit(room, function(room)
+        if room.contents == nil then
+            room.contents = {}
+        end
+        if room.contents.distributeprefabs == nil then
+            room.contents.distributeprefabs = {}
+        end
+        room.contents.distributeprefabs.pawn_hopper = 0.133
+    end)
 end
 
 for i, room in ipairs(damagedpawnrooms) do
-	AddRoomPreInit(room, function(room)
-		if room.contents == nil then
-			room.contents = {}
-		end
-		if room.contents.distributeprefabs == nil then
-			room.contents.distributeprefabs = {}
-		end
-		room.contents.distributeprefabs.pawn_hopper_nightmare = 0.2
-	end)
+    AddRoomPreInit(room, function(room)
+        if room.contents == nil then
+            room.contents = {}
+        end
+        if room.contents.distributeprefabs == nil then
+            room.contents.distributeprefabs = {}
+        end
+        room.contents.distributeprefabs.pawn_hopper_nightmare = 0.2
+    end)
 end
 
-if GetModConfigData("depthseels")then
-	AddRoomPreInit("WetWilds", function(room)
-		room.contents.countprefabs =
+if GetModConfigData("depthseels") then
+    AddRoomPreInit("WetWilds", function(room)
+        room.contents.countprefabs =
 		{
-			shockworm_spawner =  function() return math.random(2,4)end
-		}
-	end)
+            shockworm_spawner = function() return math.random(2, 4) end
+        }
+    end)
 end
-if GetModConfigData("depthsvipers")then
-	AddRoomPreInit("ThuleciteDebris", function(room)
-		room.contents.countprefabs =
+
+if GetModConfigData("depthsvipers") then
+    AddRoomPreInit("ThuleciteDebris", function(room)
+        room.contents.countprefabs =
 		{
-			viperworm_spawner =  function() return math.random(2,4)end
-		}
-	end)
+            viperworm_spawner = function() return math.random(2, 4) end
+        }
+    end)
 end
 
 AddRoomPreInit("HFHolidays", function(room)
-	room.contents.countprefabs =
-	{
-		umss_moonoil =  1
-	}
+    room.contents.countprefabs = {
+        umss_moonoil = 1
+    }
 end)
 modimport("init/init_food/init_food_worldgen")
+
+if GetModConfigData("worldgenmastertoggle") then
+	return
+end
