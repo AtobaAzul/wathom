@@ -149,12 +149,12 @@ configuration_options =
     Header("Characters"),
 ------------------------------
 	BinaryConfig("funny rat", "Winky", "The Vile Vermin", true),
-    BinaryConfig("willow", "Willow Rework", "Willow's Lighter now has infinite durability, Willow can cast explosions, etc.", true),
+    BinaryConfig("willow", "Willow Rework", "Willow's Lighter now lasts forever when she holds it, she will retaliate when attacked by shadows.", true),
     BinaryConfig("bernie", "Big Bernie", "Enable Big BERNIE!!", true),
     BinaryConfig("warly", "Improved Warly", "Warly gets increased stats from food, like Singleplayer. However, he remembers foods for 3 days instead of 2.", true),
+	BinaryConfig("waxwell", "Maxwell's Classic Shadows", "Maxwell gets buffed versions of his classic shadows by reading the Codex Umbra. Disable for Maxwell mod compatibility!", true),
 	--BinaryConfig("wolfgang", "Improved/Balanced Wolfgang", "Wolfgang gains new perks and downsides. Read the patch notes included in the mod folder or workshop for details.", false),
 	BinaryConfig("wolfgang", "Experimental Wolfgang", "Wolfgang gains mightiness based on hunger level. Hunger drain increases the longer mighty is maintained.", false),
-	BinaryConfig("maxhealthwell", "New Maxwell Downside", "Maxwell's max health is reduced by 20% of the damage he takes.", false),
 	BinaryConfig("winonaworker", "Improved Winona", "Winona now scales her work/picking efficiency, and tool/weapon durability, off of her hunger level. Drains hunger when taking actions.", true),
 	BinaryConfig("winona_gen", "Winona-restricted Generators", "Limits access to Winona's Generators to only allow her to use them", true),
 		{
