@@ -253,6 +253,7 @@ configuration_options =
 
 	SkipSpace(),
 	Header("World Gen"),
+	BinaryConfig("worldgenmastertoggle", "Master Toggle", "Toggles ALL worldgen."),
 	BinaryConfig("hoodedforest", "Hooded Forest", "Hooded Forest replaces the Moon Base forest, with brand new things to explore, including a new boss!", true),
 	{
 		name = "ghostwalrus",
@@ -267,6 +268,7 @@ configuration_options =
 		default = "enabled",
 	},
 	BinaryConfig("rice","Rice","Rice spawns in ponds in the swamp.", true),
+	BinaryConfig("trapdoorspiders", "Trapdoor Spiders", "Enables the spawn of trapdoor spider mounds on worldgen. Their dens are usually covered in a resource rich grass.", true),
 	SkipSpace(),
 ------------------------------
 -- Character Reworks --
@@ -501,7 +503,6 @@ configuration_options =
 	Header("Spiders"),
 	BinaryConfig("alljumperspiders", "Regular Spiders Jump", "Normal spiders leap, just like spider warriors.", true),
 	BinaryConfig("spiderwarriorcounter", "Warrior Counter", "Warrior spiders (and depth dwellers) perform a counter-attack when attacked (also lowers health to 300).", true),
-	BinaryConfig("trapdoorspiders", "Trapdoor Spiders", "Enables the spawn of trapdoor spider mounds on worldgen. Their dens are usually covered in a resource rich grass.", true),
 	SkipSpace(),
 
 	Header("New Ruins Monsters"),
