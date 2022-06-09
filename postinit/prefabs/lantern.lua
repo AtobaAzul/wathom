@@ -2,6 +2,13 @@ local env = env
 GLOBAL.setfenv(1, GLOBAL)
 
 env.AddPrefabPostInit("lantern", function(inst)
+    if inst.components.upgradeable ~= nil then
+        local numupgrades = inst.components.upgradeable.numupgrades
+        if numupgrades > 0 then
+            inst:SetPrefabNameOverride("LANTERN_ELECTRICAL")
+        end
+    end
+
     if inst.components.equippable ~= nil then
         local OnEquip_old = inst.components.equippable.onequipfn
 
@@ -10,7 +17,6 @@ env.AddPrefabPostInit("lantern", function(inst)
             print(numupgrades)
             if numupgrades > 0 then
                 owner:AddTag("batteryuser")
-                inst:SetPrefabNameOverride("LANTERN_ELECTRICAL")--just to make sure it keeps it that way.
             end
 
             if OnEquip_old ~= nil then
