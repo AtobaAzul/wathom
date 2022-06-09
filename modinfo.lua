@@ -293,7 +293,7 @@ configuration_options =
 		hover = "The cooldown between rat raids!",
 		options =
 		{
-			{description = "As soon as possible.", data = 1},
+			{description = "As soon as possible.", data = 10},
 			{description = "Half", data = 4800},
 			{description = "Default", data = 9600},
 			{description = "Double", data = 14400},

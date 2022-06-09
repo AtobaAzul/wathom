@@ -10,6 +10,7 @@ env.AddPrefabPostInit("lantern", function(inst)
             print(numupgrades)
             if numupgrades > 0 then
                 owner:AddTag("batteryuser")
+                inst:SetPrefabNameOverride("LANTERN_ELECTRICAL")--just to make sure it keeps it that way.
             end
 
             if OnEquip_old ~= nil then
