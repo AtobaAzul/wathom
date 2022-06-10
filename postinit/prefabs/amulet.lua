@@ -260,7 +260,12 @@ local function onpickedchannel(inst, picker)
 end
 local function OnPickNew(inst,picker)
 if (picker.components.inventory ~= nil and picker.components.inventory:EquipHasTag("lazy_forager")) then
-	local amulet = picker.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
+	local amulet = picker.components.inventory:GetEquippedItem(EQUIPSLOTS.NECK)
+
+    if amulet == nil then
+        amulet = picker.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
+    end
+
 		if amulet ~= nil and amulet.components.fueled ~= nil and not amulet.components.fueled:IsEmpty() then
 		amulet:AddTag("bramble_resistant")
 		_OnPick(inst,picker)
