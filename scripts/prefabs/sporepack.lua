@@ -146,7 +146,7 @@ local function fn()
 	inst.components.inventoryitem.atlasname = "images/inventoryimages/sporepack.xml"
 
     inst:AddComponent("equippable")
-    if EQUIPSLOTS["NECK"] ~= nil then
+    if EQUIPSLOTS["BACK"] ~= nil then
         inst.components.equippable.equipslot = EQUIPSLOTS.BACK
     else
         inst.components.equippable.equipslot = EQUIPSLOTS.BODY
