@@ -25,9 +25,9 @@ function UM_hayfever:DoDelta(amount)
 		end
     end
 	if amount > 0 then
-		TheNet:SystemMessage("Your nose fills with pollen! It is now: "..self.nosestuffyness)
+		--TheNet:SystemMessage("Your nose fills with pollen! It is now: "..self.nosestuffyness)
 	else
-		TheNet:SystemMessage("Your nose drains! It is now: "..self.nosestuffyness)
+		--TheNet:SystemMessage("Your nose drains! It is now: "..self.nosestuffyness)
 	end
 end
 

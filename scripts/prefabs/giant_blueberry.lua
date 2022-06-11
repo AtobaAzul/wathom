@@ -27,7 +27,6 @@ local function fn()
     inst.AnimState:SetBank("blueberry")
     inst.AnimState:SetBuild("blueberry")
     inst.AnimState:PlayAnimation("idle")
-	inst.Transform:SetScale(1.2,1.2,1.2)
     MakeInventoryFloatable(inst)
 	
     inst.entity:SetPristine()

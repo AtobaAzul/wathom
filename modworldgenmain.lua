@@ -137,10 +137,16 @@ if GetModConfigData("trapdoorspiders") == true then
 end
 
 AddRoomPreInit("BGLightningBluff", function(room) --Oasis Desert Has Scorpion Organizers vvhich determine hovv their burrovving should change.....
-	room.contents.countprefabs= { um_scorpionhole_organizer = 1,
-		um_scorpionhole = math.random(0,1)}
+	room.contents.countprefabs= { 
+		um_scorpionhole = math.random(0,1)
+	}
 end)
-	
+
+AddTaskPreInit("Lightning Bluff",function(task)
+	GLOBAL.require("map/rooms/forest/UM_LightningBluff")
+	task.room_choices["LightningBluff_Scorpion"] = function() return math.random(3,4) end
+end)
+
 -----------Ghost Walrus
 if GetModConfigData("ghostwalrus") ~= "disabled" then
 	AddRoomPreInit("WalrusHut_Plains", function(room)

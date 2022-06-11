@@ -13,6 +13,11 @@ local function CalculateNextHoleTime(inst)
 	inst.components.timer:StartTimer("moreden", timermult)
 end
 
+local function IsOcean(x,y,z)
+	return not TheWorld.Map:IsVisualGroundAtPoint(x,y,z)
+end
+
+
 local function Init(inst)
 	if not inst.components.timer:TimerExists("moreholes") then
 		CalculateNextHoleTime(inst)
