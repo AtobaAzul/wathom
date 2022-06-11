@@ -679,6 +679,13 @@ Assets = {
 	Asset("ANIM", "anim/featherfrock_fancy.zip"),
 	Asset("ANIM", "anim/featherfrock_fancy_ground.zip"),
 	
+	Asset("ANIM", "anim/um_harpoon.zip"),
+	Asset("ANIM", "anim/swap_um_harpoon.zip"),
+	Asset("ANIM", "anim/UM_harpoonreel.zip"),
+	Asset("ATLAS", "images/inventoryimages/uncompromising_harpoon.xml"),
+	Asset("IMAGE", "images/inventoryimages/uncompromising_harpoon.tex"),
+	
+	
 	
 	Asset("ANIM", "anim/lava_spitball.zip"),
 	Asset("ANIM", "anim/shambler.zip"),

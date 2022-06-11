@@ -24,7 +24,7 @@ local prefabs_yellow =
 }
 
 local function onequip(inst, owner)
-    owner.AnimState:OverrideSymbol("swap_object", "swap_blowdart", "swap_blowdart")
+    owner.AnimState:OverrideSymbol("swap_object", "swap_um_harpoon", "swap_um_harpoon")
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 end
@@ -61,6 +61,7 @@ local function onhit(inst, attacker, target)
 			reel.damagemax = inst.damagemax
 			reel.tensionmax = inst.tensionmax
 			reel.ropetype = inst.ropetype
+			reel.AnimState:PlayAnimation("place")
 		end
 	end
 	
@@ -117,8 +118,8 @@ local function fncommon(ropetype)
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("blow_dart")
-    inst.AnimState:SetBuild("blow_dart")
+    inst.AnimState:SetBank("um_harpoon")
+    inst.AnimState:SetBuild("um_harpoon")
     inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("sharp")
@@ -153,6 +154,7 @@ local function fncommon(ropetype)
     inst:AddComponent("inspectable")
 
     inst:AddComponent("inventoryitem")
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/uncompromising_harpoon.xml"
 	
     inst:AddComponent("spellcaster")
     inst.components.spellcaster.canuseontargets = true
@@ -208,9 +210,9 @@ local function harpoon()
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("blow_dart")
-    inst.AnimState:SetBuild("blow_dart")
-    inst.AnimState:PlayAnimation("idle_pipe")
+    inst.AnimState:SetBank("um_harpoon")
+    inst.AnimState:SetBuild("um_harpoon")
+    inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("blowdart")
     inst:AddTag("sharp")
@@ -245,6 +247,8 @@ local function harpoon()
 end
 
 local function KillRopes(inst)
+	inst.SoundEmitter:PlaySound("UCSounds/harpoon/break")
+
 	inst:AddTag("NOCLICK")
 
 	if inst.harpoontask ~= nil then
@@ -254,14 +258,16 @@ local function KillRopes(inst)
 	inst.harpoontask = nil
 		
 	for i, ropes in ipairs(inst.ropes) do
-		ropes:DoTaskInTime(1/i, function(ropes)
+		ropes:DoTaskInTime(.5/i, function(ropes)
 			if ropes.entity:IsVisible() then
 				SpawnPrefab(ropes.breakfx).Transform:SetPosition(ropes.Transform:GetWorldPosition())
 			end
 			
 			ropes:Remove()
 			if inst ~= nil and i == 1 then
-				inst:Remove()
+				inst.AnimState:PlayAnimation("break")
+				inst:ListenForEvent("animover", inst.Remove)
+				--inst:Remove()
 			end
 		end)
 	end
@@ -269,6 +275,10 @@ end
 
 local function OnCooldown(inst)
     inst._cdtask = nil
+end
+
+local function CooldownSound(inst)
+    inst._soundcd = nil
 end
 
 local function Vac(inst)
@@ -301,20 +311,41 @@ local function Vac(inst)
 				local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
 				local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
 				if dx ~= nil and (ground or boat) then
-					inst.target.Transform:SetPosition(dx, py, dz)
+					inst.target.Physics:Teleport(dx, py, dz)
+					--inst.target.Transform:SetPosition(dx, py, dz)
 				end
 			end
 			
-			if inst.tension > inst.tensionmax * 1.5 then
-				local tensionmult = inst.target:HasTag("epic") and 2 or inst.target:HasTag("smallcreature") and .5 or 1
+			local tensionmult = inst.target:HasTag("epic") and 2 or inst.target:HasTag("smallcreature") and .5 or 1
+			
+			if inst.tension < inst.tensionmax * 1.5 then
 				inst.tension = inst.tension + (1 * tensionmult)
 			end
 			
 			if inst.tension >= inst.tensionmax then
+						print("damage")
 				inst.damage = inst.damage + (1 * tensionmult)
 				
-				if math.random() > 0.3 then
-	                inst.reel.SoundEmitter:PlaySound("dontstarve/characters/walter/slingshot/stretch")
+				if inst._soundcd == nil then
+					if inst.damage < (inst.damagemax / 4) then
+						inst._soundcd = inst:DoTaskInTime(.8 + math.random(), CooldownSound)
+						print("low")
+						inst.SoundEmitter:PlaySound("UCSounds/harpoon/"..inst.ropetype.."stretch_low")
+					elseif inst.damage < (inst.damagemax / 3) then
+						inst._soundcd = inst:DoTaskInTime(.6 + math.random(), CooldownSound)
+						print("mid")
+						inst.SoundEmitter:PlaySound("UCSounds/harpoon/"..inst.ropetype.."stretch_mid")
+					elseif inst.damage < (inst.damagemax / 2) then
+						inst._soundcd = inst:DoTaskInTime(.4 + math.random(), CooldownSound)
+						print("high")
+						inst.SoundEmitter:PlaySound("UCSounds/harpoon/"..inst.ropetype.."stretch_high")
+					elseif inst.damage < inst.damagemax then
+						inst._soundcd = inst:DoTaskInTime(.2 + math.random(), CooldownSound)
+						print("veryhigh")
+						inst.SoundEmitter:PlaySound("UCSounds/harpoon/"..inst.ropetype.."stretch_veryhigh")
+					end
+				
+	                --inst.reel.SoundEmitter:PlaySound("dontstarve/characters/walter/slingshot/stretch")
 				end
 			end
 		elseif inst.tension > 1 or inst.damage > 1 then
@@ -348,19 +379,12 @@ local function Vac(inst)
 			local velx2 = math.cos(rad2) --* 4.5
 			local velz2 = -math.sin(rad2) --* 4.5
 			
-			local dx, dy, dz = x + ((i2 * velx2) / 3.5), 0, z + ((i2 * velz2) / 3.5)
+			local dx, dy, dz = x + ((i2 * velx2) / 3.5), 0.5, z + ((i2 * velz2) / 3.5)
 			if p2y < 5 then
 				if i2 <= scale + 1 then
-					--[[local dest = inst.target:GetPosition()
-					local direction = (dest - ropes:GetPosition()):GetNormalized()
-					local angle = math.acos(direction:Dot(Vector3(1, 0, 0))) / DEGREES
-					ropes.Transform:SetRotation(angle)
-					ropes:FacePoint(dest)]]
-					
-					--ropes:FacePoint(inst.target.Transform:GetWorldPosition())
 					ropes.Transform:SetRotation(inst:GetAngleToPoint(p2x, p2y, p2z))
 					ropes:Show()
-					ropes.Transform:SetPosition(dx, (0.01 * i2) + (p2y * (i2 / 40)), dz)
+					ropes.Transform:SetPosition(dx, .5 + (0.01 * i2) + (p2y * (i2 / 40)), dz)
 				else
 					ropes:Hide()
 				end
@@ -388,6 +412,9 @@ local function InitializeRope(inst)
 end
 
 local function DoPuff(inst, channeler)
+	inst.SoundEmitter:PlaySound("UCSounds/harpoon/reel")
+	inst.AnimState:PlayAnimation("reel")
+
     inst.components.activatable.inactive = true
 	
 	if inst.distance > 15 then
@@ -414,8 +441,8 @@ local function reel()
 	
 	inst:AddTag("harpoonreel")
 
-    inst.AnimState:SetBank("boat_wheel")
-    inst.AnimState:SetBuild("boat_wheel")
+    inst.AnimState:SetBank("UM_harpoonreel")
+    inst.AnimState:SetBuild("UM_harpoonreel")
     inst.AnimState:PlayAnimation("idle")
 
     MakeSnowCoveredPristine(inst)
@@ -455,7 +482,7 @@ local function reel()
     inst.components.channelable.skip_state_channeling = true]]
 	
 	inst:DoTaskInTime(0, InitializeRope)
-	inst.harpoontask = inst:DoPeriodicTask(FRAMES, Vac)
+	inst.harpoontask = inst:DoPeriodicTask(0.05, Vac)
 	inst:DoTaskInTime(30, KillRopes)
 	
 	inst.persists = false
@@ -486,6 +513,8 @@ local function rope()
         return inst
     end
 	
+	inst.type = "rope"
+	
 	inst.breakfx = "wood_splinter_jump"
 	
 	inst.persists = false
@@ -515,6 +544,8 @@ local function chain()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.type = "chain"
 	
 	inst.breakfx = "mining_fx"
 	
