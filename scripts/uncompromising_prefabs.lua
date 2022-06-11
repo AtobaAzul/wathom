@@ -317,7 +317,7 @@ return {
 	"sludge",
 	"sludgestack",
 	"sludge_sack",
-	"sludge_patch",
+	"boatpatch_sludge",
 	"beequeen_beering",
 	"siren_bubble",
 	"siren_debrisbarrier",

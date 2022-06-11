@@ -139,7 +139,6 @@ local prefab_post = {
 	"waterplant_bomb",
 	"grassgator",
 	"alterguardian",
-	"boat",
 	"seasonal_shoals",
 	"petals",
 	"lantern",
@@ -307,6 +306,10 @@ end
 
 if GetModConfigData("electricalmishap_") ~= 0 then
 	table.insert(prefab_post,"nightstick")
+end
+
+if GetModConfigData("boatturning") then
+	table.insert(prefab_post, "boat")
 end
 
 modimport("postinit/sim")

@@ -2,6 +2,13 @@ local env = env
 GLOBAL.setfenv(1, GLOBAL)
 
 env.AddPrefabPostInit("lantern", function(inst)
+    if inst.components.upgradeable ~= nil then
+        local numupgrades = inst.components.upgradeable.numupgrades
+        if numupgrades > 0 then
+            inst:SetPrefabNameOverride("LANTERN_ELECTRICAL")
+        end
+    end
+
     if inst.components.equippable ~= nil then
         local OnEquip_old = inst.components.equippable.onequipfn
 
@@ -48,4 +55,6 @@ env.AddPrefabPostInit("lantern", function(inst)
     inst:AddComponent("upgradeable")
     inst.components.upgradeable.upgradetype = UPGRADETYPES.ELECTRICAL
     inst.components.upgradeable.onupgradefn = OnUpgrade
+
+    inst:AddTag("NORATCHECK")
 end)

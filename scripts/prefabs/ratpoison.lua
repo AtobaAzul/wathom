@@ -66,6 +66,8 @@ local function fn()
     inst.AnimState:PlayAnimation("idle_full")
 	
 	inst.entity:SetPristine()
+
+	inst:AddTag("NORATCHECK")
 	
 	if not TheWorld.ismastersim then 
 		return inst

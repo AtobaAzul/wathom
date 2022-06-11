@@ -4,56 +4,15 @@
 local require = GLOBAL.require
 require("recipe")
 
-local TechTree              = require("techtree")
-local TECH                  = GLOBAL.TECH
-local Ingredient            = GLOBAL.Ingredient
-local AllRecipes            = GLOBAL.AllRecipes
-local STRINGS               = GLOBAL.STRINGS
-local CONSTRUCTION_PLANS    = GLOBAL.CONSTRUCTION_PLANS
-local CRAFTING_FILTERS      = GLOBAL.CRAFTING_FILTERS
+local TechTree = require("techtree")
+local TECH = GLOBAL.TECH
+local Ingredient = GLOBAL.Ingredient
+local AllRecipes = GLOBAL.AllRecipes
+local STRINGS = GLOBAL.STRINGS
+local CONSTRUCTION_PLANS = GLOBAL.CONSTRUCTION_PLANS
+local CRAFTING_FILTERS = GLOBAL.CRAFTING_FILTERS
 
 modimport("uncompskins_api.lua")
-
---Registering all item atlas so we don't have to keep doing it on each craft.
-RegisterInventoryItemAtlas("images/inventoryimages/rat_whip.xml", "rat_whip.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/snowgoggles.xml", "snowgoggles.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/ratpoisonbottle.xml", "ratpoisonbottle.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/diseasecurebomb.xml", "diseasecurebomb.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/skeletonmeat.xml", "skeletonmeat.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/snowball_throwable.xml", "snowball_throwable.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/gasmask.xml", "gasmask.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/plaguemask.xml", "plaguemask.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/shroom_skin_fragment.xml", "shroom_skin_fragment.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/sporepack.xml", "sporepack.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/air_conditioner.xml", "air_conditioner.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/saltpack.xml", "saltpack.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/skullchest_child.xml", "skullchest_child.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/glass_scales.xml", "glass_scales.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/bugzapper.xml", "bugzapper.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/turf_hoodedmoss.xml", "turf_hoodedmoss.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/slingshotammo_firecrackers.xml", "slingshotammo_firecrackers.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/turf_ancienthoodedturf.xml", "turf_ancienthoodedturf.tex")
-RegisterInventoryItemAtlas(
-    "images/inventoryimages/um_bear_trap_equippable_tooth.xml",
-    "um_bear_trap_equippable_tooth.tex"
-)
-RegisterInventoryItemAtlas(
-    "images/inventoryimages/um_bear_trap_equippable_gold.xml",
-    "um_bear_trap_equippable_gold.tex"
-)
-RegisterInventoryItemAtlas("images/inventoryimages/armor_glassmail.xml", "armor_glassmail.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/watermelon_lantern.xml", "watermelon_lantern.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/hat_ratmask.xml", "hat_ratmask.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/ancient_amulet_red.xml", "ancient_amulet_red.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/mutator_trapdoor.xml", "mutator_trapdoor.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/moon_tear.xml", "moon_tear.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/dormant_rain_horn.xml", "dormant_rain_horn.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/driftwoodfishingrod.xml", "driftwoodfishingrod.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/rain_horn.xml", "rain_horn.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/floral_bandage.xml", "floral_bandage.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/rat_tail.xml", "rat_tail.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/book_rain.xml", "book_rain.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/honey_log.xml", "honey_log.tex")
 
 -- List of Vanilla Recipe Filters
 -- "FAVORITES", "CRAFTING_STATION", "SPECIAL_EVENT", "MODS", "CHARACTER", "TOOLS", "LIGHT",
@@ -161,7 +120,7 @@ AddRecipe2(
     {Ingredient("red_cap", 2), Ingredient("jammypreserves", 1), Ingredient("rocks", 1)},
     TECH.SCIENCE_ONE,
     nil,
-	{"TOOLS"}
+    {"TOOLS"}
 )
 ChangeSortKey("ratpoisonbottle", "trap", "TOOLS", true)
 
@@ -414,11 +373,11 @@ AddRecipe2(
     {Ingredient("boards", 2), Ingredient("goldnugget", 4), Ingredient("sewing_tape", 1)},
     TECH.NONE,
     {builder_tag = "handyperson"},
-    {"CONTAINERS","CHARACTER"}
+    {"CONTAINERS", "CHARACTER"}
 )
 ChangeSortKey("winona_toolbox", "treasurechest", "CONTAINERS", true)
 ChangeSortKey("winona_toolbox", "sewing_tape", "CHARACTER", true)
---[[
+
 AddRecipe2(
     "powercell",
     {Ingredient("sewing_tape", 1), Ingredient("goldnugget", 1), Ingredient("nitre", 2)},
@@ -426,10 +385,11 @@ AddRecipe2(
     {builder_tag = "handyperson", numtogive = 3},
     {"CHARACTER"}
 )
-ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)]]
+ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)
+
 AddRecipe2(
     "winona_upgradekit_electrical",
-    {Ingredient("goldnugget", 10), Ingredient("sewing_tape", 2), Ingredient("sludge", 1)--[[Ingredient("copperpipe")]]},
+    {Ingredient("goldnugget", 10), Ingredient("sewing_tape", 2), Ingredient("sludge", 1) --[[Ingredient("copperpipe")]]},
     TECH.SCIENCE_TWO,
     {builder_tag = "handyperson"},
     {"CHARACTER", "LIGHT"}
@@ -440,13 +400,13 @@ AddRecipeToFilter("wardrobe", "CONTAINERS")
 ChangeSortKey("wardrobe", "icebox", "CONTAINERS", false)
 
 AddRecipe2(
-    "sludge_patch",
+    "boatpatch_sludge",
     {Ingredient("sludge", 1), Ingredient("driftwood_log", 1)},
     TECH.NONE,
     {numtogive = 3},
     {"SEAFARING"}
 )
-ChangeSortKey("sludge_patch", "boatpatch", "SEAFARING", false)
+ChangeSortKey("boatpatch_sludge", "boatpatch", "SEAFARING", false)
 
 AddRecipe2(
     "sludge_sack",
@@ -459,25 +419,19 @@ ChangeSortKey("sludge_sack", "piggyback", "CONTAINERS", true)
 ChangeSortKey("sludge_sack", "piggyback", "CLOTHING", true)
 
 --AddRecipe2(
-  --  "sludge_oil",
-  --  {Ingredient("sludge", 4), Ingredient("cutstone", 1)},
-  --  TECH.SCIENCE_TWO,
-  --  {"REFINE"}
+--  "sludge_oil",
+--  {Ingredient("sludge", 4), Ingredient("cutstone", 1)},
+--  TECH.SCIENCE_TWO,
+--  {"REFINE"}
 --)
 --ChangeSortKey("sludge_oil", false)
 
-AddRecipe2(
-    "armor_reed_um",
-    {Ingredient("cutreeds", 8), Ingredient("twigs", 3)},
-    TECH.NONE,
-    nil,
-    {"ARMOUR", "RAIN"}
-)
-ChangeSortKey("armor_reed_um","armorgrass","ARMOUR", true)
-ChangeSortKey("armor_reed_um","raincoat","RAIN", true)
+AddRecipe2("armor_reed_um", {Ingredient("cutreeds", 8), Ingredient("twigs", 3)}, TECH.NONE, nil, {"ARMOUR", "RAIN"})
+ChangeSortKey("armor_reed_um", "armorgrass", "ARMOUR", true)
+ChangeSortKey("armor_reed_um", "raincoat", "RAIN", true)
 
 --ChangeSortKey("PREFAB_NAME_OF_ITEM_THAT_YOURE_SORTING","PREFAB_NAME_OF_ITEM_YOU_VVANT_IT_TO_GO_AFTER","THE_TAB",true) you need to do this for each tab that you vvant it to be sorted in -AXE
---need to add the inv atlases 
+--need to add the inv atlases
 
 AddRecipe2(
     "armor_sharksuit_um",
@@ -486,9 +440,9 @@ AddRecipe2(
     nil,
     {"SEAFARING", "ARMOUR", "RAIN"}
 )
-ChangeSortKey("armor_sharksuit_um","armordragonfly","ARMOUR", true)
-ChangeSortKey("armor_sharksuit_um","balloonvest","SEAFARING", true)
-ChangeSortKey("armor_sharksuit_um","armor_reed_um","RAIN", true)
+ChangeSortKey("armor_sharksuit_um", "armordragonfly", "ARMOUR", true)
+ChangeSortKey("armor_sharksuit_um", "balloonvest", "SEAFARING", true)
+ChangeSortKey("armor_sharksuit_um", "armor_reed_um", "RAIN", true)
 
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})
@@ -500,8 +454,10 @@ AddDeconstructRecipe("crabclaw", {Ingredient("rocks", 4), Ingredient("cutstone",
 AddDeconstructRecipe("slobberlobber", {Ingredient("dragon_scales", 1), Ingredient("meat", 2)})
 
 --Sailing Rebalance related recipes.
+
 --trident buff
 AllRecipes["trident"].ingredients = {Ingredient("boneshard", 2), Ingredient("gnarwail_horn", 1), Ingredient("twigs", 2)}
+
 --hermitshop expansion
 AddRecipe2(
     "hermitshop_oceanfishinglure_spoon_red",
@@ -509,7 +465,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_red", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spoon_red","hermitshop_oceanfishingbobber_canary","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oceanfishinglure_spoon_red", "hermitshop_oceanfishingbobber_canary", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_oceanfishinglure_spoon_green",
@@ -517,7 +473,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_green", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spoon_green","hermitshop_oceanfishinglure_spoon_red","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oceanfishinglure_spoon_green", "hermitshop_oceanfishinglure_spoon_red", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_oceanfishinglure_spoon_blue",
@@ -525,7 +481,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_blue", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spoon_blue","hermitshop_oceanfishinglure_spoon_green","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oceanfishinglure_spoon_blue", "hermitshop_oceanfishinglure_spoon_green", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_oceanfishinglure_spinner_red",
@@ -533,7 +489,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_red", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spinner_red","hermitshop_oceanfishinglure_spoon_blue","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oceanfishinglure_spinner_red", "hermitshop_oceanfishinglure_spoon_blue", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_oceanfishinglure_spinner_green",
@@ -541,7 +497,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_green", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spinner_green","hermitshop_oceanfishinglure_spinner_red","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oceanfishinglure_spinner_green", "hermitshop_oceanfishinglure_spinner_red", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_oceanfishinglure_spinner_blue",
@@ -549,7 +505,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_blue", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spinner_blue","hermitshop_oceanfishinglure_spinner_green","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oceanfishinglure_spinner_blue", "hermitshop_oceanfishinglure_spinner_green", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_boat",
@@ -557,7 +513,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "boat_item", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_boat","hermitshop_hermitshop_bundle_shells","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_boat", "hermitshop_hermitshop_bundle_shells", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_mast",
@@ -565,7 +521,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "mast_item", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_mast","hermitshop_boat","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_mast", "hermitshop_boat", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_anchor",
@@ -573,7 +529,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "anchor_item", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_anchor","hermitshop_mast","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_anchor", "hermitshop_mast", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_steeringwheel",
@@ -581,15 +537,15 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "steeringwheel_item", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_steeringwheel","hermitshop_anchor","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_steeringwheel", "hermitshop_anchor", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_patch",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, product = "sludge_patch", sg_state = "give", numtogive = 4}
+    {nounlock = true, product = "boatpatch_sludge", sg_state = "give", numtogive = 4}
 )
-ChangeSortKey("hermitshop_patch","hermitshop_steeringwheel","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_patch", "hermitshop_steeringwheel", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_blueprint",
@@ -597,7 +553,7 @@ AddRecipe2(
     GLOBAL.TECH.HERMITCRABSHOP_THREE,
     {nounlock = true, product = "blueprint", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_blueprint","hermitshop_turf_shellbeach_blueprint","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_blueprint", "hermitshop_turf_shellbeach_blueprint", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_waterplant",
@@ -605,7 +561,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_FIVE,
     {nounlock = true, product = "waterplant_planter", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_waterplant","hermitshop_chum","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_waterplant", "hermitshop_chum", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_cookies",
@@ -613,7 +569,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_SEVEN,
     {nounlock = true, product = "pumpkincookie", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_cookies","hermitshop_supertacklecontainer","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_cookies", "hermitshop_supertacklecontainer", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "normal_chum",
@@ -632,7 +588,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_FIVE,
     {nounlock = true, product = "diseasecurebomb", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_oil","hermitshop_cookies","CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_oil", "hermitshop_cookies", "CRAFTING_STATION", true)
 
 --pearlrusher
 CONSTRUCTION_PLANS["hermithouse_construction3"] = {
@@ -656,10 +612,10 @@ AddRecipe2(
     nil,
     {"LIGHT"}
 )
-AddDeconstructRecipe(
-    "alterguardianhat",
-    {Ingredient("alterguardianhatshard", 5), Ingredient("alterguardianhatshard_blueprint", 1)}
-)
+
+AddDeconstructRecipe("alterguardianhat", {Ingredient("alterguardianhatshard", 5), Ingredient("alterguardianhatshard_blueprint", 1)})
+
+
 
 STRINGS.RECIPE_DESC.SLINGSHOTAMMO_FIRECRACKERS = "For the aspiring young menace."
 STRINGS.RECIPE_DESC.WATERMELON_LANTERN = "Juicy illumination."
@@ -697,7 +653,7 @@ STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"
 STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened healing!"
 STRINGS.RECIPE_DESC.WINONA_TOOLBOX = "An engineer is always prepared."
 --STRINGS.RECIPE_DESC.POWERCELL = "Portable electricity!"
-STRINGS.RECIPE_DESC.SLUDGE_PATCH = "Impermeable goo."
+STRINGS.RECIPE_DESC.BOATPATCH_SLUDGE = "Impermeable goo."
 STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
 STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
 
