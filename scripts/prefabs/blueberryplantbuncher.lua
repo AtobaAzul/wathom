@@ -1,5 +1,5 @@
 local function SpawnBlueberryBunches(inst)
-local x, y, z = inst.Transform:GetWorldPosition()
+	local x, y, z = inst.Transform:GetWorldPosition()
 	x = x - 2
 	z = z - 2
 	for i = 1, math.random(2,3) do
@@ -10,6 +10,8 @@ local x, y, z = inst.Transform:GetWorldPosition()
 			end
 			x = x + math.random()+math.random()+0.6
 			z = z - 0.5 +math.random()
+			local sorrel = SpawnPrefab("um_sorrel")
+			sorrel.Transform:SetPosition(x, y, z)
 		end
 		x = x - 3 * math.random()- 3 * math.random() - 0.75
 		z = z + math.random()+math.random()+0.6

@@ -1007,5 +1007,5 @@ Assets = {
     Asset("IMAGE", "images/inventoryimages/grassgekko.tex"),
 	Asset("ATLAS", "images/inventoryimages/grassgekko.xml"),
     --Asset("ANIM", "anim/crabapple_tree_build.zip"),
-
+	Asset("ANIM", "anim/sorrel.zip"),
 }
