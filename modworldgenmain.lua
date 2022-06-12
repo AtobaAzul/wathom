@@ -383,7 +383,8 @@ AddRoomPreInit("OceanRough", function(room)
         sludgestack_spawner = function()
             return math.random(6, 10)
         end,
-        umss_failedfisherman = 1
+        umss_failedfisherman = 1,
+        umss_tridenttrap = function() return math.random(0,1) end
     }
 end)
 
@@ -600,6 +601,40 @@ AddRoomPreInit("HFHolidays", function(room)
         umss_moonoil = 1
     }
 end)
+
+local StaticLayout = GLOBAL.require("map/static_layout")
+Layouts["basefrag_smellykitchen"] = StaticLayout.Get("map/static_layouts/umss_basefrag_smellykitchen")
+Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
+Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
+
+AddRoomPreInit("LightningBluffAntlion", function(room)
+    if not room.contents.countstaticlayouts then
+        room.contents.countstaticlayouts = {}
+    end
+    room.contents.countstaticlayouts["basefrag_smellykitchen"] = 1
+end)
+
+AddRoomPreInit("CritterDen", function(room)
+    if not room.contents.countstaticlayouts then
+        room.contents.countstaticlayouts = {}
+    end
+    room.contents.countstaticlayouts["impactfuldiscovery"] = 1
+end)
+
+AddRoomPreInit("BarePlain", function(room)
+    if not room.contents.countstaticlayouts then
+        room.contents.countstaticlayouts = {}
+    end
+    room.contents.countstaticlayouts["basefrag_rattystorage"] = 1
+end)
+
+AddRoomPreInit("OceanCoastal", function(room)
+    room.contents.countprefabs =
+    {
+        umss_sunkenboat = 1
+    }
+end)
+
 modimport("init/init_food/init_food_worldgen")
 
 if GetModConfigData("worldgenmastertoggle") then
