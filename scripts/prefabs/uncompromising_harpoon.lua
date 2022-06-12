@@ -371,8 +371,9 @@ local function Vac(inst)
 	end
 	
 	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() and inst.ropes ~= nil and inst:GetDistanceSqToInst(inst.target) ~= nil then
-		local scale = (inst:GetDistanceSqToInst(inst.target) / 2.6)
-		
+		local scale = (inst:GetDistanceSqToInst(inst.target) / 3)
+		print(scale)
+		print(inst:GetDistanceSqToInst(inst.target))
 		for i2, ropes in ipairs(inst.ropes) do
 			local p2x, p2y, p2z = inst.target.Transform:GetWorldPosition()
 			local rad2 = math.rad(inst:GetAngleToPoint(p2x, p2y, p2z))
@@ -381,10 +382,10 @@ local function Vac(inst)
 			
 			local dx, dy, dz = x + ((i2 * velx2) / 3.5), 0.5, z + ((i2 * velz2) / 3.5)
 			if p2y < 5 then
-				if i2 <= scale + 1 then
+				if i2 <= scale + 4 then
 					ropes.Transform:SetRotation(inst:GetAngleToPoint(p2x, p2y, p2z))
 					ropes:Show()
-					ropes.Transform:SetPosition(dx, .5 + (0.01 * i2) + (p2y * (i2 / 40)), dz)
+					ropes.Transform:SetPosition(dx, .5 + (.025 * i2) + (p2y * (i2 / 40)), dz)
 				else
 					ropes:Hide()
 				end
