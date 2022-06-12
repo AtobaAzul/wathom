@@ -105,6 +105,13 @@ end
 
 AddIngredientValues({"forgetmelots"}, {decoration=1, foliage=1})
 
+AddIngredientValues({"aphid"}, {insectoid = 0.5, meat = 0.5, monster = 0.5})
+recipes.koalefig_trunk.test = function(cooker, names, tags) return (names.trunk_summer or names.trunk_cooked or names.trunk_winter) and (names.fig or names.fig_cooked or names.aphid) end
+recipes.figatoni.test = function(cooker, names, tags) return (names.fig or names.fig_cooked or names.aphid) and tags.veggie and tags.veggie >= 2  and not tags.meat end
+recipes.figkabab.test = function(cooker, names, tags) return (names.fig or names.fig_cooked or names.aphid) and names.twigs and tags.meat and tags.meat >= 1 and (not tags.monster or tags.monster <= 1) end
+recipes.frognewton.test = function(cooker, names, tags) return (names.fig or names.fig_cooked or names.aphid) and (names.froglegs or names.froglegs_cooked) end
+--teehee :)
+
 --not tags.inedible and not (tags.insectoid and tags.insectoid >= 1)
 
 -----------------------------------------------------------------
