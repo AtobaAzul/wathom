@@ -5,6 +5,14 @@ local assets =
 {
     Asset("ANIM", "anim/sorrel.zip"),
 }
+SetSharedLootTable( 'sorrel_blooming',
+{
+    {'greenfoliage',    1.0},
+    {'greenfoliage',    1.0},
+    {'greenfoliage',    0.5},
+    {'petals',          1.0},
+    {'petals',          0.5}
+})
 
 SetSharedLootTable( 'sorrel',
 {
@@ -12,6 +20,24 @@ SetSharedLootTable( 'sorrel',
     {'greenfoliage',    1},
     {'greenfoliage',    0.50},
 })
+
+local function bloom(inst)
+    if TheWorld.state.isspring then
+        inst:AddTag("blooming")
+        inst.components.lootdropper:SetChanceLootTable('sorrel_blooming')
+        --inst.components.harvestable.product = "petals"
+        --if inst.components.harvestable:CanBeHarvested() then
+        inst.AnimState:PlayAnimation("idle_flower")
+        --end
+    else
+        if inst:HasTag("blooming") then
+            inst:RemoveTag("blooming")
+            --inst.components.harvestable.product = "greenfoliage"
+        end
+        inst.AnimState:PlayAnimation("idle2")
+        inst.components.lootdropper:SetChanceLootTable('sorrel')
+    end
+end
 
 local function OnSave(inst, data)
     data.rotation = inst.Transform:GetRotation()
@@ -27,36 +53,25 @@ local function OnLoad(inst, data)
             inst.Transform:SetScale(data.scale[1] or 1, data.scale[2] or 2, data.scale[3] or 3)
         end
     end
+    bloom(inst)
 end
 
 local function onharvest(inst, picker, produce)
     if inst:HasTag("blooming") then
         --MAKE THIS A HAYFEVER THINGFGAAA
     end
-    --inst.components.harvestable.maxproduce = 10 --idk
+    inst.components.harvestable.maxproduce = 10 --idk
     inst.AnimState:PlayAnimation("idle", true)
 end
 
-local function bloom(inst)
-    if TheWorld.state.isspring then
-        if inst.components.harvestable:CanBeHarvested() then
-            inst.AnimState:PlayAnimation("idle_flower", true)
-        end
-        inst.components.harvestable.product = "petals"
-        inst:AddTag("blooming")
-    elseif inst.components.harvestable:CanBeHarvested() then
-            inst.AnimState:PlayAnimation("idle2", true)
-            inst.components.harvestable.product = "greenfoliage"
-    else
-        inst.AnimState:PlayAnimation("idle", true)
-    end
-end
 
 local function ongrow(inst, produce)
     if inst:HasTag("blooming") then
         inst.AnimState:PlayAnimation("idle_flower", true)
+        inst.components.harvestable.product = "petals"
     else
         inst.AnimState:PlayAnimation("idle2", true)
+        inst.components.harvestable.product = "greenfoliage"
     end
 end
 
@@ -75,15 +90,15 @@ local function fn()
     inst.AnimState:SetBank("sorrel")
     inst.AnimState:SetBuild("sorrel")
     inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
-    inst.AnimState:SetLayer(LAYER_BACKGROUND)
+    inst.AnimState:SetLayer(LAYER_GROUND)
     inst.AnimState:SetSortOrder(2)
     inst.AnimState:PlayAnimation("idle2", true)
     inst:AddTag("NOBLOCK")
 
-    inst:AddComponent("harvestable")
-    inst.components.harvestable:SetUp("greenfoliage", nil, TUNING.GRASS_REGROW_TIME/2, onharvest, ongrow)
+    --inst:AddComponent("harvestable")
+    --inst.components.harvestable:SetUp("greenfoliage", 100, TUNING.GRASS_REGROW_TIME/2, onharvest, ongrow)
 
-    inst:WatchWorldState("phase", bloom)
+    inst:WatchWorldState("cycles", bloom)
 
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.DIG)
@@ -101,7 +116,7 @@ local function fn()
 
     --inst.Transform:SetScale(1.2, 1.5, 1.2)
 
-    local scale = GetRandomMinMax(1.33, 1.66)
+    local scale = GetRandomMinMax(1.25, 1.5)
     inst.Transform:SetScale(scale, scale, scale)
 
     inst.OnSave = OnSave

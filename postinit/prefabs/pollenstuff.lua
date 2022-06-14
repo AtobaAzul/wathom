@@ -27,6 +27,7 @@ local lowfever =
 	"blueberryplant",
 	"fruitbat",
 	"carrot_planted",
+	"um_sorrel",
 }
 
 local mediumfever = --Slightly larger radius, significantly more intensity 
