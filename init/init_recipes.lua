@@ -444,6 +444,16 @@ ChangeSortKey("armor_sharksuit_um", "armordragonfly", "ARMOUR", true)
 ChangeSortKey("armor_sharksuit_um", "balloonvest", "SEAFARING", true)
 ChangeSortKey("armor_sharksuit_um", "armor_reed_um", "RAIN", true)
 
+
+AddRecipe2(
+    "um_saltsalve",
+    {Ingredient("saltrock", 2), Ingredient("kelp", 1), Ingredient("driftwood_log", 1)},
+    TECH.SCIENCE_ONE,
+    nil, --{numtogive = 2},
+    {"RESTORATION"}
+)
+ChangeSortKey("um_saltsalve", "floral_bandage", "RESTORATION", true)
+
 --deconstruct recipes
 AddDeconstructRecipe("cursed_antler", {Ingredient("boneshard", 8), Ingredient("nightmarefuel", 2)})
 AddDeconstructRecipe("beargerclaw", {Ingredient("boneshard", 2), Ingredient("furtuft", 2)})
@@ -658,10 +668,11 @@ STRINGS.RECIPE_DESC.RAIN_HORN = "Drown the world."
 STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"
 STRINGS.RECIPE_DESC.FLORAL_BANDAGE = "Sweetened healing!"
 STRINGS.RECIPE_DESC.WINONA_TOOLBOX = "An engineer is always prepared."
---STRINGS.RECIPE_DESC.POWERCELL = "Portable electricity!"
+STRINGS.RECIPE_DESC.POWERCELL = "Portable electricity!"
 STRINGS.RECIPE_DESC.BOATPATCH_SLUDGE = "Impermeable goo."
 STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
 STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
+STRINGS.RECIPE_DESC.UM_SALTSALVE = "Put salt in your wounds."
 STRINGS.RECIPE_DESC.CRITTER_FIGGY_BUILDER = "He likes to put holes in things."
 
 --sailing rebalance strings
