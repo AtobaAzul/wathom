@@ -615,7 +615,13 @@ AddRecipe2(
 
 AddDeconstructRecipe("alterguardianhat", {Ingredient("alterguardianhatshard", 5), Ingredient("alterguardianhatshard_blueprint", 1)})
 
-
+AddRecipe2(
+    "critter_figgy_builder",
+    {Ingredient("steelwool", 1), Ingredient("blueberrypancakes", 1)},
+    TECH.ORPHANAGE_ONE,
+	{nounlock=true, actionstr="ORPHANAGE"}
+)
+ChangeSortKey("critter_figgy_builder", "critter_eyeofterror_builder", "CRAFTING_STATION", true)
 
 STRINGS.RECIPE_DESC.SLINGSHOTAMMO_FIRECRACKERS = "For the aspiring young menace."
 STRINGS.RECIPE_DESC.WATERMELON_LANTERN = "Juicy illumination."
@@ -656,6 +662,7 @@ STRINGS.RECIPE_DESC.WINONA_TOOLBOX = "An engineer is always prepared."
 STRINGS.RECIPE_DESC.BOATPATCH_SLUDGE = "Impermeable goo."
 STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
 STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
+STRINGS.RECIPE_DESC.CRITTER_FIGGY_BUILDER = "He likes to put holes in things."
 
 --sailing rebalance strings
 STRINGS.RECIPE_DESC.MOONSTORM_STATIC_ITEM = "The power of the moon, contained!"

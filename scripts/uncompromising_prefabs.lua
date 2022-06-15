@@ -3,12 +3,12 @@ return {
 	"winky",
 	--"wixie",
 	--"wathom",
-	--"wickett",
 	--"winslow",
+	--"wickett",
 	--"winky2",
 	--"whoppermeal",
 	--"wackytobackey",
-	--
+	--"wonaldmcronald
 	
 	"deathstick",
 	"uncompromising_toad",
@@ -353,4 +353,6 @@ return {
 	"um_scorpionhole_organizer",
 	"um_amber",
 	"um_sorrel",
+	
+	"figgypet",
 }

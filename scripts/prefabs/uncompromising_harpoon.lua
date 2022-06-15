@@ -254,7 +254,7 @@ local function KillRopes(inst)
 	if inst.harpoontask ~= nil then
 		inst.harpoontask:Cancel()
 	end
-		
+		 
 	inst.harpoontask = nil
 		
 	for i, ropes in ipairs(inst.ropes) do
@@ -382,10 +382,14 @@ local function Vac(inst)
 			
 			local dx, dy, dz = x + ((i2 * velx2) / 3.5), 0.5, z + ((i2 * velz2) / 3.5)
 			if p2y < 5 then
-				if i2 <= scale + 4 then
+				if i2 <= scale - 1--[[ + 3]] then
 					ropes.Transform:SetRotation(inst:GetAngleToPoint(p2x, p2y, p2z))
 					ropes:Show()
 					ropes.Transform:SetPosition(dx, .5 + (.025 * i2) + (p2y * (i2 / 40)), dz)
+					inst.hitfx.Transform:SetPosition(dx, .5 + (.025 * i2) + (p2y * (i2 / 40)), dz)
+					inst.hitfx:ForceFacePoint(inst.target.Transform:GetWorldPosition())
+				elseif (i2 - 1) < 0 then
+					inst.hitfx:ForceFacePoint(inst.target.Transform:GetWorldPosition())
 				else
 					ropes:Hide()
 				end
@@ -409,6 +413,13 @@ local function InitializeRope(inst)
 		local ropes = SpawnPrefab(inst.ropetype)
 		ropes.Transform:SetPosition(x, y, z)
 		table.insert(inst.ropes, ropes)
+	end
+	
+	if inst.target ~= nil and inst.target:IsValid() then
+		local hitfx = SpawnPrefab("uncompromising_harpoonhitfx")
+		hitfx.Transform:SetPosition(inst.target.Transform:GetWorldPosition())
+		
+		inst.hitfx = hitfx
 	end
 end
 
@@ -554,10 +565,39 @@ local function chain()
 	
     return inst
 end
+
+local function fnhit()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddNetwork()
+
+    inst.AnimState:SetBank("um_harpoonhitfx")
+    inst.AnimState:SetBuild("um_harpoonhitfx")
+    inst.AnimState:PlayAnimation("idle")
+	inst.Transform:SetEightFaced()
+	
+	inst:AddTag("NOCLICK")
+	inst:AddTag("NOBLOCK")
+	inst:AddTag("fx")
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	
+	inst.persists = false
+	
+    return inst
+end
 -------------------------------------------------------------------------------
 return Prefab("uncompromising_harpoon", fnlight, assets, prefabs),
 		Prefab("uncompromising_harpoon_projectile", harpoon, assets, prefabs),
 		Prefab("uncompromising_harpoonreel", reel, assets, prefabs),
 		Prefab("uncompromising_harpoonrope", rope, assets, prefabs),
 		Prefab("uncompromising_harpoon_heavy", fnheavy, assets, prefabs),
-		Prefab("uncompromising_harpoonchain", chain, assets, prefabs)
+		Prefab("uncompromising_harpoonchain", chain, assets, prefabs),
+		Prefab("uncompromising_harpoonhitfx", fnhit, assets, prefabs)
