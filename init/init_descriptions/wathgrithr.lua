@@ -371,4 +371,6 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	ACTIONFAIL.WINONATOOLBOX = "wacky, help!"
 	DESCRIBE.MINERHAT_ELECTRICAL = "help"
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
-	DESCRIBE.STUFFED_PEEPER_POPPERS = "The remains öf a valiant föe watch with disgust!"
+	DESCRIBE.STUFFED_PEEPER_POPPERS = "The remains of a valiant foe watch with disgust!"
+	DESCRIBE.LUSH_ENTRANCE = "I've no time to dig when there's hunts to be had!"
+	DESCRIBE.CRITTER_FIGGY = "A blight spawned warrior!"

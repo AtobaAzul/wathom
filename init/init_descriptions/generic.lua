@@ -1,4 +1,4 @@
--- Wilson's speech file
+	-- Wilson's speech file
 -- The strings here are also used when other characters are missing a line
 -- If you've added an object to the mod, this is where to add placeholder strings
 -- Keep things organized
@@ -459,3 +459,5 @@ RECIPE_DESC = GLOBAL.STRINGS.RECIPE_DESC
 	
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "I'll have to keep an eye on these eyes."
+	DESCRIBE.LUSH_ENTRANCE = "What a perfectly innocent looking ominous hole in the ground."
+	DESCRIBE.CRITTER_FIGGY = "Hmm. I think I'll call you Figgy Newton Fluffybottom the Fourteenth."

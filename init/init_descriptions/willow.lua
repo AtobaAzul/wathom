@@ -386,3 +386,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WILLOW.ACTIONFAIL
 	
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "Aww, they are looking right at me!"
+	DESCRIBE.LUSH_ENTRANCE = "Oh, I bet there's all sorts of stuff to burn down there!"
+	DESCRIBE.CRITTER_FIGGY = "Awwh! So fluffy, I wouldn't burn a hair on your lil' body!"
