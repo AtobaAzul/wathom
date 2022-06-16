@@ -63,8 +63,10 @@ env.AddClassPostConstruct("widgets/redux/craftingmenu_hud", function(self)
 	local _OldOnCraftingMenuOpen = self.OnCraftingMenuOpen
 	local _OldOnUpdate = self.OnUpdate
 	local _OldOnControl = self.OnControl
+	local _OldPopulateRecipeDetailPanel = self.PopulateRecipeDetailPanel
+	local _OldRefreshCraftingHelpText = self.RefreshCraftingHelpText
 
-	function self:OnUpdate(...)
+	function self:RefreshCraftingHelpText(...)
 		if self.uncomptip ~= nil then
 			self.uncomptip.item_tip = nil
 			self.uncomptip.skins_spinner = nil
@@ -78,14 +80,22 @@ env.AddClassPostConstruct("widgets/redux/craftingmenu_hud", function(self)
 		end
 		
 		--if self.last_recipe_state ~= nil and self.last_recipe_state ~= "hide" then
-			if self.craftingmenu ~= nil and self.craftingmenu.crafting_hud ~= nil and self.craftingmenu.crafting_hud:IsCraftingOpen() and self.uncomptip ~= nil and self.craftingmenu.details_root ~= nil and self.craftingmenu.details_root.data.recipe ~= nil and self.craftingmenu.details_root.data.recipe.name and STRINGS.UNCOMP_TOOLTIP[string.upper(self.craftingmenu.details_root.data.recipe.name)] ~= nil then
-				self.uncomptip.item_tip = self.craftingmenu.details_root.data.recipe.name
-				self.uncomptip.skins_spinner = self.craftingmenu.details_root.skins_spinner or nil
-				self.uncomptip:ShowTip()
+			if self.craftingmenu ~= nil and 
+				self.craftingmenu.crafting_hud ~= nil and 
+				self.craftingmenu.crafting_hud:IsCraftingOpen() and 
+				self.uncomptip ~= nil and 
+				self.craftingmenu.details_root ~= nil and 
+				self.craftingmenu.details_root.data and 
+				self.craftingmenu.details_root.data.recipe ~= nil and 
+				self.craftingmenu.details_root.data.recipe.name and 
+				STRINGS.UNCOMP_TOOLTIP[string.upper(self.craftingmenu.details_root.data.recipe.name)] ~= nil then
+					self.uncomptip.item_tip = self.craftingmenu.details_root.data.recipe.name
+					self.uncomptip.skins_spinner = self.craftingmenu.details_root.skins_spinner or nil
+					self.uncomptip:ShowTip()
 			end
 		--end
 		
-		_OldOnUpdate(self, ...)
+		_OldRefreshCraftingHelpText(self, ...)
 	end
 --[[
 	function self:OnControl(...)
