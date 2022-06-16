@@ -52,8 +52,8 @@ function Uncompromising_Tooltip:RefreshTooltips()
     local controller_id = TheInput:GetControllerID()
 	if self.item_tip ~= nil and STRINGS.UNCOMP_TOOLTIP[string.upper(self.item_tip)] ~= nil then
 		self.bg2:SetTooltip(STRINGS.UNCOMP_TOOLTIP[string.upper(self.item_tip)])
-	else
-		self.bg2:SetTooltip("???")
+	--[[else
+		self.bg2:SetTooltip("???")]]
 	end
 end
 
