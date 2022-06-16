@@ -177,11 +177,6 @@ local function fn()
     inst:AddComponent("knownlocations")
     inst:AddComponent("inspectable")
 
-    if TUNING.DSTU.ISLAND_ADVENTURES then
-        inst:AddComponent("appeasement")
-        inst.components.appeasement.appeasementvalue = TUNING.TOTAL_DAY_TIME
-    end
-    
     inst:ListenForEvent("attacked", OnAttacked)
 
     inst:AddComponent("eater")
