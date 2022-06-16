@@ -358,7 +358,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 	----UNDER THE WEATHER----
 	
 	DESCRIBE.WINONA_TOOLBOX = "Not needed, I have every tool for battle I require."
-	DESCRIBE.OCEAN_SPEAKER = "It echoes songs unfit for battle!"
+	DESCRIBE.OCEAN_SPEAKER = "Is speaker! Had many in circus!"
 	--DESCRIBE.UM_SIREN = "Finally a worthy opponent, our battle shall be legendary!"
 	
 	 --DESCRIBE.OCUPUS_BEAK = "",
@@ -375,3 +375,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 	
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "Ha! Small eyeball think it can scare Wolfgang still!"
+	DESCRIBE.LUSH_ENTRANCE = "Is scary hole!"
+	DESCRIBE.CRITTER_FIGGY = "Is Figgy! Mightiest bug!"

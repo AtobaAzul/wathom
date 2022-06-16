@@ -378,3 +378,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "This feels like a good way to get food poisoning."
+	DESCRIBE.LUSH_ENTRANCE = "I've learnt my lesson poking around ominous doorways."
+	DESCRIBE.CRITTER_FIGGY = "I know a hard worker when I see 'em!"

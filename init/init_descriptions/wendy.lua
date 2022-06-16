@@ -355,7 +355,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	----UNDER THE WEATHER----
 	
 	DESCRIBE.WINONA_TOOLBOX = "If empty it has no purpose."
-	DESCRIBE.OCEAN_SPEAKER = "Its busted and hollow inside. Only playing dreary tunes."
+	DESCRIBE.OCEAN_SPEAKER = "It's busted and hollow inside. Only playing dreary tunes."
 	--DESCRIBE.UM_SIREN = "She manipulates her pawns through song. A very potentent ability..."
 	
 	--DESCRIBE.OCUPUS_BEAK = "",
@@ -372,3 +372,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "They peer into the everlasting darkness of my mouth."
+	DESCRIBE.LUSH_ENTRANCE = "I can only imagine what horrors lurk below."
+	DESCRIBE.CRITTER_FIGGY = "Its hollow eyes stare right through me..."

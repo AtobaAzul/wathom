@@ -376,3 +376,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 	
 	DESCRIBE.EYEOFTERROR_MINI_ALLY = DESCRIBE.EYEOFTERROR_MINI
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "If I close my eyes and swallow, maybe it will taste better!"
+	DESCRIBE.LUSH_ENTRANCE = "I'm not sure I want to go down there just yet, Woby..."
+	DESCRIBE.CRITTER_FIGGY = "Woby wants to play with you, Figgy!"
