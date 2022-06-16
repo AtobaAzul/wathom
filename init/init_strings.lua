@@ -14,7 +14,7 @@ STRINGS.DSTU = {
         POUCH = "Deteriorating",
         WETGOOP = "Toxic",
     },
-	
+
 }
 
 table.insert(GLOBAL.CHARACTER_GENDERS.FEMALE, "winky")
@@ -63,22 +63,12 @@ end
 STRINGS.UNCOMP_TOOLTIP = {
 	AMULET = "- Only revives the player upon death while worn.\n- Increased heal rate at lower health.\n- Never breaks, can be refueled with Nightmare Fuel.",
 	MINIFAN = "- Staves off heat, and hayfever.",
-	WALL_HAY_ITEM = "- Provides protection from Snow Storms.",
-	WALL_WOOD_ITEM = "- Provides protection from Snow Storms.",
-	WALL_STONE_ITEM = "- Provides protection from Snow Storms.",
-	WALL_RUINS_ITEM = "- Provides protection from Snow Storms.",
-	WALL_MOONROCK_ITEM = "- Provides protection from Snow Storms.",
-	YELLOWSTAFF = "- Dwarf Stars provide protection from Snow Storms.",
-    OPALSTAFF = "- Dwarf Stars provide protection from Snow Storms.",
 	ARMORRUINS = "- Prevents knockback effects.\n- Reduces insanity aura effects by 40%.",
 	SWEATERVEST = "- Reduces insanity aura effects by 70%.",
 	FEATHERFAN = "- Grants large amounts of Hayfever protection when blown.",
 	PERDFAN = "- Grants large amounts of Hayfever protection when blown.",
 	SKELETONHAT = "- Will not spawn the Creeping Fear when worn.",
 	ICEPACK = "- Will not burn.",
-	HEATROCK = "- Reduced inherent insulation.\n- Inherits part of players insulation.",
-	MOLEHAT = "- Grants protection against Snow Storms / Sand Storms when worn.",
-	ARMOR_BRAMBLE = "- Automatically launches spikes at nearby threats.",
 	COOKIECUTTERHAT = "- Reflects 75% of damage taken back at attacker.",
 	HAMBAT = "- Rots faster.\n- Can be eaten by certain mobs.",
 	TOWNPORTAL = "- Gathers nearby items when channeling.",
@@ -88,72 +78,125 @@ STRINGS.UNCOMP_TOOLTIP = {
 	TOPHAT = "- Reduces sanity loss from various magic items.",
 	MOONDIAL = "- Can become a source of water when a certain item is placed inside...",
 	ARMORDRAGONFLY = "- Summons mini Lavae allies when worn.",
-	SEEDPOUCH = "- Keeps seeds refridgerated.",
 	GLASSCUTTER = "- Deals slightly more damage to Shadows.",
-	FEATHERHAT = "- Provides saftey from territorial Pengulls.",
+	FEATHERHAT = "- Provides safety from territorial Pengulls.",
 	YELLOWAMULET = "- No longer breaks when empty.",
 	ORANGEAMULET = "- No longer breaks when empty.\n- Can be fueled with Nightmare Fuel.\n- Will pick certain plants too!",
 	PURPLEAMULET = "- Grants bonus Nightmare Fuel from slain Shadows.",
 	PIGGYBACK = "- No Passive -10% movement speed while worn.\n- Decreases Player speed by 1% per item held.",
-	
-	TRUNKVEST_SUMMER = "- Now has pockets!\n- Slightly increased rain protection.",
-	TRUNKVEST_WINTER = "- Now has pockets!",
-	REFLECTIVEVEST = "- Now has pockets!",
+
 	PREMIUMWATERINGCAN = "- Can contain and preserve ocean fish.",
 	RAINHAT = "- Slightly increased rain protection.",
-	
-	ARMORMARBLE = "- Prevents knockback effects.",
-	SEWINGKIT = "- Increased storage capacity.\n- May hurt would be thieves.",
-	TURF_DRAGONFLY = "- Prevents snowpile build-up.",
-	GASMASK = "- Prevents Hayfever while worn.",
-	PLAGUEMASK = "- Prevents Hayfever while worn.",
-	BEDROLL_STRAW = "- May restore maximum health.",
-	BEDROLL_FURRY = "- May restore maximum health.",
-	TENT = "- May restore maximum health.",
-	SIESTAHUT = "- A bit less efficient.\n- May restore maximum health.",
-	BEEBOX = "- Reduced yield per stage.",
-	
-	RAT_WHIP = "- Stronger when well fed.",	
-	DRAGONFLYCHEST = "- Has even more item slots.\n- May hurt would be thieves.",
-	BLOWDART_YELLOW = "- Stuns certain mechanical enemies.",
-	CAMPFIRE = "- Provides protection from Snow Storms.",
-	TORCH = "- Provides protection from Snow Storms.",
-	FIREPIT = "- Provides protection from Snow Storms.",
 
+	ARMORMARBLE = "- Prevents knockback effects.",
+	TURF_DRAGONFLY = "- Prevents snowpile build-up.",
+	BEEBOX = "- Reduced yield per stage.",
+	BLOWDART_YELLOW = "- Stuns certain mechanical enemies.",
+	DRAGONFLYCHEST = "- Has even more item slots.\n- May hurt would be thieves.",
+	WARDROBE = "- Can store a lot of equipment.",
+
+	--uncomp content
+	RAT_WHIP = "- Stronger when well fed.",
 	AIR_CONDITIONER = "- Can crush up Mushrooms for helpful stat clouds.",
 	ANCIENT_AMULET_RED = "- Drops soul orbs when attacked, which will replenish lost health when picked up.",
 	ARMOR_GLASSMAIL = "- Summons spinning Glass Shards when attacking enemies.\n- Loses shards when damage is taken.",
-	--DRIFTWOODFISHINGROD = "test",
 	HONEY_LOG = "- Provides protection from Hayfever. Mostly useful for other allies.",
-	SALTPACK = "- Drops piles of salt, prevents buildup of Snow Piles.",
+	SALTPACK = "- Drops piles of salt, preventing buildup of Snow Piles.",
 	SPOREPACK = "- Provides lots of storage space.\n- Rots food.",
 	UM_BEAR_TRAP_EQUIPPABLE_TOOTH = "- Slows down anything it's attached to. Deployable and throwable.",
     UM_BEAR_TRAP_EQUIPPABLE_GOLD = "- Slows down anything it's attached to. Deployable and throwable.",
 	WATERMELON_LANTERN = "- Has a positive sanity aura.",
-	WARDROBE = "- Can store a lot of equipment.",
+	HAT_RATMASK = "- Finds rat burrows\n- Shows sources of unwanted attention.",
+	SKULLCHEST_CHILD = "- Shares it's contents with other Skull Chests.",
+	SNOWGOGGLES = "- Provides protection from Snow/Sand Storms",
 }
---Tips broke! Help!
 
-if TUNING.DSTU.ELECTRICALMISHAP == false then
-	STRINGS.UNCOMP_TOOLTIP.NIGHTSTICK = "- No longer breaks when empty.\n- Can be fueled by various electrical items, and potatoes."
-	STRINGS.UNCOMP_TOOLTIPBUGZAPPER = "- Deals bonus damage, and area damage to Insects.\n- Deals electrical damage.\n- Can be fueled by various electrical items, and potatoes."
+local TOOLTIP = STRINGS.UNCOMP_TOOLTIP
+
+if not TUNING.DSTU.ELECTRICALMISHAP then
+	TOOLTIP.NIGHTSTICK = "- No longer breaks when empty.\n- Can be fueled by various electrical items, generators, and potatoes."
+	TOOLTIP.BUGZAPPER = "- Deals bonus damage, and area damage to Insects.\n- Deals electrical damage.\n- Can be fueled by various electrical items, generators, and potatoes."
 else
-	STRINGS.UNCOMP_TOOLTIP.NIGHTSTICK = "- No longer breaks when empty.\n- Functions as a portable lightning rod.\n- Regains fuel when struck by lightning."
-	STRINGS.UNCOMP_TOOLTIP.BUGZAPPER = "- Deals bonus damage, and area damage to Insects.\n- Deals electrical damage."
+	TOOLTIP.NIGHTSTICK = "- No longer breaks when empty.\n- Functions as a portable lightning rod.\n- Regains fuel when struck by lightning or when charged at generators."
+	TOOLTIP.BUGZAPPER = "- Deals bonus damage, and area damage to Insects.\n- Deals electrical damage.\n - Can be charged at generators."
+end
+
+if TUNING.DSTU.SEWING_KIT then
+	TOOLTIP.SEWINGKIT = "- Doubled uses, but repairs less per use."
 end
 
 if TUNING.DSTU.FLINGO_SETTING == "Fuelmuncher" then
-	STRINGS.UNCOMP_TOOLTIP.FIRESUPPRESSOR = "- Drains fuel on each throw.\n- Increased maximum fuel."
+	TOOLTIP.FIRESUPPRESSOR = "- Drains fuel on each throw.\n- Increased maximum fuel."
 elseif TUNING.DSTU.FLINGO_SETTING == "Waterballs" then
-	STRINGS.UNCOMP_TOOLTIP.FIRESUPPRESSOR = "- No longer freezes on hit."
+	TOOLTIP.FIRESUPPRESSOR = "- No longer freezes on hit."
 end
+
 if TUNING.DSTU.LONGPIG then
-	STRINGS.UNCOMP_TOOLTIP.REVIVER = "- Requires flesh from a dead survivor."
+	TOOLTIP.REVIVER = "- Requires flesh from a dead survivor."
 end
+
 if TUNING.DSTU.EYEBRELLAREWORK == false then
-	STRINGS.UNCOMP_TOOLTIP.EYEBRELLAHAT = "- Reduced heat protection."
+	TOOLTIP.EYEBRELLAHAT = "- Reduced heat protection."
 else
-	STRINGS.UNCOMP_TOOLTIP.EYEBRELLAHAT = "- Reduced heat protection.\n- Can't be sewn, but may be repaired."
+	TOOLTIP.EYEBRELLAHAT = "- Reduced heat protection.\n- Can't be sewn, but may be repaired."
+end
+
+if TUNING.DSTU.SNOWSTORMS then
+	TOOLTIP.CAMPFIRE = "- Provides protection from Snow Storms."
+	TOOLTIP.TORCH = "- Provides protection from Snow Storms."
+	TOOLTIP.FIREPIT = "- Provides protection from Snow Storms."
+	TOOLTIP.WALL_HAY_ITEM = "- Provides protection from Snow Storms."
+	TOOLTIP.WALL_WOOD_ITEM = "- Provides protection from Snow Storms."
+	TOOLTIP.WALL_STONE_ITEM = "- Provides protection from Snow Storms."
+	TOOLTIP.WALL_RUINS_ITEM = "- Provides protection from Snow Storms."
+	TOOLTIP.WALL_MOONROCK_ITEM = "- Provides protection from Snow Storms."
+	TOOLTIP.YELLOWSTAFF = "- Dwarf Stars provide protection from Snow Storms."
+	TOOLTIP.MOLEHAT = "- Grants protection against Snow Storms / Sand Storms when worn."
+else
+	TOOLTIP.MOLEHAT = "- Grants protection against Sand Storms when worn."
+end
+
+if TUNING.DSTU.HAYFEVER then
+	TOOLTIP.GASMASK = "- Prevents Hayfever while worn.\n- Provides protection against spore clouds."
+	TOOLTIP.PLAGUEMASK = "- Prevents Hayfever while worn.\n- Provides protection against spore clouds."
+else
+	TOOLTIP.GASMASK = "- Provides protection against spore clouds."
+	TOOLTIP.PLAGUEMASK = "- Provides protection against spore clouds."
+end
+
+if TUNING.DSTU.GOTOBED then
+	TOOLTIP.BEDROLL_STRAW = "- May restore maximum health."
+	TOOLTIP.BEDROLL_FURRY = "- May restore maximum health."
+	TOOLTIP.TENT = "- May restore maximum health."
+	TOOLTIP.SIESTAHUT = "- A bit less efficient.\n- May restore maximum health."
+else
+	TOOLTIP.SIESTAHUT = "- A bit less efficient."
+end
+
+if TUNING.DSTU.SLEEPINGBUFF > 1 then
+	TOOLTIP.BEDROLL_STRAW = TOOLTIP.BEDROLL_STRAW.."\n- Faster healing rate."
+	TOOLTIP.BEDROLL_FURRY = TOOLTIP.BEDROLL_FURRY.."\n- Faster healing rate."
+	TOOLTIP.TENT = TOOLTIP.TENT.."\n- Faster healing rate."
+	TOOLTIP.SIESTAHUT = TOOLTIP.SIESTAHUT.."\n- Faster healing rate."
+end
+
+if TUNING.DSTU.POCKET_POWERTRIP ~= 0 then
+	TOOLTIP.TRUNKVEST_SUMMER = "- Now has pockets!\n- Slightly increased rain protection."
+	TOOLTIP.TRUNKVEST_WINTER = "- Now has pockets!"
+	TOOLTIP.REFLECTIVEVEST = "- Now has pockets!"
+end
+
+if GetModConfigData("canedurability") then--is this modmain env.?
+	TOOLTIP.CANE = "- Has durability, only drains when walking."
+end
+
+if TUNING.DSTU.WANDA_NERF then
+	TOOLTIP.POCKETWATCH_WEAPON = "- Deals less damage against shadows."
+	TOOLTIP.POCKETWATCH_REVIVE = "- Increased cooldown."
+end
+
+if TUNING.DSTU.INSUL_THERMALSTONE then
+	TOOLTIP.HEATROCK = "- Reduced inherent insulation.\n- Inherits part of players insulation."
 end
 
 STRINGS.STANTON_GREET = {"Care to drink with the dead?", "How's about a drink?", "C'mon and drink with me."}
@@ -173,7 +216,7 @@ STRINGS.CHARACTERS.GENERIC.DESCRIBE.SPEAKER_SPECTER = "This is making me feel un
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SPEAKER_RUSTED = "This is making me feel under the weather..."
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.SPEAKER_BRINE = "This is making me feel under the weather..."
 
-for _, sound in pairs({"talk_LP", "talk_end"}) do 
+for _, sound in pairs({"talk_LP", "talk_end"}) do
 RemapSoundEvent( "dontstarve/characters/tiddle_stranger/"..sound, "tiddle_stranger/characters/tiddle_stranger/"..sound )
 end
 
@@ -257,7 +300,7 @@ end
         	"...",
     	    },
 	    {
-		"Ever wanted to start a collection?", 
+		"Ever wanted to start a collection?",
         	"Well I have just the thing!",
        	 	"Hand crafted masks! No curses, I promise.",
         	"...",
