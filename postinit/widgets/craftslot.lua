@@ -74,7 +74,10 @@ env.AddClassPostConstruct("widgets/redux/craftingmenu_hud", function(self)
 		end
 		
 		if self.craftingmenu ~= nil then
-			self.uncomptip = self.craftingmenu:AddChild(UncompTooltip())
+			if self.uncomptip == nil then
+				self.uncomptip = self.craftingmenu:AddChild(UncompTooltip())
+				print("adding tip children")
+			end
 			self.uncomptip:SetPosition(-105, -210)
 			self.uncomptip:SetScale(0.35)
 		end
@@ -92,6 +95,7 @@ env.AddClassPostConstruct("widgets/redux/craftingmenu_hud", function(self)
 					self.uncomptip.item_tip = self.craftingmenu.details_root.data.recipe.name
 					self.uncomptip.skins_spinner = self.craftingmenu.details_root.skins_spinner or nil
 					self.uncomptip:ShowTip()
+					print("showing tip")
 			end
 		--end
 		
