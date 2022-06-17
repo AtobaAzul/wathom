@@ -8,7 +8,7 @@ Layouts["cave_entrance_lush"] = StaticLayout.Get("map/static_layouts/cave_entran
 AddRoom("GiantTrees", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -36,7 +36,7 @@ AddRoom("GiantTrees",
 AddRoom("AphidLand", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -64,7 +64,7 @@ AddRoom("AphidLand",
 AddRoom("ShroomInfestedGiantTrees", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -94,7 +94,7 @@ AddRoom("ShroomInfestedGiantTrees",
 AddRoom("SpideryGiantTrees", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -121,7 +121,7 @@ AddRoom("SpideryGiantTrees",
 AddRoom("WalrusGiantTrees", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -151,7 +151,7 @@ AddRoom("WalrusGiantTrees",
 AddRoom("BGGiantTrees", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"RoadPoison","hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -178,7 +178,7 @@ AddRoom("BGGiantTrees",
 AddRoom("SnapDragons", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.MUD,
+	value = WORLD_TILES.MUD,
 	tags = {"RoadPoison","hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -198,7 +198,7 @@ AddRoom("SnapDragons",
 }})
 AddRoom("MoonBaseGiantTrees", {
 					colour={r=.8,g=0.5,b=.6,a=.50},
-					value = GROUND.HOODEDFOREST,
+					value = WORLD_TILES.HOODEDFOREST,
 					tags = { "RoadPoison","hoodedcanopy"},
 					contents =  {
 									countprefabs = {
@@ -220,7 +220,7 @@ AddRoom("MoonBaseGiantTrees", {
 AddRoom("QuestionableDecisions", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.HOODEDFOREST,
+	value = WORLD_TILES.HOODEDFOREST,
 	tags = {"RoadPoison", "hoodedcanopy"}, --"ForceDisconnected"
 	contents =  
 	{	
@@ -239,7 +239,7 @@ AddRoom("QuestionableDecisions",
 }})
 AddRoom("HoodedTown", {
 					colour={r=.8,g=0.5,b=.6,a=.50},
-					value = GROUND.HOODEDFOREST,
+					value = WORLD_TILES.HOODEDFOREST,
 					tags = { "RoadPoison","hoodedcanopy" },
 					contents =  {
 									countprefabs = {
@@ -262,7 +262,7 @@ AddRoom("HoodedTown", {
 					})
 AddRoom("RoseGarden", {
 					colour={r=.8,g=0.5,b=.6,a=.50},
-					value = GROUND.HOODEDFOREST,
+					value = WORLD_TILES.HOODEDFOREST,
 					tags = { "RoadPoison","hoodedcanopy" },
 					contents =  {
 									countprefabs = {
@@ -284,7 +284,7 @@ AddRoom("RoseGarden", {
 					})
 AddRoom("HFHolidays", {
 					colour={r=.8,g=0.5,b=.6,a=.50},
-					value = GROUND.HOODEDFOREST,
+					value = WORLD_TILES.HOODEDFOREST,
 					tags = { "RoadPoison","hoodedcanopy" },
 					contents =  {
 									countprefabs = {

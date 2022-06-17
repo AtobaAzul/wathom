@@ -136,7 +136,6 @@ return {
 	"marsh_grass",
 	"web_net_splat_fx",
 	"web_bomb",
-	"hoodedforestturf",
 	"poopregenbuff",
 	"giant_tree",
 	"webbedcreature",

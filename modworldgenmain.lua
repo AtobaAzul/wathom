@@ -1,7 +1,9 @@
 GLOBAL.require("map/terrain")
 
 ------Turf Using Tile Adder From ADM's Turf Mod
-modimport("tile_adder.lua")
+
+
+
 local GROUND_OCEAN_COLOR = { -- Color for the main island ground tiles
     primary_color =        {0, 0, 0, 25},
     secondary_color =      {0, 20, 33, 0},
@@ -10,47 +12,68 @@ local GROUND_OCEAN_COLOR = { -- Color for the main island ground tiles
 }
 
 AddTile(
-    "HOODEDFOREST",
-    102,
-    "hoodedmoss",
-    {
-        noise_texture = "levels/textures/noise_hoodedmoss.tex",
-        runsound = "dontstarve/movement/walk_grass",
-        walksound = "dontstarve/movement/walk_grass",
-        snowsound = "dontstarve/movement/run_snow",
-        mudsound = "dontstarve/movement/run_mud",
+	"HOODEDFOREST", --tile_name 1
+	"LAND", --tile_range 2
+	{ --tile_data 3
+		ground_name = "hoodedmoss",
+		old_static_id = 102,
+	}--[[, 
+	{ --ground_tile_def 4
+		name = "images/hoodedmoss.tex", 
+		atlas = "images/hoodedmoss.xml", 
+		noise_texture = "images/mini_noise_hoodedmoss.tex",
+		runsound = "dontstarve/movement/walk_grass",
+		walksound = "dontstarve/movement/walk_grass",
+		snowsound = "dontstarve/movement/run_snow",
+		mudsound = "dontstarve/movement/run_mud",
         colors = GROUND_OCEAN_COLOR
-    },
-    {noise_texture = "levels/textures/mini_noise_hoodedmoss.tex"}
+	},
+    { --minimap_tile_def 5
+		name = "images/hoodedmoss.tex",
+		atlas = "images/hoodedmoss.xml",
+		noise_texture = "images/mini_noise_hoodedmoss.tex"
+	},
+	{ --turf_def 6
+		name = "hoodedmoss",
+		anim = "hoodedmoss",
+		bank_build = "hfturf"
+	}]]
 )
+
 AddTile(
-    "ANCIENTHOODEDFOREST",
-    110,
-    "ancienthoodedturf",
-    {
-        noise_texture = "levels/textures/noise_jungle.tex",
-        runsound = "dontstarve/movement/walk_grass",
-        walksound = "dontstarve/movement/walk_grass",
-        snowsound = "dontstarve/movement/run_snow",
-        mudsound = "dontstarve/movement/run_mud",
+	"ANCIENTHOODEDFOREST", 
+	"LAND", 
+	{
+		ground_name = "ancienthoodedturf",
+		old_static_id = 110,
+	}--[[, 
+	{ 
+		name = "images/ancienthoodedturf.tex", 
+		atlas = "images/ancienthoodedturf.xml", 
+		noise_texture = "images/mini_noise_hoodedmoss.tex",
+		runsound = "dontstarve/movement/walk_grass",
+		walksound = "dontstarve/movement/walk_grass",
+		snowsound = "dontstarve/movement/run_snow",
+		mudsound = "dontstarve/movement/run_mud",
         colors = GROUND_OCEAN_COLOR
-    },
-    {noise_texture = "levels/textures/mini_noise_jungle.tex"}
+	},
+    {
+		name = "images/ancienthoodedturf.tex",
+		atlas = "images/ancienthoodedturf.xml",
+		noise_texture = "images/mini_noise_hoodedmoss.tex"
+	},
+	{
+		name = "ancienthoodedturf",
+		anim = "ancienthoodedturf",
+		bank_build = "hfturf"
+	}]]
 )
 
-local worldtiledefs = require "worldtiledefs"
+ChangeTileRenderOrder(GLOBAL.WORLD_TILES.HOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
+ChangeTileRenderOrder(GLOBAL.WORLD_TILES.ANCIENTHOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
 
-local MOD_TURF_PROPERTIES = {
-    [GROUND.HOODEDFOREST] = {name = "hoodedmoss", anim = "hoodedmoss", bank_build = "hfturf"},
-    [GROUND.ANCIENTHOODEDFOREST] = {name = "ancienthoodedturf", anim = "ancienthoodedturf", bank_build = "hfturf"}
-}
-
-for k, v in pairs(MOD_TURF_PROPERTIES) do
-    worldtiledefs.turf[k] = MOD_TURF_PROPERTIES[k]
-end
-
-ChangeTileTypeRenderOrder(GLOBAL.GROUND.HOODEDFOREST, GLOBAL.GROUND.DIRT)
-ChangeTileTypeRenderOrder(GLOBAL.GROUND.ANCIENTHOODEDFOREST, GLOBAL.GROUND.DIRT)
+ChangeMiniMapTileRenderOrder(GLOBAL.WORLD_TILES.HOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
+ChangeMiniMapTileRenderOrder(GLOBAL.WORLD_TILES.ANCIENTHOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
 
 ------
 if GetModConfigData("worldgenmastertoggle") then
@@ -461,7 +484,7 @@ if GetModConfigData("worldgenmastertoggle") then
         start_mask = GLOBAL.PLACE_MASK.NORMAL,
         fill_mask = GLOBAL.PLACE_MASK.IGNORE_IMPASSABLE_BARREN_RESERVED,
         layout_position = GLOBAL.LAYOUT_POSITION.CENTER,
-        ground_types = {GLOBAL.GROUND.ROCKY},
+        ground_types = {GLOBAL.WORLD_TILES.ROCKY},
         defs = {
             rocks = {"ratacombslock_rock_spawner"}
         },
