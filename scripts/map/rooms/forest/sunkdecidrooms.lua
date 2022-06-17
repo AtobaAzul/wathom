@@ -3,7 +3,7 @@
 ----
 AddRoom("SunkDecidExit", {
 					colour={r=0,g=.9,b=0,a=.50},
-					value = GROUND.DECIDUOUS,
+					value = WORLD_TILES.DECIDUOUS,
 					contents =  {
 					                distributepercent = .3,
 					                distributeprefabs=
@@ -37,7 +37,7 @@ AddRoom("SunkDecidExit", {
 
 AddRoom("SunkDecid", {
 					colour={r=0,g=.9,b=0,a=.50},
-					value = GROUND.DECIDUOUS,
+					value = WORLD_TILES.DECIDUOUS,
 					contents =  {
 					                distributepercent = .3,
 					                distributeprefabs=
@@ -68,7 +68,7 @@ AddRoom("SunkDecid", {
 
 AddRoom("SunkDecidEntrance", {
 					colour={r=0,g=.9,b=0,a=.50},
-					value = GROUND.DECIDUOUS,
+					value = WORLD_TILES.DECIDUOUS,
 					contents =  {
 					                distributepercent = .3,
 					                distributeprefabs=

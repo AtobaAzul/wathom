@@ -13,7 +13,7 @@ Layouts["ratacombs_lock1"] = StaticLayout.Get("map/static_layouts/ratacombs_lock
 ----
 AddRoom("RattyStairs", {
 					colour={r=0,g=.9,b=0,a=.50},
-					value = GROUND.GROUND_NOISE,
+					value = WORLD_TILES.GROUND_NOISE,
 					type = NODE_TYPE.Room,
 					contents =  {
 							        countstaticlayouts = {
@@ -43,7 +43,7 @@ AddRoom("RattyStairs", {
 
 AddRoom("RattySinkhole", {
 					colour={r=0,g=.9,b=0,a=.50},
-					value = GROUND.GROUND_NOISE,
+					value = WORLD_TILES.GROUND_NOISE,
 					tags = {"RoadPoison"},
 					contents =  {
 									countstaticlayouts = {
@@ -71,7 +71,7 @@ AddRoom("RattySinkhole", {
 -- Rocky Plains
 AddRoom("RattyWilds", {
     colour={r=0.7,g=0.7,b=0.7,a=0.9},
-    value = GROUND.CAVE_NOISE,
+    value = WORLD_TILES.CAVE_NOISE,
     type = NODE_TYPE.Room,
     contents =  {
 		countstaticlayouts = {
@@ -103,7 +103,7 @@ AddRoom("RattyWilds", {
 
 AddRoom("RattyLock1", {
     colour={r=0.7,g=0.7,b=0.7,a=0.9},
-    value = GROUND.CAVE_NOISE,
+    value = WORLD_TILES.CAVE_NOISE,
     type = NODE_TYPE.Room,
     contents =  {
 		countstaticlayouts = {
@@ -133,7 +133,7 @@ AddRoom("RattyLock1", {
 
 AddRoom("DeepRattyWilds", {
     colour={r=0.7,g=0.7,b=0.7,a=0.9},
-    value = GROUND.CAVE_NOISE,
+    value = WORLD_TILES.CAVE_NOISE,
     type = NODE_TYPE.Room,
     contents =  {
         distributepercent = .10,
@@ -160,7 +160,7 @@ AddRoom("DeepRattyWilds", {
 -- Rocky Plains
 AddRoom("RattyLink", {
     colour={r=0.7,g=0.7,b=0.7,a=0.9},
-    value = GROUND.GROUND_NOISE,
+    value = WORLD_TILES.GROUND_NOISE,
 					contents =  {
 									--countprefabs = {
 											--uncompromising_ratburrow = function() return math.random(8, 12) end,
@@ -192,7 +192,7 @@ AddRoom("RattyLink", {
 
 AddRoom("RatKingdomCaves", {
 					colour={r=.5,g=0.6,b=.080,a=.10},
-					value = GROUND.GROUND_NOISE,
+					value = WORLD_TILES.GROUND_NOISE,
 					--tags = {"Chester_Eyebone"},
 					contents =  {
 									countstaticlayouts = {
@@ -222,7 +222,7 @@ AddRoom("RatKingdomCaves", {
 
 local bgratty = {
     colour={r=0.7,g=0.7,b=0.7,a=0.9},
-    value = GROUND.FOREST,
+    value = WORLD_TILES.FOREST,
     type = NODE_TYPE.Room,
     contents =  {
         distributepercent = .10,

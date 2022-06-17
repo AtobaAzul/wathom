@@ -9,7 +9,7 @@ AddTask("Ratty_Entrance", {
 		room_choices={
 			["RattyStairs"] = 1, 			
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		colour={r=.1,g=.1,b=.1,a=1},
 })
 
@@ -24,7 +24,7 @@ AddTask("Ratty_Link", {
 			["RatKingdomCaves"] = 1,
 		},
 		background_room="RattyLink",
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		colour={r=.1,g=.1,b=.1,a=1},
 })
 
@@ -38,7 +38,7 @@ AddTask("Ratty_Maze", {
 			["RattyWilds"] = function() return 3 + math.random(4) end,
 			["RattyLock1"] = 1,
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		background_room="BGRattyCaveRoom",
 		colour={r=.1,g=.1,b=.1,a=1},
 })
@@ -51,7 +51,7 @@ AddTask("Ratty_Maze", {
 		room_choices={
 			["RattyWilds"] = function() return 3 + math.random(4) end,
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		background_room="BGRattyCaveRoom",
 		colour={r=.1,g=.1,b=.1,a=1},
 })
@@ -64,7 +64,7 @@ AddTask("Ratty_Shallow_2", {
 		room_choices={
 			["RattyWilds"] = function() return 3 + math.random(4) end,
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		background_room="BGRattyCaveRoom",
 		colour={r=.1,g=.1,b=.1,a=1},
 })
@@ -77,7 +77,7 @@ AddTask("Ratty_Shallow_3", {
 		room_choices={
 			["RattyWilds"] = function() return 3 + math.random(4) end,
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		background_room="BGRattyCaveRoom",
 		colour={r=.1,g=.1,b=.1,a=1},
 })]]
@@ -90,7 +90,7 @@ AddTask("Ratty_Maze2", {
 		room_choices={
 			["DeepRattyWilds"] = 5,
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		background_room="BGRattyCaveRoom",
 		colour={r=.1,g=.1,b=.1,a=1},
 })
@@ -103,7 +103,7 @@ AddTask("Ratty_Maze3", {
 		room_choices={
 			["DeepRattyWilds"] = 5,
 		},
-		room_bg=GROUND.FOREST,
+		room_bg=WORLD_TILES.FOREST,
 		background_room="BGRattyCaveRoom",
 		colour={r=.1,g=.1,b=.1,a=1},
 })

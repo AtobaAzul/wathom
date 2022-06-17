@@ -8,7 +8,7 @@ AddTask("SunkDecid", {
 			["SunkDecidExit"] = 1,
 			["SunkDecid"] = 1, 			
 		},
-		room_bg=GROUND.HOODEDFOREST,
+		room_bg=WORLD_TILES.HOODEDFOREST,
 		background_room="SunkDecid",
 		colour={r=.1,g=.1,b=.1,a=1},
 	})

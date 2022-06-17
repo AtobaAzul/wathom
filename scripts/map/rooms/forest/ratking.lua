@@ -1,6 +1,6 @@
 AddRoom("RatKingdom", {
 					colour={r=.5,g=0.6,b=.080,a=.10},
-					value = GROUND.GROUND_NOISE,
+					value = WORLD_TILES.GROUND_NOISE,
 					--tags = {"Chester_Eyebone"},
 					contents =  {
 									countprefabs = {

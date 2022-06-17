@@ -1,7 +1,7 @@
 AddRoom("veteranshrine", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.ROCKY,
+	value = WORLD_TILES.ROCKY,
 	contents =  
 	{
 		countprefabs =	
@@ -16,7 +16,7 @@ AddRoom("veteranshrine",
 AddRoom("nearveteranshrine", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.ROCKY,
+	value = WORLD_TILES.ROCKY,
 	contents =  
 	{
 		countprefabs =	

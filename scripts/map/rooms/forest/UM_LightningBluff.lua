@@ -1,7 +1,7 @@
 
 AddRoom("LightningBluff_Scorpion", {
 					colour={r=0.3,g=0.2,b=0.1,a=0.3},
-					value = GROUND.DIRT_NOISE,
+					value = WORLD_TILES.DIRT_NOISE,
 					tags = {"RoadPoison", "sandstorm"},
 					contents =  {
 									distributepercent = 0.06,

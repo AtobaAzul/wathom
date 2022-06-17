@@ -2,7 +2,7 @@
 AddRoom("ricepatch", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
-	value = GROUND.MARSH,
+	value = WORLD_TILES.MARSH,
 	tags = {"RoadPoison"}, --"ForceDisconnected",
 					contents =  {
 									distributepercent = 0.1,
@@ -21,7 +21,7 @@ AddRoom("ricepatch",
 AddRoom("densericepatch", 
 {
 	colour={r=.6,g=.2,b=.8,a=.50},
-	value = GROUND.MARSH,
+	value = WORLD_TILES.MARSH,
 	tags = {"RoadPoison"}, --"ForceDisconnected",
 					contents =  {
 									distributepercent = 0.1,
@@ -40,7 +40,7 @@ AddRoom("densericepatch",
 AddRoom("sparsericepatch", 
 {
 	colour = {r=1,g=1,b=1,a=.50}, 
-	value = GROUND.OCEAN_COASTAL_SHORE,
+	value = WORLD_TILES.OCEAN_COASTAL_SHORE,
 	tags = {"RoadPoison"}, --"ForceDisconnected"
 	type = NODE_TYPE.SeparatedRoom,
 	contents =  

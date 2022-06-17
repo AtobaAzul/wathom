@@ -10,7 +10,7 @@ AddTask("RiceSqueltch", {
 			--["DeepForest"] = function() return 1+math.random(SIZE_VARIATION) end,
 			["sparsericepatch"]=1,
 		},
-		room_bg=GROUND.MARSH,
+		room_bg=WORLD_TILES.MARSH,
 		background_room="sparsericepatch",
 		colour={r=.05,g=.05,b=.05,a=1}
 	}) 

@@ -1,6 +1,6 @@
 AddRoom("ToadstoolArenaRed", {
     colour={r=1.0,g=0.0,b=0.0,a=0.9},
-    value = GROUND.FUNGUSRED,
+    value = WORLD_TILES.FUNGUSRED,
     tags = {},    
     contents = {
         countstaticlayouts = {
@@ -25,7 +25,7 @@ AddRoom("ToadstoolArenaRed", {
 })
 AddRoom("ToadstoolArenaGreen", {
     colour={r=0.1,g=0.8,b=0.1,a=0.9},
-    value = GROUND.FUNGUSGREEN,  
+    value = WORLD_TILES.FUNGUSGREEN,  
     contents =  {
 		countstaticlayouts = {
             ["ToadstoolArena"] = 1,
@@ -49,7 +49,7 @@ AddRoom("ToadstoolArenaGreen", {
 })
 AddRoom("ToadstoolArenaBlue", {
     colour={r=0.1,g=0.1,b=0.8,a=0.9},
-    value = GROUND.FUNGUS,
+    value = WORLD_TILES.FUNGUS,
     contents =  {
         distributepercent = .6,
         distributeprefabs=
