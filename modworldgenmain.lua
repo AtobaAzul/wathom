@@ -17,11 +17,11 @@ AddTile(
 	{ --tile_data 3
 		ground_name = "hoodedmoss",
 		old_static_id = 102,
-	}--[[, 
+	}, 
 	{ --ground_tile_def 4
-		name = "images/hoodedmoss.tex", 
-		atlas = "images/hoodedmoss.xml", 
-		noise_texture = "images/mini_noise_hoodedmoss.tex",
+		name = "hoodedmoss.tex", 
+		atlas = "hoodedmoss.xml", 
+		noise_texture = "noise_hoodedmoss.tex",
 		runsound = "dontstarve/movement/walk_grass",
 		walksound = "dontstarve/movement/walk_grass",
 		snowsound = "dontstarve/movement/run_snow",
@@ -29,15 +29,15 @@ AddTile(
         colors = GROUND_OCEAN_COLOR
 	},
     { --minimap_tile_def 5
-		name = "images/hoodedmoss.tex",
-		atlas = "images/hoodedmoss.xml",
-		noise_texture = "images/mini_noise_hoodedmoss.tex"
+		name = "hoodedmoss.tex",
+		atlas = "hoodedmoss.xml",
+		noise_texture = "mini_noise_hoodedmoss.tex"
 	},
 	{ --turf_def 6
 		name = "hoodedmoss",
 		anim = "hoodedmoss",
 		bank_build = "hfturf"
-	}]]
+	}
 )
 
 AddTile(
@@ -46,11 +46,11 @@ AddTile(
 	{
 		ground_name = "ancienthoodedturf",
 		old_static_id = 110,
-	}--[[, 
+	}, 
 	{ 
-		name = "images/ancienthoodedturf.tex", 
-		atlas = "images/ancienthoodedturf.xml", 
-		noise_texture = "images/mini_noise_hoodedmoss.tex",
+		name = "ancienthoodedturf.tex", 
+		atlas = "ancienthoodedturf.xml", 
+		noise_texture = "noise_jungle.tex",
 		runsound = "dontstarve/movement/walk_grass",
 		walksound = "dontstarve/movement/walk_grass",
 		snowsound = "dontstarve/movement/run_snow",
@@ -58,15 +58,15 @@ AddTile(
         colors = GROUND_OCEAN_COLOR
 	},
     {
-		name = "images/ancienthoodedturf.tex",
-		atlas = "images/ancienthoodedturf.xml",
-		noise_texture = "images/mini_noise_hoodedmoss.tex"
+		name = "ancienthoodedturf.tex",
+		atlas = "ancienthoodedturf.xml",
+		noise_texture = "mini_noise_jungle.tex"
 	},
 	{
 		name = "ancienthoodedturf",
 		anim = "ancienthoodedturf",
 		bank_build = "hfturf"
-	}]]
+	}
 )
 
 ChangeTileRenderOrder(GLOBAL.WORLD_TILES.HOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
