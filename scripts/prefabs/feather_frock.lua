@@ -9,7 +9,7 @@ local prefabs =
 }]]
 
 local MAXRANGE = 3
-local NO_TAGS_NO_PLAYERS = { "INLIMBO", "notarget", "noattack", "flight", "invisible", "player", "playerghost" }
+local NO_TAGS_NO_PLAYERS = { "INLIMBO", "notarget", "noattack", "flight", "invisible", "player", "playerghost", "companion"}
 local COMBAT_TARGET_TAGS = { "_combat" }
 
 local function SpawnThorns(inst, feather, owner)

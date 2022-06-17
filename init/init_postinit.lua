@@ -308,9 +308,9 @@ if GetModConfigData("electricalmishap_") ~= 0 then
 	table.insert(prefab_post,"nightstick")
 end
 
-if GetModConfigData("boatturning") then
-	table.insert(prefab_post, "boat")
-end
+--if GetModConfigData("boatturning") then
+--	table.insert(prefab_post, "boat")
+--end
 
 modimport("postinit/sim")
 modimport("postinit/any")

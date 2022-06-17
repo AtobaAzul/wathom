@@ -363,7 +363,7 @@ configuration_options =
 		},
 		default = 1,
 	},
-	BinaryConfig("boatturning", "Boat Turning", "Enables the boat turning logic, where the whole boat turns, instead of just the masts.", false), -- :(
+	--BinaryConfig("boatturning", "Boat Turning", "Enables the boat turning logic, where the whole boat turns, instead of just the masts.", false), -- :(
 -----------------------------
 -- Food --
 -----------------------------
