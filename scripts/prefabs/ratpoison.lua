@@ -6,6 +6,7 @@ local itemassets =
 local assets =
 {
 	Asset("ANIM", "anim/tar_trap.zip"),
+	Asset("ANIM", "anim/um_goo.zip"),
 }
 
 local itemprefabs=
@@ -60,11 +61,10 @@ local function fn()
     inst.AnimState:SetLayer(LAYER_BACKGROUND)
     inst.AnimState:SetSortOrder(3)
 	inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
-    inst.AnimState:SetBank("tar_trap")
-    inst.AnimState:SetBuild("tar_trap")
+    inst.AnimState:SetBank("um_goo")
+    inst.AnimState:SetBuild("um_goo")
 
-    inst.AnimState:PlayAnimation("idle_full")
-	
+    inst.AnimState:PlayAnimation("true_idle")
 	inst.entity:SetPristine()
 
 	inst:AddTag("NORATCHECK")
@@ -100,6 +100,7 @@ local function OnDeploy(inst, pt)
 	for i = 1,8 do 
 		local poison = SpawnPrefab("ratpoison")
 		poison.Transform:SetPosition(pt.x, 0, pt.z)
+		poison.Transform:SetScale(1-0.03*i,1-0.03*i,1-0.03*i)
 		inst:Remove()
 	end
 end
@@ -139,4 +140,4 @@ end
 
 return Prefab( "ratpoisonbottle", itemfn, itemassets, itemprefabs),
     Prefab("ratpoison", fn, assets),
-    MakePlacer("ratpoisonbottle_placer",  "tar_trap", "tar_trap", "idle_full") 
+    MakePlacer("ratpoisonbottle_placer",  "um_goo", "um_goo", "true_idle") 
