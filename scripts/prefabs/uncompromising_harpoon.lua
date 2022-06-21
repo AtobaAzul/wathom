@@ -182,8 +182,8 @@ local function fnlight()
         return inst
     end
 	
-	inst.tensionmax = 100
-	inst.damagemax = 100
+	inst.tensionmax = 150
+	inst.damagemax = 150
 
     return inst
 end
@@ -195,8 +195,8 @@ local function fnheavy()
         return inst
     end
 	
-	inst.tensionmax = 200
-	inst.damagemax = 200
+	inst.tensionmax = 250
+	inst.damagemax = 250
 
     return inst
 end
@@ -256,7 +256,11 @@ local function KillRopes(inst)
 	end
 		 
 	inst.harpoontask = nil
-		
+	
+	if inst.hitfx ~= nil then
+		inst.hitfx:Remove()
+	end
+	
 	for i, ropes in ipairs(inst.ropes) do
 		ropes:DoTaskInTime(.5/i, function(ropes)
 			if ropes.entity:IsVisible() then
@@ -502,7 +506,7 @@ local function reel()
 	
 	inst:DoTaskInTime(0, InitializeRope)
 	inst.harpoontask = inst:DoPeriodicTask(0.05, Vac)
-	inst:DoTaskInTime(30, KillRopes)
+	inst:DoTaskInTime(60, KillRopes)
 	
 	inst.persists = false
 	
