@@ -19,7 +19,7 @@ local function MortarAttack(inst)
 			for i,ent in ipairs(combat) do
 			local distance = 1000000
 				if (ent.components.combat and ent.components.combat.target) or ent:HasTag("player") then --Target is fighting nearby (or they are a player), try for the closest option
-					if ent:GetDistanceSqToInst(inst) < distance then
+					if inst ~= nil and inst:IsValid() and ent:GetDistanceSqToInst(inst) < distance then
 						distance = ent:GetDistanceSqToInst(inst)
 						inst.stabtarget = ent
 					end
@@ -51,10 +51,10 @@ local function OnHitOther(inst,data)
 end
 
 local function DefensiveTask(inst)
-	if inst:GetDistanceSqToInst(inst.beeHolder) > 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) and inst.components.health and not inst.components.health:IsDead()  then
+	if inst.beeHolder ~= nil and inst.beeHolder:IsValid() and inst:GetDistanceSqToInst(inst.beeHolder) > 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) and inst.components.health and not inst.components.health:IsDead()  then
 		inst.sg:GoToState("rally_at_point")
 	end
-	if inst:GetDistanceSqToInst(inst.beeHolder) < 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
+	if inst.beeHolder ~= nil and inst.beeHolder:IsValid() and inst:GetDistanceSqToInst(inst.beeHolder) < 3 and not (inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("sleeping") or inst.sg:HasStateTag("attack")) then
 		local target = FindEntity(inst,TUNING.BEEGUARD_ATTACK_RANGE^2,nil,{"_combat"},{"playerghost","bee","beehive","wall"})
 		if inst.components.combat and inst.components.health and not inst.components.health:IsDead() then
 			if target then

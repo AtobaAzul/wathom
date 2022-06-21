@@ -182,8 +182,8 @@ local function fnlight()
         return inst
     end
 	
-	inst.tensionmax = 100
-	inst.damagemax = 100
+	inst.tensionmax = 150
+	inst.damagemax = 150
 
     return inst
 end
@@ -195,8 +195,8 @@ local function fnheavy()
         return inst
     end
 	
-	inst.tensionmax = 200
-	inst.damagemax = 200
+	inst.tensionmax = 250
+	inst.damagemax = 250
 
     return inst
 end
@@ -256,7 +256,11 @@ local function KillRopes(inst)
 	end
 		 
 	inst.harpoontask = nil
-		
+	
+	if inst.hitfx ~= nil then
+		inst.hitfx:Remove()
+	end
+	
 	for i, ropes in ipairs(inst.ropes) do
 		ropes:DoTaskInTime(.5/i, function(ropes)
 			if ropes.entity:IsVisible() then
@@ -299,18 +303,22 @@ local function Vac(inst)
 					
 					local boat_physics = platform.components.boatphysics
 				
-					boat_physics:ApplyForce(row_dir_x, row_dir_z, .5 * rowdistmult, 1 * boat_physics:GetForceDampening())
+					boat_physics:ApplyForce(row_dir_x, row_dir_z, .5 * rowdistmult)
 				end
-			elseif inst.target.components.locomotor ~= nil then
+			end
+			
+			if inst.target.components.locomotor ~= nil then
 				local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
 				local velx = math.cos(rad) --* 4.5
 				local velz = -math.sin(rad) --* 4.5
 				
-				local dx, dy, dz = px + (((FRAMES * 5) * velx) * 2), 0, pz + (((FRAMES * 5) * velz) * 2)
+				local locationmodifier = platform ~= nil and 1 or 2
+				
+				local dx, dy, dz = px + (((FRAMES * 5) * velx) * locationmodifier), 0, pz + (((FRAMES * 5) * velz) * locationmodifier)
 					
 				local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
 				local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
-				if dx ~= nil and (ground or boat) then
+				if dx ~= nil and (ground or boat or inst.target.components.locomotor:CanPathfindOnWater()) then
 					inst.target.Physics:Teleport(dx, py, dz)
 					--inst.target.Transform:SetPosition(dx, py, dz)
 				end
@@ -382,17 +390,20 @@ local function Vac(inst)
 			
 			local dx, dy, dz = x + ((i2 * velx2) / 3.5), 0.5, z + ((i2 * velz2) / 3.5)
 			if p2y < 5 then
-				if i2 <= scale - 1--[[ + 3]] then
+				if i2 <= scale--[[ + 1]] then
 					ropes.Transform:SetRotation(inst:GetAngleToPoint(p2x, p2y, p2z))
 					ropes:Show()
-					ropes.Transform:SetPosition(dx, .5 + (.025 * i2) + (p2y * (i2 / 40)), dz)
-					inst.hitfx.Transform:SetPosition(dx, .5 + (.025 * i2) + (p2y * (i2 / 40)), dz)
-					inst.hitfx:ForceFacePoint(inst.target.Transform:GetWorldPosition())
-				elseif (i2 - 1) < 0 then
-					inst.hitfx:ForceFacePoint(inst.target.Transform:GetWorldPosition())
+					
+					local height = (1 / scale) * i2
+					
+					ropes.Transform:SetPosition(dx, height + 0.8, dz)
+					
+					inst.hitfx.Transform:SetPosition(dx, height + 0.8, dz)
 				else
 					ropes:Hide()
 				end
+				
+				inst.hitfx:ForceFacePoint(inst.target.Transform:GetWorldPosition())
 			else
 				KillRopes(inst)
 				return
@@ -495,7 +506,7 @@ local function reel()
 	
 	inst:DoTaskInTime(0, InitializeRope)
 	inst.harpoontask = inst:DoPeriodicTask(0.05, Vac)
-	inst:DoTaskInTime(30, KillRopes)
+	inst:DoTaskInTime(60, KillRopes)
 	
 	inst.persists = false
 	
