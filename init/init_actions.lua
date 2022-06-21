@@ -152,3 +152,10 @@ GLOBAL.ACTIONS.RUMMAGE.fn = function(act)
 	end
 	return _RummageFn(act)
 end
+
+local _DeployStrfn = GLOBAL.ACTIONS.DEPLOY.strfn
+
+GLOBAL.ACTIONS.DEPLOY.strfn = function(act)
+	return act.invobject ~= nil
+	and ((act.invobject:HasTag("powercell") and "POWERCELL")) or _DeployStrfn(act)
+end

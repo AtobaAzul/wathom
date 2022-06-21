@@ -70,7 +70,8 @@ local function fn()
     inst.entity:SetPristine()
 
     inst:AddTag("battery")
-
+    inst:AddTag("powercell")
+    
     if not TheWorld.ismastersim then
         return inst
     end

@@ -528,6 +528,7 @@ configuration_options =
 	BinaryConfig("hungryfrogs", "Hungry Frogs", "Frogs eat anything left on the floor.", true),
 	BinaryConfig("cowardfrogs", "Frog Anti-cheese", "Frogs flee from bosses to prevent cheesing.", true),
 	BinaryConfig("toads", "Toads", "Toads replace frogs in the second autumn and release poisonous clouds on death.", true),
+	BinaryConfig("fiendforcedmetodothis", "Slurtle Tweaks", "Slurtles attack faster, have less health and drop Shellmets more often.", true),
 	SkipSpace(),
 
 -----------------------------

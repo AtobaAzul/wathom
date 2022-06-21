@@ -308,6 +308,10 @@ if GetModConfigData("electricalmishap_") ~= 0 then
 	table.insert(prefab_post,"nightstick")
 end
 
+if GetModConfigData("fiendforcedmetodothis") then
+	table.insert(prefab_post, "snurtle")
+end
+
 --if GetModConfigData("boatturning") then
 --	table.insert(prefab_post, "boat")
 --end
