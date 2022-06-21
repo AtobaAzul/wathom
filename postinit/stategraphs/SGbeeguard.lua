@@ -57,7 +57,7 @@ end
 local function UpdateShadow(inst)
 	if inst.bee then
 		local x,y,z = inst.bee.Transform:GetWorldPosition()
-		if y > 0.5 then
+		if y ~= nil and y > 0.5 then
 			local scaleFactor = Lerp(.5, 1.5, y / 35)
 			inst.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
 		else
