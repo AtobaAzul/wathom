@@ -17,8 +17,6 @@ STRINGS.DSTU = {
 
 }
 
-table.insert(GLOBAL.CHARACTER_GENDERS.FEMALE, "winky")
-
 STRINGS.NAMES.WINKY = "Winky"
 STRINGS.CHARACTER_TITLES.winky = "The Vile Vermin"
 STRINGS.CHARACTER_NAMES.winky = "winky"
