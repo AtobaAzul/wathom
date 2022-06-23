@@ -22,6 +22,21 @@ local function Init(inst)
 	if not inst.components.timer:TimerExists("moreholes") then
 		CalculateNextHoleTime(inst)
 	end
+	TheNet:Announce("Init")
+	if TheWorld.components.UM_scorpionholes and TheWorld.components.UM_scorpionholes.homesites then
+		local i_am_in_table = false
+		for i,v in ipairs(TheWorld.components.UM_scorpionholes.homesites) do
+			if inst == v then
+				i_am_in_table = true
+			end
+		end
+		if i_am_in_table ~= true then
+			TheNet:Announce("Added myself to table")
+			table.insert(TheWorld.components.UM_scorpionholes.homesites,inst)
+		end
+	else
+		TheNet:Announce("something vvasn't right...")
+	end
 end
 
 local function GetHoleSpot(inst)

@@ -552,6 +552,7 @@ local states=
 				local x,y,z = inst.Transform:GetWorldPosition()
 				SpawnPrefab("sinkhole_warn_fx_"..math.random(3)).Transform:SetPosition(x, y, z)
 				SpawnPrefab("sinkhole_warn_fx_"..math.random(3)).Transform:SetPosition(x, y, z)
+				inst:PerformBufferedAction()
 			end),
         },
     }, 	

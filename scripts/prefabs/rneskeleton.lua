@@ -1,7 +1,7 @@
 local brain = require "brains/swilsonbrain"
 local assets =
 {
-
+	Asset("ANIM", "anim/death_fallapart.zip"),
 }
     
     
