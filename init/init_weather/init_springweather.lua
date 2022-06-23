@@ -8,6 +8,7 @@ env.AddPrefabPostInit("forest", function(inst)
     end
 	
 	inst:AddComponent("UM_springweather")
+	inst:AddComponent("UM_scorpionholes")
 end)
 
 env.AddPrefabPostInit("cave", function(inst)

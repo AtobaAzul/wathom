@@ -272,7 +272,9 @@ local function scorpionhole_fn()
     inst.AnimState:SetBank("rabbithole")
     inst.AnimState:SetBuild("rabbit_hole")
     inst.AnimState:PlayAnimation("idle")
-
+    inst.AnimState:SetLayer(LAYER_BACKGROUND)
+    inst.AnimState:SetSortOrder(3)
+	
     --inst.MiniMapEntity:SetIcon("spidermoonden.png")
 
 	inst:AddTag("scorpionhole")

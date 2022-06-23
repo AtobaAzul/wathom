@@ -356,4 +356,6 @@ return {
 	"um_sorrel",
 	"um_saltsalve",
 	"figgypet",
+	"um_sandrock",
+	"um_scorpioneggs",
 }
