@@ -152,4 +152,18 @@ local function sandrock_fn()
     return inst
 end
 
-return Prefab("um_sandrock", sandrock_fn, assets)
+local function babiesrock_fn()
+    local inst = baserock_fn("rock", "rock", "full", "rock.png")
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	inst:DoTaskInTime(0,SandInit)
+    inst.components.lootdropper:SetChanceLootTable('um_sandrock')
+	
+	
+    return inst
+end
+
+return Prefab("um_sandrock", sandrock_fn, assets),
+Prefab("um_bugbabiesrock",babiesrock_fn)

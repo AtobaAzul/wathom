@@ -133,6 +133,7 @@ local felloots =
 	feather = 0.5,
 	spider = 0.01,
 	frog = 0.05,
+	giant_tree_birdnest = 0.025,
 }
 local infestedloots = 
 {
@@ -151,6 +152,14 @@ local NON_SMASHABLE_TAGS = { "INLIMBO", "playerghost", "irreplaceable" }
 local function _GroundDetectionUpdate(debris, override_density)
     local x, y, z = debris.Transform:GetWorldPosition()
     if y <= .2 then
+		if debris.prefab == "giant_tree_birdnest" then
+			debris.AnimState:PlayAnimation("land_"..debris.egg)
+			debris.AnimState:PushAnimation("idle_"..debris.egg)
+			if not TheWorld.Map:IsVisualGroundAtPoint(x,y,z) then
+				SpawnPrefab("splash").Transform:SetPosition(x,y,z)
+				debris:Remove()
+			end
+		end
         if not debris:IsOnValidGround() then
             debris:PushEvent("detachchild")
             debris:Remove()
@@ -203,9 +212,11 @@ local function _GroundDetectionUpdate(debris, override_density)
                 --keep it
                 debris.persists = true
                 debris.entity:SetCanSleep(true)
-				debris.components.inventoryitem.canbepickedup = true
+				if debris.components.inventoryitem then
+					debris.components.inventoryitem.canbepickedup = true
+				end
                 debris:PushEvent("stopfalling")
-				else
+				elseif debris.components.inventoryitem then
 				debris.components.inventoryitem.canbepickedup = true
             end
         end
@@ -285,6 +296,10 @@ local function SpawnDebris(inst,chopper,loottable)
             if math.random() < .5 then
                 debris.Transform:SetRotation(180)
             end
+			if debris.prefab == "giant_tree_birdnest" then
+				debris.egg = math.random(1,3)
+				debris.AnimState:PlayAnimation("falling"..debris.egg)
+			end
 			if not (debris:HasTag("spider") or debris:HasTag("aphid")) then
 				debris.Physics:Teleport(x, 35, z)
 				debris.shadow = SpawnPrefab("warningshadow")

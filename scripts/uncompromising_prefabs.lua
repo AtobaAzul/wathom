@@ -164,7 +164,6 @@ return {
 	"whisperpod",
 	"whisperpod_normal",
 	"hooded_fern",
-	"fallingbeehive",
 	"uncompromising_hounds",
 	"hound_lightning",
 	"aphid",
@@ -358,4 +357,5 @@ return {
 	"figgypet",
 	"um_sandrock",
 	"um_scorpioneggs",
+	"giant_tree_birdnest",
 }
