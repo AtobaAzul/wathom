@@ -583,7 +583,6 @@ local function fn(Sim)
 	inst:AddTag("moonmaw")
     inst:AddTag("scarytoprey")
     inst:AddTag("largecreature")
-	inst:AddTag("ignorewalkableplatformdrowning")
 	inst:AddTag("moonglasscreature")
     inst:AddTag("noepicmusic")
 

@@ -27,11 +27,17 @@ local function OnSave(inst,data)
 	if inst.count then
 		data.count = inst.count
 	end
+	data.rotation = inst.Transform:GetRotation()
 end
 
 local function OnLoad(inst,data)
-	if data and data.count then
+	if data then
+		if data.count then
 		inst.count = data.count
+		end
+		if data.rotation ~= nil then
+            inst.Transform:SetRotation(data.rotation)
+        end
 	end
 end
 
@@ -81,6 +87,9 @@ local function fn()
 	inst.components.perishable:SetPerishTime(TUNING.PERISH_SUPERSLOW)
 
 	inst.AnimState:SetMultColour(0.6,1,1,1)
+
+	inst.Transform:SetRotation(math.random() * 360)
+
 	inst.OnSave = OnSave
 	inst.OnLoad = OnLoad
     return inst

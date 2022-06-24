@@ -234,8 +234,6 @@ local function fn()
     inst:AddComponent("playerprox")
     inst.components.playerprox:SetDist(10, 15)
 
-    inst:AddComponent("drownable")
-
     ------------------
 
     inst:AddComponent("health")
@@ -285,6 +283,7 @@ local function fn()
     inst:AddComponent("inventory")
     inst:AddComponent("entitytracker")
     inst:AddComponent("timer")
+    inst:AddComponent("drownable")
 
     ------------------------------------------
 
