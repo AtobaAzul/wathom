@@ -4,7 +4,7 @@ local function ClearTrees(inst)
     for i, v in ipairs(tree) do
         v:Remove()
     end
-    --inst:Remove() --Finished spawning, now go delete yourself
+    inst:Remove() --Finished spawning, now go delete yourself
 end
 
 local function SpawnWidowWeb(inst)
@@ -31,22 +31,6 @@ local function SpawnCocoon(inst)
     local x, y, z = inst.Transform:GetWorldPosition()
     for i = 1, cap do
         TrySpawnCocoon(x, z)
-    end
-end
-
-local function RerollCocoons(inst)
-    local x, y, z = inst.Transform:GetWorldPosition()
-    local existing_cocoons = TheSim:FindEntities(x,y,z, 30, {"webbedcreature"})
-    local widowweb = TheSim:FindFirstEntityWithTag("widowweb")
-    print("widowweb:",widowweb)
-    if widowweb ~= nil--[[Just to prevent a crash if it was deleted.]] and widowweb.components.childspawner:IsFull() then
-        for k, v in ipairs(existing_cocoons) do
-            v:Remove()
-        end
-        print("spawning new cocoons!")
-        SpawnCocoon(inst)
-    else
-        print("widowweb was nil or not full!")
     end
 end
 
@@ -99,7 +83,6 @@ local function fn()
     inst:DoTaskInTime(0, SpawnCocoon)
     inst:DoTaskInTime(0, SpawnDecor)
     inst:DoTaskInTime(0.1, ClearTrees)
-    inst:DoPeriodicTask(TUNING.TOTAL_DAY_TIME*5, RerollCocoons)
 
     return inst
 end

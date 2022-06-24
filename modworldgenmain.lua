@@ -2,6 +2,8 @@ GLOBAL.require("map/terrain")
 
 ------Turf Using Tile Adder From ADM's Turf Mod
 
+local Layouts = GLOBAL.require("map/layouts").Layouts
+local StaticLayout = GLOBAL.require("map/static_layout")
 
 
 local GROUND_OCEAN_COLOR = { -- Color for the main island ground tiles
@@ -128,26 +130,60 @@ if GetModConfigData("worldgenmastertoggle") then
     --Ruins Split
     ]]
     if GetModConfigData("caved") == false then
-        AddTaskSetPreInitAny(
-            function(tasksetdata)
-                if tasksetdata.location ~= "forest" then
-                    return
-                end
-
-                tasksetdata.set_pieces["ToadstoolArena"] = {
-                    1,
-                    tasks = {
-                        "Guarded Squeltch",
-                        "Merms ahoy",
-                        "Sane-Blocked Swamp",
-                        "Squeltch",
-                        "Swamp start",
-                        "Tentacle-Blocked Spider Swamp"
-                    }
-                }
+        AddTaskSetPreInitAny(function(tasksetdata)
+            if tasksetdata.location ~= "forest" then
+                return
             end
-        )
+
+            tasksetdata.set_pieces["ToadstoolArena"] = {1,
+                tasks = {
+                    "Guarded Squeltch",
+                    "Merms ahoy",
+                    "Sane-Blocked Swamp",
+                    "Squeltch",
+                    "Swamp start",
+                    "Tentacle-Blocked Spider Swamp"
+                }
+            }
+        end)
     end
+
+    Layouts["basefrag_smellykitchen"] = StaticLayout.Get("map/static_layouts/umss_basefrag_smellykitchen")
+    Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
+
+    AddTaskSetPreInitAny(function(tasksetdata)
+        if tasksetdata.location ~= "forest" then
+            return
+        end
+
+        tasksetdata.set_pieces["basefrag_smellykitchen"] = {1,
+            tasks = {
+                "Great Plains",
+                "Speak to the king",
+                "Forest hunters",
+                "Guarded Squeltch",
+                "Merms ahoy",
+                "Sane-Blocked Swamp",
+                "Squeltch",
+                "Swamp start",
+                "Tentacle-Blocked Spider Swamp"
+            }
+        }
+
+        tasksetdata.set_pieces["basefrag_rattystorage"] = {1,
+        tasks = {
+            "Befriend the pigs",
+            "Kill the spiders",
+            "Forest hunters",
+            "The hunters",
+            "Merms ahoy",
+            "Sane-Blocked Swamp",
+            "Squeltch",
+            "Swamp start",
+            "Tentacle-Blocked Spider Swamp"
+        }
+    }
+    end)
 
     if GetModConfigData("trapdoorspiders") == true then
         AddRoomPreInit("BGSavanna", function(room) --This effects the outer areas of the Triple Mac and The Major Beefalo Plains
@@ -626,30 +662,15 @@ if GetModConfigData("worldgenmastertoggle") then
         }
     end)
 
-    local StaticLayout = GLOBAL.require("map/static_layout")
-    Layouts["basefrag_smellykitchen"] = StaticLayout.Get("map/static_layouts/umss_basefrag_smellykitchen")
-    Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
     Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
-
-    AddRoomPreInit("LightningBluffAntlion", function(room)
-        if not room.contents.countstaticlayouts then
-            room.contents.countstaticlayouts = {}
-        end
-        room.contents.countstaticlayouts["basefrag_smellykitchen"] = 1
-    end)
+    Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
 
     AddRoomPreInit("CritterDen", function(room)
         if not room.contents.countstaticlayouts then
             room.contents.countstaticlayouts = {}
         end
         room.contents.countstaticlayouts["impactfuldiscovery"] = 1
-    end)
-
-    AddRoomPreInit("BarePlain", function(room)
-        if not room.contents.countstaticlayouts then
-            room.contents.countstaticlayouts = {}
-        end
-        room.contents.countstaticlayouts["basefrag_rattystorage"] = 1
+        room.contents.countstaticlayouts["moonfrag"] = 1
     end)
 
     AddRoomPreInit("OceanCoastal", function(room)

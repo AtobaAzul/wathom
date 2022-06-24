@@ -144,6 +144,8 @@ local prefab_post = {
 	"lantern",
 	"minerhat",
 	"shark",
+	--"shadowchesspieces", Only bring this back when we make the fight cool
+	"fertilizer",
 }
 
 local stategraph_post = {

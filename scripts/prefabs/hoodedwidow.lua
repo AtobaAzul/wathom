@@ -214,6 +214,8 @@ local function fn()
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetLoot(loot)
 
+    inst:AddComponent("drownable")
+
     ---------------------
     MakeLargeBurnableCharacter(inst, "body")
     MakeLargeFreezableCharacter(inst, "body")

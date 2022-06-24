@@ -609,6 +609,8 @@ local function fn(Sim)
     inst.components.health.destroytime = 5
     inst.components.health.fire_damage_scale = 0
 	
+	inst:AddComponent("drownable")
+
 	inst:AddComponent("healthtrigger")
 	inst.components.healthtrigger:AddTrigger(0.5, RedoLavae)
 	
