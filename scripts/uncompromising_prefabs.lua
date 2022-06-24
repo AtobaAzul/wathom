@@ -333,6 +333,7 @@ return {
 	"uncompromising_harpoon",
 	"uncompromising_axepoon",
 	"uncompromising_magharpoon",
+	"uncompromising_fishingnet",
 	
 	"siren_fish",
 	

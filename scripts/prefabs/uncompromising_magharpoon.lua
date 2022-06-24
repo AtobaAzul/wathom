@@ -218,7 +218,7 @@ local function harpoon()
     inst:AddComponent("projectile")
     inst.components.projectile:SetOnThrownFn(pipethrown)
     inst.components.projectile:SetRange(TUNING.WALRUS_DART_RANGE)
-    inst.components.projectile:SetHoming(false)
+    inst.components.projectile:SetHoming(true)
     inst.components.projectile:SetOnMissFn(inst.Remove)
     inst.components.projectile:SetLaunchOffset(Vector3(3, 2, 0))
     inst.components.projectile:SetSpeed(60)
@@ -258,7 +258,7 @@ local function Vac(inst)
 					
 				local boat_physics = platform.components.boatphysics
 				
-				boat_physics:ApplyForce(row_dir_x, row_dir_z, .1 * distmult)
+				boat_physics:ApplyForce(row_dir_x, row_dir_z, .25 * distmult)
 			end
 		end
 			
