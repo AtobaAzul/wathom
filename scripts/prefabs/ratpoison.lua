@@ -15,40 +15,30 @@ local itemprefabs=
 }
 
 local function oneaten(inst, eater)
+	if inst.count ~= 0 then
+		local poison = SpawnPrefab("ratpoison")
+		poison.Transform:SetPosition(inst.Transform:GetWorldPosition())
+		poison.count = inst.count - 1
+	end
 	eater:AddDebuff("ratpoison_debuff", "ratpoison_debuff")
 end
 
 local function OnSave(inst,data)
-	if inst.rotation ~= nil then
-		data.rotation = inst.rotation
-	end
-	
-	if inst.scalex ~= nil then
-		data.scalex = inst.scalex
-	end
-	
-	if inst.scalez ~= nil then
-		data.scalez = inst.scalez
+	if inst.count then
+		data.count = inst.count
 	end
 end
 
 local function OnLoad(inst,data)
-	if data.rotation ~= nil then
-		inst.rotation = data.rotation
-		inst.Transform:SetRotation(inst.rotation)
-	end
-	
-	if data.scalex ~= nil and data.scalez ~= nil then
-		inst.scalex = data.scalex
-		inst.scalez = data.scalez
-		inst.Transform:SetScale(inst.scalex,1,inst.scalez)
+	if data and data.count then
+		inst.count = data.count
 	end
 end
 
 local function OnPicked(inst)
 	inst:Remove()
 end
-
+	
 local function fn()
     local inst = CreateEntity()
     inst.entity:AddTransform()
@@ -97,12 +87,10 @@ local function fn()
 end
 
 local function OnDeploy(inst, pt)
-	for i = 1,8 do 
-		local poison = SpawnPrefab("ratpoison")
-		poison.Transform:SetPosition(pt.x, 0, pt.z)
-		poison.Transform:SetScale(1-0.03*i,1-0.03*i,1-0.03*i)
-		inst:Remove()
-	end
+	local poison = SpawnPrefab("ratpoison")
+	poison.Transform:SetPosition(pt.x, 0, pt.z)
+	poison.count = 8
+	inst:Remove()
 end
 
 local function itemfn()
