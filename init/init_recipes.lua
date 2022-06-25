@@ -342,6 +342,16 @@ ChangeSortKey("driftwoodfishingrod", "fishingrod", "TOOLS", true)
 ChangeSortKey("driftwoodfishingrod", "fishingrod", "FISHING", true)
 
 AddRecipe2(
+    "uncompromising_fishingnet",
+    {Ingredient("rope", 1), Ingredient("rocks", 2), Ingredient("silk", 3)},
+    TECH.SCIENCE_ONE,
+    nil,
+    {"TOOLS", "FISHING"}
+)
+ChangeSortKey("uncompromising_fishingnet", "driftwoodfishingrod", "TOOLS", true)
+ChangeSortKey("uncompromising_fishingnet", "driftwoodfishingrod", "FISHING", true)
+
+AddRecipe2(
     "hermitshop_rain_horn",
     {Ingredient("dormant_rain_horn", 1), Ingredient("oceanfish_small_9_inv", 3), Ingredient("messagebottleempty", 2)},
     TECH.HERMITCRABSHOP_SEVEN,
@@ -663,6 +673,7 @@ STRINGS.RECIPE_DESC.UM_BEAR_TRAP_EQUIPPABLE_GOLD = "My shiny teeth and me!"
 STRINGS.RECIPE_DESC.ARMOR_GLASSMAIL = "Surround yourself with broken glass."
 STRINGS.RECIPE_DESC.MUTATOR_TRAPDOOR = "They're smart, allegedly."
 STRINGS.RECIPE_DESC.DRIFTWOODFISHINGROD = "Go Fancy Fishing. For Fancy Fish."
+STRINGS.RECIPE_DESC.UNCOMPROMISING_FISHINGNET = "Nothing but net!"
 STRINGS.RECIPE_DESC.BOOK_RAIN = "A catalogue of weather effects."
 STRINGS.RECIPE_DESC.RAIN_HORN = "Drown the world."
 STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"

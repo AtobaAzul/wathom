@@ -334,6 +334,7 @@ return {
 	"uncompromising_axepoon",
 	"uncompromising_magharpoon",
 	"uncompromising_fishingnet",
+	"uncompromising_fishingnetvisualizer",
 	
 	"siren_fish",
 	
