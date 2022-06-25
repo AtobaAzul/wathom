@@ -150,6 +150,7 @@ if GetModConfigData("worldgenmastertoggle") then
 
     Layouts["basefrag_smellykitchen"] = StaticLayout.Get("map/static_layouts/umss_basefrag_smellykitchen")
     Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
+    Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
 
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then
@@ -181,8 +182,34 @@ if GetModConfigData("worldgenmastertoggle") then
             "Squeltch",
             "Swamp start",
             "Tentacle-Blocked Spider Swamp"
+            }
         }
-    }
+
+        tasksetdata.set_pieces["moonfrag"] = {5,
+        tasks = {
+            "Make a pick",
+            "Dig that rock",
+            "Great Plains",
+            "Squeltch",
+            "Beeeees!",
+            "Speak to the king",
+            "Forest hunters",
+            "For a nice walk",
+            "Badlands",
+            "Lightning Bluff",
+            "Befriend the pigs",
+            "Kill the spiders",
+            "Killer bees!",
+            "Make a Beehat",
+            "The hunters",
+            "Magic meadow",
+            "Frogs and bugs",
+            "Mole Colony Deciduous",
+            "Mole Colony Rocks",
+            "MooseBreedingTask",
+            "Speak to the king classic",
+            }
+        }
     end)
 
     if GetModConfigData("trapdoorspiders") == true then
@@ -663,14 +690,12 @@ if GetModConfigData("worldgenmastertoggle") then
     end)
 
     Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
-    Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
 
     AddRoomPreInit("CritterDen", function(room)
         if not room.contents.countstaticlayouts then
             room.contents.countstaticlayouts = {}
         end
         room.contents.countstaticlayouts["impactfuldiscovery"] = 1
-        room.contents.countstaticlayouts["moonfrag"] = 1
     end)
 
     AddRoomPreInit("OceanCoastal", function(room)
