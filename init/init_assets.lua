@@ -165,6 +165,7 @@ local inventoryitems =
 	"um_monsteregg",
 	"um_monsteregg_cooked",
 	"uncompromising_blowgun",
+	"uncompromising_fishingnet",
 	"viperfruit",
 	"viperjam",
 	"watermelon_lantern",
@@ -984,6 +985,10 @@ Assets = {
 	--squeakyclean--
     Asset("IMAGE", "images/inventoryimages/driftwoodfishingrod.tex"),
 	Asset("ATLAS", "images/inventoryimages/driftwoodfishingrod.xml"),
+	
+    Asset("IMAGE", "images/inventoryimages/uncompromising_fishingnet.tex"),
+	Asset("ATLAS", "images/inventoryimages/uncompromising_fishingnet.xml"),
+	
 	Asset("ANIM", "anim/swap_driftwood_fishingrod.zip"),
 	Asset("ANIM", "anim/driftwood_rod_ground.zip"),
 	Asset("ANIM", "anim/oculet.zip"),

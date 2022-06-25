@@ -126,6 +126,16 @@ inst.actionhandlers[ACTIONS.STARTCHANNELING].deststate =
 				return _OldChannel(inst, action, ...)
 			end
         end
+		
+local _OldCast_Net = inst.actionhandlers[ACTIONS.CAST_NET].deststate
+inst.actionhandlers[ACTIONS.CAST_NET].deststate = 
+        function(inst, action, ...)
+			if inst ~= nil then
+				return "cast_net_fixed"
+			else
+				return _OldCast_Net(inst, action, ...)
+			end
+        end
 
 local _OldDeathEvent = inst.events["death"].fn
 	inst.events["death"].fn = function(inst, data)
@@ -991,6 +1001,114 @@ State{
             end
         end,
     },
+	
+	State{
+        name = "cast_net_fixed",
+        tags = { "doing", "busy" },
+
+        onenter = function(inst, silent)
+            inst.components.locomotor:Stop()
+            --inst.AnimState:PlayAnimation("cast_pre")
+            --inst.AnimState:PushAnimation("cast_loop", true)
+            inst.AnimState:PlayAnimation("fishing_ocean_pre")
+            inst.AnimState:PushAnimation("fishing_ocean_cast", false)
+            inst.AnimState:PushAnimation("fishing_ocean_cast_loop", true)
+            --inst.sg.statemem.action = inst.bufferedaction
+            --inst.sg.statemem.silent = silent
+            --inst.sg:SetTimeout(10 * FRAMES)
+        end,
+
+        timeline =
+        {
+            TimeEvent(6 * FRAMES, function(inst)
+				inst.AnimState:ClearOverrideSymbol("swap_object")
+
+                inst:PerformBufferedAction()
+            end),
+        },
+
+        events =
+        {
+            EventHandler("begin_retrieving", function(inst)
+                inst.sg:GoToState("cast_net_retrieving_fixed")
+            end),
+            },
+
+        --[[
+        ontimeout = function(inst)
+            --pickup_pst should still be playing
+            inst.sg:GoToState("idle", true)
+        end,
+        ]]--
+
+        --[[
+        onexit = function(inst)
+            if inst.bufferedaction == inst.sg.statemem.action and
+            (inst.components.playercontroller == nil or inst.components.playercontroller.lastheldaction ~= inst.bufferedaction) then
+                inst:ClearBufferedAction()
+            end
+        end,
+        ]]--
+    },
+
+    State{
+        name = "cast_net_retrieving_fixed",
+        tags = { "doing", "busy" },
+
+        onenter = function(inst, silent)
+            --inst.AnimState:PlayAnimation("cast_pst")
+            --inst.AnimState:PushAnimation("return_pre")
+            --inst.AnimState:PushAnimation("return_loop", true)
+            inst.AnimState:PlayAnimation("fishing_ocean_catch")
+            inst.AnimState:PushAnimation("fishing_ocean_pst")
+        end,
+
+        events =
+        {
+            EventHandler("begin_final_pickup", function(inst)
+                inst.sg:GoToState("cast_net_release_fixed")
+            end),
+        },
+    },
+
+    State{
+        name = "cast_net_release_fixed",
+        tags = { "doing", "busy" },
+
+        onenter = function(inst, silent)
+            --inst.AnimState:PlayAnimation("release_loop", false)
+			
+			inst.AnimState:OverrideSymbol("swap_object", "swap_boat_net", "swap_boat_net")
+			inst.AnimState:PlayAnimation("pickup")
+        end,
+
+        events =
+        {
+            EventHandler("animqueueover", function(inst)
+                inst.sg:GoToState("cast_net_release_pst_fixed")
+            end),
+        }
+    },
+
+    State{
+        name = "cast_net_release_pst_fixed",
+        tags = { "doing" },
+
+        onenter = function(inst, silent)
+            inst.sg:RemoveStateTag("busy")
+            --inst.AnimState:PlayAnimation("release_pst", false)
+			inst.AnimState:PlayAnimation("pickup_pst", false)
+        end,
+
+        events =
+        {
+            EventHandler("animqueueover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
+        }
+    },
+	
+	
 }
 
 for k, v in pairs(events) do

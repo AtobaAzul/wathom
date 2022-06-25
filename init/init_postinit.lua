@@ -27,6 +27,7 @@ local component_post = {
 	"inventory", -- This is an attempt at manually fixing an issue when people are checked for insulation. -scrimbles
 	"weighable",
 	"messagebottlemanager",
+	"fishingnet",
 }
 
 local prefab_post = {
