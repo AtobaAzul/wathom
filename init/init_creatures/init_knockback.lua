@@ -93,6 +93,6 @@ for k, v in pairs(GIANTS) do
 	end)
 end
 
-if GetModConfigData("harder_beequeen") == true then
+if GetModConfigData("harder_beequeen") then
  --TODO make it configure the revvork instead
 end

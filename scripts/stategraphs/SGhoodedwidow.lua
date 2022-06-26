@@ -153,7 +153,7 @@ local states=
         {
             EventHandler("animover", function(inst)
 				--TheNet:Announce("combo is "..inst.combo)
-				if inst.components.health and inst.components.health.currenthealth < TUNING.DSTU.WIDOW_HEALTH*0.5 and inst.docombo == true then
+				if inst.components.health and inst.components.health.currenthealth < TUNING.DSTU.WIDOW_HEALTH*0.5 and inst.docombo then
 					inst.docombo = false
 					--TheNet:SystemMessage(inst.combo)
 					inst.combo = inst.combo+2

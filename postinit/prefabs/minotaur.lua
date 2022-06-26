@@ -35,11 +35,11 @@ local function ShootProjectile(inst)
 	if target ~= nil then
 		local x, y, z = inst.Transform:GetWorldPosition()
 		local projectile = SpawnPrefab("guardian_goo")
-		if inst.tentbelch == true then
+		if inst.tentbelch then
 			inst.tentbelch = false
 			projectile.tentacle = true
 		end
-		if inst.have_a_heart == true then -- This one's an organ!
+		if inst.have_a_heart then -- This one's an organ!
 			projectile.AnimState:SetBank("minotaur_organ")
 			projectile.AnimState:SetBuild("minotaur_organ")
 			projectile.AnimState:PlayAnimation("spin_loop",true)	

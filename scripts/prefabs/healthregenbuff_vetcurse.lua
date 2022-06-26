@@ -203,7 +203,7 @@ local function OnTick3(inst, target, data)
 
     if target.components.health ~= nil and
         not target.components.health:IsDead() and
-		target.components.UM_hayfever ~= nil and target.components.UM_hayfever.enabled == true and
+		target.components.UM_hayfever ~= nil and target.components.UM_hayfever.enabled and
         not target:HasTag("playerghost") then
         target.components.UM_hayfever:DoDelta(intensity)
     else

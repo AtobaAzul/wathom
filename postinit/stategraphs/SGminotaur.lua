@@ -50,10 +50,10 @@ end
 env.AddStategraphPostInit("minotaur", function(inst)
 	local _OldAttackEvent = inst.events["doattack"].fn --Event handler to force the leap if we haven't done the leap for long enough (brainside leap still independent
 	inst.events["doattack"].fn = function(inst, data)
-		if inst.forcebelch == true and inst.components.combat and inst.components.combat.target and not inst.sg:HasStateTag("running") then
+		if inst.forcebelch and inst.components.combat and inst.components.combat.target and not inst.sg:HasStateTag("running") then
 			inst.sg:GoToState("belch")
 		else
-			if inst.forceleap == true and inst.components.combat and inst.components.combat.target then
+			if inst.forceleap and inst.components.combat and inst.components.combat.target then
 				inst.sg:GoToState("leap_attack_pre",inst.components.combat.target)
 			else
 				_OldAttackEvent(inst, data)
@@ -72,7 +72,7 @@ env.AddStategraphPostInit("minotaur", function(inst)
 	
 	local _OldOnEnter = inst.states["run_start"].onenter 
 	inst.states["run_start"].onenter = function(inst)
-		if inst.forceleap == true and inst.components.combat and inst.components.combat.target then
+		if inst.forceleap and inst.components.combat and inst.components.combat.target then
 			inst.sg:GoToState("leap_attack_pre",inst.components.combat.target)
 		else
 			_OldOnEnter(inst)
@@ -81,7 +81,7 @@ env.AddStategraphPostInit("minotaur", function(inst)
 	
 	------------------------------------------------------------
 	inst.states["stun_pst"].onexit = function(inst)
-		if inst.forcebelch == true and inst.components.health and not inst.components.health:IsDead() then
+		if inst.forcebelch and inst.components.health and not inst.components.health:IsDead() then
 			inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("belch") end)
 		end
 	end
@@ -89,7 +89,7 @@ env.AddStategraphPostInit("minotaur", function(inst)
 	local _OldOnExit = inst.states["leap_attack_pst"].onexit    --Both of these calls are to make AG belch if it can and is getting up from being stunned
 	
 	inst.states["leap_attack_pst"].onexit = function(inst)
-		if inst.forcebelch == true and inst.components.health and not inst.components.health:IsDead() then
+		if inst.forcebelch and inst.components.health and not inst.components.health:IsDead() then
 			inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("belch") end)
 		end
 		_OldOnExit(inst)

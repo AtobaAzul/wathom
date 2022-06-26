@@ -34,7 +34,7 @@ end
 local function OnHitOther(inst,data)
 	inst.stuckcount = 100
 	local other = data.target
-	if other ~= nil and other.components.inventory ~= nil and inst.armorcrunch == true and not (data.target.sg and data.target.sg:HasStateTag("shell")) then
+	if other ~= nil and other.components.inventory ~= nil and inst.armorcrunch and not (data.target.sg and data.target.sg:HasStateTag("shell")) then
 		local helm = other.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
 		local chest = other.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
 		local hand = other.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)

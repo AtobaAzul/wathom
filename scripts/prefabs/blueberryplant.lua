@@ -59,7 +59,7 @@ local function on_anim_over(inst)
     if inst.components.mine.issprung then
         return
     end
-	if inst.froze == true then
+	if inst.froze then
 		if inst.Harvestable == "full" and TheWorld.state.iswinter then
 			inst.AnimState:PushAnimation("idle_frozen", true)
 			elseif not TheWorld.state.iswinter  then
@@ -99,7 +99,7 @@ local function do_snap(inst)
 		end
 		local otherbombs = TheSim:FindEntities(x, y, z, 3*TUNING.STARFISH_TRAP_RADIUS, {"blueberrybomb"}, mine_no_tags)
 		for i, target in ipairs(otherbombs) do
-			if target ~= inst and target.components.mine and not target.components.mine.issprung and not target.froze == true then
+			if target ~= inst and target.components.mine and not target.components.mine.issprung and not target.froze then
 			target.components.mine:SetRadius(TUNING.STARFISH_TRAP_RADIUS*12)
 			end
 		end
@@ -156,7 +156,7 @@ local function on_sprung(inst)
 end
 
 local function get_status(inst)
-    return (inst.components.mine.issprung and "REGROWING") or (inst.froze == true and "FROZE") or "READY"
+    return (inst.components.mine.issprung and "REGROWING") or (inst.froze and "FROZE") or "READY"
 end
 
 local function calculate_mine_test_time()
@@ -238,10 +238,10 @@ end
 
 
 local function OnSpring(inst)
-	if inst.pendingregrow == true or (inst.Harvestable == "regrow" and not inst.components.timer:TimerExists("regrow"))then
+	if inst.pendingregrow or (inst.Harvestable == "regrow" and not inst.components.timer:TimerExists("regrow"))then
 		Regrow(inst)
 	end
-	if inst.Harvestable == "full" and inst.froze == true then
+	if inst.Harvestable == "full" and inst.froze then
 		inst:RemoveEventCallback("animover",on_anim_over)
 		inst:DoTaskInTime(3+math.random(0,15), function(inst) 
 			Melt(inst)

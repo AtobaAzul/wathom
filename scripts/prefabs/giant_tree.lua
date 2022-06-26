@@ -369,7 +369,7 @@ local function UnInfestMe(inst)
 end
 
 local function InfestedInit(inst)
-	if inst.infested and inst.infested == true then
+	if inst.infested and inst.infested then
 		inst:AddTag("infestedtree")
 		inst:AddComponent("childspawner")
 		inst.components.childspawner.childname = "aphid"
@@ -459,7 +459,7 @@ local function on_chopped_down(inst, chopper)
 		inst.AnimState:SetBuild("giant_tree"..inst.bankType.."_damaged")
 		inst.AnimState:PlayAnimation("idle")
 		inst.components.timer:StartTimer("regrow", 3840)
-		if inst.mossy == true then
+		if inst.mossy then
 			inst.HideAllMoss(inst,true)
 		else
 			inst.HideAllMoss(inst)
@@ -519,7 +519,7 @@ local mosses = {
 local function HideAllMoss(inst,poof) --Depricated
 	--TheNet:Announce("inst.mossy is false")
 	for i,moss in ipairs(mosses) do
-		if poof and poof == true then
+		if poof and poof then
 			local pine = SpawnPrefab("pine_needles_chop")
 			pine.entity:AddFollower()
 			pine.Follower:FollowSymbol(inst.GUID, moss, 0, 0, 0)
@@ -532,7 +532,7 @@ local function ShowAllMoss(inst,poof)
 	--TheNet:Announce("inst.mossy is true")
 	inst.mossy = true
 	for i,moss in ipairs(mosses) do
-		if poof and poof == true then
+		if poof and poof then
 			local pine = SpawnPrefab("pine_needles_chop")
 			pine.entity:AddFollower()
 			pine.Follower:FollowSymbol(inst.GUID, moss, 0, 0, 0)
@@ -574,7 +574,7 @@ local function PickBuild(inst)
 		else
 			bank = "giant_tree"..inst.bankType.."_damaged"
 		end
-		if inst.infested == true then
+		if inst.infested then
 			bank = bank.."_sick"
 		end
 		inst.AnimState:SetBank("giant_tree")
@@ -632,7 +632,7 @@ end
 local function onload(inst,data)
 	if data then
 		inst.previouschops = data.previouschops
-		if data.chopped == true then
+		if data.chopped then
 			inst:RemoveComponent("workable")
 		end
 		if data.bankType then
@@ -740,7 +740,7 @@ local function giant_treefn()
 	
 	--[[inst:DoTaskInTime(1,function(inst) 
 		if inst.mossy then
-			if inst.mossy == true then
+			if inst.mossy then
 				TheNet:Announce("inst.mossy is true")
 			else
 				TheNet:Announce("inst.mossy is false")

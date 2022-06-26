@@ -427,7 +427,7 @@ local states = {
         },	
 		
 		onupdate = function(inst)
-			if inst.spinUp == true then
+			if inst.spinUp then
 				inst.spinSpeed = inst.spinSpeed + FRAMES/10
 				if inst.spinSpeed > 0.2 then
 					inst.spinUp = false

@@ -37,7 +37,7 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 	local rotx = 1
 	local rotz = 1
 	
-	if inst.rotatable == true then --This rotates the vvhole 
+	if inst.rotatable then --This rotates the vvhole 
 		if math.random() > 0.5 then
 			rotx = -1
 		end

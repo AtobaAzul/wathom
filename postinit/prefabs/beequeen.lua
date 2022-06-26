@@ -94,7 +94,7 @@ local function CheckForReadyCharge(inst)
 			end
 		end	
 		
-		if canCharge == true then
+		if canCharge then
 			inst.sg:GoToState("command_charge_loop")
 			inst.chargeTask:Cancel()
 			inst.chargeTask = nil
@@ -313,7 +313,7 @@ local function ModeChange(inst)
 				end
 			end
 		end
-		if inst.sg:HasStateTag("ability") or inst.sg:HasStateTag("sleep") or inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("attack") or soldier_is_stuck == true then
+		if inst.sg:HasStateTag("ability") or inst.sg:HasStateTag("sleep") or inst.sg:HasStateTag("frozen") or inst.sg:HasStateTag("attack") or soldier_is_stuck then
 			inst:DoTaskInTime(1,ModeChange) --If I'm super busy then mode change after I'm done.
 		else
 			if inst.mode == "aggressive" then

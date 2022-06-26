@@ -27,11 +27,11 @@ local function DoSplatFx(inst)
 	local goo
 	if inst.prefab == "shadow_goo" then -- A special different ground anim for our fancy goo
 		goo = SpawnPrefab("shadow_puff")
-	elseif inst.organ == true then
+	elseif inst.organ then
 		goo = SpawnPrefab("minotaur_organ")
 	else
 		goo = SpawnPrefab("guardian_splat")
-		if inst.tentacle == true then
+		if inst.tentacle then
 			local tent = SpawnPrefab("bigshadowtentacle")
 			tent.Transform:SetPosition(x,0,z)
 			tent:PushEvent("arrive")

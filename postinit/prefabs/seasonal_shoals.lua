@@ -9,15 +9,15 @@ local function OnSeasonTick(inst)
             print("autumn!")
             inst.components.childspawner:SetRareChild("oceanfish_small_6", 0.2)
             inst.components.childspawner.childname = "oceanfish_medium_2"
-        elseif TheWorld.state.iswinter == true then
+        elseif TheWorld.state.iswinter then
             print("winter!")
             inst.components.childspawner:SetRareChild("oceanfish_medium_8", 0.2)
             inst.components.childspawner.childname = "oceanfish_medium_4"
-        elseif TheWorld.state.isspring == true then
+        elseif TheWorld.state.isspring then
             print("spring!")
             inst.components.childspawner:SetRareChild("oceanfish_small_7", 0.2)
             inst.components.childspawner.childname = "oceanfish_medium_5"
-        elseif TheWorld.state.issummer == true then
+        elseif TheWorld.state.issummer then
             print("summer!")
             inst.components.childspawner:SetRareChild("oceanfish_small_8", 0.2)
             inst.components.childspawner.childname = "oceanfish_medium_3"
