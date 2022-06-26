@@ -55,6 +55,8 @@ local function fn()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.netweight = 1
 
     inst:AddComponent("finiteuses")
     inst.components.finiteuses:SetMaxUses(TUNING.FISHING_NET_USES)

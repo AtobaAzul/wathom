@@ -87,7 +87,10 @@ local states =
 			inst.SoundEmitter:KillSound("spin_loop")
 			
 			if inst.item ~= nil then
-				inst.item.components.finiteuses:Use(1)
+				local uses = inst.item.netweight ~= nil and inst.item.netweight or 1
+				print(uses)
+			
+				inst.item.components.finiteuses:Use(uses)
 			end
         end,
     },
