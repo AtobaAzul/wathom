@@ -126,11 +126,19 @@ else
 end
 
 if TUNING.DSTU.SLEEPINGBUFF > 1 then
-	TOOLTIP.BEDROLL_STRAW = TOOLTIP.BEDROLL_STRAW.."\n- Faster healing rate."
-	TOOLTIP.BEDROLL_FURRY = TOOLTIP.BEDROLL_FURRY.."\n- Faster healing rate."
-	TOOLTIP.TENT = TOOLTIP.TENT.."\n- Faster healing rate."
-	TOOLTIP.SIESTAHUT = TOOLTIP.SIESTAHUT.."\n- Faster healing rate."
-    TOOLTIP.PORTABLETENT_ITEM = TOOLTIP.PORTABLETENT_ITEM.."\n- Faster healing rate."
+	if TUNING.DSTU.GOTOBED then
+		TOOLTIP.BEDROLL_STRAW = TOOLTIP.BEDROLL_STRAW.."\n- Faster healing rate."
+		TOOLTIP.BEDROLL_FURRY = TOOLTIP.BEDROLL_FURRY.."\n- Faster healing rate."
+		TOOLTIP.TENT = TOOLTIP.TENT.."\n- Faster healing rate."
+		TOOLTIP.SIESTAHUT = TOOLTIP.SIESTAHUT.."\n- Faster healing rate."
+		TOOLTIP.PORTABLETENT_ITEM = TOOLTIP.PORTABLETENT_ITEM.."\n- Faster healing rate."
+	else
+		TOOLTIP.BEDROLL_STRAW = "- Faster healing rate."
+		TOOLTIP.BEDROLL_FURRY = "- Faster healing rate."
+		TOOLTIP.TENT = "- Faster healing rate."
+		TOOLTIP.SIESTAHUT = "- Faster healing rate."
+		TOOLTIP.PORTABLETENT_ITEM = "- Faster healing rate."
+	end
 end
 
 if TUNING.DSTU.POCKET_POWERTRIP ~= 0 then
