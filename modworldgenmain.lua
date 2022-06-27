@@ -453,13 +453,13 @@ if GetModConfigData("worldgenmastertoggle") then
     end
     local Layouts = GLOBAL.require("map/layouts").Layouts
     local StaticLayout = GLOBAL.require("map/static_layout")
+	
     Layouts["specter_sea"] = StaticLayout.Get(
         "map/static_layouts/specter_sea",
         {
             min_dist_from_land = 0
         }
     )
-
     AddRoomPreInit("OceanRough", function(room)
         if not room.contents.countstaticlayouts then
             room.contents.countstaticlayouts = {}
@@ -489,15 +489,24 @@ if GetModConfigData("worldgenmastertoggle") then
         room.contents.countstaticlayouts["brine_bogs"] = 1
     end)
 
-    --Layouts["rusted_reef"] = StaticLayout.Get("map/static_layouts/rusted_reef",{
-    --	min_dist_from_land = 0})
+    Layouts["rusted_reef"] =
+        StaticLayout.Get(
+        "map/static_layouts/rusted_reef",
+        {
+            min_dist_from_land = 0
+        }
+    )
     AddRoomPreInit("OceanHazardous", function(room)
-        if not room.contents.countstaticlayouts then
-            room.contents.countstaticlayouts = {}
-        end
-        --room.contents.countstaticlayouts["rusted_reef"] = 1
-        --can't figure out a way to make this work, biome spawning will be actually in the area handler instead.}
-        room.contents.countprefabs = {
+		if room.contents.countstaticlayouts ~= nil then
+			room.contents.countstaticlayouts["rusted_reef"] = 1
+		else
+			room.contents.countstaticlayouts = {
+				["rusted_reef"] = 1,
+			}
+		end
+		
+		--Yeah, adding table stuff to a Room seems unresponsive, so uhhhh COUNT PREFABS
+		room.contents.countprefabs = {
             --speaker_rusted = 1,
             um_rustedreef_areahandler = 1
         }

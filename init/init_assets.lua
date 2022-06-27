@@ -1007,6 +1007,7 @@ Assets = {
 
 	--under the weather--
 	Asset("ANIM", "anim/speaker_test.zip"),
+	Asset("ANIM", "anim/siren_throne.zip"),
 	Asset("ANIM", "anim/sunken_royalchest.zip"),
     Asset("IMAGE", "images/inventoryimages/grassgekko.tex"),
 	Asset("ATLAS", "images/inventoryimages/grassgekko.xml"),

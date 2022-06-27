@@ -244,7 +244,7 @@ local function Vac(inst)
 		local px, py, pz = inst.target.Transform:GetWorldPosition()
 			
 		local distmult = (inst:GetDistanceSqToInst(inst.target) / 100)
-				
+		print(distmult)
 				
 				
 		local platform = inst:GetCurrentPlatform()

@@ -22,6 +22,12 @@ local function RegenAreaRusted(inst)
 	SpawnOuterRing(inst)
 end
 
+local function SpawnSiren(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local speaker = SpawnPrefab(inst.sirenpoint)
+	speaker.Transform:SetPosition(x,y,z)
+end
+
 local function specterfn()
     local inst = CreateEntity()
 
@@ -31,15 +37,15 @@ local function specterfn()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.sirenpoint = "siren_throne"
+	
+	inst:DoTaskInTime(0, SpawnSiren)
+	
 	--inst:DoTaskInTime(0,RegenArea)
     return inst
 end
 
-local function SpawnSiren(inst)
-	local x,y,z = inst.Transform:GetWorldPosition()
-	local speaker = SpawnPrefab("ocean_speaker")
-	speaker.Transform:SetPosition(x,y,z)
-end
 local function rustedfn()
     local inst = CreateEntity()
 
@@ -49,6 +55,9 @@ local function rustedfn()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.sirenpoint = "ocean_speaker"
+	
 	--since more than one hazard spawns and we're not using tasks, they could've ended up seperate.
 	inst:DoTaskInTime(0, SpawnSiren)
 	--inst:DoTaskInTime(0,RegenArea)
@@ -64,6 +73,11 @@ local function brinefn()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.sirenpoint = "siren_bird_nest"
+	
+	inst:DoTaskInTime(0, SpawnSiren)
+	
 	--inst:DoTaskInTime(0,RegenArea)
     return inst
 end

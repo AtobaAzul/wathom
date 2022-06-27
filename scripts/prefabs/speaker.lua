@@ -11,6 +11,14 @@ local prefabs =
     "waterplant_destroy",
 }
 
+local function PlaySound(inst)
+	if TheWorld.state.isnewmoon then
+		inst.SoundEmitter:PlaySound("UCSounds/speaker/canyouseethem?", "thedeepwatches")
+	else
+		inst.SoundEmitter:KillSound("thedeepwatches")
+	end
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -48,6 +56,8 @@ local function fn()
     end
 
     inst:AddComponent("inspectable")
+	
+	inst:WatchWorldState("isnewmoon", PlaySound)
 
     return inst
 end

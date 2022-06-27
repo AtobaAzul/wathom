@@ -327,7 +327,7 @@ return {
 	"crab_apple_plant",
 	"driftwood_waterlogged",
 	"kelpstack",
-	"sirenstack",
+	"siren_throne",
 	"spider_crabbit_den",
 	
 	"uncompromising_harpoon",

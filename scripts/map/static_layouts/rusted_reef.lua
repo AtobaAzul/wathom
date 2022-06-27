@@ -75,34 +75,12 @@ return {
       opacity = 1,
       properties = {},
       objects = {
-        --[[{
-          name = "",
-          type = "researchlab",
-          shape = "rectangle",
-          x = 0,
-          y = 0,
-          width = 312,
-          height = 377,
-          visible = true,
-          properties = {}
-        },]]
-        {
-          name = "",
-          type = "ocean_speaker",
-          shape = "rectangle",
-          x = 800,
-          y = 800,
-          width = 312,
-          height = 377,
-          visible = true,
-          properties = {}
-        },
         {
           name = "",
           type = "um_rustedreef_areahandler",
           shape = "rectangle",
-          x = 800,
-          y = 800,
+          x = 0,
+          y = 0,
           width = 312,
           height = 377,
           visible = true,
