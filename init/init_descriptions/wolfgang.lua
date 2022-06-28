@@ -377,3 +377,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WOLFGANG.ACTIONFAIL
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "Ha! Small eyeball think it can scare Wolfgang still!"
 	DESCRIBE.LUSH_ENTRANCE = "Is scary hole!"
 	DESCRIBE.CRITTER_FIGGY = "Is Figgy! Mightiest bug!"
+	DESCRIBE.GIANT_TREE_BIRDNEST = "Is handful of puny eggs!"

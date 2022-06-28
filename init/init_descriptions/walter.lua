@@ -378,3 +378,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WALTER.ACTIONFAIL
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "If I close my eyes and swallow, maybe it will taste better!"
 	DESCRIBE.LUSH_ENTRANCE = "I'm not sure I want to go down there just yet, Woby..."
 	DESCRIBE.CRITTER_FIGGY = "Woby wants to play with you, Figgy!"
+	DESCRIBE.GIANT_TREE_BIRDNEST = "Woby, leave those eggs alone!" --Woby you bitch don't eat the eggsssss

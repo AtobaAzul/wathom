@@ -374,3 +374,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WENDY.ACTIONFAIL
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "They peer into the everlasting darkness of my mouth."
 	DESCRIBE.LUSH_ENTRANCE = "I can only imagine what horrors lurk below."
 	DESCRIBE.CRITTER_FIGGY = "Its hollow eyes stare right through me..."
+	DESCRIBE.GIANT_TREE_BIRDNEST = "They haven't even hatched, yet the world is cruel enough to throw them to the predators."

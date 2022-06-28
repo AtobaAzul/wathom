@@ -370,3 +370,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 	DESCRIBE.STUFFED_PEEPER_POPPERS = "Even the food is watching me."
 	DESCRIBE.LUSH_ENTRANCE = "I should explore this later. Or earlier."
 	DESCRIBE.CRITTER_FIGGY = "You're a little cosmic horror across timelines, you know that?"
+	DESCRIBE.GIANT_TREE_BIRDNEST = "What, you eggs?"

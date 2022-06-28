@@ -12,7 +12,7 @@ local prefabs =
 }
 
 local function PlaySound(inst)
-	if TheWorld.state.isnewmoon then
+	if TheWorld.state.isnight then
 		inst.SoundEmitter:PlaySound("UCSounds/speaker/canyouseethem?", "thedeepwatches")
 	else
 		inst.SoundEmitter:KillSound("thedeepwatches")
@@ -57,7 +57,7 @@ local function fn()
 
     inst:AddComponent("inspectable")
 	
-	inst:WatchWorldState("isnewmoon", PlaySound)
+	inst:WatchWorldState("isnight", PlaySound)
 
     return inst
 end
