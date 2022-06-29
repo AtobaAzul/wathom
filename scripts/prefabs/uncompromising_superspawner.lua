@@ -89,14 +89,21 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 			--TheNet:Announce(inst.spawninwater_tile)
 			if inst.spawninwater_tile or inst.spawninwater_tile == nil then
 				--TheNet:Announce("spawninwater true!")
-				TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
+				if v.tile ~= WORLD_TILES.MONKEY_DOCK then
+					TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
+				else
+					TheWorld.components.dockmanager:CreateDockAtPoint(tile_x, 0, tile_z, WORLD_TILES.MONKEY_DOCK)
+				end
 			else
 				if 	TheWorld.Map:IsOceanTileAtPoint(x+v.x*rotx, (v.y and v.y+y) or 0, z+v.z*rotz) then
 					--TheNet:Announce("water at point!")
 				else
 					--TheNet:Announce("not water!")
-					TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
-
+					if v.tile ~= WORLD_TILES.MONKEY_DOCK then
+						TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
+					else
+						TheWorld.components.dockmanager:CreateDockAtPoint(tile_x, 0, tile_z, WORLD_TILES.MONKEY_DOCK)--so it properly creates the undertile.
+					end
 				end
 			end
 		end
@@ -132,6 +139,8 @@ local function superspawner(extension,data,rotatable,tile_centered, spawninwater
 	
 	return Prefab("umss_"..extension, makefn)
 end
+
+
 
 --Version 1.1
 -- Return your spavvners by filling out superspawner("extension", definedTable,rotatable(binary),centered(binary)), 

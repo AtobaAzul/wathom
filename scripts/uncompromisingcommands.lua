@@ -100,6 +100,12 @@ function c_settile(tile)
     end
     local pos = ConsoleWorldPosition()
     local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(pos.x, 0,pos.z)
-    TheWorld.Map:SetTile(tile_x,tile_z, tile)
+
+    if tile ~= WORLD_TILES.MONKEY_DOCK then
+        TheWorld.Map:SetTile(tile_x,tile_z, tile)
+    else
+        TheWorld.components.dockmanager:CreateDockAtPoint(pos.x, 0, pos.z, WORLD_TILES.MONKEY_DOCK)--so it properly creates the undertile.
+    end
+
     print("setting tile "..tile.." at "..tile_x..", "..tile_z)
 end
