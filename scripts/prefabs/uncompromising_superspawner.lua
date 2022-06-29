@@ -28,12 +28,20 @@ local moonFrag = { 	{x = 3.0202503204346, z = 1.8474426269531, prefab = "moongla
 		--used with 
 local demoTable = { 	{x = 0.75909423828125, z = -1.0461730957031, prefab = "log"}, 	{x = -0.3468017578125, z = -1.5800933837891, prefab = "log"}, 	{x = -0.52099609375, z = 1.6518249511719, prefab = "log"}, 	{x = -1.7550659179688, z = 0.57977294921875, prefab = "log"}, 	{x = 1.7808227539063, z = -1.3889923095703, prefab = "log"}, 	{x = -1.9171752929688, z = -1.6593780517578, prefab = "seastack"}, 	{x = 2.6639404296875, z = 0.544677734375, prefab = "log"}, 	{x = 0.17535400390625, z = -2.7806091308594, prefab = "log"}, 	{x = 1.5282592773438, z = 2.39404296875, prefab = "seastack"}, 	{x = -2.5726318359375, z = 1.4523315429688, prefab = "log"}, 	{x = -1.505126953125, z = 2.6280517578125, prefab = "log"}, 	{x = 0.27471923828125, z = 3.4244842529297, prefab = "log"}, 	{x = 3.203857421875, z = 1.6869049072266, prefab = "log"}, 	{x = 3.5248413085938, z = -0.87544250488281, prefab = "seastack"}, 	{x = -0.51788330078125, z = 3.9206237792969, prefab = "log"}, 	{x = 1.7034912109375, z = 3.7448883056641, prefab = "log"}, 	{x = -4.234619140625, z = 0.46084594726563, prefab = "seastack"}, 	{x = -3.4193725585938, z = 2.6381988525391, prefab = "log"}, 	{x = -2.8687744140625, z = 3.2518157958984, prefab = "log"}, 	{x = -2.4285888671875, z = 4.8321075439453, prefab = "seastack"}, 	{x = 3.6779174804688, z = 5.6669464111328, prefab = "splash"}, }
 
-local returnedTable = { 	{x = 0.46360778808594, z = -0.46786499023438, prefab = "berrybush" },	{x = 0.2960205078125, z = 2.3464012145996, prefab = "berrybush" , barren = true},	{x = -2.6017761230469, z = -0.11078262329102, prefab = "grass" },	{x = 0.2960205078125, z = -2.6535987854004, prefab = "berrybush_juicy" , barren = true},	{x = 3.2960205078125, z = -0.65359878540039, prefab = "grass" , barren = true},	{x = -4.1174926757813, z = -0.54916763305664, prefab = "berrybush_juicy" },	{x = 2.2460174560547, z = -8.7035980224609, prefab = "green_mushroom" },	{x = 8.9960174560547, z = -3.9135971069336, prefab = "rabbithole" },}
+local testTable3 = { 	{x = -0.09600830078125, z = -1.112060546875, prefab = "driftwood_log", ocean = true, tile = 204},	{x = 3.0816040039063, z = -2.0603332519531, prefab = "um_devcap_tileflag", ocean = true, tile = 204},	{x = -3.4259033203125, z = 2.6483154296875, prefab = "um_devcap_tileflag", ocean = true, tile = 203},	{x = -3.66357421875, z = -3.4009704589844, prefab = "um_devcap_tileflag", ocean = true, tile = 203},	{x = -0.90301513671875, z = -5.21630859375, prefab = "driftwood_log", ocean = true, tile = 204},	{x = 3.9368286132813, z = 4.3008422851563, prefab = "um_devcap_tileflag", ocean = true, tile = 204},	{x = 8.499267578125, z = 3.5470886230469, prefab = "driftwood_log", ocean = true, tile = 204},	{x = -14.640563964844, z = -12.691955566406, prefab = "dock_kit", ocean = true, tile = 203},}
+
 
 --Place the next table above MEEEE^
 --------------------------------------------
 local function UncompromisingSpawnGOOOOO(inst,data)
 	local x,y,z = inst.Transform:GetWorldPosition()
+	
+	if inst.tile_centered then
+		local tile_x, tile_y, tile_z = TheWorld.Map:GetTileCenterPoint(x, 0, z)
+		inst.Transform:SetPosition(tile_x,tile_y,tile_z)
+		x,y,z = inst.Transform:GetWorldPosition()
+	end
+	
 	local rotx = 1
 	local rotz = 1
 	
@@ -49,21 +57,27 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 	for i,v in ipairs(data) do
 		--TheNet:Announce(i) --For Troubleshooting
 		--TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
-		local prefab = SpawnPrefab(v.prefab)
-		prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
-		if v.diseased then
-			--If vve ever add back acid rain I guess vve could have this, vvhatever
+		if v.prefab ~= "um_devcap_tileflag" then
+			local prefab = SpawnPrefab(v.prefab)
+			prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+			if v.diseased then
+				--If vve ever add back acid rain I guess vve could have this, vvhatever
+			end
+			if v.barren and prefab.components.pickable then
+				prefab.components.pickable:MakeBarren()
+			end
+			if v.withered and prefab.components.witherable then
+				prefab.components.witherable:ForceWither()
+			end
 		end
-		if v.barren and prefab.components.pickable then
-			prefab.components.pickable:MakeBarren()
-		end
-		if v.withered and prefab.components.witherable then
-			prefab.components.witherable:ForceWither()
+		if v.tile and v.tile ~= TheWorld.Map:GetTileAtPoint(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz) then
+			local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+			TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
 		end
 	end
 end
 
-local function superspawner(extension,data,rotatable)
+local function superspawner(extension,data,rotatable,tile_centered)
 
 	local function makefn()
 		local inst = CreateEntity()
@@ -77,6 +91,7 @@ local function superspawner(extension,data,rotatable)
 		
 		inst.spawnTable = data
 		inst.rotatable = rotatable
+		inst.tile_centered = tile_centered
 		--TheNet:Announce("INIT") --For Troubleshooting
 		inst:DoTaskInTime(0,
 			function(inst)
@@ -91,15 +106,18 @@ local function superspawner(extension,data,rotatable)
 end
 
 
---Version 1.0
--- Return your spavvners by filling out superspawner("extension", definedTable), 
+--Version 1.1
+-- Return your spavvners by filling out superspawner("extension", definedTable,rotatable(binary),centered(binary)), 
 --"extension" shovvs hovv your spavvner is named, definedTable is the table defined above at the top of the file
---The last paramater is vvhether or not you allovv rotation... setting it to true vvill mean the spavvner can also rotate the vvhole 
+--The third paramater is vvhether or not you allovv rotation... setting it to true vvill mean the spavvner can also rotate the vvhole 
 --preset before spavving about the center, setting it to false means it *ALVVAYS* spavvns at the same orientation.
+
+--Updated, added tile support and 4th parameter, if the table data contains tile data, then tiles vvill be placed too.
+--Fourth parameter added, determines if the UMSS moves itself to the center of a tile before spavvning objects.
 
 --IMPORTANT NOTE: DO NOT USE CAMEL CASE FOR THE EXTENSION, FOR SOME REASON THE GAME VVOULD NOT CREATE PREFABS IN CAMEL CASE I HAVE NO IDEA VVHY IT'S ABSURD
 --FYI CAMEL CASE EXAMPLES": "logCamp","oceanZone","seaGore","moonGut","moonFested",moonMavv","beMooned"
-return superspawner("test1", returnedTable,true),
+return superspawner("test1", testTable3,true,true), --Novv demos tile and ocean tile usage
 	superspawner("test2", testTable2,true),
 	superspawner("demotable", demoTable,true),
 	superspawner("moonoil", moonOil, true),

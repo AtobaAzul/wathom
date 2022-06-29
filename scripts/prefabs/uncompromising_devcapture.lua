@@ -40,11 +40,15 @@ local function Capture(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
 	local itemsinside = inst.components.container:GetAllItems()
 	local range = 0
+	local no_tiles = nil
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
 			range = range + 0.5*v.components.stackable:StackSize()
 		end --since each log is 0.5 - 8 logs = 1 tile!
 		v:AddTag("DEVBEHOLDER")
+		if v.prefab == "pitchfork" then
+			no_tiles = true
+		end
 	end
 	--TheNet:Announce(range)
 	local ents = TheSim:FindEntities(x,y,z,range,nil,{"DEVBEHOLDER","player","bird", "NOCLICK", "CLASSIFIED", "FX", "INLIMBO", "smalloceancreature"})
@@ -63,6 +67,14 @@ local function Capture(inst)
 		end
 		if v.components.witherable and v.components.witherable:IsWithered() then
 			totaltable = totaltable..", withered = true"
+		end
+		if TheWorld.Map:IsOceanAtPoint(px,py,pz) then
+			totaltable = totaltable..", ocean = true"
+		else
+			totaltable = totaltable..", ocean = false"
+		end
+		if TheWorld.Map:GetTileAtPoint(px,py,pz) and not no_tiles then
+			totaltable = totaltable..", tile = "..tostring(TheWorld.Map:GetTileAtPoint(px,py,pz))
 		end
 		totaltable = totaltable.."},"
 	end
@@ -117,9 +129,39 @@ local function fn()
     --inst.components.channelable.skip_state_stopchanneling = true
     inst.components.channelable.skip_state_channeling = true
 	
+	inst:DoTaskInTime(0,function(inst)
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local tile_x, tile_y, tile_z = TheWorld.Map:GetTileCenterPoint(x, 0, z)
+		inst.Transform:SetPosition(tile_x,tile_y,tile_z)
+	end)
+	
     return inst
 end
 
-return Prefab("uncompromising_devcapture", fn) --Version 1.0
+local function TileFlag(inst)
+	local inst = CreateEntity()
+
+	inst.entity:AddTransform()
+	inst.entity:AddAnimState()
+	inst.entity:AddNetwork()
+
+
+    inst.AnimState:SetBank("sign_home")
+    inst.AnimState:SetBuild("sign_home")
+    inst.AnimState:PlayAnimation("idle")
+	
+	inst:AddTag("UMSS_FLAG")
+	
+    inst.entity:SetPristine()
+	
+    if not TheWorld.ismastersim then
+        return inst
+    end
+		
+	return inst
+end
+
+return Prefab("uncompromising_devcapture", fn), --Version 1.0
+	Prefab("um_devcap_tileflag",TileFlag)
 
 
