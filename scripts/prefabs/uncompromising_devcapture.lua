@@ -79,9 +79,22 @@ local function Capture(inst)
 		totaltable = totaltable.."},"
 	end
 	totaltable = totaltable.."}"
-	print(totaltable)
-	TheNet:Announce("Prefabs Captured, Check your Log")
-	inst:Remove()
+	--print("captured prefabs:", totaltable)
+
+	local file_name = TUNING.DSTU.MODROOT.."/devcapture_output.lua"
+	print(file_name)
+	local file = io.open(file_name, "w")--for some reason, I couldn't use "append" modes.
+	if file then
+		TheNet:Announce("Prefabs Captured! Check your mod folder's devcapture_output.lua!")
+		local data = file:write(totaltable)
+		file:close()
+		inst:Remove()
+		return data
+	else
+		TheNet:Announce("Failed to write: file invalid!")
+	end
+	--now supports ludicrously sized setpieces!
+	--had to write the result on a new file, print can only fit so much.
 end
 
 local function fn()
@@ -163,6 +176,12 @@ local function TileFlag(inst)
 
     inst:AddComponent("stackable")
     inst.components.stackable.maxsize = 60
+
+	inst:DoTaskInTime(0,function(inst)
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local tile_x, tile_y, tile_z = TheWorld.Map:GetTileCenterPoint(x, 0, z)
+		inst.Transform:SetPosition(tile_x,tile_y,tile_z)
+	end)
 
 	return inst
 end

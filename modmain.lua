@@ -84,3 +84,6 @@ end)
 AddShardModRPCHandler("UncompromisingSurvival", "AcidMushroomsTargetFinished", function(shard_id, data)
     GLOBAL.TheWorld:PushEvent("master_acidmushroomsfinished", data)
 end)]]
+
+GLOBAL.TUNING.DSTU.MODROOT = MODROOT
+print("MOD ROOT HERE YOU DUMMY: "..GLOBAL.TUNING.DSTU.MODROOT)--had to get a way around MODROOT being modmain env. only.
