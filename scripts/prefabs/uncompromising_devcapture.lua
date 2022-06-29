@@ -152,12 +152,18 @@ local function TileFlag(inst)
 	
 	inst:AddTag("UMSS_FLAG")
 	
+	MakeInventoryPhysics(inst)
+
     inst.entity:SetPristine()
 	
     if not TheWorld.ismastersim then
         return inst
     end
-		
+	inst:AddComponent("inventoryitem")
+
+    inst:AddComponent("stackable")
+    inst.components.stackable.maxsize = 60
+
 	return inst
 end
 

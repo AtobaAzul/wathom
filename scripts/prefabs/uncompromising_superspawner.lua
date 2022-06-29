@@ -30,6 +30,7 @@ local demoTable = { 	{x = 0.75909423828125, z = -1.0461730957031, prefab = "log"
 
 local testTable3 = { 	{x = -0.09600830078125, z = -1.112060546875, prefab = "driftwood_log", ocean = true, tile = 204},	{x = 3.0816040039063, z = -2.0603332519531, prefab = "um_devcap_tileflag", ocean = true, tile = 204},	{x = -3.4259033203125, z = 2.6483154296875, prefab = "um_devcap_tileflag", ocean = true, tile = 203},	{x = -3.66357421875, z = -3.4009704589844, prefab = "um_devcap_tileflag", ocean = true, tile = 203},	{x = -0.90301513671875, z = -5.21630859375, prefab = "driftwood_log", ocean = true, tile = 204},	{x = 3.9368286132813, z = 4.3008422851563, prefab = "um_devcap_tileflag", ocean = true, tile = 204},	{x = 8.499267578125, z = 3.5470886230469, prefab = "driftwood_log", ocean = true, tile = 204},	{x = -14.640563964844, z = -12.691955566406, prefab = "dock_kit", ocean = true, tile = 203},}
 
+local barren_pointofuninerest = { 	{x = 0.309326171875, z = -4.1612548828125, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 4.2081298828125, z = 0.00018310546875, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -4.3330078125, z = 4.1684265136719, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -0.31930541992188, z = 7.9237670898438, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 8.2266235351563, z = -0.10549926757813, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -3.7685546875, z = 7.6942749023438, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 7.8563537597656, z = 3.7084350585938, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 8.15478515625, z = -4.2245483398438, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -7.3589477539063, z = -8.0000610351563, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -11.390380859375, z = -4.16162109375, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 12.323791503906, z = -0.23892211914063, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 4.0320434570313, z = -12.089385986328, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 7.9749450683594, z = 11.695281982422, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 8.213134765625, z = -11.913208007813, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -11.282592773438, z = 11.948059082031, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 11.590728759766, z = 11.968994140625, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = 14.847839355469, z = 8.5369262695313, prefab = "um_devcap_tileflag", ocean = false, tile = 4},	{x = -7.4864196777344, z = 15.492401123047, prefab = "um_devcap_tileflag", ocean = false, tile = 4},}	
 
 --Place the next table above MEEEE^
 --------------------------------------------
@@ -59,7 +60,19 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 		--TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
 		if v.prefab ~= "um_devcap_tileflag" then
 			local prefab = SpawnPrefab(v.prefab)
-			prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+			--TheNet:Announce("spawninwater_prefab: ")
+			--TheNet:Announce(inst.spawninwater_prefab)
+			if inst.spawninwater_prefab or inst.spawninwater_prefab == nil then
+				prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+			else
+				if not TheWorld.Map:IsOceanTileAtPoint(x+v.x*rotx, (v.y and v.y+y) or 0, z+v.z*rotz) then
+					--TheNet:Announce("not ocean tile, setting pos!")
+					prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
+				else
+					--TheNet:Announce("ocean tile! removing!")
+					prefab:Remove()
+				end
+			end
 			if v.diseased then
 				--If vve ever add back acid rain I guess vve could have this, vvhatever
 			end
@@ -72,12 +85,25 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 		end
 		if v.tile and v.tile ~= TheWorld.Map:GetTileAtPoint(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz) then
 			local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
-			TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
+			--TheNet:Announce("spawninwater_tile:")
+			--TheNet:Announce(inst.spawninwater_tile)
+			if inst.spawninwater_tile or inst.spawninwater_tile == nil then
+				--TheNet:Announce("spawninwater true!")
+				TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
+			else
+				if 	TheWorld.Map:IsOceanTileAtPoint(x+v.x*rotx, (v.y and v.y+y) or 0, z+v.z*rotz) then
+					--TheNet:Announce("water at point!")
+				else
+					--TheNet:Announce("not water!")
+					TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
+
+				end
+			end
 		end
 	end
 end
 
-local function superspawner(extension,data,rotatable,tile_centered)
+local function superspawner(extension,data,rotatable,tile_centered, spawninwater_tile, spawninwater_prefab)
 
 	local function makefn()
 		local inst = CreateEntity()
@@ -92,6 +118,8 @@ local function superspawner(extension,data,rotatable,tile_centered)
 		inst.spawnTable = data
 		inst.rotatable = rotatable
 		inst.tile_centered = tile_centered
+		inst.spawninwater_tile = spawninwater_tile
+		inst.spawninwater_prefab = spawninwater_prefab
 		--TheNet:Announce("INIT") --For Troubleshooting
 		inst:DoTaskInTime(0,
 			function(inst)
@@ -105,7 +133,6 @@ local function superspawner(extension,data,rotatable,tile_centered)
 	return Prefab("umss_"..extension, makefn)
 end
 
-
 --Version 1.1
 -- Return your spavvners by filling out superspawner("extension", definedTable,rotatable(binary),centered(binary)), 
 --"extension" shovvs hovv your spavvner is named, definedTable is the table defined above at the top of the file
@@ -114,17 +141,19 @@ end
 
 --Updated, added tile support and 4th parameter, if the table data contains tile data, then tiles vvill be placed too.
 --Fourth parameter added, determines if the UMSS moves itself to the center of a tile before spavvning objects.
+--5th parameter added, determines whether TILES will be placed in water, defaults to true if empty.
+--6th is the same but for PREFABS, also defaults to true.
 
 --IMPORTANT NOTE: DO NOT USE CAMEL CASE FOR THE EXTENSION, FOR SOME REASON THE GAME VVOULD NOT CREATE PREFABS IN CAMEL CASE I HAVE NO IDEA VVHY IT'S ABSURD
 --FYI CAMEL CASE EXAMPLES": "logCamp","oceanZone","seaGore","moonGut","moonFested",moonMavv","beMooned"
 return superspawner("test1", testTable3,true,true), --Novv demos tile and ocean tile usage
 	superspawner("test2", testTable2,true),
 	superspawner("demotable", demoTable,true),
-	superspawner("moonoil", moonOil, true),
+	superspawner("moonoil", moonOil, true, false, false, false),
 	superspawner("failedfisherman", failedFisherman, false),
 	superspawner("tridenttrap", tridentTrap, false),
-	superspawner("impactfuldiscovery", impactfulDiscovery, true),
-	superspawner("basefrag_rattystorage", baseFrag_rattyStorage, true),
-	superspawner("basefrag_smellykitchen", baseFrag_smellyKitchen, true),
+	superspawner("impactfuldiscovery", impactfulDiscovery, true, false, false, false),
+	superspawner("basefrag_rattystorage", baseFrag_rattyStorage, true, false, false, false),
+	superspawner("basefrag_smellykitchen", baseFrag_smellyKitchen, true, false, false, false),
 	superspawner("sunkenboat", sunkenboat, true),
-	superspawner("moonfrag", moonFrag, false)
+	superspawner("barren_pointofuninerest", barren_pointofuninerest, true, true, false, false)--test for water edge spawning
