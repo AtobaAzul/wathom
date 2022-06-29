@@ -92,3 +92,14 @@ function c_spawnsunkenchest(royal)
         print("failed to spawn sunken chest")
     end
 end
+--sets a tile by ID
+--defaults to barren if unspecified.
+function c_settile(tile)
+    if tile == nil then
+        tile = 4
+    end
+    local pos = ConsoleWorldPosition()
+    local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(pos.x, 0,pos.z)
+    TheWorld.Map:SetTile(tile_x,tile_z, tile)
+    print("setting tile "..tile.." at "..tile_x..", "..tile_z)
+end
