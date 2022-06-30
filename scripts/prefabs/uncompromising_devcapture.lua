@@ -1,5 +1,8 @@
 require "prefabutil"
 
+local io = require("io")
+
+
 local function onopen(inst)
     if not inst:HasTag("burnt") then
         inst.AnimState:PlayAnimation("open")
