@@ -22,6 +22,8 @@ env.AddComponentPostInit("fishingnetvisualizer", function(self)
 	local _OldBeginOpening = self.BeginOpening
 	
 	function self:BeginOpening()
+		_OldBeginOpening(self)
+	
 		if self.inst.item ~= nil then
 			self.inst.item.netweight = 1
 		end
@@ -29,25 +31,33 @@ env.AddComponentPostInit("fishingnetvisualizer", function(self)
 		local my_x, my_y, my_z = self.inst.Transform:GetWorldPosition()
 		local fishies = TheSim:FindEntities(my_x,my_y,my_z, self.collect_radius, {"oceanfishable"})
 		for k, v in pairs(fishies) do
-			local fish = SpawnPrefab(v.prefab.."_inv")
-			if self.inst.item ~= nil and v.components.weighable ~= nil then
-				local minweight = v.components.weighable.min_weight
-			
-				if minweight < 100 then
-					self.inst.item.netweight = self.inst.item.netweight + 2
-				elseif minweight >= 100 and minweight < 200 then
-					self.inst.item.netweight = self.inst.item.netweight + 4
-				elseif minweight >= 200 then
-					self.inst.item.netweight = self.inst.item.netweight + 6
+			if k < 3 then
+				local fish = SpawnPrefab(v.prefab.."_inv")
+				if self.inst.item ~= nil and v.components.weighable ~= nil then
+					local minweight = v.components.weighable.min_weight
+				
+					if minweight < 100 then
+						self.inst.item.netweight = self.inst.item.netweight + 2
+					elseif minweight >= 100 and minweight < 200 then
+						self.inst.item.netweight = self.inst.item.netweight + 4
+					elseif minweight >= 200 then
+						self.inst.item.netweight = self.inst.item.netweight + 6
+					end
 				end
+				
+				v:Remove()
+				fish.Transform:SetPosition(my_x, my_y, my_z)
+				fish.components.weighable:SetWeight(fish.components.weighable.min_weight)
+
+				if fish:IsValid() then
+					fish:RemoveFromScene()
+				end
+				
+				table.insert(self.captured_entities, fish)
+				self.captured_entities_collect_distance[fish] = 0
 			end
-			
-			v:Remove()
-			
-			table.insert(self.captured_entities, fish)
-			self.captured_entities_collect_distance[fish] = 0
 		end
 		
-		return _OldBeginOpening(self)
+		--return _OldBeginOpening(self)
 	end
 end)
