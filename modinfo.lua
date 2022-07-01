@@ -177,7 +177,7 @@ configuration_options =
 	BinaryConfig("wormwood_fire", "Extra Flamable Wormwood", "Wormwood is highly flameable, like in Hamlet.", false),
 	BinaryConfig("wormwood_plants", "Prevent Infinite Sanity Loop", "Increases the sanity loss from digging plants.", true),
 	BinaryConfig("wendy", "Nerfed Wendy", "Abigail was nerfed to not increase Wendy's maximum damage above average.", true),
-	BinaryConfig("wx78", "Tweaked WX-78", "No longer heals from lightning", true),
+	BinaryConfig("wx78", "Tweaked WX-78", "No longer heals from lightning", false),
 	BinaryConfig("woodie", "Weregoose Wetness", "Weregoose gains wetness when over water.", false),
 	SkipSpace(),
 ------------------------------
@@ -370,6 +370,7 @@ configuration_options =
 	SkipSpace(),
 	Header("Food"),
 	Header("Crockpot Recipes"),
+	BinaryConfig("nowintergrowing", "No Winter Growing", "Makes a few food sources such as kelp and stone fruit not grow in winter", true),
 	BinaryConfig("newrecipes", "New Recipes", "UM adds a few new recipes\nTurn this off if you're using mods that can cause overlap, such as HoF.", true),
 	BinaryConfig("crockpotmonstmeat", "Harder Monster Meat", "Enables the new monster lagsana recipe, where you can only make recipes if the meat value is greater than monster value.", true),
 	BinaryConfig("generalcrockblocker", "Trash Filler Blocker", "Heavy use of certain low quality crockpot ingredients, such as twigs, ice, buttefly wings, and other inedibles results in wet goop.", true),
@@ -513,10 +514,13 @@ configuration_options =
 
 
 	Header("Misc Monsters"),
+	BinaryConfig("bushcrabs", "Bush Crabs", "Bush Crabs ambush the player when digging berry bushes...", true),
 	BinaryConfig("desertscorpions", "Scorpions", "Scorpions plague the desert lands. They will spawn from desert turf within the desert during the day.", true),
 	BinaryConfig("pinelings", "Pinelings", "Stumps will become pinelings if awoken by a treeguard, or can happen naturally to existing old stumps.", true),
 	BinaryConfig("pollenmites", "Pollen Mites", "Pollen mites spawn in spring and quickly infest the nearby area.", false),
 	BinaryConfig("maxhphitters", "Max HP Damage", "Some monsters deal Max HP damage\nTurn this off if you're having problems with mods which also interact with it.", true),
+	BinaryConfig("harder_krampus", "Harder Krampus", "Krampii now have a new attack with knockback.", true),
+	BinaryConfig("noauradamage_butterfly", "AoE Immune Butterflies", "Butteflies are immune to AoE damage such as catapults, and Abigal.", true),
 	SkipSpace(),
 
 	Header("Standard Creatures"),

@@ -159,7 +159,6 @@ local stategraph_post = {
 	--"wobysmall",
 	--"shadowcreature",
 	"stalker_minion",
-	"krampus",
 	--"merm",
 	"carnival_host",
 	"catcoon",
@@ -313,6 +312,10 @@ end
 
 if GetModConfigData("fiendforcedmetodothis") then
 	table.insert(prefab_post, "snurtle")
+end
+
+if GetModConfigData("harder_krampus") then
+	table.insert(stategraph_post, "krampus")
 end
 
 --if GetModConfigData("boatturning") then
