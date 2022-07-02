@@ -360,4 +360,5 @@ return {
 	"um_sandrock",
 	"um_scorpioneggs",
 	"giant_tree_birdnest",
+	"uncompromising_bumpers",
 }

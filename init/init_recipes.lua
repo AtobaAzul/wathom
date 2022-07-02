@@ -61,49 +61,45 @@ CONSTRUCTION_PLANS["multiplayer_portal_moonrock_constr"] = {
 --while AllRecipes doesn't. Not sure if there's any issues with that.
 --skins broke! help!
 
+--Recipe changes
 if GetModConfigData("longpig") then
     AllRecipes["reviver"].ingredients = {Ingredient("skeletonmeat", 1), Ingredient("spidergland", 1)}
 end
+
 if GetModConfigData("wanda_nerf") then
-    AllRecipes["pocketwatch_revive"].ingredients = {
-        Ingredient("pocketwatch_parts", 2),
-        Ingredient("livinglog", 2),
-        Ingredient("boneshard", 4)
-    }
+    AllRecipes["pocketwatch_revive"].ingredients = {Ingredient("pocketwatch_parts", 2), Ingredient("livinglog", 2), Ingredient("boneshard", 4)}
 end
 
-AllRecipes["moonrockidol"].ingredients = {
-    Ingredient("moonrocknugget", GLOBAL.TUNING.DSTU.RECIPE_MOONROCK_IDOL_MOONSTONE_COST),
-    Ingredient("purplegem", 1)
-}
+AllRecipes["moonrockidol"].ingredients = { Ingredient("moonrocknugget", GLOBAL.TUNING.DSTU.RECIPE_MOONROCK_IDOL_MOONSTONE_COST), Ingredient("purplegem", 1)}
+
 AllRecipes["minifan"].ingredients = {Ingredient("twigs", 3), Ingredient("petals", 4)}
-AllRecipes["seedpouch"].ingredients = {
-    Ingredient("slurtle_shellpieces", 2),
-    Ingredient("waxpaper", 1),
-    Ingredient("seeds", 2)
-}
+
+AllRecipes["seedpouch"].ingredients = {Ingredient("slurtle_shellpieces", 2), Ingredient("waxpaper", 1), Ingredient("seeds", 2)}
+
 AllRecipes["catcoonhat"].ingredients = {Ingredient("coontail", 4), Ingredient("silk", 4)}
-AllRecipes["goggleshat"].ingredients = {
-    Ingredient("goldnugget", 4),
-    Ingredient("pigskin", 1),
-    Ingredient("houndstooth", 2)
-}
+
+AllRecipes["goggleshat"].ingredients = {Ingredient("goldnugget", 4), Ingredient("pigskin", 1), Ingredient("houndstooth", 2)}
+
 AllRecipes["deserthat"].level = TechTree.Create(TECH.SCIENCE_TWO)
+
+AllRecipes["fish_box"].testfn = function(pt) return GLOBAL.TheWorld.Map:GetPlatformAtPoint(pt.x, 0, pt.z, -0.5) ~= nil or GLOBAL.TheWorld.Map:GetTileAtPoint(pt.x, 0, pt.z) == GLOBAL.WORLD_TILES.MONKEY_DOCK end
 
 if TUNING.DSTU.WOLFGANG_HUNGERMIGHTY then
     AllRecipes["mighty_gym"].ingredients = {Ingredient("boards", 4), Ingredient("cutstone", 2), Ingredient("rope", 3)}
     AllRecipes["dumbbell"].ingredients = {Ingredient("rocks", 4), Ingredient("twigs", 1)}
-    AllRecipes["dumbbell_golden"].ingredients = {
-        Ingredient("goldnugget", 2),
-        Ingredient("cutstone", 2),
-        Ingredient("twigs", 2)
-    }
-    AllRecipes["dumbbell_gem"].ingredients = {
-        Ingredient("purplegem", 1),
-        Ingredient("cutstone", 2),
-        Ingredient("twigs", 2)
-    }
+    AllRecipes["dumbbell_golden"].ingredients = {Ingredient("goldnugget", 2), Ingredient("cutstone", 2), Ingredient("twigs", 2)}
+    AllRecipes["dumbbell_gem"].ingredients = {Ingredient("purplegem", 1), Ingredient("cutstone", 2), Ingredient("twigs", 2)}
 end
+
+AddRecipe2(
+    "ghostlyelixir_fastregen",
+    {Ingredient(GLOBAL.CHARACTER_INGREDIENT.HEALTH, 50), Ingredient("ghostflower", 4)},
+    TECH.MAGIC_TWO,
+    {builder_tag = "elixirbrewer"},
+    {"CHARACTER"}
+)
+
+--new recipes
 
 AddRecipe2(
     "snowgoggles",
@@ -134,14 +130,6 @@ AddRecipe2(
 ChangeSortKey("diseasecurebomb", "compostwrap", "GARDENING", true)
 ChangeSortKey("diseasecurebomb", "premiumwateringcan", "TOOLS", true)
 ChangeSortKey("diseasecurebomb", "lifeinjector", "RESTORATION", true)
-
-AddRecipe2(
-    "ghostlyelixir_fastregen",
-    {Ingredient(GLOBAL.CHARACTER_INGREDIENT.HEALTH, 50), Ingredient("ghostflower", 4)},
-    TECH.MAGIC_TWO,
-    {builder_tag = "elixirbrewer"},
-    {"CHARACTER"}
-)
 
 AddRecipe2("ice_snowball", {Ingredient("snowball_throwable", 4)}, TECH.SCIENCE_ONE, {product = "ice"}, {"REFINE"})
 ChangeSortKey("ice_snowball", "beeswax", "REFINE", true)
