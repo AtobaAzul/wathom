@@ -10,14 +10,17 @@ local function SpawnBlueberryBunches(inst)
 			end
 			x = x + math.random()+math.random()+0.6
 			z = z - 0.5 +math.random()
-			local sorrel = SpawnPrefab("um_sorrel")
-			sorrel.Transform:SetPosition(x, y, z)
+			if TheWorld.Map:IsPassableAtPoint(x, 0, z) then
+				local sorrel = SpawnPrefab("um_sorrel")
+				sorrel.Transform:SetPosition(x, y, z)
+			end
 		end
 		x = x - 3 * math.random()- 3 * math.random() - 0.75
 		z = z + math.random()+math.random()+0.6
 	end
 	inst:Remove()
 end
+
 local function makefn()
     	local inst = CreateEntity()
 
