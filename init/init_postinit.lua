@@ -28,6 +28,7 @@ local component_post = {
 	"weighable",
 	"messagebottlemanager",
 	"fishingnet",
+	"boatleak", --for custom boat patches.
 }
 
 local prefab_post = {
