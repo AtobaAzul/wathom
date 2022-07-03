@@ -38,6 +38,7 @@ local testTable3 = { 	{x = -0.09600830078125, z = -1.112060546875, prefab = "dri
 --Place the next table above MEEEE^
 --------------------------------------------
 local function UncompromisingSpawnGOOOOO(inst,data)
+	local tags = inst.tags
 	local x,y,z = inst.Transform:GetWorldPosition()
 	
 	if inst.tile_centered then
@@ -70,6 +71,28 @@ local function UncompromisingSpawnGOOOOO(inst,data)
 			if inst.tags then
 				for k, v in ipairs(inst.tags) do
 					prefab:AddTag(v)
+				end
+
+				local old_OnSave = prefab.OnSave
+				prefab.OnSave = function(inst, data)
+					data.tags = tags
+					printwrap("tags", data.tags)
+					if old_OnSave ~= nil then
+						old_OnSave(inst, data)
+					end
+				end
+
+				local old_OnLoad = prefab.OnLoad
+				prefab.OnLoad = function(inst, data)
+					printwrap("tags", data.tags)
+					if data.tags ~= nil then
+						for k, v in ipairs(data.tags) do
+							inst:AddTag(v)
+						end
+					end
+					if old_OnLoad ~= nil then
+						old_OnLoad(inst, data)
+					end
 				end
 			end
 
