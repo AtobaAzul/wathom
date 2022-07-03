@@ -351,6 +351,7 @@ configuration_options =
 		default = 1,
 	},
 	BinaryConfig("insul_thermalstone", "Tweaked Thermal Stone", "Thermal stones now have less insulation, but inherit some insulation from clothing.", true),
+	BinaryConfig("uncool_chester", "Thermal Stone Snow Chester Nerf", "Snow Chester will no longer freeze Thermal Stones.", true),
 	{
 		name = "electricalmishap",
 		label = "Electrical Weapon Retune",
@@ -520,7 +521,7 @@ configuration_options =
 	BinaryConfig("pollenmites", "Pollen Mites", "Pollen mites spawn in spring and quickly infest the nearby area.", false),
 	BinaryConfig("maxhphitters", "Max HP Damage", "Some monsters deal Max HP damage\nTurn this off if you're having problems with mods which also interact with it.", true),
 	BinaryConfig("harder_krampus", "Harder Krampus", "Krampii now have a new attack with knockback.", true),
-	BinaryConfig("noauradamage_butterfly", "AoE Immune Butterflies", "Butteflies are immune to AoE damage such as catapults, and Abigal.", true),
+	BinaryConfig("noauradamage_butterfly", "AoE Immune Butterflies", "Butterflies are immune to AoE damage such as catapults, and Abigail.", true),
 	SkipSpace(),
 
 	Header("Standard Creatures"),

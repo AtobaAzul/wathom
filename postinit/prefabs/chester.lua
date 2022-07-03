@@ -21,6 +21,11 @@ end
 local function MorphSnowChester(inst)
     inst.AnimState:SetBuild("chester_snow_build")
     inst:AddTag("fridge")
+	
+	if TUNING.DSTU.UNCOOL_CHESTER then
+		inst:AddTag("nocool")
+	end
+	
     inst.MiniMapEntity:SetIcon("chestersnow.png")
     inst.components.maprevealable:SetIcon("chestersnow.png")
 
