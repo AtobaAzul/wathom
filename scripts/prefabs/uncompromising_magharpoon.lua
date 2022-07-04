@@ -77,7 +77,8 @@ local function onthrown(inst, data)
 end
 
 local function pipethrown(inst)
-    --inst.AnimState:PlayAnimation("dart_pipe")
+	inst.SoundEmitter:PlaySound("dontstarve/wilson/boomerang_throw")
+    inst.AnimState:PlayAnimation("spin_loop", true)
     inst:AddTag("NOCLICK")
     inst.persists = false
 end
@@ -167,20 +168,37 @@ local function fncommon()
     return inst
 end
 
+local function onhit_return(inst, attacker, target)
+	if target ~= nil then
+		local x, y, z = target.Transform:GetWorldPosition()
+		local reel = SpawnPrefab("uncompromising_magharpoon")
+		reel.Transform:SetPosition(x, y, z)
+		reel.target = target
+		reel.AnimState:PlayAnimation("place")
+	end
+	
+    inst:Remove()
+end
+
 local function KillRopes(inst)
 	inst.SoundEmitter:PlaySound("UCSounds/harpoon/break")
 
 	inst:AddTag("NOCLICK")
-
-	if inst.harpoontask ~= nil then
-		inst.harpoontask:Cancel()
-	end
-		 
-	inst.harpoontask = nil
+	
+	inst.components.updatelooper:RemoveOnUpdateFn(Vac)
 	
 	if inst.hitfx ~= nil then
 		inst.hitfx:Remove()
 	end
+	
+	local x, y, z = inst.target.Transform:GetWorldPosition()
+	
+	local proj = SpawnPrefab("uncompromising_magharpoon_projectile")
+	proj.Transform:SetPosition(x, y, z)
+	proj.components.projectile:Throw(target, ist)
+	
+    proj.components.projectile:SetOnHitFn(onhit_return)
+	
 	
 	inst:Remove()
 end
@@ -190,15 +208,18 @@ local function harpoon()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     inst.entity:AddNetwork()
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("um_harpoon")
-    inst.AnimState:SetBuild("um_harpoon")
+    inst.AnimState:SetBank("boomerang")
+    inst.AnimState:SetBuild("boomerang")
     inst.AnimState:PlayAnimation("idle")
+    inst.AnimState:SetRayTestOnBB(true)
 
-    inst:AddTag("blowdart")
+    inst:AddTag("thrown")
+    inst:AddTag("weapon")
     inst:AddTag("sharp")
     inst:AddTag("weapon")
     inst:AddTag("projectile")
@@ -221,7 +242,7 @@ local function harpoon()
     inst.components.projectile:SetHoming(true)
     inst.components.projectile:SetOnMissFn(inst.Remove)
     inst.components.projectile:SetLaunchOffset(Vector3(3, 2, 0))
-    inst.components.projectile:SetSpeed(60)
+    inst.components.projectile:SetSpeed(10)
     inst.components.projectile:SetOnHitFn(onhit)
     inst:ListenForEvent("onthrown", onthrown)
 
@@ -352,7 +373,10 @@ local function reel()
 	inst.components.machine.ison = true
 	
 	inst:DoTaskInTime(0, InitializeRope)
-	inst.harpoontask = inst:DoPeriodicTask(0.05, Vac)
+	
+    inst:AddComponent("updatelooper")
+    inst.components.updatelooper:AddOnUpdateFn(Vac)
+	
 	inst:DoTaskInTime(60, KillRopes)
 	
 	inst.persists = false

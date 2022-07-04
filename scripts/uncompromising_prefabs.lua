@@ -335,6 +335,7 @@ return {
 	"uncompromising_magharpoon",
 	"uncompromising_fishingnet",
 	"uncompromising_fishingnetvisualizer",
+	"um_windturbine",
 	
 	"siren_fish",
 	

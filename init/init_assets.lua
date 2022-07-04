@@ -682,6 +682,7 @@ Assets = {
 	Asset("ANIM", "anim/um_harpoonhitfx.zip"),
 	Asset("ATLAS", "images/inventoryimages/uncompromising_harpoon.xml"),
 	Asset("IMAGE", "images/inventoryimages/uncompromising_harpoon.tex"),
+	Asset("ANIM", "anim/um_windturbine.zip"),
 	
 	Asset("ANIM", "anim/figgy_newton.zip"),
 	
