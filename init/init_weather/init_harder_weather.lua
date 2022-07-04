@@ -67,10 +67,6 @@ env.AddPrefabPostInit("forest", function(inst)
 	if TUNING.DSTU.SNOWSTORMS and not TUNING.DSTU.ISLAND_ADVENTURES then
 		inst:AddComponent("snowstorminitiator")
 	end
-	
-	if TUNING.DSTU.DESERTSCORPIONS then	
-		inst:AddComponent("scorpionspawner")
-	end
 end)
 
 if TUNING.DSTU.SPAWNMOTHERGOOSE and not TUNING.DSTU.ISLAND_ADVENTURES then
