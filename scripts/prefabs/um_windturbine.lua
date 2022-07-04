@@ -38,22 +38,39 @@ local function UpdateLight(inst)
 	local boat = TheWorld.Map:GetPlatformAtPoint(x, z)
 	
 	if boat ~= nil and boat:HasTag("boat") and boat.components ~= nil and boat.components.boatphysics ~= nil then
-		velocity = boat.components.boatphysics:GetVelocity() * 1.5
+		velocity = boat.components.boatphysics:GetVelocity() * 2.5
 	end
 	
 	if TheWorld.components.sandstorms then
-		sandstorm = TheWorld.Map:FindVisualNodeAtPoint(x, y, z, "sandstorm") and 3 or 0
+		sandstorm = TheWorld.Map:FindVisualNodeAtPoint(x, y, z, "sandstorm") and 5 or 0
 		--print(sandstorm)
 	end
 	
-	local snowstorm = ((TheWorld.net ~= nil and TheWorld.net:HasTag("snowstormstartnet")) or TheWorld:HasTag("snowstormstart")) and 3 or 0
+	local snowstorm = ((TheWorld.net ~= nil and TheWorld.net:HasTag("snowstormstartnet")) or TheWorld:HasTag("snowstormstart")) and 5 or 0
 	--print(snowstorm)
 	
 	local finalnums = velocity + sandstorm + snowstorm
 	print(finalnums)
-	if finalnums > 0 then
-		inst.Light:SetIntensity(finalnums / 7)
-		inst.Light:SetRadius(finalnums)
+	
+	if inst.lightlevel > finalnums then
+		inst.lightlevel = inst.lightlevel - 0.05
+	elseif inst.lightlevel < finalnums then
+		inst.lightlevel = inst.lightlevel + 0.05
+	end
+	
+	if inst.lightlevel < 0 then
+		inst.lightlevel = 0
+	end
+	
+	local lerpval = Lerp(.4, .7, inst.lightlevel / 7)
+	
+	if lerpval > .7 then
+		lerpval = .7
+	end
+	
+	if inst.lightlevel > 0 then
+		inst.Light:SetIntensity(lerpval)
+		inst.Light:SetRadius(inst.lightlevel * 1.5)
 		inst.Light:SetFalloff(.9)
 		
 		if not inst.AnimState:IsCurrentAnimation("spin") then
@@ -61,8 +78,8 @@ local function UpdateLight(inst)
 		end
 	else
 		--inst.Light:Enable(false)
-		inst.Light:SetIntensity(finalnums / 7)
-		inst.Light:SetRadius(finalnums)
+		inst.Light:SetIntensity(lerpval)
+		inst.Light:SetRadius(inst.lightlevel * 1.5)
 		inst.Light:SetFalloff(.9)
 	
 		if not inst.AnimState:IsCurrentAnimation("idle") then
@@ -99,6 +116,8 @@ local function fn()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.lightlevel = 0
 	
     inst:AddComponent("lootdropper")
 	
