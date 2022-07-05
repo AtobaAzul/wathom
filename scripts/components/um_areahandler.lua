@@ -1,12 +1,13 @@
 -- this is responsible for selecting which biomes will be which, and ensuring the 3 sirens exist.
 -- current idea I have for the biomes is this:
--- 6-9 biomes, 3 of which are active and the other are innactive
--- Inactive biomes are random, and do not contain the siren, and are year-round, but suffle around when sirens start existing.
+-- 6-9 biomes, 3 of which become "active" in spring and have the sirens
+-- the other biomes are "inactive" and don't have the sirens, but have a bit of the biome's resources
+-- and an alt threat (so, for example, SS has sirens on the active ver, but ghoasts on the inactive?)
+
 -- relevant events (to listen in the area handler prefab):
 -- generate_inactive
 -- generate_main
 -- clear
-
 local types = {"siren_throne", "ocean_speaker", "siren_bird_nest"}
 
 local AreaHandler = Class(function(self, inst)
@@ -33,7 +34,7 @@ function AreaHandler:GetSirens()
     return self.sirens
 end
 
--- inactive biomes are purely random.
+-- Inactive biomes are random placeholders so the biomes can move around.
 function AreaHandler:GenerateInactiveBiomes()
     for k, v in ipairs(self.handlers) do
         if v.sirenpoint == nil then -- any area handlers without a siren.
@@ -42,9 +43,10 @@ function AreaHandler:GenerateInactiveBiomes()
     end
 end
 
+--spawns the main biomes with the sirens (Speaker, Bird & Fish)
 function AreaHandler:SelectMainBiomes()
     -- initial selection
-    TheNet:Announce("SeletMainBiomes")
+    TheNet:Announce("SelectMainBiomes")
     -- TODO: make it randomize which biomes will be sirens!!
 
     if not table.contains(self.sirens, "siren_throne") then
@@ -84,6 +86,9 @@ function AreaHandler:SelectMainBiomes()
     end
 end
 
+-- Clears all area handler areas, empties sirens table.
+-- For generating a new set of biomes.
+-- Pushes an event for deleting prefabs around.
 function AreaHandler:Clear()
     for k, v in ipairs(self.handlers) do
         v.sirenpoint = nil
@@ -94,11 +99,23 @@ function AreaHandler:Clear()
     TheNet:Announce("cleared sirens.")
 end
 
--- Clears biomes, selects main biomes and then creates innactive biomes.
+-- Clears biomes, selects main biomes and then creates inactive biomes.
 function AreaHandler:FullGenerate()
     self:Clear()
     self:SelectMainBiomes()
     self:GenerateInactiveBiomes()
+end
+
+-- Turns any active biomes into inactive
+function AreaHandler:DeactivateMainBiomes()
+    for k, v in ipairs(self.handlers) do
+        if v.sirenpoint ~= nil then
+            v.sirenpoint = nil
+            v:PushEvent("clear")
+            v:PushEvent("generate_inactive")
+        end
+    end
+    self:GetSirens()
 end
 
 return AreaHandler
