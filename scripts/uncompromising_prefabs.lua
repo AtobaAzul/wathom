@@ -39,7 +39,7 @@ return {
 	"moonmaw_glassshards",
 	
 	"lavaspit",
-	--"sandhill",
+	"um_sandhill",
 	"snowpile",
 	--"sand",
 	"snowgoggles",
