@@ -66,9 +66,9 @@ local function workcallback(inst, worker, workleft)
 
 	if workleft < 0 then
 		-- the devtool probably did this, spit out 2
-		inst.components.lootdropper:SetLoot({"sand", "sand"})
+		inst.components.lootdropper:SetLoot({"logs", "logs"})
 	else
-		inst.components.lootdropper:SetLoot({"sand"})
+		inst.components.lootdropper:SetLoot({"logs"})
 	end
 
 	if workleft <= 0 then
@@ -203,12 +203,7 @@ local function sandhillfn(Sim)
 	inst.components.workable:SetWorkLeft(#anims-1)
 	inst.components.workable:SetOnWorkCallback(workcallback)
 
-	inst:AddComponent("activatable")
-	inst.components.activatable.inactive = false
-	inst.components.activatable.getverb = function() return "DESTROY" end
-	inst.components.activatable.OnActivate = function() inst:Remove() end
-
 	return inst
 end
 
-return Prefab( "common/objects/sandhill", sandhillfn, assets, prefabs)
+return Prefab( "um_sandhill", sandhillfn, assets, prefabs)
