@@ -33,14 +33,15 @@ local function fn()
 
     inst:AddComponent("fuel")
     inst.components.fuel.fuelvalue = TUNING.LARGE_FUEL
-    
+
     inst:AddComponent("boatpatch")
-    inst.components.boatpatch.patch_type = "treegrowth"--help, how could I turn this black?
-                                                       --I know SetMultColour would work but how would I run it on the patch prefab?
+    inst.components.boatpatch.patch_type = "sludge"
+
     inst:AddComponent("repairer")
     inst.components.repairer.repairmaterial = MATERIALS.WOOD
     inst.components.repairer.healthrepairvalue = TUNING.REPAIR_TREEGROWTH_HEALTH
     inst.components.repairer.boatrepairsound = "waterlogged1/common/use_figjam"
+
     MakeSmallBurnable(inst, TUNING.LARGE_BURNTIME)
     MakeSmallPropagator(inst)
 

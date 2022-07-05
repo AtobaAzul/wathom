@@ -335,6 +335,7 @@ return {
 	"uncompromising_magharpoon",
 	"uncompromising_fishingnet",
 	"uncompromising_fishingnetvisualizer",
+	"um_windturbine",
 	
 	"siren_fish",
 	
@@ -360,4 +361,5 @@ return {
 	"um_sandrock",
 	"um_scorpioneggs",
 	"giant_tree_birdnest",
+	"uncompromising_bumpers",
 }

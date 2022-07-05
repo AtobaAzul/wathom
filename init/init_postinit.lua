@@ -28,6 +28,7 @@ local component_post = {
 	"weighable",
 	"messagebottlemanager",
 	"fishingnet",
+	"boatleak", --for custom boat patches.
 }
 
 local prefab_post = {
@@ -40,7 +41,6 @@ local prefab_post = {
 	"flingobalance",
 	"chester",
 	"mushlight",
-	"butterfly",
     --"toadstool_cap", Moved to init_uncompromising_mod.lua
     "amulet",
 	"beequeen",
@@ -159,7 +159,6 @@ local stategraph_post = {
 	--"wobysmall",
 	--"shadowcreature",
 	"stalker_minion",
-	"krampus",
 	--"merm",
 	"carnival_host",
 	"catcoon",
@@ -313,6 +312,14 @@ end
 
 if GetModConfigData("fiendforcedmetodothis") then
 	table.insert(prefab_post, "snurtle")
+end
+
+if GetModConfigData("harder_krampus") then
+	table.insert(stategraph_post, "krampus")
+end
+
+if GetModConfigData("noauradamage_butterfly") then
+	table.insert(prefab_post, "butterfly")
 end
 
 --if GetModConfigData("boatturning") then

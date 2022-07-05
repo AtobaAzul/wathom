@@ -260,6 +260,11 @@ local function KillRopes(inst)
 	if inst.hitfx ~= nil then
 		inst.hitfx:Remove()
 	end
+	if inst.ropetype == "rope" then
+		SpawnPrefab("uncompromising_harpoon").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	else
+		SpawnPrefab("uncompromising_harpoon_heavy").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	end
 	
 	for i, ropes in ipairs(inst.ropes) do
 		ropes:DoTaskInTime(.5/i, function(ropes)

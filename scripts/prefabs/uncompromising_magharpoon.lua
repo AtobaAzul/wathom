@@ -1,7 +1,7 @@
 local assets =
 {
-    Asset("ANIM", "anim/blow_dart.zip"),
-    Asset("ANIM", "anim/swap_blowdart.zip"),
+    Asset("ANIM", "anim/magnerang.zip"),
+    Asset("ANIM", "anim/swap_magnerang.zip"),
     Asset("ANIM", "anim/swap_blowdart_pipe.zip"),
 }
 
@@ -24,7 +24,7 @@ local prefabs_yellow =
 }
 
 local function onequip(inst, owner)
-    owner.AnimState:OverrideSymbol("swap_object", "swap_um_harpoon", "swap_um_harpoon")
+    owner.AnimState:OverrideSymbol("swap_object", "swap_magnerang", "swap_boomerang")
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 end
@@ -51,11 +51,7 @@ local function onhit(inst, attacker, target)
 		local boat = TheWorld.Map:GetPlatformAtPoint(inst.x, inst.z)
 		
 		if ground or boat then
-			--[[local hitpoint = SpawnPrefab("spear")
-			hitpoint.Transform:SetPosition(inst.x, inst.y, inst.z)
-			hitpoint.entity:SetParent(target.entity)]]
-			
-			local reel = SpawnPrefab("uncompromising_magharpoonreel")
+			local reel = SpawnPrefab("um_magnerangreel")
 			reel.Transform:SetPosition(inst.x, inst.y, inst.z)
 			reel.target = target
 			reel.AnimState:PlayAnimation("place")
@@ -65,19 +61,16 @@ local function onhit(inst, attacker, target)
     inst:Remove()
 end
 
-local function onthrown(inst, data)
-	if data ~= nil and data.thrower then
-		local x, y, z = data.thrower.Transform:GetWorldPosition()
+local function pipethrown(inst, owner, target)
+	if owner ~= nil then
+		local x, y, z = owner.Transform:GetWorldPosition()
 		inst.x = x
 		inst.y = y
 		inst.z = z
 	end
-
-    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
-end
-
-local function pipethrown(inst)
-    --inst.AnimState:PlayAnimation("dart_pipe")
+	
+	inst.SoundEmitter:PlaySound("dontstarve/wilson/boomerang_throw")
+    inst.AnimState:PlayAnimation("spin_loop", true)
     inst:AddTag("NOCLICK")
     inst.persists = false
 end
@@ -96,7 +89,7 @@ local function spawntornado(inst, target)
 		return
 	end
 	
-	local proj = SpawnPrefab("uncompromising_magharpoon_projectile")
+	local proj = SpawnPrefab("um_magnerang_projectile")
 	proj.Transform:SetPosition(x, y, z)
 	proj.components.projectile:Throw(owner, target)
 	
@@ -112,8 +105,8 @@ local function fncommon()
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("um_harpoon")
-    inst.AnimState:SetBuild("um_harpoon")
+    inst.AnimState:SetBank("boomerang")
+    inst.AnimState:SetBuild("magnerang")
     inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("sharp")
@@ -134,19 +127,13 @@ local function fncommon()
     end
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(34)
+    inst.components.weapon:SetDamage(10)
     -------
-	
-    inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(TUNING.SPEAR_USES)
-    inst.components.finiteuses:SetUses(TUNING.SPEAR_USES)
-
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
 
     inst:AddComponent("inspectable")
 
     inst:AddComponent("inventoryitem")
-	inst.components.inventoryitem.atlasname = "images/inventoryimages/uncompromising_harpoon.xml"
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/um_magnerang.xml"
 	
     inst:AddComponent("spellcaster")
     inst.components.spellcaster.canuseontargets = true
@@ -167,22 +154,27 @@ local function fncommon()
     return inst
 end
 
-local function KillRopes(inst)
-	inst.SoundEmitter:PlaySound("UCSounds/harpoon/break")
-
-	inst:AddTag("NOCLICK")
-
-	if inst.harpoontask ~= nil then
-		inst.harpoontask:Cancel()
-	end
-		 
-	inst.harpoontask = nil
-	
-	if inst.hitfx ~= nil then
-		inst.hitfx:Remove()
+local function onhit_return(inst, attacker, target)
+	if target ~= nil then
+		local x, y, z = target.Transform:GetWorldPosition()
+		local magnerang = SpawnPrefab("um_magnerang")
+		magnerang.Transform:SetPosition(x, 1.5, z)
+		magnerang.target = target
 	end
 	
-	inst:Remove()
+	if inst.reel ~= nil then
+		inst.reel:Remove()
+	end
+	
+    inst:Remove()
+end
+
+local function onmiss_return(inst)
+	if inst.reel ~= nil then
+		inst.reel:Remove()
+	end
+	
+    inst:Remove()
 end
 
 local function harpoon()
@@ -190,15 +182,18 @@ local function harpoon()
 
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     inst.entity:AddNetwork()
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("um_harpoon")
-    inst.AnimState:SetBuild("um_harpoon")
+    inst.AnimState:SetBank("boomerang")
+    inst.AnimState:SetBuild("magnerang")
     inst.AnimState:PlayAnimation("idle")
+    inst.AnimState:SetRayTestOnBB(true)
 
-    inst:AddTag("blowdart")
+    inst:AddTag("thrown")
+    inst:AddTag("weapon")
     inst:AddTag("sharp")
     inst:AddTag("weapon")
     inst:AddTag("projectile")
@@ -212,7 +207,7 @@ local function harpoon()
     end
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(34)
+    inst.components.weapon:SetDamage(10)
     inst.components.weapon:SetRange(8, 10)
 
     inst:AddComponent("projectile")
@@ -221,9 +216,8 @@ local function harpoon()
     inst.components.projectile:SetHoming(true)
     inst.components.projectile:SetOnMissFn(inst.Remove)
     inst.components.projectile:SetLaunchOffset(Vector3(3, 2, 0))
-    inst.components.projectile:SetSpeed(60)
+    inst.components.projectile:SetSpeed(10)
     inst.components.projectile:SetOnHitFn(onhit)
-    inst:ListenForEvent("onthrown", onthrown)
 
     inst.persists = false
 
@@ -243,52 +237,93 @@ local function Vac(inst)
 	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() then
 		local px, py, pz = inst.target.Transform:GetWorldPosition()
 			
-		local distmult = (inst:GetDistanceSqToInst(inst.target) / 100)
+		local distmult = (inst:GetDistanceSqToInst(inst.target) / 200)
 		print(distmult)
+		
+		if distmult >= 0.15 then
+			local platform = inst:GetCurrentPlatform()
 				
-				
-		local platform = inst:GetCurrentPlatform()
-			
-		if platform ~= nil and platform:IsValid() then
-			if inst._cdtask == nil then
-				
-				inst._cdtask = inst:DoTaskInTime(.5, OnCooldown)
+			if platform ~= nil and platform:IsValid() then
+				if inst._cdtask == nil then
 					
-				local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
+					inst._cdtask = inst:DoTaskInTime(.5, OnCooldown)
+						
+					local row_dir_x, row_dir_z = VecUtil_Normalize(px - x, pz - z)
+						
+					local boat_physics = platform.components.boatphysics
 					
-				local boat_physics = platform.components.boatphysics
-				
-				boat_physics:ApplyForce(row_dir_x, row_dir_z, .25 * distmult)
+					boat_physics:ApplyForce(row_dir_x, row_dir_z, .15 * distmult)
+				end
 			end
-		end
-			
-		if inst.target.components.locomotor ~= nil then
-			local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
-			local velx = math.cos(rad) --* 4.5
-			local velz = -math.sin(rad) --* 4.5
 				
-			local locationmodifier = platform ~= nil and 0.5 or 1.5
-				
-			local dx, dy, dz = px + (((FRAMES * 5) * velx) * locationmodifier) * distmult, 0, pz + (((FRAMES * 5) * velz) * locationmodifier) * distmult
+			if inst.target.components.locomotor ~= nil then
+				local rad = math.rad(inst.target:GetAngleToPoint(x, y, z))
+				local velx = math.cos(rad) --* 4.5
+				local velz = -math.sin(rad) --* 4.5
 					
-			local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
-			local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
-			if dx ~= nil and (ground or boat or inst.target.components.locomotor:CanPathfindOnWater()) then
-				inst.target.Physics:Teleport(dx, py, dz)
+				local locationmodifier = platform ~= nil and 0.5 or 1.5
+					
+				local dx, dy, dz = px + (((FRAMES * 4) * velx) * locationmodifier) * distmult, 0, pz + (((FRAMES * 4) * velz) * locationmodifier) * distmult
+						
+				local ground = TheWorld.Map:IsPassableAtPoint(dx, dy, dz)
+				local boat = TheWorld.Map:GetPlatformAtPoint(dx, dz)
+				if dx ~= nil and (ground or boat or inst.target.components.locomotor:CanPathfindOnWater()) then
+					inst.target.Physics:Teleport(dx, py, dz)
+				end
 			end
 		end
 	else
-		KillRopes(inst)
+		inst:KillRopes()
 		return
+	end
+end
+
+local function KillRopes(inst)
+	inst.SoundEmitter:PlaySound("UCSounds/harpoon/break")
+
+	inst:AddTag("NOCLICK")
+	
+	inst.components.updatelooper:RemoveOnUpdateFn(Vac)
+	
+	if inst.hitfx ~= nil then
+		inst.hitfx:Remove()
+	end
+	
+	if inst.target ~= nil then
+		local x, y, z = inst.target.Transform:GetWorldPosition()
+	
+		local proj = SpawnPrefab("um_magnerang_projectile")
+		if x ~= nil then
+			proj.Transform:SetPosition(x, 1.5, z)
+			proj.components.projectile:Throw(inst.target, inst)
+			proj.components.projectile:SetOnHitFn(onhit_return)
+			proj.components.projectile:SetOnMissFn(onmiss_return)
+			proj.reel = inst
+		else
+			proj.Transform:SetPosition(inst.Transform:GetWorldPosition())
+			proj.components.projectile:Throw(inst, inst)
+			proj.components.projectile:SetOnHitFn(onhit_return)
+			proj.components.projectile:SetOnMissFn(onmiss_return)
+			proj.reel = inst
+		end
+	else
+		SpawnPrefab("um_magnerang_projectile").Transform:SetPosition(inst.Transform:GetWorldPosition())
 	end
 end
 
 local function InitializeRope(inst)
 	if inst.target ~= nil and inst.target:IsValid() then
-		local hitfx = SpawnPrefab("uncompromising_magharpoonhitfx")
+		local hitfx = SpawnPrefab("um_magneranghitfx")
 		hitfx.Transform:SetPosition(inst.target.Transform:GetWorldPosition())
 		
+		inst.hitfx = hitfx
+		
 		hitfx.entity:SetParent(inst.target.entity)
+		
+		if hitfx ~= nil and inst.target.components.combat then
+			local follower = hitfx.entity:AddFollower()
+			follower:FollowSymbol(inst.target.GUID, inst.target.components.combat.hiteffectsymbol, 0, 0, 0)
+		end
 	end
 end
 
@@ -352,7 +387,12 @@ local function reel()
 	inst.components.machine.ison = true
 	
 	inst:DoTaskInTime(0, InitializeRope)
-	inst.harpoontask = inst:DoPeriodicTask(0.05, Vac)
+	
+	inst.KillRopes = KillRopes
+	
+    inst:AddComponent("updatelooper")
+    inst.components.updatelooper:AddOnUpdateFn(Vac)
+	
 	inst:DoTaskInTime(60, KillRopes)
 	
 	inst.persists = false
@@ -368,8 +408,8 @@ local function fnhit()
     inst.entity:AddSoundEmitter()
     inst.entity:AddNetwork()
 
-    inst.AnimState:SetBank("um_harpoonhitfx")
-    inst.AnimState:SetBuild("um_harpoonhitfx")
+    inst.AnimState:SetBank("um_magneranghitfx")
+    inst.AnimState:SetBuild("um_magneranghitfx")
     inst.AnimState:PlayAnimation("idle")
 	inst.Transform:SetEightFaced()
 	
@@ -383,12 +423,14 @@ local function fnhit()
         return inst
     end
 	
+	inst.SoundEmitter:PlaySound("monkeyisland/autopilot/magnet_lp_start")
+	
 	inst.persists = false
 	
     return inst
 end
 -------------------------------------------------------------------------------
-return Prefab("uncompromising_magharpoon", fncommon, assets, prefabs),
-		Prefab("uncompromising_magharpoon_projectile", harpoon, assets, prefabs),
-		Prefab("uncompromising_magharpoonreel", reel, assets, prefabs),
-		Prefab("uncompromising_magharpoonhitfx", fnhit, assets, prefabs)
+return Prefab("um_magnerang", fncommon, assets, prefabs),
+		Prefab("um_magnerang_projectile", harpoon, assets, prefabs),
+		Prefab("um_magnerangreel", reel, assets, prefabs),
+		Prefab("um_magneranghitfx", fnhit, assets, prefabs)
