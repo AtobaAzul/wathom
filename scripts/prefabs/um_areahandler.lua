@@ -9,7 +9,6 @@ local function SpawnOuterRing(inst)
 		local wreck = SpawnPrefab("specter_shipwreck")
 		wreck.Transform:SetPosition(x1,y,z1)
 	end
-	
 end
 
 local function RegenAreaSpecter(inst)
@@ -24,10 +23,23 @@ end
 
 local function SpawnSiren(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local speaker = SpawnPrefab(inst.sirenpoint)
-	speaker.Transform:SetPosition(x,y,z)
+	if inst.sirenpoint ~= nil then
+		local speaker = SpawnPrefab(inst.sirenpoint)
+		speaker.Transform:SetPosition(x,y,z)
+	end
 end
 
+local function SpawnTest(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local test = SpawnPrefab("saltstack")
+	test.Transform:SetPosition(x,y,z)
+end
+
+local function Clear(inst)
+	TheNet:Announce("clear")
+end
+
+--[[
 local function specterfn()
     local inst = CreateEntity()
 
@@ -41,7 +53,7 @@ local function specterfn()
 	inst.sirenpoint = "siren_throne"
 	
 	inst:DoTaskInTime(0, SpawnSiren)
-	
+	inst:ListenForEvent("generate_inactive", TheNet:Announce("event pushed!!"))
 	--inst:DoTaskInTime(0,RegenArea)
     return inst
 end
@@ -62,26 +74,27 @@ local function rustedfn()
 	inst:DoTaskInTime(0, SpawnSiren)
 	--inst:DoTaskInTime(0,RegenArea)
     return inst
-end
+end]]
 
-local function brinefn()
+local function fn()
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
     inst.entity:SetPristine()
-		
+
     if not TheWorld.ismastersim then
         return inst
     end
-	
-	inst.sirenpoint = "siren_bird_nest"
-	
-	inst:DoTaskInTime(0, SpawnSiren)
-	
+
+	inst.sirenpoint = nil
+
+	inst:ListenForEvent("generate_inactive", SpawnTest)
+	inst:ListenForEvent("generate_main", SpawnSiren)
+	inst:ListenForEvent("clear", Clear)
+	table.insert(TheWorld.components.um_areahandler.handlers, inst)
+
 	--inst:DoTaskInTime(0,RegenArea)
     return inst
 end
 
-return Prefab("um_spectersea_areahandler", specterfn),
-	   Prefab("um_rustedreef_areahandler", rustedfn),
-	   Prefab("um_brinebogs_areahandler", brinefn)
+return Prefab("um_areahandler", fn)

@@ -62,6 +62,7 @@ env.AddPrefabPostInit("forest", function(inst)
 		inst:AddComponent("firefallwarning")
 		inst:AddComponent("pollenmitedenspawner")
 		inst:AddComponent("randomnightevents")
+		inst:AddComponent("um_areahandler")
 	end
 
 	if TUNING.DSTU.SNOWSTORMS and not TUNING.DSTU.ISLAND_ADVENTURES then
