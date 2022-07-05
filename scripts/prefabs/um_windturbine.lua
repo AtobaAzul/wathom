@@ -43,14 +43,11 @@ local function UpdateLight(inst)
 	
 	if TheWorld.components.sandstorms then
 		sandstorm = TheWorld.Map:FindVisualNodeAtPoint(x, y, z, "sandstorm") and 5 or 0
-		--print(sandstorm)
 	end
 	
 	local snowstorm = ((TheWorld.net ~= nil and TheWorld.net:HasTag("snowstormstartnet")) or TheWorld:HasTag("snowstormstart")) and 5 or 0
-	--print(snowstorm)
 	
 	local finalnums = velocity + sandstorm + snowstorm
-	print(finalnums)
 	
 	if inst.lightlevel > finalnums then
 		inst.lightlevel = inst.lightlevel - 0.05

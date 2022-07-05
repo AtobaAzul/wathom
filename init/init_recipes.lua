@@ -340,6 +340,33 @@ ChangeSortKey("uncompromising_fishingnet", "driftwoodfishingrod", "TOOLS", true)
 ChangeSortKey("uncompromising_fishingnet", "driftwoodfishingrod", "FISHING", true)
 
 AddRecipe2(
+    "uncompromising_harpoon",
+    {Ingredient("twigs", 2), Ingredient("rope", 2), Ingredient("flint", 1)},
+    TECH.SCIENCE_TWO,
+    nil,
+    {"TOOLS", "FISHING"}
+)
+ChangeSortKey("uncompromising_harpoon", "uncompromising_fishingnet", "TOOLS", true)
+
+AddRecipe2(
+    "uncompromising_harpoon_heavy",
+    {Ingredient("twigs", 2), Ingredient("gold", 3), Ingredient("flint", 1)},
+    TECH.SCIENCE_TWO,
+    nil,
+    {"TOOLS", "FISHING"}
+)
+ChangeSortKey("uncompromising_harpoon_heavy", "uncompromising_harpoon", "TOOLS", true)
+
+AddRecipe2(
+    "um_magnerang",
+    {Ingredient("boomerang", 1), Ingredient("transistor", 2), Ingredient("trinket_6", 1)},
+    TECH.SCIENCE_TWO,
+    nil,
+    {"TOOLS", "FISHING"}
+)
+ChangeSortKey("um_magnerang", "uncompromising_harpoon_heavy", "TOOLS", true)
+
+AddRecipe2(
     "hermitshop_rain_horn",
     {Ingredient("dormant_rain_horn", 1), Ingredient("oceanfish_small_9_inv", 3), Ingredient("messagebottleempty", 2)},
     TECH.HERMITCRABSHOP_SEVEN,
@@ -662,6 +689,9 @@ STRINGS.RECIPE_DESC.ARMOR_GLASSMAIL = "Surround yourself with broken glass."
 STRINGS.RECIPE_DESC.MUTATOR_TRAPDOOR = "They're smart, allegedly."
 STRINGS.RECIPE_DESC.DRIFTWOODFISHINGROD = "Go Fancy Fishing. For Fancy Fish."
 STRINGS.RECIPE_DESC.UNCOMPROMISING_FISHINGNET = "Nothing but net!"
+STRINGS.RECIPE_DESC.UNCOMPROMISING_HARPOON = "Keel Haul 'Em!"
+STRINGS.RECIPE_DESC.UNCOMPROMISING_HARPOON_HEAVY = "Up for a Chain'ge?"
+STRINGS.RECIPE_DESC.UM_MAGNERANG = "Mutual Attraction!"
 STRINGS.RECIPE_DESC.BOOK_RAIN = "A catalogue of weather effects."
 STRINGS.RECIPE_DESC.RAIN_HORN = "Drown the world."
 STRINGS.RECIPE_DESC.HAT_RATMASK = "Sniff out some vermin!"
