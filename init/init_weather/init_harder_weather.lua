@@ -36,6 +36,15 @@ if TUNING.DSTU.WINTER_BURNING and not TUNING.DSTU.ISLAND_ADVENTURES then
 end
 local env = env
 GLOBAL.setfenv(1, GLOBAL)
+
+local function GenerateBiomes()
+	if TheWorld.state.isspring then
+		TheWorld.components.um_areahandler:FullGenerate()
+	else
+		TheWorld.components.um_areahandler:GenerateInactiveBiomes()
+	end
+end
+
 -----------------------------------------------------------------
 env.AddPrefabPostInit("cave", function(inst)
     if not TheWorld.ismastersim then
@@ -68,6 +77,8 @@ env.AddPrefabPostInit("forest", function(inst)
 	if TUNING.DSTU.SNOWSTORMS and not TUNING.DSTU.ISLAND_ADVENTURES then
 		inst:AddComponent("snowstorminitiator")
 	end
+
+	inst:WatchWorldState("season", GenerateBiomes)
 end)
 
 if TUNING.DSTU.SPAWNMOTHERGOOSE and not TUNING.DSTU.ISLAND_ADVENTURES then

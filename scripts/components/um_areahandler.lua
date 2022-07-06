@@ -3,12 +3,21 @@
 -- 6-9 biomes, 3 of which become "active" in spring and have the sirens
 -- the other biomes are "inactive" and don't have the sirens, but have a bit of the biome's resources
 -- and an alt threat (so, for example, SS has sirens on the active ver, but ghoasts on the inactive?)
-
 -- relevant events (to listen in the area handler prefab):
 -- generate_inactive
 -- generate_main
 -- clear
 local types = {"siren_throne", "ocean_speaker", "siren_bird_nest"}
+
+local function shuffle(tab)
+    local len = #tab
+    local r
+    for i = 1, len do
+        r = math.random(i, len)
+        tab[i], tab[r] = tab[r], tab[i]
+    end
+    return tab
+end
 
 local AreaHandler = Class(function(self, inst)
     self.inst = inst
@@ -43,14 +52,14 @@ function AreaHandler:GenerateInactiveBiomes()
     end
 end
 
---spawns the main biomes with the sirens (Speaker, Bird & Fish)
+-- spawns the main biomes with the sirens (Speaker, Bird & Fish)
 function AreaHandler:SelectMainBiomes()
     -- initial selection
     TheNet:Announce("SelectMainBiomes")
     -- TODO: make it randomize which biomes will be sirens!!
-
+    self.handlers = shuffle(self.handlers)
     if not table.contains(self.sirens, "siren_throne") then
-        for k, v in pairs(self.handlers) do
+        for k, v in ipairs(self.handlers) do
             if v.sirenpoint == nil then
                 v.sirenpoint = "siren_throne"
                 v:PushEvent("generate_main")
