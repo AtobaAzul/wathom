@@ -151,6 +151,7 @@ if GetModConfigData("worldgenmastertoggle") then
     Layouts["basefrag_smellykitchen"] = StaticLayout.Get("map/static_layouts/umss_basefrag_smellykitchen")
     Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
     Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
+    Layouts["utw_biomespawner"] = StaticLayout.Get("map/static_layouts/utw_biomespawner")
 
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then
@@ -185,7 +186,7 @@ if GetModConfigData("worldgenmastertoggle") then
             }
         }
 
-        tasksetdata.set_pieces["moonfrag"] = {5,
+        tasksetdata.set_pieces["moonfrag"] = {count = 5,
         tasks = {
             "Make a pick",
             "Dig that rock",
@@ -210,7 +211,9 @@ if GetModConfigData("worldgenmastertoggle") then
             "Speak to the king classic",
             }
         }
-    end)
+
+        tasksetdata.ocean_prefill_setpieces["utw_biomespawner"] = {count = math.random(6, 9)}
+    end)                                                                            --nice
 
     if GetModConfigData("trapdoorspiders") then
         AddRoomPreInit("BGSavanna", function(room) --This effects the outer areas of the Triple Mac and The Major Beefalo Plains
@@ -451,6 +454,7 @@ if GetModConfigData("worldgenmastertoggle") then
             }
         end)
     end
+    --[[
     local Layouts = GLOBAL.require("map/layouts").Layouts
     local StaticLayout = GLOBAL.require("map/static_layout")
 	
@@ -508,9 +512,9 @@ if GetModConfigData("worldgenmastertoggle") then
 		--Yeah, adding table stuff to a Room seems unresponsive, so uhhhh COUNT PREFABS
 		room.contents.countprefabs = {
             --speaker_rusted = 1,
-            um_rustedreef_areahandler = 1
+            um_areahandler = 1
         }
-    end)
+    end)]]
 
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then

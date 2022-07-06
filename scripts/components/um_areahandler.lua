@@ -115,6 +115,7 @@ function AreaHandler:DeactivateMainBiomes()
             v:PushEvent("generate_inactive")
         end
     end
+    self.sirens = {}
     self:GetSirens()
 end
 

@@ -1,7 +1,7 @@
 --for emptying the area around.
 local function ClearSeastacks(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local things = TheSim:FindEntities(x,y,z, 40, nil, {"sirenpoint"}, {"seastack"})
+	local things = TheSim:FindEntities(x,y,z, 80, nil, {"sirenpoint"}, {"seastack"})
 	for k, v in ipairs(things) do
 		v:Remove()
 	end
@@ -10,7 +10,7 @@ end
 --for when an active biome spawns
 local function ClearInactiveBiome(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local inactive_biome = TheSim:FindEntities(x,y,z, 40, {"umss_utw_inactivebiome"})
+	local inactive_biome = TheSim:FindEntities(x,y,z, 80, {"umss_utw_inactivebiome"})
 	for k, v in ipairs(inactive_biome) do
 		v:Remove()
 	end
@@ -19,7 +19,7 @@ end
 --for clearing an active biome
 local function ClearActiveBiome(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local inactive_biome = TheSim:FindEntities(x,y,z, 40, {"umss_utw_activebiome"})
+	local inactive_biome = TheSim:FindEntities(x,y,z, 80, {"umss_utw_activebiome"})
 	for k, v in ipairs(inactive_biome) do
 		v:Remove()
 	end
@@ -28,19 +28,28 @@ end
 --TODO Replace this with UMSS setpieces.
 local function SpawnSiren(inst)
 	ClearInactiveBiome(inst)--for replacing
+	ClearActiveBiome(inst)
 	TheNet:Announce("spawn siren")
 	local x,y,z = inst.Transform:GetWorldPosition()
-	if inst.sirenpoint ~= nil then
-		local speaker = SpawnPrefab(inst.sirenpoint)
-		speaker.Transform:SetPosition(x,y,z)
+
+	if inst.sirenpoint == "ocean_speaker" then
+		local biome = SpawnPrefab("umss_activebiome_test_rr")
+		biome.Transform:SetPosition(x,y,z)
+	elseif inst.sirenpoint == "siren_bird_nest" then
+		local biome = SpawnPrefab("umss_activebiome_test_bb")
+		biome.Transform:SetPosition(x,y,z)
+	elseif inst.sirenpoint == "siren_throne" then
+		local biome = SpawnPrefab("umss_activebiome_test_ss")
+		biome.Transform:SetPosition(x,y,z)
 	end
 end
 
 local function SpawnInactive(inst)
 	ClearActiveBiome(inst)--for replacing
+	ClearInactiveBiome(inst)
 	TheNet:Announce("spawn innactive")
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local test = SpawnPrefab("seastack")
+	local test = SpawnPrefab("umss_inactivebiome_test")
 	test.Transform:SetPosition(x,y,z)
 end
 
@@ -58,7 +67,7 @@ local function fn()
 
 	inst:ListenForEvent("generate_inactive", SpawnInactive)
 	inst:ListenForEvent("generate_main", SpawnSiren)
-	inst:ListenForEvent("clear", Clear)
+	--inst:ListenForEvent("clear", Clear)
 
 	inst:DoTaskInTime(0,ClearSeastacks)
 
