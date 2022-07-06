@@ -46,6 +46,7 @@ local function fn()
     if not TheWorld.ismastersim then
         return inst
     end
+    inst:AddTag("sirenpoint")
 
     inst:AddComponent("inspectable")
 
