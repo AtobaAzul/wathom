@@ -27,11 +27,10 @@ end
 function CheckEquipItem(container, item, slot)
     return item:HasTag("_equippable")
 end
---[[function CheckHandItem(container, item, slot)
-    if item and item.components.equippable ~= nil then
-        return item.components.equippable.equipslot == EQUIPSLOTS.HANDS
-    end
-end]]
+
+function CheckBee(container, item, slot)
+    return item:HasTag("bee")
+end
 
 function CheckGem(container, item, slot)
     return not item:HasTag("irreplaceable") and item:HasTag("gem")
@@ -194,6 +193,28 @@ modparams.um_blowgun =
         pos = Vector3(0, 15, 0),
     },
 	itemtestfn = CheckDart,
+    acceptsstacks = true,
+    type = "hand_inv",
+}
+
+modparams.um_beegun =
+{
+    widget =
+    {
+        slotpos =
+        {
+            Vector3(0,   32 + 4,  0),
+        },
+        slotbg =
+        {
+			{ image = "bee_slot.tex", atlas = "images/bee_slot.xml" },
+        },
+        animbank = "ui_cookpot_1x2",
+        animbuild = "ui_cookpot_1x2",
+        pos = Vector3(0, 15, 0),
+    },
+	itemtestfn = CheckBee,
+    usespecificslotsforitems = true,
     acceptsstacks = true,
     type = "hand_inv",
 }

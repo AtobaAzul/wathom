@@ -336,6 +336,7 @@ return {
 	"uncompromising_fishingnet",
 	"uncompromising_fishingnetvisualizer",
 	"um_windturbine",
+	"um_beegun",
 	
 	"siren_fish",
 	

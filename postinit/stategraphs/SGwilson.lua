@@ -126,6 +126,16 @@ inst.actionhandlers[ACTIONS.STARTCHANNELING].deststate =
 				return _OldChannel(inst, action, ...)
 			end
         end
+
+local _OldAttackState = inst.actionhandlers[ACTIONS.ATTACK].deststate
+	inst.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
+		local weapon = inst.components.combat and inst.components.combat:GetWeapon()
+		if weapon and weapon:HasTag("beegun") then
+			return "beegun"
+		else
+			_OldAttackState(inst, action, ...)
+		end
+    end
 		
 local _OldCast_Net = inst.actionhandlers[ACTIONS.CAST_NET].deststate
 inst.actionhandlers[ACTIONS.CAST_NET].deststate = 
@@ -149,7 +159,7 @@ local _OldDeathEvent = inst.events["death"].fn
 			_OldDeathEvent(inst, data)
 		end
     end
-
+	
 local actionhandlers =
 {
 	--[[ActionHandler(ACTIONS.CASTSPELL,
@@ -173,7 +183,6 @@ local actionhandlers =
             return "dolongaction"
         end)
 }
-
 
 local _OldIdleState = inst.states["idle"].onenter
 	inst.states["idle"].onenter = function(inst, pushanim)
@@ -1109,6 +1118,42 @@ State{
     },
 	
 	
+    State{
+        name = "beegun",
+        tags = {"attack", "notalking", "abouttoattack"},
+        
+        onenter = function(inst)
+            inst.sg.statemem.target = inst.components.combat.target
+            inst.components.combat:StartAttack()
+            inst.components.locomotor:Stop()
+            inst.AnimState:PlayAnimation("speargun")
+            
+            if inst.components.combat.target then
+                if inst.components.combat.target and inst.components.combat.target:IsValid() then
+                    inst:FacePoint(Point(inst.components.combat.target.Transform:GetWorldPosition()))
+                end
+            end
+        end,
+        
+        timeline=
+        {
+           
+            TimeEvent(12*FRAMES, function(inst)
+                inst.sg:RemoveStateTag("abouttoattack")
+				inst:PerformBufferedAction()
+               -- inst.components.combat:DoAttack(inst.sg.statemem.target)
+                --inst.SoundEmitter:PlaySound("dontstarve_DLC002/common/use_speargun")
+            end),
+            TimeEvent(20*FRAMES, function(inst) inst.sg:RemoveStateTag("attack") end),
+        },
+        
+        events=
+        {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
+        },
+    },
 }
 
 for k, v in pairs(events) do

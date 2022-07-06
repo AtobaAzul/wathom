@@ -290,6 +290,8 @@ Assets = {
 	Asset("IMAGE", "images/feather_slot.tex"),
 	Asset("ATLAS", "images/fish_slot.xml"),
 	Asset("IMAGE", "images/fish_slot.tex"),
+	Asset("ATLAS", "images/bee_slot.xml"),
+	Asset("IMAGE", "images/bee_slot.tex"),
 	
 	Asset("ANIM", "anim/geyser.zip"),
 	Asset("ANIM", "anim/lava_vomit.zip"),
@@ -690,10 +692,14 @@ Assets = {
 	Asset("ANIM", "anim/um_magneranghitfx.zip"),
 	Asset("ATLAS", "images/inventoryimages/um_magnerang.xml"),
 	Asset("IMAGE", "images/inventoryimages/um_magnerang.tex"),
+	Asset("ANIM", "anim/player_actions_speargun.zip"),
+	Asset("ANIM", "anim/um_beegun.zip"),
+	Asset("ANIM", "anim/swap_um_beegun.zip"),
+	Asset("ANIM", "anim/um_beegun_dart.zip"),
+	Asset("ATLAS", "images/inventoryimages/um_beegun.xml"),
+	Asset("IMAGE", "images/inventoryimages/um_beegun.tex"),
 	
 	Asset("ANIM", "anim/figgy_newton.zip"),
-	
-	
 	
 	Asset("ANIM", "anim/lava_spitball.zip"),
 	Asset("ANIM", "anim/shambler.zip"),
