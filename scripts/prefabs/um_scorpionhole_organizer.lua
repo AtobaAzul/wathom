@@ -77,6 +77,21 @@ local function DigHole(inst)
 	CalculateNextHoleTime(inst)
 end
 
+local function CreateScorpzone(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local angle = nil
+	local radius = nil
+	for i = 1,4 do
+		radius = math.random(8,12)
+		angle = i/2*PI+math.random(-PI/8,PI/8)
+		local x1 = x+radius*math.cos(angle)
+		local z1 = z+radius*math.sin(angle)
+		
+		SpawnPrefab("umss_scorpionoutskirts"..math.random(1,4)).Transform:SetPosition(x1,y,z1)
+	end
+	SpawnPrefab("umss_scorpioncenter1").Transform:SetPosition(x,y,z)
+end
+
 local function scorpionhole_organizer_fn()
     local inst = CreateEntity()
 
@@ -104,6 +119,10 @@ local function scorpionhole_organizer_fn()
 	if not TUNING.DSTU.DESERTSCORPIONS then	
 		inst:Remove()
 	end
+	
+	inst.CreateScorpzone = CreateScorpzone
+	
+	inst:DoTaskInTime(0,CreateScorpzone)
 	
     return inst
 end

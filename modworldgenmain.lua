@@ -151,6 +151,7 @@ if GetModConfigData("worldgenmastertoggle") then
     Layouts["basefrag_smellykitchen"] = StaticLayout.Get("map/static_layouts/umss_basefrag_smellykitchen")
     Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
     Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
+    Layouts["utw_biomespawner"] = StaticLayout.Get("map/static_layouts/utw_biomespawner")
 
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then
@@ -184,8 +185,13 @@ if GetModConfigData("worldgenmastertoggle") then
             "Tentacle-Blocked Spider Swamp"
             }
         }
+        local function _count()
+            if math.random() > 0.66 then
+                return math.random(0,3)
+            end
+        end
 
-        tasksetdata.set_pieces["moonfrag"] = {5,
+        tasksetdata.set_pieces["moonfrag"] = {count = _count(),
         tasks = {
             "Make a pick",
             "Dig that rock",
@@ -210,7 +216,9 @@ if GetModConfigData("worldgenmastertoggle") then
             "Speak to the king classic",
             }
         }
-    end)
+
+        tasksetdata.ocean_prefill_setpieces["utw_biomespawner"] = {count = math.random(6, 9)}
+    end)                                                                            --nice
 
     if GetModConfigData("trapdoorspiders") then
         AddRoomPreInit("BGSavanna", function(room) --This effects the outer areas of the Triple Mac and The Major Beefalo Plains
@@ -451,66 +459,7 @@ if GetModConfigData("worldgenmastertoggle") then
             }
         end)
     end
-    local Layouts = GLOBAL.require("map/layouts").Layouts
-    local StaticLayout = GLOBAL.require("map/static_layout")
-	
-    Layouts["specter_sea"] = StaticLayout.Get(
-        "map/static_layouts/specter_sea",
-        {
-            min_dist_from_land = 0
-        }
-    )
-    AddRoomPreInit("OceanRough", function(room)
-        if not room.contents.countstaticlayouts then
-            room.contents.countstaticlayouts = {}
-        end
-        room.contents.countstaticlayouts["specter_sea"] = 1
-        room.contents.countprefabs = {
-            --speaker_rusted = 1,
-            sludgestack_spawner = function()
-                return math.random(6, 10)
-            end,
-            umss_failedfisherman = 1,
-            umss_tridenttrap = function() return math.random(0,1) end
-        }
-    end)
 
-    Layouts["brine_bogs"] =
-        StaticLayout.Get(
-        "map/static_layouts/brine_bogs",
-        {
-            min_dist_from_land = 0
-        }
-    )
-    AddRoomPreInit("OceanSwell", function(room)
-        if not room.contents.countstaticlayouts then
-            room.contents.countstaticlayouts = {}
-        end
-        room.contents.countstaticlayouts["brine_bogs"] = 1
-    end)
-
-    Layouts["rusted_reef"] =
-        StaticLayout.Get(
-        "map/static_layouts/rusted_reef",
-        {
-            min_dist_from_land = 0
-        }
-    )
-    AddRoomPreInit("OceanHazardous", function(room)
-		if room.contents.countstaticlayouts ~= nil then
-			room.contents.countstaticlayouts["rusted_reef"] = 1
-		else
-			room.contents.countstaticlayouts = {
-				["rusted_reef"] = 1,
-			}
-		end
-		
-		--Yeah, adding table stuff to a Room seems unresponsive, so uhhhh COUNT PREFABS
-		room.contents.countprefabs = {
-            --speaker_rusted = 1,
-            um_rustedreef_areahandler = 1
-        }
-    end)
 
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then
@@ -523,11 +472,8 @@ if GetModConfigData("worldgenmastertoggle") then
             table.insert(tasksetdata.required_prefabs, "riceplantspawnerlarge")
             table.insert(tasksetdata.required_prefabs, "riceplantspawner")
         end
-        --tasksetdata.ocean_prefill_setpieces["specter_sea"] = {count = 1}
-        --table.insert(tasksetdata.required_prefabs, "um_spectersea_areahandler")
-        --table.insert(tasksetdata.required_prefabs, "um_brinebogs_areahandler")
-        --table.insert(tasksetdata.required_prefabs, "um_rustedreef_areahandler")
     end)
+
     --[[
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "cave" then

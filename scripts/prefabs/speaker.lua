@@ -55,14 +55,13 @@ local function fn()
         return inst
     end
 
+    inst:AddTag("sirenpoint")
+
     inst:AddComponent("inspectable")
-	
+
 	inst:WatchWorldState("isnight", PlaySound)
 
     return inst
 end
 
-return Prefab("ocean_speaker", fn, assets, prefabs), -- This is the real one, other ones are temp placeholders.
-       Prefab("speaker_specter", fn, assets, prefabs),
-       Prefab("speaker_brine", fn, assets, prefabs)
-
+return Prefab("ocean_speaker", fn, assets, prefabs) -- This is the real one, other ones are temp placeholders.
