@@ -133,7 +133,7 @@ local _OldAttackState = inst.actionhandlers[ACTIONS.ATTACK].deststate
 		if weapon and weapon:HasTag("beegun") then
 			return "beegun"
 		else
-			_OldAttackState(inst, action, ...)
+			return _OldAttackState(inst, action, ...)
 		end
     end
 		
@@ -1128,6 +1128,8 @@ State{
             inst.components.locomotor:Stop()
             inst.AnimState:PlayAnimation("speargun")
             
+			inst.sg.statemem.abouttoattack = true
+			
             if inst.components.combat.target then
                 if inst.components.combat.target and inst.components.combat.target:IsValid() then
                     inst:FacePoint(Point(inst.components.combat.target.Transform:GetWorldPosition()))
@@ -1139,8 +1141,20 @@ State{
         {
            
             TimeEvent(12*FRAMES, function(inst)
-                inst.sg:RemoveStateTag("abouttoattack")
-				inst:PerformBufferedAction()
+				local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+				if equip ~= nil and equip.components.weapon ~= nil and equip.components.weapon.projectile ~= nil then
+					local buffaction = inst:GetBufferedAction()
+					local target = buffaction ~= nil and buffaction.target or nil
+					if target ~= nil and target:IsValid() and inst.components.combat:CanTarget(target) then
+						inst.sg.statemem.abouttoattack = false
+						inst:PerformBufferedAction()
+					else
+						inst:ClearBufferedAction()
+						inst.sg:GoToState("idle")
+					end
+				else
+					inst:ClearBufferedAction()
+				end
                -- inst.components.combat:DoAttack(inst.sg.statemem.target)
                 --inst.SoundEmitter:PlaySound("dontstarve_DLC002/common/use_speargun")
             end),
