@@ -42,7 +42,7 @@ local function UpdateLight(inst)
 	end
 	
 	if TheWorld.components.sandstorms then
-		sandstorm = TheWorld.Map:FindVisualNodeAtPoint(x, y, z, "sandstorm") and 5 or 0
+		sandstorm = (TheWorld.components.sandstorms ~= nil and TheWorld.components.sandstorms:IsSandstormActive()) and TheWorld.Map:FindVisualNodeAtPoint(x, y, z, "sandstorm") and 5 or 0
 	end
 	
 	local snowstorm = ((TheWorld.net ~= nil and TheWorld.net:HasTag("snowstormstartnet")) or TheWorld:HasTag("snowstormstart")) and 5 or 0

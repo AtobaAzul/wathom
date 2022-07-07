@@ -36,21 +36,6 @@ end
 
 local function OnProjectileLaunched(inst, attacker, target)
 	if inst.components.container ~= nil then
-	
-		for i = 1, 2 do
-			inst:DoTaskInTime((i / 8) - 0.1, function(inst)
-				local ammo_stack = inst.components.container:GetItemInSlot(1)
-				local item = inst.components.container:RemoveItem(ammo_stack, false)
-				if item ~= nil then
-					local beedart = SpawnPrefab(item.prefab.."_proj")
-					beedart.Transform:SetPosition(inst.Transform:GetWorldPosition())
-					beedart.components.projectile:Throw(inst, target, attacker)
-
-					item:Remove()
-				end
-			end)
-		end
-	
 		local ammo_stack = inst.components.container:GetItemInSlot(1)
 		local item = inst.components.container:RemoveItem(ammo_stack, false)
 		if item ~= nil then
