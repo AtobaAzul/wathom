@@ -273,7 +273,7 @@ function MakeBumperType(data)
 
         MakeHauntableWork(inst)
 
-        inst:SetStateGraph("SGboatbumper")
+        inst:SetStateGraph("SGboatbumper_um")
         inst.sg.mem.bumpertype = data.name -- For determining which FX name to play, which is dependant on the bumper type
 
         inst.OnSave = onsave
@@ -302,6 +302,9 @@ local boatbumperprefabs = {}
 local boatbumperdata =
 {
     { name = "sludge",     material = MATERIALS.SLUDGE,   tags = { "sludge" },      loot = "sludge", maxloots = 2, maxhealth = TUNING.BOAT.BUMPERS.KELP.HEALTH*3--[[using existing tuning values so other mods can alter it normally.]],     flammable = true, buildsound = "dontstarve/common/place_structure_wood"  },
+    --Upgrade to the shell bumper
+    { name = "copper",     material = MATERIALS.COPPER,   tags = { "copper" },      loot = "copper_pipe", maxloots = 2, maxhealth = TUNING.BOAT.BUMPERS.SHELL.HEALTH*3--[[using existing tuning values so other mods can alter it normally.]],     flammable = false, buildsound = "dontstarve/common/place_structure_wood"  },
+    --Harder-to-craft "super" bumper.
 }
 
 for i, v in ipairs(boatbumperdata) do

@@ -39,6 +39,7 @@ function c_vetcurseitems()
     c_give("gore_horn_hat")
     c_give("klaus_amulet")
     c_give("crabclaw")
+    c_give("um_beegun")
 end
 
 --lists current rat score shenenigans.
@@ -64,7 +65,6 @@ function c_rne()
 end
 
 --spawns a sunken chest at mouse pos
---useful for testing
 --@royal: whether to spawn royal chest
 --examples:
 --c_spawnsunkenchest() spawns a vanilla treasure
@@ -92,6 +92,7 @@ function c_spawnsunkenchest(royal)
         print("failed to spawn sunken chest")
     end
 end
+
 --sets a tile by ID
 --defaults to barren if unspecified.
 function c_settile(tile)

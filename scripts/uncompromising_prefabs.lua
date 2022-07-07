@@ -363,4 +363,7 @@ return {
 	"um_scorpioneggs",
 	"giant_tree_birdnest",
 	"uncompromising_bumpers",
+	"um_copper_pipe",
+	"steeringwheel_copper",
+	
 }
