@@ -24,6 +24,7 @@ GLOBAL.FUELTYPE.SALT = "SALT"
 GLOBAL.FUELTYPE.EYE = "EYE"
 GLOBAL.UPGRADETYPES.ELECTRICAL = "ELECTRICAL"
 GLOBAL.MATERIALS.SLUDGE = "sludge"
+GLOBAL.MATERIALS.COPPER = "copper"
 
 RemapSoundEvent( "dontstarve/together_FE/DST_theme_portaled", "UMMusic/music/uncomp_char_select" )
 
