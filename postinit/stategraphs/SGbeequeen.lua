@@ -443,7 +443,7 @@ local states = {
 		
 		onexit = function(inst)
 			if inst.components.health and inst.components.health:GetPercent() < 0.5 then
-				SetSpinSpeed(inst,0.05)--spinnning vvhile moving makes bees disappear
+				SetSpinSpeed(inst,0)--spinnning vvhile moving makes bees disappear
 			else
 				SetSpinSpeed(inst,0)
 			end

@@ -13,8 +13,8 @@ local function set_stage(inst, workleft, play_grow_sound)
             or (workleft * 2 <= TUNING.MOONSPIDERDEN_WORK and MEDIUM)
             or LARGE
 
-    inst.components.childspawner:SetMaxChildren(TUNING.MOONSPIDERDEN_SPIDERS[new_stage])
-    inst.components.childspawner:SetMaxEmergencyChildren(TUNING.MOONSPIDERDEN_EMERGENCY_WARRIORS[new_stage])
+    inst.components.childspawner:SetMaxChildren(3)
+    inst.components.childspawner:SetMaxEmergencyChildren(2)
     inst.components.childspawner:SetEmergencyRadius(TUNING.MOONSPIDERDEN_EMERGENCY_RADIUS[new_stage])
 
     if inst._stage ~= nil and inst._stage == (new_stage - 1) then

@@ -82,7 +82,7 @@ local function CreateScorpzone(inst)
 	local angle = nil
 	local radius = nil
 	for i = 1,4 do
-		radius = math.random(8,12)
+		radius = math.random(12,16)
 		angle = i/2*PI+math.random(-PI/8,PI/8)
 		local x1 = x+radius*math.cos(angle)
 		local z1 = z+radius*math.sin(angle)
