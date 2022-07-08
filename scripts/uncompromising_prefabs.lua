@@ -365,5 +365,6 @@ return {
 	"uncompromising_bumpers",
 	"um_copper_pipe",
 	"steeringwheel_copper",
-	
+	"hermit_bundle_lures",
+	"um_cannonballs",
 }

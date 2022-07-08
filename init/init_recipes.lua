@@ -84,6 +84,11 @@ AllRecipes["deserthat"].level = TechTree.Create(TECH.SCIENCE_TWO)
 
 AllRecipes["fish_box"].testfn = function(pt) return GLOBAL.TheWorld.Map:GetPlatformAtPoint(pt.x, 0, pt.z, -0.5) ~= nil or GLOBAL.TheWorld.Map:GetTileAtPoint(pt.x, 0, pt.z) == GLOBAL.WORLD_TILES.MONKEY_DOCK end
 
+AllRecipes["boat_bumper_shell_kit"].numtogive = 4--8
+AllRecipes["boat_bumper_kelp_kit"].numtogive = 4--8
+AllRecipes["boat_bumper_shell_kit"].ingredients = {Ingredient("slurtle_shellpieces", 3), Ingredient("rope", 3)}
+AllRecipes["boat_bumper_kelp_kit"].ingredients = {Ingredient("kelp", 3), Ingredient("cutgrass", 6)}
+
 if TUNING.DSTU.WOLFGANG_HUNGERMIGHTY then
     AllRecipes["mighty_gym"].ingredients = {Ingredient("boards", 4), Ingredient("cutstone", 2), Ingredient("rope", 3)}
     AllRecipes["dumbbell"].ingredients = {Ingredient("rocks", 4), Ingredient("twigs", 1)}
@@ -443,6 +448,25 @@ AddRecipe2(
 ChangeSortKey("sludge_sack", "piggyback", "CONTAINERS", true)
 ChangeSortKey("sludge_sack", "piggyback", "CLOTHING", true)
 
+AddRecipe2(
+    "boat_bumper_sludge_kit",
+    {Ingredient("sludge", 4), Ingredient("driftwood_log", 1)},
+    TECH.SEAFARING_ONE,
+    {numtogive = 2},
+    {"SEAFARING"}
+)
+ChangeSortKey("boat_bumper_sludge_kit", "boat_bumper_shell_kit", "SEAFARING", true)
+
+AddRecipe2(
+    "cannonball_sludge_item",
+    {Ingredient("sludge", 2), Ingredient("nitre", 1)},
+    TECH.SEAFARING_ONE,
+    {numtogive = 4},
+    {"WEAPONS", "SEAFARING"}
+)
+ChangeSortKey("cannonball_sludge_item", "cannonball_rock_item", "SEAFARING", true)
+ChangeSortKey("cannonball_sludge_item", "cannonball_rock_item", "WEAPONS", true)
+
 --AddRecipe2(
 --  "sludge_oil",
 --  {Ingredient("sludge", 4), Ingredient("cutstone", 1)},
@@ -495,52 +519,12 @@ AllRecipes["trident"].ingredients = {Ingredient("boneshard", 2), Ingredient("gna
 
 --hermitshop expansion
 AddRecipe2(
-    "hermitshop_oceanfishinglure_spoon_red",
+    "hermitshop_hermit_bundle_lures",
     {Ingredient("messagebottleempty", 1)},
     TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_red", sg_state = "give"}
+    {nounlock = true, numtogive = 1, product = "hermit_bundle_lures", sg_state = "give", image = "hermit_bundle.tex"}
 )
-ChangeSortKey("hermitshop_oceanfishinglure_spoon_red", "hermitshop_oceanfishingbobber_canary", "CRAFTING_STATION", true)
-
-AddRecipe2(
-    "hermitshop_oceanfishinglure_spoon_green",
-    {Ingredient("messagebottleempty", 1)},
-    TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_green", sg_state = "give"}
-)
-ChangeSortKey("hermitshop_oceanfishinglure_spoon_green", "hermitshop_oceanfishinglure_spoon_red", "CRAFTING_STATION", true)
-
-AddRecipe2(
-    "hermitshop_oceanfishinglure_spoon_blue",
-    {Ingredient("messagebottleempty", 1)},
-    TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, numtogive = 2, product = "oceanfishinglure_spoon_blue", sg_state = "give"}
-)
-ChangeSortKey("hermitshop_oceanfishinglure_spoon_blue", "hermitshop_oceanfishinglure_spoon_green", "CRAFTING_STATION", true)
-
-AddRecipe2(
-    "hermitshop_oceanfishinglure_spinner_red",
-    {Ingredient("messagebottleempty", 1)},
-    TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_red", sg_state = "give"}
-)
-ChangeSortKey("hermitshop_oceanfishinglure_spinner_red", "hermitshop_oceanfishinglure_spoon_blue", "CRAFTING_STATION", true)
-
-AddRecipe2(
-    "hermitshop_oceanfishinglure_spinner_green",
-    {Ingredient("messagebottleempty", 1)},
-    TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_green", sg_state = "give"}
-)
-ChangeSortKey("hermitshop_oceanfishinglure_spinner_green", "hermitshop_oceanfishinglure_spinner_red", "CRAFTING_STATION", true)
-
-AddRecipe2(
-    "hermitshop_oceanfishinglure_spinner_blue",
-    {Ingredient("messagebottleempty", 1)},
-    TECH.HERMITCRABSHOP_ONE,
-    {nounlock = true, numtogive = 2, product = "oceanfishinglure_spinner_blue", sg_state = "give"}
-)
-ChangeSortKey("hermitshop_oceanfishinglure_spinner_blue", "hermitshop_oceanfishinglure_spinner_green", "CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_hermit_bundle_lures", "hermitshop_hermit_bundle_shells", "CRAFTING_STATION", false)
 
 AddRecipe2(
     "hermitshop_boat",
@@ -548,7 +532,7 @@ AddRecipe2(
     TECH.HERMITCRABSHOP_ONE,
     {nounlock = true, product = "boat_item", sg_state = "give"}
 )
-ChangeSortKey("hermitshop_boat", "hermitshop_hermitshop_bundle_shells", "CRAFTING_STATION", true)
+ChangeSortKey("hermitshop_boat", "hermitshop_hermit_bundle_shells", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "hermitshop_mast",
@@ -703,6 +687,8 @@ STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
 STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
 STRINGS.RECIPE_DESC.UM_SALTSALVE = "Put salt in your wounds."
 STRINGS.RECIPE_DESC.CRITTER_FIGGY_BUILDER = "He likes to put holes in things."
+STRINGS.RECIPE_DESC.BOAT_BUMBER_SLUDGE_KIT = "Sticky protection."
+STRINGS.RECIPE_DESC.CANNONBALL_SLUDGE_ITEM = "Fire in the hole!"
 
 --sailing rebalance strings
 STRINGS.RECIPE_DESC.MOONSTORM_STATIC_ITEM = "The power of the moon, contained!"
@@ -710,3 +696,4 @@ STRINGS.RECIPE_DESC.ALTERGUARDIANHATSHARD = "Harness the moonlight."
 STRINGS.RECIPE_DESC.WATERPLANT_PLANTER = "Grow your very own Sea Weed."
 STRINGS.RECIPE_DESC.BLUEPRINT = "Learn new things."
 STRINGS.RECIPE_DESC.PUMPKINCOOKIE = "Grandma's cookies."
+STRINGS.RECIPE_DESC.HERMIT_BUNDLE_LURES = "Get to fishing, today!"
