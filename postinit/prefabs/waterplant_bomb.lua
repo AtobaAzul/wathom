@@ -93,6 +93,10 @@ local function on_inventory_hit(inst, attacker, target)
 end
 
 env.AddPrefabPostInit("waterplant_bomb", function(inst)
+    if not TheWorld.ismastersim then 
+        return
+    end
+
     inst.components.complexprojectile:SetOnHit(on_inventory_hit)
 
     inst.entity:AddTag("boatcannon_ammo")
