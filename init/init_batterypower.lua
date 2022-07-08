@@ -42,6 +42,10 @@ local BATTERY =
     {
 		power = TUNING.LARGE_FUEL,
     },
+	["powercell"] = 
+	{
+		power = TUNING.LARGE_FUEL,
+	},
 }
 
 for k, v in pairs(BATTERY) do
