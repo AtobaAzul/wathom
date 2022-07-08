@@ -39,6 +39,7 @@ local function OnProjectileLaunched(inst, attacker, target)
 		local ammo_stack = inst.components.container:GetItemInSlot(1)
 		local item = inst.components.container:RemoveItem(ammo_stack, false)
 		if item ~= nil then
+            inst.SoundEmitter:PlaySound("dontstarve/common/deathpoof")
 
 			item:Remove()
 		end
@@ -61,6 +62,72 @@ end
 
 local floater_swap_data = {sym_build = "swap_um_beegun"}
 
+local function ReticuleTargetFn(inst)
+    return Vector3(inst.entity:LocalToWorldSpace(6.5, 0, 0))
+end
+
+local function ReticuleMouseTargetFn(inst, mousepos)
+    if mousepos ~= nil then 
+        local x, y, z = inst.Transform:GetWorldPosition()
+        local dx = mousepos.x - x
+        local dz = mousepos.z - z
+        local l = dx * dx + dz * dz
+        if l <= 0 then
+            return inst.components.reticule.targetpos
+        end
+        l = 6.5 / math.sqrt(l)
+        return Vector3(x + dx * l, 0, z + dz * l)
+    end
+end
+
+local function ReticuleUpdatePositionFn(inst, pos, reticule, ease, smoothing, dt)
+    local x, y, z = inst.Transform:GetWorldPosition()
+    reticule.Transform:SetPosition(x, 0, z)
+    local rot = -math.atan2(pos.z - z, pos.x - x) / DEGREES
+    if ease and dt ~= nil then
+        local rot0 = reticule.Transform:GetRotation()
+        local drot = rot - rot0
+        rot = Lerp((drot > 180 and rot0 + 360) or (drot < -180 and rot0 - 360) or rot0, rot, dt * smoothing)
+    end
+    reticule.Transform:SetRotation(rot)
+end
+
+local function collectbees(inst, target, pos)
+	if pos ~= nil then
+		local findbees = TheSim:FindEntities(pos.x, 0, pos.z, 8, {"bee"})
+		if findbees ~= nil then
+			for i, v in pairs(findbees) do
+				if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.inventoryitem then
+					if inst.components.container ~= nil then
+						inst.components.container:GiveItem(v)
+					end
+				end
+			end
+		end
+	elseif target ~= nil then
+		local x, y, z = target.Transform:GetWorldPosition()
+	
+		local findbees = TheSim:FindEntities(x, 0, z, 8, {"bee"})
+		if findbees ~= nil then
+			for i, v in pairs(findbees) do
+				if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.inventoryitem then
+					if inst.components.container ~= nil then
+						inst.components.container:GiveItem(v)
+					end
+				end
+			end
+		end
+	end
+end
+
+local function can_cast_fn(doer, target, pos)
+	if doer:HasTag("vetcurse") then
+		return true
+	else
+		return false
+	end
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -77,6 +144,7 @@ local function fn()
 
     inst:AddTag("rangedweapon")
     inst:AddTag("beegun")
+    inst:AddTag("allow_action_on_impassable")
 
     --weapon (from weapon component) added to pristine state for optimization
     inst:AddTag("weapon")
@@ -84,6 +152,11 @@ local function fn()
     --inst.projectiledelay = PROJECTILE_DELAY
 
     MakeInventoryFloatable(inst, "med", 0.075, {0.5, 0.4, 0.5}, true, -7, floater_swap_data)
+
+    inst:AddComponent("reticule")
+    inst.components.reticule.targetfn = ReticuleTargetFn
+    inst.components.reticule.ease = true
+    inst.components.reticule.mouseenabled = true
 
     inst.entity:SetPristine()
 
@@ -104,7 +177,7 @@ local function fn()
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(15)
+    inst.components.weapon:SetDamage(50)
     inst.components.weapon:SetRange(TUNING.SLINGSHOT_DISTANCE, TUNING.SLINGSHOT_DISTANCE_MAX)
     inst.components.weapon:SetOnProjectileLaunched(OnProjectileLaunched)
     inst.components.weapon:SetProjectile(nil)
@@ -115,6 +188,14 @@ local function fn()
 	inst.components.container.canbeopened = false
     inst:ListenForEvent("itemget", OnAmmoLoaded)
     inst:ListenForEvent("itemlose", OnAmmoUnloaded)
+
+    inst:AddComponent("spellcaster")
+    inst.components.spellcaster:SetSpellFn(collectbees)
+    inst.components.spellcaster:SetCanCastFn(can_cast_fn)
+    inst.components.spellcaster.canuseontargets = true
+    inst.components.spellcaster.canonlyuseonworkable = true
+    inst.components.spellcaster.canonlyuseoncombat = true
+	inst.components.spellcaster.canuseonpoint = true
 
     MakeSmallBurnable(inst, TUNING.SMALL_BURNTIME)
     MakeSmallPropagator(inst)
@@ -137,10 +218,11 @@ local function onhit(inst, attacker, target)
 end
 
 local function onthrown(inst, data)
+	inst.SoundEmitter:PlaySound(inst.type)
     inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
 end
 
-local function common(anim)
+local function common(anim, beetype)
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -153,7 +235,7 @@ local function common(anim)
 
     inst.AnimState:SetBank("um_beegun_dart")
     inst.AnimState:SetBuild("um_beegun_dart")
-    inst.AnimState:PlayAnimation("beedart_yellow")
+    inst.AnimState:PlayAnimation(anim)
 
     --inst:AddTag("blowdart")
     inst:AddTag("sharp")
@@ -171,16 +253,19 @@ local function common(anim)
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.type = beetype
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(15)
+    inst.components.weapon:SetDamage(50)
     inst.components.weapon:SetRange(8, 10)
 
     inst:AddComponent("projectile")
-    inst.components.projectile:SetSpeed(60)
+    inst.components.projectile:SetSpeed(20)
     inst.components.projectile:SetOnHitFn(onhit)
     inst:ListenForEvent("onthrown", onthrown)
-    inst.components.projectile:SetLaunchOffset(Vector3(1, 2, 0))
+    inst.components.projectile:SetLaunchOffset(Vector3(.5, 1.5, 0))
+    inst.components.projectile:SetHitDist(math.sqrt(5))
     -------
 
     --inst:AddComponent("inspectable")
@@ -191,13 +276,13 @@ local function common(anim)
 end
 
 local function yellow()
-    local inst = common("beedart_yellow")
+    local inst = common("beedart_yellow", "dontstarve/bee/bee_attack")
 
     return inst
 end
 	
 local function red()
-    local inst = common("beedart_red")
+    local inst = common("beedart_red", "dontstarve/bee/killerbee_attack")
 
     return inst
 end

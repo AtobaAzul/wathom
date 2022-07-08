@@ -101,6 +101,8 @@ inst.actionhandlers[ACTIONS.CASTSPELL].deststate =
 					else
 						return "bearclaw_dig_start"
 					end
+				elseif action.invobject:HasTag("beegun") then
+					return "collectthebees"
 				end
             end
 			return _OldSpellCast(inst, action, ...)
@@ -131,7 +133,12 @@ local _OldAttackState = inst.actionhandlers[ACTIONS.ATTACK].deststate
 	inst.actionhandlers[ACTIONS.ATTACK].deststate = function(inst, action, ...)
 		local weapon = inst.components.combat and inst.components.combat:GetWeapon()
 		if weapon and weapon:HasTag("beegun") then
-			return "beegun"
+		
+            if inst.sg.laststate.name == "beegun" or inst.sg.laststate.name == "beegun_short" then
+				return "beegun_short"
+			else
+				return "beegun"
+			end
 		else
 			return _OldAttackState(inst, action, ...)
 		end
@@ -1167,6 +1174,144 @@ State{
                 inst.sg:GoToState("idle")
             end),
         },
+    },
+	
+    State{
+        name = "beegun_short",
+        tags = {"attack", "notalking", "abouttoattack"},
+        
+        onenter = function(inst)
+            inst.sg.statemem.target = inst.components.combat.target
+            inst.components.combat:StartAttack()
+            inst.components.locomotor:Stop()
+            inst.AnimState:PlayAnimation("speargun")
+			inst.AnimState:SetTime(5 * FRAMES)
+            
+			inst.sg.statemem.abouttoattack = true
+			
+            if inst.components.combat.target then
+                if inst.components.combat.target and inst.components.combat.target:IsValid() then
+                    inst:FacePoint(Point(inst.components.combat.target.Transform:GetWorldPosition()))
+                end
+            end
+        end,
+        
+        timeline=
+        {
+           
+            TimeEvent(6*FRAMES, function(inst)
+				local equip = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+				if equip ~= nil and equip.components.weapon ~= nil and equip.components.weapon.projectile ~= nil then
+					local buffaction = inst:GetBufferedAction()
+					local target = buffaction ~= nil and buffaction.target or nil
+					if target ~= nil and target:IsValid() and inst.components.combat:CanTarget(target) then
+						inst.sg.statemem.abouttoattack = false
+						inst:PerformBufferedAction()
+					else
+						inst:ClearBufferedAction()
+						inst.sg:GoToState("idle")
+					end
+				else
+					inst:ClearBufferedAction()
+				end
+               -- inst.components.combat:DoAttack(inst.sg.statemem.target)
+                --inst.SoundEmitter:PlaySound("dontstarve_DLC002/common/use_speargun")
+            end),
+            TimeEvent(20*FRAMES, function(inst) inst.sg:RemoveStateTag("attack") end),
+        },
+        
+        events=
+        {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
+        },
+    },
+	
+    State{
+        name = "collectthebees",
+        tags = { "doing", "busy", "canrotate" },
+
+        onenter = function(inst)
+            if inst.components.playercontroller ~= nil then
+                inst.components.playercontroller:Enable(false)
+            end
+            inst.AnimState:PlayAnimation("staff_pre")
+            inst.AnimState:PushAnimation("staff", false)
+            inst.components.locomotor:Stop()
+
+            --Spawn an effect on the player's location
+            local staff = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+            local colour = staff ~= nil and staff.fxcolour or { 1, 1, 1 }
+
+            inst.sg.statemem.stafffx = SpawnPrefab(inst.components.rider:IsRiding() and "staffcastfx_mount" or "staffcastfx")
+            inst.sg.statemem.stafffx.entity:SetParent(inst.entity)
+            inst.sg.statemem.stafffx:SetUp(colour)
+
+            inst.sg.statemem.stafflight = SpawnPrefab("staff_castinglight")
+            inst.sg.statemem.stafflight.Transform:SetPosition(inst.Transform:GetWorldPosition())
+            inst.sg.statemem.stafflight:SetUp(colour, 1.9, .33)
+
+            if staff ~= nil and staff.components.aoetargeting ~= nil and staff.components.aoetargeting.targetprefab ~= nil then
+                local buffaction = inst:GetBufferedAction()
+                if buffaction ~= nil and buffaction.pos ~= nil then
+                    inst.sg.statemem.targetfx = SpawnPrefab(staff.components.aoetargeting.targetprefab)
+                    if inst.sg.statemem.targetfx ~= nil then
+                        inst.sg.statemem.targetfx.Transform:SetPosition(buffaction:GetActionPoint():Get())
+                        inst.sg.statemem.targetfx:ListenForEvent("onremove", OnRemoveCleanupTargetFX, inst)
+                    end
+                end
+            end
+
+            if staff ~= nil then
+                inst.sg.statemem.castsound = staff.skin_castsound or staff.castsound or "dontstarve/wilson/use_gemstaff"
+            else
+                inst.sg.statemem.castsound = "dontstarve/wilson/use_gemstaff"
+            end
+        end,
+
+        timeline =
+        {
+            TimeEvent(13 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound(inst.sg.statemem.castsound)
+            end),
+            TimeEvent(53 * FRAMES, function(inst)
+                if inst.sg.statemem.targetfx ~= nil then
+                    if inst.sg.statemem.targetfx:IsValid() then
+                        OnRemoveCleanupTargetFX(inst)
+                    end
+                    inst.sg.statemem.targetfx = nil
+                end
+                inst.sg.statemem.stafffx = nil --Can't be cancelled anymore
+                inst.sg.statemem.stafflight = nil --Can't be cancelled anymore
+                --V2C: NOTE! if we're teleporting ourself, we may be forced to exit state here!
+                inst:PerformBufferedAction()
+            end),
+        },
+
+        events =
+        {
+            EventHandler("animqueueover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+                end
+            end),
+        },
+
+        onexit = function(inst)
+            if inst.components.playercontroller ~= nil then
+                inst.components.playercontroller:Enable(true)
+            end
+            if inst.sg.statemem.stafffx ~= nil and inst.sg.statemem.stafffx:IsValid() then
+                inst.sg.statemem.stafffx:Remove()
+            end
+            if inst.sg.statemem.stafflight ~= nil and inst.sg.statemem.stafflight:IsValid() then
+                inst.sg.statemem.stafflight:Remove()
+            end
+            if inst.sg.statemem.targetfx ~= nil and inst.sg.statemem.targetfx:IsValid() then
+                OnRemoveCleanupTargetFX(inst)
+            end
+        end,
     },
 }
 
