@@ -59,7 +59,7 @@ local function OnHit(inst, attacker, target)
 
     -- Hit a boat? Cause a leak!
     if target ~= nil and target:HasTag("boat") then
-        target.components.health:DoDelta(-TUNING.CANNONBALL_DAMAGE*0.25)
+        target.components.health:DoDelta(-TUNING.CANNONBALL_DAMAGE*0.75)
     end
 
     -- Look for stuff on the ocean/ground and launch them
@@ -131,7 +131,9 @@ local function OnHit(inst, attacker, target)
         SpawnPrefab("crab_king_waterspout").Transform:SetPosition(inst.Transform:GetWorldPosition())
         -- Landed on ground
     else
-        SpawnPrefab("lavaspit_slobber").Transform:SetPosition(inst.Transform:GetWorldPosition())
+        local lava = SpawnPrefab("lavaspit_sludge")
+        lava.Transform:SetPosition(inst.Transform:GetWorldPosition())
+
         local fx = SpawnPrefab("halloween_firepuff_1")
         fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
         fx.Transform:SetScale(3, 3, 3)
@@ -240,7 +242,7 @@ local function common_fn(bank, build, anim, tag, isinventoryitem)
     inst:AddComponent("complexprojectile")
 
     inst:AddComponent("combat")
-    inst.components.combat:SetDefaultDamage(CANNONBALL_DAMAGE*0.25)
+    inst.components.combat:SetDefaultDamage(CANNONBALL_DAMAGE*0.75)
     inst.components.combat:SetAreaDamage(CANNONBALL_SPLASH_RADIUS, CANNONBALL_SPLASH_DAMAGE_PERCENT)
 
     MakeMediumBurnable(inst, TUNING.MED_BURNTIME)
