@@ -133,7 +133,7 @@ local function OnHit(inst, attacker, target)
     else
         SpawnPrefab("lavaspit_slobber").Transform:SetPosition(inst.Transform:GetWorldPosition())
         local fx = SpawnPrefab("halloween_firepuff_1")
-        fx.Transform:SetPosition(instqdwq.Transform:GetWorldPosition())
+        fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
         fx.Transform:SetScale(3, 3, 3)
     end
     inst:Remove()
