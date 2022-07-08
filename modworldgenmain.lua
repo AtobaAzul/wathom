@@ -153,12 +153,22 @@ if GetModConfigData("worldgenmastertoggle") then
     Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
     Layouts["utw_biomespawner"] = StaticLayout.Get("map/static_layouts/utw_biomespawner")
 
+    local function chance_and_count(chance, min, max)
+        if math.random() > (1-chance) then
+            if max == nil or min == max then
+                return min
+            else
+                return math.random(min, max)
+            end
+        end
+    end
+
     AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then
             return
         end
 
-        tasksetdata.set_pieces["basefrag_smellykitchen"] = {1,
+        tasksetdata.set_pieces["basefrag_smellykitchen"] = {count = chance_and_count(0.33, 1),
             tasks = {
                 "Great Plains",
                 "Speak to the king",
@@ -172,7 +182,7 @@ if GetModConfigData("worldgenmastertoggle") then
             }
         }
 
-        tasksetdata.set_pieces["basefrag_rattystorage"] = {1,
+        tasksetdata.set_pieces["basefrag_rattystorage"] = {count = chance_and_count(0.33, 1),
         tasks = {
             "Befriend the pigs",
             "Kill the spiders",
@@ -185,13 +195,9 @@ if GetModConfigData("worldgenmastertoggle") then
             "Tentacle-Blocked Spider Swamp"
             }
         }
-        local function _count()
-            if math.random() > 0.66 then
-                return math.random(0,3)
-            end
-        end
 
-        tasksetdata.set_pieces["moonfrag"] = {count = _count(),
+
+        tasksetdata.set_pieces["moonfrag"] = {count = chance_and_count(0.33, 1, 3),
         tasks = {
             "Make a pick",
             "Dig that rock",
