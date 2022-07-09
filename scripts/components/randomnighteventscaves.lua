@@ -18,7 +18,7 @@ self.caveevents = nil
 self.secondarycaveevents = nil
 self.totalrandomcaveweight = nil
 self.totalrandomsecondarycaveweight = nil
-
+self.dreamcatchers = {}
 
 --------------------------------
 --RNE Player Scaling function

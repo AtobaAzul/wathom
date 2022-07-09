@@ -23,7 +23,7 @@ self.totalrandomcaveweight = nil
 self.moontear_available = true
 self.weightheodds = math.random()
 self.LastNewMoonRNE = nil
-
+self.dreamcatchers = {}
 
 --------------------------------
 --RNE Player Scaling function

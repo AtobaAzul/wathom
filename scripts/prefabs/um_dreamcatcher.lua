@@ -47,6 +47,10 @@ local function OnStartChanneling(inst, channeler)
 		end
 		inst.calm(inst)
 		inst.check(inst)
+		if channeler.components.inventory then
+			local nightmare = SpawnPrefab("um_coalesced_nightmare")
+			channeler.components.inventory:GiveItem(nightmare,nil,inst:GetPosition())
+		end
 		inst.components.channelable.enabled = false
 	end
 end
@@ -57,6 +61,9 @@ end
 
 
 local function onhammered(inst)
+    if inst.components.burnable ~= nil and inst.components.burnable:IsBurning() then
+        inst.components.burnable:Extinguish()
+    end
     inst.components.lootdropper:DropLoot()
     local fx = SpawnPrefab("collapse_small")
     fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
@@ -64,8 +71,10 @@ local function onhammered(inst)
 end
 
 local function onhit(inst)
-	--inst.AnimState:PlayAnimation("hit_"..inst.state)
-    inst.AnimState:PushAnimation("idle_"..inst.stage)
+	if not inst.burnt then
+		--inst.AnimState:PlayAnimation("hit_"..inst.state)
+		inst.AnimState:PushAnimation("idle_"..inst.stage)
+	end
 end
 
 local function onbuilt(inst)
@@ -107,7 +116,7 @@ local function Check(inst)
 	--TheNet:Announce("checking")
 	if TheWorld.state.isdusk or TheWorld.state.isnight then
 		local RNEs = TheWorld.components.randomnightevents or TheWorld.components.randomnighteventscaves or nil
-		if RNEs and inst.stage ~= "empty" then
+		if RNEs and inst.stage ~= "empty" and not inst.burnt then
 			--TheNet:Announce("foundrnecomponent")
 			if RNEs.rnequeued then
 				inst.panic = true
@@ -122,6 +131,8 @@ local function Check(inst)
 				end
 			end
 		end
+	else
+		inst.components.channelable.enabled = false
 	end
 end
 
@@ -129,7 +140,9 @@ end
 local function CalmIfNeeded(inst)
 	if inst.panic then
 		inst.panic = false
-		inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
+		if not inst.burnt then
+			inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
+		end
 		HideFx(inst)
 		if inst.components.channelable then
 			inst.components.channelable.enabled = false
@@ -146,56 +159,69 @@ local function ShouldAcceptItem(inst, item)
 end
 
 local function Damage(inst)
-	if inst.stage == "notmuch" then
-		inst.stage = "empty"
+	if not inst.burnt then
+		if inst.stage == "notmuch" then
+			inst.stage = "empty"
+		end
+		if inst.stage == "med" then
+			inst.stage = "notmuch"
+		end
+		if inst.stage == "full" then
+			inst:AddComponent("trader")
+			inst.components.trader:SetAcceptTest(ShouldAcceptItem)
+			inst.components.trader.onaccept = OnGetItem	
+			inst.stage = "med"
+		end
+		
+		if inst.components.timer:TimerExists("damage") then
+			inst.components.timer:StopTimer("damage")
+		end
+		inst.components.timer:StartTimer("damage",damage_time)
+		inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
+		Check(inst)
+		CalmIfNeeded(inst)
 	end
-	if inst.stage == "med" then
-		inst.stage = "notmuch"
-	end
-	if inst.stage == "full" then
-		inst:AddComponent("trader")
-		inst.components.trader:SetAcceptTest(ShouldAcceptItem)
-		inst.components.trader.onaccept = OnGetItem	
-		inst.stage = "med"
-	end
-	
-	if inst.components.timer:TimerExists("damage") then
-		inst.components.timer:StopTimer("damage")
-	end
-	inst.components.timer:StartTimer("damage",damage_time)
-	inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
-	Check(inst)
-	CalmIfNeeded(inst)
 end
 
 local function Repair(inst)
-	if inst.stage == "full" then
-		if inst.components.trader then
-			inst:RemoveComponent("trader")
+	if not inst.burnt then
+		if inst.stage == "full" then
+			if inst.components.trader then
+				inst:RemoveComponent("trader")
+			end
 		end
-	end
-	if inst.stage == "med" then
-		inst.stage = "full"
-		if inst.components.trader then
-			inst:RemoveComponent("trader")
+		if inst.stage == "med" then
+			inst.stage = "full"
+			if inst.components.trader then
+				inst:RemoveComponent("trader")
+			end
 		end
+		if inst.stage == "notmuch" then
+			inst.stage = "med"
+		end
+		if inst.stage == "empty" then
+			inst.stage = "notmuch"
+		end
+		if inst.components.timer:TimerExists("damage") then
+			inst.components.timer:StopTimer("damage")
+		end
+		inst.components.timer:StartTimer("damage",damage_time)
+		inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
+		Check(inst)
+		CalmIfNeeded(inst)
 	end
-	if inst.stage == "notmuch" then
-		inst.stage = "med"
+end
+
+local function ChangeToBurnt(inst)
+	inst.burnt = true
+	HideFx(inst)
+	if inst.components.channelable then
+		inst.components.channelable.enabled = false
+	end	
+	inst.AnimState:PlayAnimation("idle_burnt")
+	if inst.components.burnable then
+		inst:RemoveComponent("burnable")
 	end
-	if inst.stage == "empty" then
-		inst.stage = "notmuch"
-	end
-	if inst.stage == "notmuch" then
-		inst.stage = "med"
-	end
-	if inst.components.timer:TimerExists("damage") then
-		inst.components.timer:StopTimer("damage")
-	end
-	inst.components.timer:StartTimer("damage",damage_time)
-	inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
-	Check(inst)
-	CalmIfNeeded(inst)
 end
 
 local function fn()
@@ -216,7 +242,8 @@ local function fn()
     --inst.AnimState:PlayAnimation("idle_full", true)
 
     inst:AddTag("structure")
-
+	inst:AddTag("um_dreamcatcher")
+	
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
@@ -243,29 +270,37 @@ local function fn()
 
     -----------------------------
     inst:ListenForEvent("onbuilt", onbuilt)
-	inst:WatchWorldState("isdusk", function() inst:DoTaskInTime(math.random(1,2), Check) end)
-	inst:WatchWorldState("isday", function() inst:DoTaskInTime(0, CalmIfNeeded) end)
+	inst:WatchWorldState("isdusk", function() inst:DoTaskInTime(2, Check) end) -- Dusk has happened, check rnes after a moment
+	inst:WatchWorldState("isday", function() inst:DoTaskInTime(0, CalmIfNeeded) end) -- Daytime, if I'm panicking I need to stop
 	inst:WatchWorldState("isnight", function() inst:DoTaskInTime(0, function(inst)
-				inst.components.channelable.enabled = false
+				inst.components.channelable.enabled = false --Nighttime, all bets are off, can't remove RNE novv
 		end)
 	end)
 	
 	inst:AddComponent("timer")
 	inst:DoTaskInTime(0,function(inst)
+		local RNEs = TheWorld.components.randomnightevents or TheWorld.components.randomnighteventscaves or nil --Need to insert into table so that vve can reference it via a dropped coalesced nightmare.
+		table.insert(RNEs.dreamcatchers,inst)
+		
 		if not inst.stage then
 			inst.stage = "full"
 		end
-		inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
+		if not inst.burnt == true then
+			inst.AnimState:PlayAnimation("idle_"..inst.stage,true)
+		end
 		Check(inst)
 		if not inst.components.timer:TimerExists("damage") then
 			inst.components.timer:StartTimer("damage", damage_time)
 		end
 	end)
 	
-	inst.onsave = function(inst,data)
+	inst.OnSave = function(inst,data)
 		data.stage = inst.stage
+		if inst.burnt or (inst.components.burnable and inst.components.burnable:IsBurning()) then
+			data.burnt = true
+		end
 	end
-	inst.onload = function(inst,data)
+	inst.OnLoad = function(inst,data)
 		if data.stage then
 			inst.stage = data.stage
 		end
@@ -273,6 +308,10 @@ local function fn()
 			inst:AddComponent("trader")
 			inst.components.trader:SetAcceptTest(ShouldAcceptItem)
 			inst.components.trader.onaccept = OnGetItem
+		end
+		if data.burnt then
+			inst:AddTag("burnt")
+			ChangeToBurnt(inst)
 		end
 	end
 	
@@ -282,6 +321,9 @@ local function fn()
 	inst.Repair = Repair
 	
 	inst:ListenForEvent("timerdone", Damage)
+	MakeLargeBurnable(inst, nil, nil, true)
+	MakeLargePropagator(inst)
+	inst.components.burnable:SetOnBurntFn(ChangeToBurnt)
 	
     return inst
 end
@@ -317,7 +359,7 @@ local function fnmoss(inst)
     inst.components.fuel.fuelvalue = TUNING.SMALL_FUEL
 
     MakeSmallBurnable(inst, TUNING.SMALL_BURNTIME)
-
+	
     MakeHauntableLaunchAndIgnite(inst)
 
     inst:AddComponent("inspectable")
@@ -327,6 +369,59 @@ local function fnmoss(inst)
     return inst
 end
 
+local function fnnightmare(inst)
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+
+    MakeInventoryPhysics(inst)
+
+    inst.AnimState:SetBank("nightmarefuel")
+    inst.AnimState:SetBuild("nightmarefuel")
+    inst.AnimState:PlayAnimation("idle_loop",true)
+
+
+    MakeInventoryFloatable(inst, "med", 0.05, 0.6)
+	
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+
+    inst:AddComponent("stackable")
+    inst.components.stackable.maxsize = TUNING.STACK_SIZE_LARGEITEM
+
+    inst:AddComponent("inspectable")
+    inst:AddComponent("inventoryitem")
+	
+	inst:ListenForEvent("ondropped",function(inst) 
+		inst:DoTaskInTime(math.random(4,6), function(inst)
+			if inst.components.inventoryitem and not inst.components.inventoryitem:IsHeld() then
+				SpawnPrefab("shadow_despawn").Transform:SetPosition(inst.Transform:GetWorldPosition())
+				local RNEs = TheWorld.components.randomnightevents or TheWorld.components.randomnighteventscaves or nil
+				if RNEs then
+					RNEs.rnequeued = true
+					if RNEs.dreamcatchers then
+						for i,v in ipairs(RNEs.dreamcatchers) do
+							if v then
+								v.check(v) -- Hey uh..... I just added the RNE back so.... you'd probably vvant to start panicking
+							end
+						end			
+					end				
+				end
+				inst:Remove()
+			end
+		end)
+	end)
+
+    return inst
+end
+
 return Prefab("um_dreamcatcher", fn, assets),
-	Prefab("um_brineishmoss",fnmoss)
+	Prefab("um_brineishmoss",fnmoss),
+	Prefab("um_coalesced_nightmare",fnnightmare)
     --MakePlacer("um_dreamcatcher_placer", "um_dreamcatcher", "um_dreamcatcher", "idle_place")
