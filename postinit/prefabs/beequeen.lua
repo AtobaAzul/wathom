@@ -343,6 +343,10 @@ env.AddPrefabPostInit("beequeen", function(inst)
 		return
 	end
 	
+	if TUNING.DSTU.VETCURSE ~= "off" then
+		inst:AddComponent("vetcurselootdropper")
+		inst.components.vetcurselootdropper.loot = "um_beegun"
+	end
 	
     inst.Physics:CollidesWith(COLLISION.FLYERS)
 	

@@ -1238,53 +1238,25 @@ State{
             end
             inst.AnimState:PlayAnimation("staff_pre")
             inst.AnimState:PushAnimation("staff", false)
+			
+            --inst.AnimState:PushAnimation("staff", false)
             inst.components.locomotor:Stop()
 
             --Spawn an effect on the player's location
             local staff = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
             local colour = staff ~= nil and staff.fxcolour or { 1, 1, 1 }
 
-            inst.sg.statemem.stafffx = SpawnPrefab(inst.components.rider:IsRiding() and "staffcastfx_mount" or "staffcastfx")
-            inst.sg.statemem.stafffx.entity:SetParent(inst.entity)
-            inst.sg.statemem.stafffx:SetUp(colour)
-
-            inst.sg.statemem.stafflight = SpawnPrefab("staff_castinglight")
-            inst.sg.statemem.stafflight.Transform:SetPosition(inst.Transform:GetWorldPosition())
-            inst.sg.statemem.stafflight:SetUp(colour, 1.9, .33)
-
-            if staff ~= nil and staff.components.aoetargeting ~= nil and staff.components.aoetargeting.targetprefab ~= nil then
-                local buffaction = inst:GetBufferedAction()
-                if buffaction ~= nil and buffaction.pos ~= nil then
-                    inst.sg.statemem.targetfx = SpawnPrefab(staff.components.aoetargeting.targetprefab)
-                    if inst.sg.statemem.targetfx ~= nil then
-                        inst.sg.statemem.targetfx.Transform:SetPosition(buffaction:GetActionPoint():Get())
-                        inst.sg.statemem.targetfx:ListenForEvent("onremove", OnRemoveCleanupTargetFX, inst)
-                    end
-                end
-            end
-
-            if staff ~= nil then
-                inst.sg.statemem.castsound = staff.skin_castsound or staff.castsound or "dontstarve/wilson/use_gemstaff"
-            else
-                inst.sg.statemem.castsound = "dontstarve/wilson/use_gemstaff"
-            end
+            inst.sg.statemem.stafffx = SpawnPrefab("bee_poof_big")
+			inst.sg.statemem.stafffx.entity:SetParent(inst.entity)
+			inst.sg.statemem.stafffx.entity:AddFollower()
+			inst.sg.statemem.stafffx.Follower:FollowSymbol(inst.GUID, "swap_object", 30, 0, 0.1)
         end,
 
         timeline =
         {
             TimeEvent(13 * FRAMES, function(inst)
-                inst.SoundEmitter:PlaySound(inst.sg.statemem.castsound)
-            end),
-            TimeEvent(53 * FRAMES, function(inst)
-                if inst.sg.statemem.targetfx ~= nil then
-                    if inst.sg.statemem.targetfx:IsValid() then
-                        OnRemoveCleanupTargetFX(inst)
-                    end
-                    inst.sg.statemem.targetfx = nil
-                end
                 inst.sg.statemem.stafffx = nil --Can't be cancelled anymore
-                inst.sg.statemem.stafflight = nil --Can't be cancelled anymore
-                --V2C: NOTE! if we're teleporting ourself, we may be forced to exit state here!
+				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/taunt")
                 inst:PerformBufferedAction()
             end),
         },
@@ -1304,12 +1276,6 @@ State{
             end
             if inst.sg.statemem.stafffx ~= nil and inst.sg.statemem.stafffx:IsValid() then
                 inst.sg.statemem.stafffx:Remove()
-            end
-            if inst.sg.statemem.stafflight ~= nil and inst.sg.statemem.stafflight:IsValid() then
-                inst.sg.statemem.stafflight:Remove()
-            end
-            if inst.sg.statemem.targetfx ~= nil and inst.sg.statemem.targetfx:IsValid() then
-                OnRemoveCleanupTargetFX(inst)
             end
         end,
     },

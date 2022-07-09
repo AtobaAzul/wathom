@@ -696,6 +696,7 @@ Assets = {
 	Asset("ANIM", "anim/um_beegun.zip"),
 	Asset("ANIM", "anim/swap_um_beegun.zip"),
 	Asset("ANIM", "anim/um_beegun_dart.zip"),
+	Asset("ANIM", "anim/um_beegun_ball.zip"),
 	Asset("ATLAS", "images/inventoryimages/um_beegun.xml"),
 	Asset("IMAGE", "images/inventoryimages/um_beegun.tex"),
 	

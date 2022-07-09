@@ -12,13 +12,31 @@ local prefabs =
 local PROJECTILE_DELAY = 2 * FRAMES
 
 local function OnEquip(inst, owner)
-	owner.AnimState:OverrideSymbol("swap_object", "swap_um_beegun", "swap_blunderbuss")
-    owner.AnimState:Show("ARM_carry")
-    owner.AnimState:Hide("ARM_normal")
+	if not owner:HasTag("vetcurse") then
+		inst:DoTaskInTime(0, function(inst, owner)
+			local owner = inst.components.inventoryitem ~= nil and inst.components.inventoryitem.owner
+			local tool = owner ~= nil and owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+			if tool ~= nil and owner ~= nil then
+				owner.components.inventory:Unequip(EQUIPSLOTS.HANDS)
+				owner.components.inventory:DropItem(tool)
+				owner.components.inventory:GiveItem(inst)
+				owner.components.talker:Say(GetString(owner, "CURSED_ITEM_EQUIP"))
+				inst.SoundEmitter:PlaySound("dontstarve_DLC001/common/HUD_hot_level1")
+				
+				if owner.sg ~= nil then
+					owner.sg:GoToState("hit")
+				end
+			end
+		end)
+	else
+		owner.AnimState:OverrideSymbol("swap_object", "swap_um_beegun", "swap_um_beegun")
+		owner.AnimState:Show("ARM_carry")
+		owner.AnimState:Hide("ARM_normal")
 
-    if inst.components.container ~= nil then
-        inst.components.container:Open(owner)
-    end
+		if inst.components.container ~= nil then
+			inst.components.container:Open(owner)
+		end
+	end
 end
 
 local function OnUnequip(inst, owner)
@@ -40,7 +58,7 @@ local function OnProjectileLaunched(inst, attacker, target)
 		local item = inst.components.container:RemoveItem(ammo_stack, false)
 		if item ~= nil then
             inst.SoundEmitter:PlaySound("dontstarve/common/deathpoof")
-
+			
 			item:Remove()
 		end
 	end
@@ -49,7 +67,7 @@ end
 local function OnAmmoLoaded(inst, data)
 	if inst.components.weapon ~= nil then
 		if data ~= nil and data.item ~= nil then
-			inst.components.weapon:SetProjectile(data.item.prefab.."_proj")
+			inst.components.weapon:SetProjectile("um_"..data.item.prefab.."_proj")
 		end
 	end
 end
@@ -93,26 +111,43 @@ local function ReticuleUpdatePositionFn(inst, pos, reticule, ease, smoothing, dt
 end
 
 local function collectbees(inst, target, pos)
-	if pos ~= nil then
-		local findbees = TheSim:FindEntities(pos.x, 0, pos.z, 8, {"bee"})
-		if findbees ~= nil then
-			for i, v in pairs(findbees) do
-				if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.inventoryitem then
-					if inst.components.container ~= nil then
-						inst.components.container:GiveItem(v)
+	local owner = inst.components.inventoryitem.owner
+	local ownerpos = owner ~= nil and owner:GetPosition()
+	
+	if owner ~= nil then
+		if pos ~= nil then
+			local findbees = TheSim:FindEntities(pos.x, 0, pos.z, 8, {"bee"})
+			if findbees ~= nil then
+				for i, v in pairs(findbees) do
+					if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.inventoryitem and not v.components.health:IsDead() then
+						if inst.components.container ~= nil then
+							local beeball = SpawnPrefab("um_"..v.prefab.."_ball")
+							beeball.Transform:SetPosition(v.Transform:GetWorldPosition())
+							beeball.components.complexprojectile:Launch(ownerpos, owner, owner)
+							beeball.beegun = inst
+							
+							v:Remove()
+							--inst.components.container:GiveItem(v)
+						end
 					end
 				end
 			end
-		end
-	elseif target ~= nil then
-		local x, y, z = target.Transform:GetWorldPosition()
-	
-		local findbees = TheSim:FindEntities(x, 0, z, 8, {"bee"})
-		if findbees ~= nil then
-			for i, v in pairs(findbees) do
-				if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.inventoryitem then
-					if inst.components.container ~= nil then
-						inst.components.container:GiveItem(v)
+		elseif target ~= nil then
+			local x, y, z = target.Transform:GetWorldPosition()
+		
+			local findbees = TheSim:FindEntities(x, 0, z, 8, {"bee"})
+			if findbees ~= nil then
+				for i, v in pairs(findbees) do
+					if v ~= nil and not v:IsInLimbo() and v:IsValid() and v.components.inventoryitem and not v.components.health:IsDead() then
+						if inst.components.container ~= nil then
+							local beeball = SpawnPrefab("um_"..v.prefab.."_ball")
+							beeball.Transform:SetPosition(v.Transform:GetWorldPosition())
+							beeball.components.complexprojectile:Launch(ownerpos, owner, owner)
+							beeball.beegun = inst
+							
+							v:Remove()
+							--inst.components.container:GiveItem(v)
+						end
 					end
 				end
 			end
@@ -177,7 +212,7 @@ local function fn()
     inst.components.equippable:SetOnUnequip(OnUnequip)
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(50)
+    inst.components.weapon:SetDamage(15)
     inst.components.weapon:SetRange(TUNING.SLINGSHOT_DISTANCE, TUNING.SLINGSHOT_DISTANCE_MAX)
     inst.components.weapon:SetOnProjectileLaunched(OnProjectileLaunched)
     inst.components.weapon:SetProjectile(nil)
@@ -214,15 +249,25 @@ local function onhit(inst, attacker, target)
         end
     end
 	
+	
+	local bee = SpawnPrefab(inst.beetype)
+	bee.Transform:SetPosition(inst.Transform:GetWorldPosition())
+	
+	if target ~= nil then
+		bee.components.combat:SuggestTarget(target)
+	end
+	
     inst:Remove()
 end
 
-local function onthrown(inst, data)
-	inst.SoundEmitter:PlaySound(inst.type)
-    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
+local function pipethrown(inst)
+	inst.SoundEmitter:PlaySound(inst.sound)
+    inst.AnimState:PlayAnimation(inst.anim)
+    inst:AddTag("NOCLICK")
+    inst.persists = false
 end
 
-local function common(anim, beetype)
+local function common(anim, beetype, sound)
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -236,6 +281,8 @@ local function common(anim, beetype)
     inst.AnimState:SetBank("um_beegun_dart")
     inst.AnimState:SetBuild("um_beegun_dart")
     inst.AnimState:PlayAnimation(anim)
+	inst.Transform:SetScale(1.2, 1.2, 1.2)
+    inst.Transform:SetFourFaced()
 
     --inst:AddTag("blowdart")
     inst:AddTag("sharp")
@@ -254,17 +301,20 @@ local function common(anim, beetype)
         return inst
     end
 	
-	inst.type = beetype
+	inst.beetype = beetype
+	inst.sound = sound
+	inst.anim = anim
 
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(50)
+    inst.components.weapon:SetDamage(15)
     inst.components.weapon:SetRange(8, 10)
 
     inst:AddComponent("projectile")
     inst.components.projectile:SetSpeed(20)
     inst.components.projectile:SetOnHitFn(onhit)
-    inst:ListenForEvent("onthrown", onthrown)
-    inst.components.projectile:SetLaunchOffset(Vector3(.5, 1.5, 0))
+    inst.components.projectile:SetOnThrownFn(pipethrown)
+    inst.components.projectile:SetLaunchOffset(Vector3(.5, .5, 0))
+    --inst.components.projectile:SetLaunchOffset(Vector3(.5, 1.5, 0))
     inst.components.projectile:SetHitDist(math.sqrt(5))
     -------
 
@@ -276,17 +326,112 @@ local function common(anim, beetype)
 end
 
 local function yellow()
-    local inst = common("beedart_yellow", "dontstarve/bee/bee_attack")
+    local inst = common("beedart_yellow", "bee", "dontstarve/bee/bee_attack")
 
     return inst
 end
 	
 local function red()
-    local inst = common("beedart_red", "dontstarve/bee/killerbee_attack")
+    local inst = common("beedart_red", "killerbee", "dontstarve/bee/killerbee_attack")
+
+    return inst
+end
+
+local function OnHitBall(inst, attacker, target)
+	if inst.beegun ~= nil and inst.beegun:IsValid() then
+		inst.beegun.components.container:GiveItem(SpawnPrefab(inst.beetype))
+		local beefx = SpawnPrefab("bee_poof_small")
+		
+		local owner = inst.beegun.components.inventoryitem.owner
+		
+		if owner ~= nil then
+			beefx.entity:SetParent(owner.entity)
+			beefx.entity:AddFollower()
+			beefx.Follower:FollowSymbol(owner.GUID, "swap_object", 30, 0, 0.1)
+		else
+			beefx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+		end
+		
+		
+	else
+		SpawnPrefab(inst.beetype).Transform:SetPosition(inst.Transform:GetWorldPosition())
+	end
+
+    inst:Remove()
+end
+
+local function onthrown_ball(inst)
+    inst:AddTag("NOCLICK")
+    inst.persists = false
+    inst.AnimState:PlayAnimation(inst.anim.."spin_loop", true)
+	inst.SoundEmitter:PlaySound(inst.sound)
+	
+    inst.Physics:SetMass(1)
+    inst.Physics:SetFriction(10)
+    inst.Physics:SetDamping(5)
+    inst.Physics:SetCollisionGroup(COLLISION.OBSTACLES)
+    inst.Physics:ClearCollisionMask()
+
+	inst.Physics:SetCapsule(0.02, 0.02)
+	
+    inst.Physics:SetCollisionCallback(nil)
+end
+
+local function commonball(anim, beetype, sound)
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddPhysics()
+    inst.entity:AddNetwork()
+
+    inst.AnimState:SetBank("um_beegun_ball")
+    inst.AnimState:SetBuild("um_beegun_ball")
+    inst.AnimState:PlayAnimation(anim.."spin_loop")
+    inst.Transform:SetFourFaced()
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	
+	inst.beetype = beetype
+	inst.sound = sound
+	inst.anim = anim
+
+    inst:AddComponent("complexprojectile")
+    inst.components.complexprojectile:SetHorizontalSpeed(25)
+    inst.components.complexprojectile:SetGravity(-30)
+    inst.components.complexprojectile:SetLaunchOffset(Vector3(0, 1, 0))
+    inst.components.complexprojectile:SetOnLaunch(onthrown_ball)
+    inst.components.complexprojectile:SetOnHit(OnHitBall)
+    inst.components.complexprojectile.usehigharc = true
+
+    inst.persists = false
+
+    inst:AddComponent("locomotor")
+
+	inst:DoTaskInTime(5, inst.Remove)
+
+    return inst
+end
+
+local function yellowball()
+    local inst = commonball("yellow", "bee", "dontstarve/bee/bee_attack")
+
+    return inst
+end
+	
+local function redball()
+    local inst = commonball("red", "killerbee", "dontstarve/bee/killerbee_attack")
 
     return inst
 end
 	
 return Prefab("um_beegun", fn, assets, prefabs),
-		Prefab("bee_proj", yellow, assets, prefabs),
-		Prefab("killerbee_proj", red, assets, prefabs)
+		Prefab("um_bee_proj", yellow, assets, prefabs),
+		Prefab("um_bee_ball", yellowball, assets, prefabs),
+		Prefab("um_killerbee_proj", red, assets, prefabs),
+		Prefab("um_killerbee_ball", redball, assets, prefabs)
