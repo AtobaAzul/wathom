@@ -36,10 +36,10 @@ local function SpawnSiren(inst)
 		local biome = SpawnPrefab("umss_activebiome_test_rr")
 		biome.Transform:SetPosition(x,y,z)
 	elseif inst.sirenpoint == "siren_bird_nest" then
-		local biome = SpawnPrefab("umss_activebiome_test_bb")
+		local biome = SpawnPrefab("umss_activebiome_cbts_bb")
 		biome.Transform:SetPosition(x,y,z)
 	elseif inst.sirenpoint == "siren_throne" then
-		local biome = SpawnPrefab("umss_activebiome_test_ss")
+		local biome = SpawnPrefab("umss_activebiome_cbts_ss")
 		biome.Transform:SetPosition(x,y,z)
 	end
 end
@@ -49,7 +49,7 @@ local function SpawnInactive(inst)
 	ClearInactiveBiome(inst)
 	TheNet:Announce("spawn innactive")
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local test = SpawnPrefab("umss_inactivebiome_test")
+	local test = SpawnPrefab("umss_inactivebiome_cbts_sludge")
 	test.Transform:SetPosition(x,y,z)
 end
 

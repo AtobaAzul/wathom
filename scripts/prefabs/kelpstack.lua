@@ -21,6 +21,16 @@ SetSharedLootTable( 'kelpstack',
     {'kelp',   0.50}
 })
 
+SetSharedLootTable( 'mossstack',
+{
+    {'rocks',  1.00},
+    {'rocks',  1.00},
+    {'rocks',  1.00},
+    {'rocks',  1.00},
+    {'um_brineishmoss',   1.00},
+    {'um_brineishmoss',   0.50}
+})
+
 local function updateart(inst) 
     --local workleft = inst.components.workable.workleft
     --inst.AnimState:PlayAnimation(
@@ -117,6 +127,7 @@ local function fn()
     inst.components.workable.savestate = true
 
     inst:AddComponent("inspectable")
+    inst:SetPrefabNameOverride("seastack")
 
     MakeHauntableWork(inst)
 
@@ -125,4 +136,66 @@ local function fn()
     return inst
 end
 
-return Prefab("kelpstack", fn, assets, prefabs)
+local function fn_moss()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddMiniMapEntity()
+    inst.entity:AddNetwork()
+
+    inst.MiniMapEntity:SetIcon("seastack.png")
+
+    inst:SetPhysicsRadiusOverride(2.35)
+
+    MakeWaterObstaclePhysics(inst, 0.80, 2, 0.75)
+
+    inst:AddTag("ignorewalkableplatforms")
+    inst:AddTag("seastack")
+
+    inst.AnimState:SetBank("water_rock01")
+    inst.AnimState:SetBuild("water_rock_01")
+    inst.AnimState:PlayAnimation("1_full")
+    inst.AnimState:SetMultColour(0.6, 0.75, 0.6, 1)
+
+    MakeInventoryFloatable(inst, "med", 0.1, {1.1, 0.9, 1.1})
+    inst.components.floater.bob_percent = 0
+
+    local land_time = (POPULATING and math.random()*5*FRAMES) or 0
+    inst:DoTaskInTime(land_time, function(inst)
+        inst.components.floater:OnLandedServer()
+    end)
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+
+    inst:AddComponent("lootdropper")
+    inst.components.lootdropper:SetChanceLootTable('mossstack')
+    inst.components.lootdropper.max_speed = 2
+    inst.components.lootdropper.min_speed = 0.3
+    inst.components.lootdropper.y_speed = 14
+    inst.components.lootdropper.y_speed_variance = 4
+    inst.components.lootdropper.spawn_loot_inside_prefab = true
+
+    inst:AddComponent("workable")
+    inst.components.workable:SetWorkAction(ACTIONS.MINE)
+    inst.components.workable:SetWorkLeft(TUNING.SEASTACK_MINE)
+    inst.components.workable:SetOnWorkCallback(OnWork)
+    inst.components.workable.savestate = true
+
+    inst:AddComponent("inspectable")
+    inst:SetPrefabNameOverride("seastack")
+
+    MakeHauntableWork(inst)
+
+    inst:ListenForEvent("on_collide", OnCollide)
+
+    return inst
+end
+
+return Prefab("kelpstack", fn, assets, prefabs), Prefab("mossstack", fn_moss, assets, prefabs)

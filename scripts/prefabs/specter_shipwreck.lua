@@ -23,7 +23,12 @@ local function fn(Sim)
     if not TheWorld.ismastersim then
         return inst
     end
-	
+    inst:SetPhysicsRadiusOverride(2.35)
+
+    MakeWaterObstaclePhysics(inst, 0.80, 2, 0.75)
+
+    inst:AddTag("ignorewalkableplatforms")
+
 	inst.type = math.random(1,4)
     inst:AddComponent("inspectable")
 

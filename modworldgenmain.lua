@@ -152,6 +152,8 @@ if GetModConfigData("worldgenmastertoggle") then
     Layouts["basefrag_rattystorage"] = StaticLayout.Get("map/static_layouts/umss_basefrag_rattystorage")
     Layouts["moonfrag"] = StaticLayout.Get("map/static_layouts/umss_moonfrag")
     Layouts["utw_biomespawner"] = StaticLayout.Get("map/static_layouts/utw_biomespawner")
+    Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
+    Layouts["boon_moonoil"] = StaticLayout.Get("map/static_layouts/umss_moonoil")
 
     local function chance_and_count(chance, min, max)
         if math.random() > (1-chance) then
@@ -198,6 +200,32 @@ if GetModConfigData("worldgenmastertoggle") then
 
 
         tasksetdata.set_pieces["moonfrag"] = {count = chance_and_count(0.33, 1, 3),
+        tasks = {
+            "Make a pick",
+            "Dig that rock",
+            "Great Plains",
+            "Squeltch",
+            "Beeeees!",
+            "Speak to the king",
+            "Forest hunters",
+            "For a nice walk",
+            "Badlands",
+            "Lightning Bluff",
+            "Befriend the pigs",
+            "Kill the spiders",
+            "Killer bees!",
+            "Make a Beehat",
+            "The hunters",
+            "Magic meadow",
+            "Frogs and bugs",
+            "Mole Colony Deciduous",
+            "Mole Colony Rocks",
+            "MooseBreedingTask",
+            "Speak to the king classic",
+            }
+        }
+
+        tasksetdata.set_pieces["boon_moonoil"] = {count = chance_and_count(0.5, 1),
         tasks = {
             "Make a pick",
             "Dig that rock",
@@ -644,13 +672,6 @@ if GetModConfigData("worldgenmastertoggle") then
         end)
     end
 
-    AddRoomPreInit("HFHolidays", function(room)
-        room.contents.countprefabs = {
-            umss_moonoil = 1
-        }
-    end)
-
-    Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
 
     AddRoomPreInit("CritterDen", function(room)
         if not room.contents.countstaticlayouts then
