@@ -367,4 +367,5 @@ return {
 	"steeringwheel_copper",
 	"hermit_bundle_lures",
 	"um_cannonballs",
+	"um_dreamcatcher",
 }

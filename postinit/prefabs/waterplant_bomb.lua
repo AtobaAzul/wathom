@@ -69,9 +69,9 @@ end
 
 
 env.AddPrefabPostInit("waterplant_projectile", function(inst)
-if inst.components.complexprojectile ~= nil the
-	inst.components.complexprojectile:SetOnHit(onhit)
-    en
+	if inst.components.complexprojectile ~= nil then
+		inst.components.complexprojectile:SetOnHit(onhit)
+    end
 end)
 
 local NO_TAGS_PLAYER =  { "INLIMBO", "ghost", "playerghost", "FX", "NOCLICK", "DECOR", "notarget", "companion", "shadowminion", "player" }

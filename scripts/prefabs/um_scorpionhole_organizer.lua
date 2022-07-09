@@ -22,7 +22,7 @@ local function Init(inst)
 	if not inst.components.timer:TimerExists("moreholes") then
 		CalculateNextHoleTime(inst)
 	end
-	TheNet:Announce("Init")
+	--TheNet:Announce("Init")
 	if TheWorld.components.UM_scorpionholes and TheWorld.components.UM_scorpionholes.homesites then
 		local i_am_in_table = false
 		for i,v in ipairs(TheWorld.components.UM_scorpionholes.homesites) do
@@ -31,7 +31,7 @@ local function Init(inst)
 			end
 		end
 		if i_am_in_table ~= true then
-			TheNet:Announce("Added myself to table")
+			--TheNet:Announce("Added myself to table")
 			table.insert(TheWorld.components.UM_scorpionholes.homesites,inst)
 		end
 	else

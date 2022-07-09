@@ -1932,99 +1932,107 @@ end
 
 
 local function CheckPlayers(forced)
-    _targetplayer = nil
-    if #_activeplayers == 0 then
-        return
-    end
-
-	local playerlist = {}
-	for _, v in ipairs(_activeplayers) do
-		if IsEligible(v) then
-			table.insert(playerlist, v)
+	if TheWorld.state.isnight then
+		_targetplayer = nil
+		if #_activeplayers == 0 then
+			return
 		end
-	end
-	
-		
-	--shuffleArray(playerlist)
-	if #playerlist == 0 then
-		return
-	end
-	local player = playerlist[math.random(#playerlist)]
-	local numStructures = 0
-	local numStructures2 = 0
-	
-	local playerchancescaling = TUNING.DSTU.RNE_CHANCE -- - (#playerlist * 0.1)
-	--print(playerchancescaling)
-	
-	local days_survived = player.components.age ~= nil and player.components.age:GetAgeInDays()
-	
-	if --[[TheWorld.state.cycles]]days_survived >= 5 and math.random() >= playerchancescaling or (days_survived >= 5 and TheWorld.state.isfullmoon) or (days_survived >= 5 and TheWorld.state.isnewmoon) or forced then
-		
-		--for i, 1 in ipairs(playerlist) do  --try a base RNE
-		if player ~= nil then
-			local x,y,z = player.Transform:GetWorldPosition()--local x,y,z = v.Transform:GetWorldPosition()
-			local ents = TheSim:FindEntities(x,y,z, STRUCTURE_DIST, {"structure"})
-			numStructures = #ents
-			
-			if IsOcean(player) and IsEligible(player) then --Double Checking For Eligibility after chosen just in case.
-				DoOceanRNE(player)
-			elseif IsEligible(player) then --Double Checking For Eligibility after chosen just in case.
-				if numStructures >= 4 then
-					if TheWorld:HasTag("cave") then
-						DoCaveRNE(player)
-					else
-						if TheWorld.state.isfullmoon then
-							if self.moontear_available then
-								self.moontear_available = false
-								DoFullMoonRNE(player)--DoFullMoonRNE(v)
-							end
-						elseif TheWorld.state.isnewmoon then
-							--print("newmoon")
-							DoNewMoonRNE(player)--DoNewMoonRNE(v)
-						else
-							self.moontear_available = true
-							DoBaseRNE(player)--DoBaseRNE(v)
-						end
-					end
-					--print("found base")
-				else
-					if TheWorld:HasTag("cave") then
-						DoCaveRNE(player)
-					else
-						if TheWorld.state.isfullmoon then
-							if self.moontear_available then
-								self.moontear_available = false
-								DoFullMoonRNE(player)--DoFullMoonRNE(v)
-							end
-						elseif TheWorld.state.isnewmoon then
-							--print("newmoon")
-							DoNewMoonRNE(player)--DoNewMoonRNE(v)
-						else
-							self.moontear_available = true
-							DoWildRNE(player)--DoWildRNE(v)
-						end
-					end
-					--print("no find base")
-				end
+
+		local playerlist = {}
+		for _, v in ipairs(_activeplayers) do
+			if IsEligible(v) then
+				table.insert(playerlist, v)
 			end
 		end
 		
-		local k = #playerlist
+			
+		--shuffleArray(playerlist)
+		if #playerlist == 0 then
+			return
+		end
+		local player = playerlist[math.random(#playerlist)]
+		local numStructures = 0
+		local numStructures2 = 0
 		
-		for _, i in ipairs(playerlist) do
+		local playerchancescaling = TUNING.DSTU.RNE_CHANCE -- - (#playerlist * 0.1)
+		--print(playerchancescaling)
 		
-		local days_survived_secondary = i.components.age ~= nil and i.components.age:GetAgeInDays()
-	
-			if i ~= player and days_survived_secondary >= 5 and math.random() >= 0.5 then
-				local x,y,z = i.Transform:GetWorldPosition()--local x,y,z = v.Transform:GetWorldPosition()
-				local ents2 = TheSim:FindEntities(x,y,z, STRUCTURE_DIST, {"structure"})
-				numStructures2 = #ents2
+		local days_survived = player.components.age ~= nil and player.components.age:GetAgeInDays()
 		
-				if IsEligible(i) and not IsOcean(i) then
-					if numStructures2 >= 4 then
-						--nothing, not really accounting for other players in other bases but meh
+		if self.rnequeued or forced then
+			if inst.punish and inst.punish > 0 then
+				inst.punish = inst.punish - 0.3 -- <-- This changes hovv many rnes it takes to cool dovvn the punishment 
+			else
+				inst.punish = 0
+			end
+			--TheNet:Announce("RNESTARTINGBABY")
+			self.rnequeued = false
+			--for i, 1 in ipairs(playerlist) do  --try a base RNE
+			if player ~= nil then
+				local x,y,z = player.Transform:GetWorldPosition()--local x,y,z = v.Transform:GetWorldPosition()
+				local ents = TheSim:FindEntities(x,y,z, STRUCTURE_DIST, {"structure"})
+				numStructures = #ents
+				
+				if IsOcean(player) and IsEligible(player) then --Double Checking For Eligibility after chosen just in case.
+					DoOceanRNE(player)
+				elseif IsEligible(player) then --Double Checking For Eligibility after chosen just in case.
+					if numStructures >= 4 then
+						if TheWorld:HasTag("cave") then
+							DoCaveRNE(player)
+						else
+							if TheWorld.state.isfullmoon then
+								if self.moontear_available then
+									self.moontear_available = false
+									DoFullMoonRNE(player)--DoFullMoonRNE(v)
+								end
+							elseif TheWorld.state.isnewmoon then
+								--print("newmoon")
+								DoNewMoonRNE(player)--DoNewMoonRNE(v)
+							else
+								self.moontear_available = true
+								DoBaseRNE(player)--DoBaseRNE(v)
+							end
+						end
+						--print("found base")
 					else
-						DoSecondaryWildRNE(i)
+						if TheWorld:HasTag("cave") then
+							DoCaveRNE(player)
+						else
+							if TheWorld.state.isfullmoon then
+								if self.moontear_available then
+									self.moontear_available = false
+									DoFullMoonRNE(player)--DoFullMoonRNE(v)
+								end
+							elseif TheWorld.state.isnewmoon then
+								--print("newmoon")
+								DoNewMoonRNE(player)--DoNewMoonRNE(v)
+							else
+								self.moontear_available = true
+								DoWildRNE(player)--DoWildRNE(v)
+							end
+						end
+						--print("no find base")
+					end
+				end
+			end
+			
+			local k = #playerlist
+			
+			for _, i in ipairs(playerlist) do
+			
+			local days_survived_secondary = i.components.age ~= nil and i.components.age:GetAgeInDays()
+		
+				if i ~= player and days_survived_secondary >= 5 and math.random() >= 0.5 then
+					local x,y,z = i.Transform:GetWorldPosition()--local x,y,z = v.Transform:GetWorldPosition()
+					local ents2 = TheSim:FindEntities(x,y,z, STRUCTURE_DIST, {"structure"})
+					numStructures2 = #ents2
+			
+					if IsEligible(i) and not IsOcean(i) then
+						if numStructures2 >= 4 then
+							--nothing, not really accounting for other players in other bases but meh
+						else
+							DoSecondaryWildRNE(i)
+						end
 					end
 				end
 			end
@@ -2061,17 +2069,17 @@ local function OnPlayerLeft(src,player)
     end
 end
 
---function RandomNightEvents:OnSave()
-local function OnSave()
-	return {
-		storedrne = self.storedrne,
-		LastNewMoonRNE = self.LastNewMoonRNE,
-		moontear_available = self.moontear_available,
-	}
+function self:OnSave()
+	local data = {}
+	data.storedrne = self.storedrne
+	data.LastNewMoonRNE = self.LastNewMoonRNE
+	data.moontear_available = self.moontear_available
+	data.rnequeued = self.rnequeued
+	data.punish = self.punish
+	return data
 end
 
---function RandomNightEvents:OnLoad(data)
-local function OnLoad(data)
+function self:OnLoad(data)
 	if data ~= nil then
 		if data.storedrne ~= nil then
 			self.storedrne = data.storedrne
@@ -2083,6 +2091,12 @@ local function OnLoad(data)
 		
 		if data.moontear_available ~= nil then
 			self.moontear_available = data.moontear_available
+		end
+		if data.rnequeued then
+			self.rnequeued = true
+		end
+		if data.punish then
+			self.punish = data.punish
 		end
 	end
 end
@@ -2097,10 +2111,46 @@ function self:ForceRNE(forced)
 	end
 end
 
+local function DoRNEChance(inst)
+	if TheWorld.state.isday then
+
+		local playerlist = {}
+		for _, v in ipairs(_activeplayers) do
+			if IsEligible(v) then
+				table.insert(playerlist, v)
+			end
+		end
+		
+			
+		--shuffleArray(playerlist)
+		if #playerlist == 0 then
+			return
+		end
+		local player = playerlist[math.random(#playerlist)]
+		--TheNet:Announce("DIDRNECHANCE")
+		local playerchancescaling = TUNING.DSTU.RNE_CHANCE
+		local days_survived = player.components.age ~= nil and player.components.age:GetAgeInDays()
+		if --[[TheWorld.state.cycles]]days_survived >= 5 and math.random() >= playerchancescaling or (days_survived >= 5 and TheWorld.state.isfullmoon) or (days_survived >= 5 and TheWorld.state.isnewmoon) then
+			self.rnequeued = true
+			self.playertarget = player
+		end
+		--[[if self.rnequeued then
+			TheNet:Announce("true")
+		else
+			TheNet:Announce("false")
+		end]]
+	end
+end
+
 inst:ListenForEvent("ms_playerjoined", OnPlayerJoined)
 inst:ListenForEvent("ms_playerleft", OnPlayerLeft)
 inst:ListenForEvent("seasontick", OnSeasonTick, TheWorld)
 
 self:WatchWorldState("isnight", function() self.inst:DoTaskInTime(6, TryRandomNightEvent) end)
+
+self:WatchWorldState("isday", function() self.inst:DoTaskInTime(0, DoRNEChance) end)
+
 self:WatchWorldState("cycleschanged", function() self.inst:DoTaskInTime(6, TryRandomNightEvent) end)
+
+self:WatchWorldState("cycleschanged", function() self.inst:DoTaskInTime(0, DoRNEChance) end)
 end)
