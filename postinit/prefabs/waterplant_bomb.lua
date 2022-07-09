@@ -69,7 +69,9 @@ end
 
 
 env.AddPrefabPostInit("waterplant_projectile", function(inst)
+if inst.components.complexprojectile ~= nil the
 	inst.components.complexprojectile:SetOnHit(onhit)
+    en
 end)
 
 local NO_TAGS_PLAYER =  { "INLIMBO", "ghost", "playerghost", "FX", "NOCLICK", "DECOR", "notarget", "companion", "shadowminion", "player" }
@@ -96,13 +98,16 @@ env.AddPrefabPostInit("waterplant_bomb", function(inst)
     if not TheWorld.ismastersim then 
         return
     end
-
+if inst.components.complexprojectile ~= nil then
     inst.components.complexprojectile:SetOnHit(on_inventory_hit)
 
+    inst.components.complexprojectile:SetHorizontalSpeed(20)--just makes it simpler when interacting with cannons.
+
+    inst.components.complexprojectile:SetGravity(-40)
+    end
     inst.entity:AddTag("boatcannon_ammo")
 	--what the hell is the inst.entity anyways?!
 
 	inst.projectileprefab = "waterplant_bomb"
-    inst.components.complexprojectile:SetHorizontalSpeed(20)--this just makes it a hell of a lot simpler.
-    inst.components.complexprojectile:SetGravity(-40)
+
 end)
