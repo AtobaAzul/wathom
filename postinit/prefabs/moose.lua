@@ -129,8 +129,6 @@ local function EnterPhase2TriggerMother(inst)
 	if not inst.components.timer:TimerExists("TornadoAttack") then
 		inst.components.timer:StartTimer("TornadoAttack", 10)
 	end
-		
-	inst.enraged = true
 end
 
 local function EnterPhase3TriggerMother(inst)

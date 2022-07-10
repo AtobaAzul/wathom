@@ -109,19 +109,10 @@ local function OnCollide(inst, other)
     --Destroy?
 end
 
-local function StartTornadoTimer(inst)
-	if not inst.components.timer:TimerExists("TornadoAttack") then
-		inst.components.timer:StartTimer("TornadoAttack", 10)
-	end
-	
-	inst.enraged = true
-end
-
 local function OnSave(inst, data)
     data.WantsToLayEgg = inst.WantsToLayEgg
     data.CanDisarm = inst.CanDisarm
     data.shouldGoAway = inst.shouldGoAway
-    data.enraged = inst.enraged or nil
 end
 
 local function OnLoad(inst, data)
@@ -158,12 +149,6 @@ local function OnPreLoad(inst, data)
 	if y > 0 then
 		inst.Transform:SetPosition(x, 0, z)
 	end
-	
-    if data ~= nil then
-        if data.enraged then
-            StartTornadoTimer(inst)
-        end
-    end
 end
 
 local function OnDead(inst)

@@ -157,8 +157,9 @@ local function tornado_fn()
 	inst:AddComponent("sizetweener")
 	
 	inst:AddComponent("linearcircler")
-	inst.components.linearcircler.distance_max = 20
-	inst.components.linearcircler.distance_max_clockwise = 22
+	inst.components.linearcircler.distance_max = 18
+	inst.components.linearcircler.distance_max_clockwise = 20
+	inst.components.linearcircler.distance_limit = 21
 	--[[inst.components.circler.scale = 1
 	inst.components.circler.speed = 6
 	inst.components.circler.minSpeed = 6
