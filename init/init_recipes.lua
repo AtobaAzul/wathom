@@ -400,7 +400,7 @@ ChangeSortKey("floral_bandage", "bandage", "RESTORATION", true)
 
 AddRecipe2(
     "winona_toolbox",
-    {Ingredient("boards", 2), Ingredient("goldnugget", 4), Ingredient("sewing_tape", 1)},
+    {Ingredient("um_copper_pipe", 2), Ingredient("goldnugget", 3), Ingredient("sewing_tape", 1)},
     TECH.NONE,
     {builder_tag = "handyperson"},
     {"CONTAINERS", "CHARACTER"}
@@ -419,7 +419,7 @@ ChangeSortKey("powercell", "winona_battery_high", "CHARACTER", true)
 
 AddRecipe2(
     "winona_upgradekit_electrical",
-    {Ingredient("goldnugget", 10), Ingredient("sewing_tape", 2), Ingredient("sludge", 1) --[[Ingredient("copperpipe")]]},
+    {Ingredient("goldnugget", 6), Ingredient("sewing_tape", 2), Ingredient("trinket_6", 1)},
     TECH.SCIENCE_TWO,
     {builder_tag = "handyperson"},
     {"CHARACTER", "LIGHT"}
@@ -642,6 +642,31 @@ AddRecipe2(
 )
 ChangeSortKey("critter_figgy_builder", "critter_eyeofterror_builder", "CRAFTING_STATION", true)
 
+AddRecipe2(
+    "steeringwheel_copper",
+    {Ingredient("um_copper_pipe", 2), Ingredient("steeringwheel_item", 1), Ingredient("trinket_6", 1)},
+    TECH.LOST,
+    nil,
+    {"SEAFARING"}
+)
+AddRecipe2(
+    "steeringwheel_copper_item",
+    {Ingredient("um_copper_pipe", 2), Ingredient("steeringwheel_item", 1), Ingredient("trinket_6", 1)},
+    TECH.SEAFARING_ONE,
+    nil,
+    {"SEAFARING"}
+)
+ChangeSortKey("steeringwheel_copper_item", "steeringwheel_item", "SEAFARING", true)
+
+AddRecipe2(--unsure...
+    "trinket_6",
+    {Ingredient("um_copper_pipe", 3)},
+    TECH.SCIENCE_TWO,
+    {numtogive = 2},
+    {"REFINE"}
+)
+ChangeSortKey("trinket_6", "transistor", "REFINE", true)
+
 STRINGS.RECIPE_DESC.SLINGSHOTAMMO_FIRECRACKERS = "For the aspiring young menace."
 STRINGS.RECIPE_DESC.WATERMELON_LANTERN = "Juicy illumination."
 STRINGS.RECIPE_DESC.CRITTERLAB_REAL = "Cute pals to ruin the mood."
@@ -689,6 +714,8 @@ STRINGS.RECIPE_DESC.UM_SALTSALVE = "Put salt in your wounds."
 STRINGS.RECIPE_DESC.CRITTER_FIGGY_BUILDER = "He likes to put holes in things."
 STRINGS.RECIPE_DESC.BOAT_BUMBER_SLUDGE_KIT = "Sticky protection."
 STRINGS.RECIPE_DESC.CANNONBALL_SLUDGE_ITEM = "Fire in the hole!"
+STRINGS.RECIPE_DESC.STEERINGWHEEL_COPPER_ITEM = "Steer more than your masts."
+STRINGS.RECIPE_DESC.TRINKET_6 = "A key ingredient for modern marvels."
 
 --sailing rebalance strings
 STRINGS.RECIPE_DESC.MOONSTORM_STATIC_ITEM = "The power of the moon, contained!"

@@ -34,9 +34,9 @@ function AreaHandler:GetSirens()
         for k, v in ipairs(self.handlers) do
             if v.sirenpoint ~= nil then
                 table.insert(self.sirens, v.sirenpoint)
-                TheNet:Announce("Getting all sirens... " .. v.sirenpoint)
+                --TheNet:Announce("Getting all sirens... " .. v.sirenpoint)
             else
-                TheNet:Announce("sirenpoint was nil!")
+                --TheNet:Announce("sirenpoint was nil!")
             end
         end
     end
@@ -55,7 +55,7 @@ end
 -- spawns the main biomes with the sirens (Speaker, Bird & Fish)
 function AreaHandler:SelectMainBiomes()
     -- initial selection
-    TheNet:Announce("SelectMainBiomes")
+    --TheNet:Announce("SelectMainBiomes")
     -- TODO: make it randomize which biomes will be sirens!!
     self.handlers = shuffle(self.handlers)
     if not table.contains(self.sirens, "siren_throne") then
@@ -63,7 +63,7 @@ function AreaHandler:SelectMainBiomes()
             if v.sirenpoint == nil then
                 v.sirenpoint = "siren_throne"
                 v:PushEvent("generate_main")
-                TheNet:Announce("no siren throne, selecting...")
+                --TheNet:Announce("no siren throne, selecting...")
                 self:GetSirens()
                 break
             end
@@ -75,7 +75,7 @@ function AreaHandler:SelectMainBiomes()
             if v.sirenpoint == nil then
                 v.sirenpoint = "ocean_speaker"
                 v:PushEvent("generate_main")
-                TheNet:Announce("no ocean speaker, selecting...")
+                --TheNet:Announce("no ocean speaker, selecting...")
                 self:GetSirens()
                 break
             end
@@ -87,7 +87,7 @@ function AreaHandler:SelectMainBiomes()
             if v.sirenpoint == nil then
                 v.sirenpoint = "siren_bird_nest"
                 v:PushEvent("generate_main")
-                TheNet:Announce("no bird nest, selecting...")
+                --TheNet:Announce("no bird nest, selecting...")
                 self:GetSirens()
                 break
             end
@@ -105,7 +105,7 @@ function AreaHandler:Clear()
     end
     self.sirens = {}
     -- self:GetSirens()
-    TheNet:Announce("cleared sirens.")
+    --TheNet:Announce("cleared sirens.")
 end
 
 -- Clears biomes, selects main biomes and then creates inactive biomes.
