@@ -1,5 +1,41 @@
 require("stategraphs/commonstates")
 
+-- Copied from mine.lua to emulate its mine test.
+local mine_test_fn = function(target, inst)
+    return not (target.components.health ~= nil and target.components.health:IsDead())
+            and (target.components.combat ~= nil and target.components.combat:CanBeAttacked(inst))
+end
+
+local mine_test_tags = { "monster", "character", "animal" }
+local mine_must_tags = { "_combat" }
+local mine_no_tags = { "notraptrigger", "flying", "ghost", "playerghost", "snapdragon" }
+
+local function FxAppear(inst)
+	SpawnPrefab("blueberryexplosion").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	SpawnPrefab("blueberrypuddle").Transform:SetPosition(inst.Transform:GetWorldPosition())
+end
+
+local function Explode(inst)
+	inst.SoundEmitter:PlaySound("turnoftides/creatures/together/starfishtrap/trap")
+	FxAppear(inst)
+	
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local target_ents = TheSim:FindEntities(x, y, z, 1.1*TUNING.STARFISH_TRAP_RADIUS, mine_must_tags, mine_no_tags, mine_test_tags)
+	for i, target in ipairs(target_ents) do
+		if target ~= inst and target.entity:IsVisible() and mine_test_fn(target, inst) then
+			target.components.combat:GetAttacked(inst, TUNING.STARFISH_TRAP_DAMAGE)
+		end
+	end
+	
+	local otherbombs = TheSim:FindEntities(x, y, z, 3*TUNING.STARFISH_TRAP_RADIUS, {"blueberrybomb"}, mine_no_tags)
+	for i, target in ipairs(otherbombs) do
+		if target ~= inst and target.components.mine and not target.components.mine.issprung and not target.froze then
+			target.components.mine:SetRadius(TUNING.STARFISH_TRAP_RADIUS*12)
+		end
+	end
+end
+
+
 local actionhandlers =
 {
     ActionHandler(ACTIONS.GOHOME, "flybackup"),
@@ -16,7 +52,7 @@ local events=
     CommonHandlers.OnFreeze(),
     CommonHandlers.OnAttack(),
     CommonHandlers.OnAttacked(),
-    CommonHandlers.OnDeath(),
+    EventHandler("death", function(inst) inst.sg:GoToState("death") end),
     CommonHandlers.OnSleep(),
 }
 
@@ -169,12 +205,14 @@ local states =
     },
 
     State{
-        name = "eat_enter",
+        name = "eat",
         tags = {"busy"},
 
         onenter = function(inst)
             inst.Physics:Stop()
-            inst.AnimState:PlayAnimation("eat", false)
+			inst:PerformBufferedAction()
+            inst.AnimState:PlayAnimation("eat_pre", false)
+			inst.AnimState:PushAnimation("eat",false)
         end,
 
         onexit = function(inst)
@@ -184,14 +222,15 @@ local states =
         timeline = 
         {
 			TimeEvent(3*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
-            TimeEvent(8*FRAMES, function(inst) inst:PerformBufferedAction()
-            inst.SoundEmitter:PlaySound("UCSounds/vampirebat/bite") end ),
+            TimeEvent(8*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/bite") end),
 			TimeEvent(14*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
+			TimeEvent(28*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
+			TimeEvent(42*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
         },
 
         events = 
         {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end)
+            EventHandler("animqueueover", function(inst) inst.sg:GoToState("idle") end)
         },
     },
 
@@ -286,7 +325,24 @@ local states =
             EventHandler("animover", function(inst) inst.sg:GoToState("idle") end)
         },
     },
-	
+    State{
+        name = "death",
+        tags = {"busy"},
+        
+        onenter = function(inst)
+			TheNet:Announce("Code Ran")
+            inst.SoundEmitter:PlaySound("UCSounds/Scorpion/death")
+			inst.Physics:Stop()
+            inst.AnimState:PlayAnimation("death_pre")
+			inst.AnimState:PushAnimation("death_loop")
+        end,
+		timeline = {
+			TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/death") end),
+			TimeEvent(4*FRAMES, function(inst) inst:PushEvent("wingdown")	end),
+			TimeEvent(45*FRAMES, Explode),			
+		},
+
+    },	
 }
 
 local walkanims = 
@@ -338,41 +394,6 @@ CommonStates.AddSleepStates(states,
     },
 })
 
--- Copied from mine.lua to emulate its mine test.
-local mine_test_fn = function(target, inst)
-    return not (target.components.health ~= nil and target.components.health:IsDead())
-            and (target.components.combat ~= nil and target.components.combat:CanBeAttacked(inst))
-end
-
-local mine_test_tags = { "monster", "character", "animal" }
-local mine_must_tags = { "_combat" }
-local mine_no_tags = { "notraptrigger", "flying", "ghost", "playerghost", "snapdragon" }
-
-local function FxAppear(inst)
-	SpawnPrefab("blueberryexplosion").Transform:SetPosition(inst.Transform:GetWorldPosition())
-	SpawnPrefab("blueberrypuddle").Transform:SetPosition(inst.Transform:GetWorldPosition())
-end
-
-local function Explode(inst)
-	inst.SoundEmitter:PlaySound("turnoftides/creatures/together/starfishtrap/trap")
-	FxAppear(inst)
-	
-	local x,y,z = inst.Transform:GetWorldPosition()
-	local target_ents = TheSim:FindEntities(x, y, z, 1.1*TUNING.STARFISH_TRAP_RADIUS, mine_must_tags, mine_no_tags, mine_test_tags)
-	for i, target in ipairs(target_ents) do
-		if target ~= inst and target.entity:IsVisible() and mine_test_fn(target, inst) then
-			target.components.combat:GetAttacked(inst, TUNING.STARFISH_TRAP_DAMAGE)
-		end
-	end
-	
-	local otherbombs = TheSim:FindEntities(x, y, z, 3*TUNING.STARFISH_TRAP_RADIUS, {"blueberrybomb"}, mine_no_tags)
-	for i, target in ipairs(otherbombs) do
-		if target ~= inst and target.components.mine and not target.components.mine.issprung and not target.froze then
-			target.components.mine:SetRadius(TUNING.STARFISH_TRAP_RADIUS*12)
-		end
-	end
-end
-
 CommonStates.AddCombatStates(states,
 {
     attacktimeline = 
@@ -393,12 +414,12 @@ CommonStates.AddCombatStates(states,
         TimeEvent(3*FRAMES, function(inst) inst:PushEvent("wingdown")	end),
     },
 
-    deathtimeline =
+    --[[deathtimeline =
     {
         TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/death") end),
         TimeEvent(4*FRAMES, function(inst) inst:PushEvent("wingdown")	end),
 		TimeEvent(45*FRAMES, Explode),
-    },
+    },]]
 })
 
 CommonStates.AddFrozenStates(states)

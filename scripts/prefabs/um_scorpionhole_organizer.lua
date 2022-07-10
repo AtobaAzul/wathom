@@ -111,7 +111,7 @@ local function scorpionhole_organizer_fn()
     inst.OnLoad = on_load
 
 	inst:AddComponent("timer")
-	inst:DoTaskInTime(0,Init)
+	--inst:DoTaskInTime(0,Init)
 	inst.CalculateNextHoleTime = CalculateNextHoleTime
 	inst:ListenForEvent("timerdone", DigHole)
 	inst.failsafe = 0

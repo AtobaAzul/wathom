@@ -74,7 +74,7 @@ function FruitBatBrain:OnStart()
         --WhileNode(function() return TheWorld.state.isnight end, "IsNight",
             --DoAction(self.inst, GoHomeAction)),
           
-                --DoAction(self.inst, EatFoodAction),
+                DoAction(self.inst, EatFoodAction),
                 MinPeriod(self.inst, TUNING.BAT_ESCAPE_TIME, false,
                     DoAction(self.inst, EscapeAction)),
                 Wander(self.inst, function() return self.inst.components.knownlocations:GetLocation("home") end, MAX_WANDER_DIST),

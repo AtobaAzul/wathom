@@ -32,11 +32,11 @@ local function KeepTarget(inst, target)
     return true 
 end
 
-local function OnEat(inst, data)
+local function OnEat(inst, data) --Data is actually the thing being eaten...
 	if data ~= nil and data:HasTag("pollenmites") then
 		inst.SoundEmitter:PlaySound("UCSounds/pollenmite/die")
 	end
-		inst.bugcount = inst.bugcount + 1
+	inst.food_baby = data
 end
 local function MakeTeam(inst, attacker)
     local leader = SpawnPrefab("teamleader")
