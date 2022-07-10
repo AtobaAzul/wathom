@@ -4,7 +4,7 @@
 
 local driftwood_waterlogged_assets =
 {
-    Asset("ANIM", "anim/driftwood_tall.zip"),
+    Asset("ANIM", "anim/driftwood_normal.zip"),
     Asset("MINIMAP_IMAGE", "driftwood_small1"),
 }
 
@@ -15,7 +15,7 @@ local prefabs =
     "charcoal",
 }
 
-SetSharedLootTable( 'driftwood_tree',
+SetSharedLootTable( 'driftwood_waterlogged',
 {
     {'twigs',           1.0},
     {'twigs',           1.0},
@@ -32,7 +32,7 @@ local function on_chop(inst, chopper, remaining_chops)
     end
 
     if remaining_chops > 0 then
-        inst.AnimState:PlayAnimation("chop")
+        inst.AnimState:PlayAnimation("chop_normal")
     end
 end
 
@@ -71,14 +71,13 @@ local function on_chopped_down(inst, chopper)
         local theirpos = chopper:GetPosition()
         local he_right = (theirpos - pt):Dot(TheCamera:GetRightVec()) > 0
         if he_right then
-            inst.AnimState:PlayAnimation("fallleft")
+            inst.AnimState:PlayAnimation("fallleft_normal")
             inst.components.lootdropper:DropLoot(pt - TheCamera:GetRightVec())
         else
-            inst.AnimState:PlayAnimation("fallright")
+            inst.AnimState:PlayAnimation("fallright_normal")
             inst.components.lootdropper:DropLoot(pt + TheCamera:GetRightVec())
         end
-        inst.AnimState:PushAnimation("stump", false)
-        make_stump(inst, false)
+        inst:ListenForEvent("animover", inst.Remove)
     else
         -- Small trees just crumble and die.
         inst.AnimState:PlayAnimation("fall")
@@ -94,7 +93,7 @@ local function on_chopped_down_burnt(inst, chopper)
         inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")
     end
 
-    inst.AnimState:PlayAnimation("chop_burnt")
+    inst.AnimState:PlayAnimation("chop_burnt_normal")
 
     if not inst.is_large then
         make_stump(inst, true)
@@ -158,6 +157,15 @@ local function onload(inst, data)
     end
 end
 
+local DAMAGE_SCALE = 0.5
+local function OnCollide(inst, data)
+    local boat_physics = data.other.components.boatphysics
+    if boat_physics ~= nil then
+        local hit_velocity = math.floor(math.abs(boat_physics:GetVelocity() * data.hit_dot_velocity) * DAMAGE_SCALE / boat_physics.max_velocity + 0.5)
+        inst.components.workable:WorkedBy(data.other, hit_velocity * TUNING.SEASTACK_MINE)
+    end
+end
+
 local function fn(type_name, is_large)
     local inst = CreateEntity()
 
@@ -177,13 +185,14 @@ local function fn(type_name, is_large)
 
     inst:AddTag("plant")
     inst:AddTag("tree")
+    inst:AddTag("ignorewalkableplatforms")
 
-    inst.AnimState:SetBank("driftwood_tall")
-    inst.AnimState:SetBuild("driftwood_tall")
+    inst.AnimState:SetBank("driftwood_normal")
+    inst.AnimState:SetBuild("driftwood_normal")
 
     inst.AnimState:PlayAnimation("idle")
 
-    MakeInventoryFloatable(inst, "med", 0.1, {1.1, 0.9, 1.1})
+    MakeInventoryFloatable(inst, "med", 0.33, {1.1, 0.9, 1.1})
     inst.components.floater.bob_percent = 0
 
     inst:SetPrefabNameOverride("DRIFTWOOD_TREE")
@@ -194,6 +203,7 @@ local function fn(type_name, is_large)
     if not TheWorld.ismastersim then
         return inst
     end
+
 
 	inst.is_large = is_large
 
@@ -206,6 +216,16 @@ local function fn(type_name, is_large)
 
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.CHOP)
+
+    MakeInventoryFloatable(inst, "med", 1, {1.1, 0.9, 1.1})
+    inst.components.floater.bob_percent = 0
+
+    local land_time = (POPULATING and math.random()*5*FRAMES) or 0
+    inst:DoTaskInTime(land_time, function(inst)
+        inst.components.floater:OnLandedServer()
+    end)
+
+    inst:ListenForEvent("on_collide", OnCollide)
 
     -- Enable the two types of driftwood to be tuned separately.
     local work_amount = is_large and TUNING.DRIFTWOOD_TREE_CHOPS or TUNING.DRIFTWOOD_SMALL_CHOPS
@@ -233,8 +253,7 @@ local function fn(type_name, is_large)
 end
 
 local function driftwood_waterlogged()
-    return fn("waterlogged", false)
+    return fn("waterlogged", true)
 end
-
 
 return Prefab("driftwood_waterlogged", driftwood_waterlogged, driftwood_waterlogged_assets, prefabs)

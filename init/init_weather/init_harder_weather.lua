@@ -40,9 +40,11 @@ GLOBAL.setfenv(1, GLOBAL)
 local function GenerateBiomes()
 	if TheWorld.state.isspring then
 		TheWorld.components.um_areahandler:FullGenerate()
-	else
-		TheWorld.components.um_areahandler:GenerateInactiveBiomes()
 	end
+end
+
+local function GenerateInactiveBiomes()
+	TheWorld.components.um_areahandler:GenerateInactiveBiomes()
 end
 
 -----------------------------------------------------------------
@@ -78,7 +80,10 @@ env.AddPrefabPostInit("forest", function(inst)
 		inst:AddComponent("snowstorminitiator")
 	end
 
-	inst:WatchWorldState("season", GenerateBiomes)
+	inst:WatchWorldState("isspring", GenerateBiomes)
+	inst:WatchWorldState("issummer", GenerateInactiveBiomes)
+
+	inst:DoTaskInTime(0.1, GenerateInactiveBiomes)
 end)
 
 if TUNING.DSTU.SPAWNMOTHERGOOSE and not TUNING.DSTU.ISLAND_ADVENTURES then
