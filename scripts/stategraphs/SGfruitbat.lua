@@ -338,6 +338,12 @@ CommonStates.AddSleepStates(states,
     },
 })
 
+-- Copied from mine.lua to emulate its mine test.
+local mine_test_fn = function(target, inst)
+    return not (target.components.health ~= nil and target.components.health:IsDead())
+            and (target.components.combat ~= nil and target.components.combat:CanBeAttacked(inst))
+end
+
 local mine_test_tags = { "monster", "character", "animal" }
 local mine_must_tags = { "_combat" }
 local mine_no_tags = { "notraptrigger", "flying", "ghost", "playerghost", "snapdragon" }

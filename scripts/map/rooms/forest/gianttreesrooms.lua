@@ -29,7 +29,7 @@ AddRoom("GiantTrees",
 		{
 			giant_tree = function () return 6 + math.random(1,2) end,
 			extracanopyspawner = function () return 10 + math.random(0,1) end,
-			pitcherplant = function () return math.random(1,2) end,
+			--pitcherplant = function () return math.random(1,2) end,
 			
 		}
 }})
@@ -57,7 +57,7 @@ AddRoom("AphidLand",
 		{
 			giant_tree_infested = function () return 6 + math.random(1,2) end,
 			extracanopyspawner = function () return 10 + math.random(0,1) end,
-			pitcherplant = function () return math.random(1,2) end,
+			--pitcherplant = function () return math.random(1,2) end,
 			
 		}
 }})
@@ -86,7 +86,7 @@ AddRoom("ShroomInfestedGiantTrees",
 			countprefabs =	
 		{
 			giant_tree = function () return 6 + math.random(1,2) end,
-			pitcherplant = function () return math.random(0,1) end,
+			--pitcherplant = function () return math.random(0,1) end,
 			extracanopyspawner = function () return 10 + math.random(0,1) end,
 			
 		}
@@ -143,7 +143,7 @@ AddRoom("WalrusGiantTrees",
 		{
 			giant_tree = function () return 6 + math.random(1,2) end,
 			extracanopyspawner = function () return 10 + math.random(0,1) end,
-			pitcherplant = function () return math.random(0,1) end,
+			--pitcherplant = function () return math.random(0,1) end,
 			walrus_camp = 1,
 			
 		}
@@ -171,7 +171,7 @@ AddRoom("BGGiantTrees",
 			
 			giant_tree = function () return 6 + math.random(0,1) end,
 			extracanopyspawner = function () return 10 + math.random(0,1) end,
-			pitcherplant = function () return math.random(0,1) end,
+			--pitcherplant = function () return math.random(0,1) end,
 			
 		}
 }})
@@ -213,7 +213,7 @@ AddRoom("MoonBaseGiantTrees", {
 									evergreen_sparse = 0.5,
 									hooded_fern = 0.5,
 									blueberryplantbuncher = 0.001,
-									pitcherplant = 0.0001,
+									--pitcherplant = 0.0001,
 					                },
 					            }
 					})
@@ -255,7 +255,7 @@ AddRoom("HoodedTown", {
 									hooded_fern = 0.3,
 									ghost_walrus = 0.02,
 									blueberryplantbuncher = 0.001,
-									pitcherplant = 0.0001,
+									--pitcherplant = 0.0001,
 									lightrays_canopy = 0.25,
 					                },
 					            }
