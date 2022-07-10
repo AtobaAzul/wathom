@@ -338,13 +338,42 @@ CommonStates.AddSleepStates(states,
     },
 })
 
+local mine_test_tags = { "monster", "character", "animal" }
+local mine_must_tags = { "_combat" }
+local mine_no_tags = { "notraptrigger", "flying", "ghost", "playerghost", "snapdragon" }
+
+local function FxAppear(inst)
+	SpawnPrefab("blueberryexplosion").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	SpawnPrefab("blueberrypuddle").Transform:SetPosition(inst.Transform:GetWorldPosition())
+end
+
+local function Explode(inst)
+	inst.SoundEmitter:PlaySound("turnoftides/creatures/together/starfishtrap/trap")
+	FxAppear(inst)
+	
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local target_ents = TheSim:FindEntities(x, y, z, 1.1*TUNING.STARFISH_TRAP_RADIUS, mine_must_tags, mine_no_tags, mine_test_tags)
+	for i, target in ipairs(target_ents) do
+		if target ~= inst and target.entity:IsVisible() and mine_test_fn(target, inst) then
+			target.components.combat:GetAttacked(inst, TUNING.STARFISH_TRAP_DAMAGE)
+		end
+	end
+	
+	local otherbombs = TheSim:FindEntities(x, y, z, 3*TUNING.STARFISH_TRAP_RADIUS, {"blueberrybomb"}, mine_no_tags)
+	for i, target in ipairs(otherbombs) do
+		if target ~= inst and target.components.mine and not target.components.mine.issprung and not target.froze then
+			target.components.mine:SetRadius(TUNING.STARFISH_TRAP_RADIUS*12)
+		end
+	end
+end
+
 CommonStates.AddCombatStates(states,
 {
     attacktimeline = 
     {
         
         -- TimeEvent(7* FRAMES, function(inst) inst.SoundEmitter:PlaySound("dontstarve_DLC003/creatures/enemy/vampire_bat/bite") end),
-        TimeEvent(7*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
+        TimeEvent(7*FRAMES, function(inst) inst:PushEvent("wingdown") end),
         TimeEvent(8* FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/bite") end),
         TimeEvent(14*FRAMES, function(inst) 
         inst.components.combat:DoAttack()
@@ -354,14 +383,15 @@ CommonStates.AddCombatStates(states,
 
     hittimeline =
     {
-        TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/hurt") end),
-        TimeEvent(3*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
+        TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/hurt")	end),
+        TimeEvent(3*FRAMES, function(inst) inst:PushEvent("wingdown")	end),
     },
 
     deathtimeline =
     {
         TimeEvent(1*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/death") end),
-        TimeEvent(4*FRAMES, function(inst) inst:PushEvent("wingdown")  end ),
+        TimeEvent(4*FRAMES, function(inst) inst:PushEvent("wingdown")	end),
+		TimeEvent(45*FRAMES, Explode),
     },
 })
 
