@@ -1,14 +1,12 @@
 local function onnextsneeze(self, sneezetime)
-    if self.inst.replica.hayfever ~= nil then
-        self.inst.replica.hayfever:SetNextSneezeTime(sneezetime)
-    end
+    self.inst.replica.hayfever:SetNextSneezeTime(sneezetime)
 end
 
 local Hayfever = Class(function(self, inst)
     self.inst = inst
     self.enabled = false
     self.sneezed = false
-    self.nextsneeze  = self:GetNextSneezeTime()
+    self.nextsneeze  = self:GetNextSneezTime()    
 end,
 nil,
 {
@@ -23,7 +21,7 @@ function Hayfever:DoDelta(amount)
     end
 end
 
-function Hayfever:GetNextSneezeTime()
+function Hayfever:GetNextSneezTime()
 	if self.inst:HasTag("plantkin") then
 		return math.random(80,120)
 	elseif self.inst:HasTag("allergictobees") then
@@ -73,7 +71,7 @@ function Hayfever:OnUpdate(dt)
                 -- large chance to sneeze twice in a row
                 if self.sneezed or math.random() > 0.7 then
                     self.sneezed = false
-                    self.nextsneeze = self:GetNextSneezeTime()
+                    self.nextsneeze = self:GetNextSneezTime()
                 else
                     self.sneezed = true
                     self.nextsneeze = 1
@@ -91,7 +89,7 @@ function Hayfever:OnUpdate(dt)
 				-- large chance to sneeze twice in a row
 				if self.sneezed or math.random() > 0.7 then
 					 self.sneezed = false
-					self.nextsneeze = self:GetNextSneezeTime()
+					self.nextsneeze = self:GetNextSneezTime()
 				else
 					self.sneezed = true
 					self.nextsneeze = 1

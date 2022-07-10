@@ -260,7 +260,7 @@ local function OnStoreHassler(src, hassler)
 end
 
 local function OnHasslerKilled(src, hassler)
-	--rint("he die")
+	print("he die")
 	_activehassler = nil
 	TryStartAttacks(true)
 end
