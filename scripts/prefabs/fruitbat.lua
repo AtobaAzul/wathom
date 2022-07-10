@@ -196,7 +196,7 @@ local function fn()
         return inst
     end
 	
-    inst.AnimState:SetBank("bat")
+    inst.AnimState:SetBank("fruitbat")
     inst.AnimState:SetBuild("fruitbat")
     inst:AddComponent("locomotor")
     inst.components.locomotor:SetSlowMultiplier( 1 )
