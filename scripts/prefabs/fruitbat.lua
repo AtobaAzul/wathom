@@ -226,7 +226,6 @@ local function fn()
     inst:SetBrain(brain)
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetChanceLootTable('fruitbat')
 
     inst:AddComponent("inventory")
     

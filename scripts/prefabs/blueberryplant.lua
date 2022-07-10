@@ -12,7 +12,12 @@ end
 local function on_deactivate(inst)
     if inst.components.lootdropper ~= nil then
 		if inst.Harvestable == "full" then
-			inst.components.lootdropper:SpawnLootPrefab("giant_blueberry")
+			if math.random() > 0.1 then
+				inst.components.lootdropper:SpawnLootPrefab("giant_blueberry")
+			else
+				local berryman = SpawnPrefab("fruitbat")
+				berryman.Transform:SetPosition(inst.Transform:GetWorldPosition())
+			end
 		end	
     end
     if inst.Harvestable == "regrow" then
