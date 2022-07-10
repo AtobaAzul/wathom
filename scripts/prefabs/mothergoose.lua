@@ -34,8 +34,8 @@ SetSharedLootTable( 'mothergoose',
     {'goose_feather',    1.00},
     {'goose_feather',    1.00},
     {'goose_feather',    1.00},
-    {'goose_feather',    0.33},
-    {'goose_feather',    0.33},
+    {'goose_feather',    1.00},
+    {'goose_feather',    1.00},
     {'chesspiece_moosegoose_sketch', 1.00},
 	{'oceanfishingbobber_goose_tacklesketch', 1.00},
 })
@@ -172,13 +172,12 @@ local function OnDead(inst)
 
 	local loot = SpawnPrefab("bigbird_meat")
 	if loot ~= nil then
-	inst.components.lootdropper:SpawnLootPrefab("bigbird_meat")
-	inst.components.lootdropper:SpawnLootPrefab("bigbird_meat")
+		inst.components.lootdropper:SpawnLootPrefab("bigbird_meat")
+		inst.components.lootdropper:SpawnLootPrefab("bigbird_meat")
 	else
-	inst.components.lootdropper:SpawnLootPrefab("drumstick")
-	inst.components.lootdropper:SpawnLootPrefab("drumstick")
+		inst.components.lootdropper:SpawnLootPrefab("drumstick")
+		inst.components.lootdropper:SpawnLootPrefab("drumstick")
 	end
-
 end
 
 local function OnRemove(inst)

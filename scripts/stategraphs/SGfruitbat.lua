@@ -30,9 +30,9 @@ local states =
             inst.Physics:Stop()
             if playanim then
                 inst.AnimState:PlayAnimation(playanim)
-                inst.AnimState:PushAnimation("fly_loop", true)
+                inst.AnimState:PushAnimation("idle", true)
             else
-                inst.AnimState:PlayAnimation("fly_loop", true)
+                inst.AnimState:PlayAnimation("idle", true)
             end
         end,
         
@@ -272,22 +272,35 @@ local states =
         },
     },
 
+    State{
+        name = "boop",
+        tags = {"busy"},
+
+        onenter = function(inst)
+            inst.AnimState:PlayAnimation("boop", false)
+            --inst.SoundEmitter:PlaySound("dontstarve_DLC003/creatures/enemy/vampire_bat/land")
+        end,
+
+        events = 
+        {
+            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end)
+        },
+    },
+	
 }
 
 local walkanims = 
 {
-    startwalk = "fly_loop",
-    walk = "fly_loop",
-    stopwalk = "fly_loop",
+    startwalk = "move_pre",
+    walk = "move",
+    stopwalk = "move_pst",
 }
 
 CommonStates.AddWalkStates(states,
 {
     starttimeline =
     {
-        TimeEvent(7*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
-        --TimeEvent(5*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/breath")  end ),
-        TimeEvent(17*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
+        TimeEvent(1*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
     },
 
     walktimeline = 
@@ -299,9 +312,7 @@ CommonStates.AddWalkStates(states,
 
     endtimeline =
     {
-        TimeEvent(7*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
-        --TimeEvent(5*FRAMES, function(inst) inst.SoundEmitter:PlaySound("UCSounds/vampirebat/breath")  end ),
-        TimeEvent(17*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
+        TimeEvent(1*FRAMES, function(inst) inst:PushEvent("wingdown") end ),
     },
 
 },  walkanims, true)
@@ -357,4 +368,4 @@ CommonStates.AddCombatStates(states,
 CommonStates.AddFrozenStates(states)
 
 
-return StateGraph("fruitbat", states, events, "idle", actionhandlers)
+return StateGraph("fruitbat", states, events, "boop", actionhandlers)
