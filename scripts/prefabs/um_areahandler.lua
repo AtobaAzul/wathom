@@ -1,7 +1,7 @@
 --for emptying the area around.
 local function ClearSeastacks(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local things = TheSim:FindEntities(x,y,z, 80, nil, {"sirenpoint"}, {"seastack"})
+	local things = TheSim:FindEntities(x,y,z, 80, nil, {"sirenpoint", "umss_utw_inactivebiome", "umss_utw_activebiome"}, {"seastack"})
 	for k, v in ipairs(things) do
 		v:Remove()
 	end
@@ -25,11 +25,10 @@ local function ClearActiveBiome(inst)
 	end
 end
 
---TODO Replace this with UMSS setpieces.
 local function SpawnSiren(inst)
 	ClearInactiveBiome(inst)--for replacing
 	ClearActiveBiome(inst)
-	TheNet:Announce("spawn siren")
+	--TheNet:Announce("spawn siren")
 	local x,y,z = inst.Transform:GetWorldPosition()
 
 	if inst.sirenpoint == "ocean_speaker" then
@@ -47,7 +46,7 @@ end
 local function SpawnInactive(inst)
 	ClearActiveBiome(inst)--for replacing
 	ClearInactiveBiome(inst)
-	TheNet:Announce("spawn innactive")
+	--TheNet:Announce("spawn innactive")
 	local x,y,z = inst.Transform:GetWorldPosition()
 	local test = SpawnPrefab("umss_inactivebiome_cbts_sludge")
 	test.Transform:SetPosition(x,y,z)
