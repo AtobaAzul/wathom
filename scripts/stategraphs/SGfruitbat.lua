@@ -39,8 +39,8 @@ end
 local actionhandlers =
 {
     ActionHandler(ACTIONS.GOHOME, "flybackup"),
-    ActionHandler(ACTIONS.EAT, "eat_enter"),
-    ActionHandler(ACTIONS.PICKUP, "eat_enter")
+    ActionHandler(ACTIONS.EAT, "eat"),
+    ActionHandler(ACTIONS.PICKUP, "eat")
 }
 
 local events=
@@ -206,7 +206,7 @@ local states =
 
     State{
         name = "eat",
-        tags = {"busy"},
+        tags = {"busy","INLIMBO", "notarget"},
 
         onenter = function(inst)
             inst.Physics:Stop()
