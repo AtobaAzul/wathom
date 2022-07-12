@@ -171,7 +171,7 @@ local actionhandlers =
 {
 	--[[ActionHandler(ACTIONS.CASTSPELL,
         function(inst, action)
-            return action.invobject ~= nil
+            return action.invobject ~= nil"
                 and action.invobject:HasTag("lighter") and "castspelllighter"
 				or _OldSpellCast
         end),]]
@@ -188,6 +188,10 @@ local actionhandlers =
 	ActionHandler(ACTIONS.CREATE_BURROW,
         function(inst, action)
             return "dolongaction"
+        end),
+    ActionHandler(ACTIONS.CHARGE_POWERCELL,
+        function(inst, action)
+            return action.invobject:HasTag("battery") and "doshortaction"
         end)
 }
 

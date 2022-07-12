@@ -93,10 +93,11 @@ local function fn()
     inst:AddComponent("battery")
     inst.components.battery.onused = discharge
 
+    --[[
     inst:AddComponent("deployable")
     inst.components.deployable:SetDeployMode(DEPLOYMODE.ANYWHERE)
     inst.components.deployable.ondeploy = ondeploy
-    inst.components.deployable.restrictedtag = "batteryuser"
+    inst.components.deployable.restrictedtag = "batteryuser"]]
     return inst
 end
 

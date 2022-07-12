@@ -134,6 +134,22 @@ createburrow.rmb = true
 createburrow.distance = 2
 createburrow.mount_valid = false
 
+local charge_powercell = AddAction(
+	"CHARGE_POWERCELL",
+	GLOBAL.STRINGS.ACTIONS.CHARGE_POWERCELL,
+    function(act)
+	local target = act.target or act.invobject
+
+    if (target ~= nil and target.components.battery ~= nil) and
+        (act.doer ~= nil and act.doer:HasTag("batteryuser")) then
+        return act.doer.components.batteryuser:ChargeFrom(target)
+    else
+        return false
+    end
+end)
+
+charge_powercell.instant = true
+
 local _RummageFn = GLOBAL.ACTIONS.RUMMAGE.fn
 
 GLOBAL.ACTIONS.RUMMAGE.fn = function(act)
@@ -151,11 +167,4 @@ GLOBAL.ACTIONS.RUMMAGE.fn = function(act)
 		return false, "WINONATOOLBOX"
 	end
 	return _RummageFn(act)
-end
-
-local _DeployStrfn = GLOBAL.ACTIONS.DEPLOY.strfn
-
-GLOBAL.ACTIONS.DEPLOY.strfn = function(act)
-	return act.invobject ~= nil
-	and ((act.invobject:HasTag("powercell") and "POWERCELL")) or _DeployStrfn(act)
 end
