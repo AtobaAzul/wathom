@@ -60,13 +60,13 @@ local function SpikeWaves(inst, target)
     inst.SoundEmitter:PlaySound("dontstarve/common/shadowTentacleAttack_1")
     inst.SoundEmitter:PlaySound("dontstarve/common/shadowTentacleAttack_2")
     for i = 1,20 do
-        inst:DoTaskInTime(FRAMES * i * 1.5, function()
+        inst:DoTaskInTime(FRAMES * i --[[* 1.5]], function()
             local dx, dy, dz = ix + (i * velx), 0, iz + (i * velz)
             local fx1 = SpawnPrefab("uncompromising_shadow_projectile1_fx")
             fx1.Transform:SetPosition(dx, dy, dz)
-            inst:DoTaskInTime(1.2, function()
+            inst:DoTaskInTime(.6, function()
                 inst.SoundEmitter:PlaySound("dontstarve/sanity/creature2/attack")
-                local ents = TheSim:FindEntities(dx, dy, dz, 1.2, nil, { "FX", "NOCLICK", "INLIMBO", "shadowdominant" })
+                local ents = TheSim:FindEntities(dx, dy, dz, 1.5, nil, { "FX", "NOCLICK", "INLIMBO", "shadowdominant" })
                 for k,v in ipairs(ents) do
                     if not target_index[v] and v ~= inst and inst.components.combat:IsValidTarget(v) and v.components.combat and ((v.components.sanity and v.components.sanity:IsInsane()) or v == target) and not v:HasTag("shadowdominant") then
                         target_index[v] = true
@@ -246,7 +246,7 @@ local function fn()
     inst.Physics:CollidesWith(COLLISION.GROUND)
     --inst.Physics:CollidesWith(COLLISION.WORLD)
 
-    inst.Transform:SetScale(1.5, 1.5, 1.5)
+    inst.Transform:SetScale(1.3, 1.3, 1.3)
 
     inst:AddTag("shadowcreature")
     inst:AddTag("monster")
@@ -278,6 +278,7 @@ local function fn()
 
     inst:AddComponent("locomotor") -- locomotor must be constructed before the stategraph
     inst.components.locomotor.walkspeed = TUNING.DSTU.CREEPINGFEAR_SPEED
+    inst.components.locomotor.runspeed = TUNING.DSTU.CREEPINGFEAR_SPEED
     --inst.components.locomotor.pathcaps = { allowocean = true }
 	inst.components.locomotor:SetTriggersCreep(false)
     inst.sounds = sounds
@@ -293,7 +294,7 @@ local function fn()
 
     inst:AddComponent("combat")
     inst.components.combat:SetAttackPeriod(TUNING.DSTU.CREEPINGFEAR_ATTACK_PERIOD)
-    inst.components.combat:SetRange(TUNING.DSTU.CREEPINGFEAR_RANGE_1*1.15, TUNING.DSTU.CREEPINGFEAR_RANGE_2*1.15)
+    inst.components.combat:SetRange(TUNING.DSTU.CREEPINGFEAR_RANGE_1, TUNING.DSTU.CREEPINGFEAR_RANGE_2)
     inst.components.combat.onkilledbyother = onkilledbyother
     inst.components.combat:SetRetargetFunction(3, retargetfn)
 

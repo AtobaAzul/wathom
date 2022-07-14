@@ -11,6 +11,10 @@ local book_defs =
         name = "book_rain",
         uses = 5,
         fn = function(inst, reader)
+			if reader.components.sanity ~= nil and reader.components.sanity:IsInsane() then
+				return false
+			end
+		
             reader.components.sanity:DoDelta(-125) --Eat Half Her Sanity
 			TheWorld:PushEvent("ms_forceprecipitation", true)
 			return true

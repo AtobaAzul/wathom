@@ -16,7 +16,7 @@ local function fn1()
 
     inst.AnimState:SetBank("uncompromising_shadow_projectile1_fx")
     inst.AnimState:SetBuild("uncompromising_shadow_projectile1_fx")
-    inst.AnimState:PlayAnimation("anim", false)
+    inst.AnimState:PlayAnimation("anim2", false)
 
     inst.Transform:SetScale(2.8, 1.8, 2.8)
 
@@ -26,6 +26,8 @@ local function fn1()
     --inst:AddComponent("transparentonsanity_dreadeye")
     --inst:AddComponent("transparentonsanity")
 	inst.AnimState:SetMultColour(1, 1, 1, 0.4)
+	
+	inst.AnimState:UsePointFiltering(true)
 
     inst.entity:SetPristine()
 
@@ -61,6 +63,8 @@ local function fn2()
     --inst:AddComponent("transparentonsanity_dreadeye")
 	inst.AnimState:SetMultColour(1, 1, 1, 0.4)
     --inst:AddComponent("transparentonsanity")
+	
+	inst.AnimState:UsePointFiltering(true)
 
     inst.entity:SetPristine()
 
