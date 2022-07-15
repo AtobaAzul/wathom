@@ -22,7 +22,7 @@ local sounds =
     disappear = "dontstarve/sanity/creature2/dissappear",
 }
 
-local brain = require("brains/creepingfearbrain") -----------------------------------------
+local brain = require("brains/shadowcreaturebrain") -----------------------------------------
 
 local function NoHoles(pt)
     return not TheWorld.Map:IsPointNearHole(pt)
