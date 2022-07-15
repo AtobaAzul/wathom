@@ -7,7 +7,7 @@ local prefabs =
 {
 }
 
-local function fn1()
+local function fn1(anim)
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -16,7 +16,7 @@ local function fn1()
 
     inst.AnimState:SetBank("uncompromising_shadow_projectile1_fx")
     inst.AnimState:SetBuild("uncompromising_shadow_projectile1_fx")
-    inst.AnimState:PlayAnimation("anim2", false)
+    inst.AnimState:PlayAnimation(anim)
 
     inst.Transform:SetScale(2.8, 1.8, 2.8)
 
@@ -40,6 +40,27 @@ local function fn1()
 
     return inst
 end
+
+local function slowproj1(inst)
+	local inst = fn1("anim")
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+	return inst
+end
+
+local function fastproj1(inst)
+	local inst = fn1("anim2")
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+	return inst
+end
+	
 
 local function fn2()
     local inst = CreateEntity()
@@ -80,5 +101,6 @@ local function fn2()
     return inst
 end
 
-return Prefab( "uncompromising_shadow_projectile1_fx", fn1, assets), -- prefabs
+return Prefab( "uncompromising_shadow_projectile1_fx", slowproj1, assets), -- prefabs
+	Prefab( "uncompromising_shadow_projectile1_fx_fast", fastproj1, assets),
     Prefab("uncompromising_shadow_projectile2_fx", fn2, assets) 
