@@ -37,7 +37,7 @@ local function StompHandler(inst,data)
 		if TheWorld.Map:GetPlatformAtPoint(x, z) ~= nil then
 			inst.stomprage = inst.stomprage + 10
 		end
-		if inst.stomprage > 20 and not inst.sg:HasStateTag("ability") then
+		if inst.stomprage > 20 and not inst.sg:HasStateTag("ability") and inst.components.health and not inst.components.health:IsDead() then
 			inst:ForceFacePoint(x,y,z)
 			inst.stomprage = 0
 			inst.stompready = false
@@ -104,6 +104,10 @@ local function CheckForReadyCharge(inst)
 	end
 end
 
+local charge_distance = 8
+
+local chargespacing = 1
+
 local function CrossChargeRepeat(inst)
 	--TheNet:Announce("Telling Soldiers to move to CrossChargeRepeat")
 	if inst.components.health and not inst.components.health:IsDead() and inst.components.combat and inst.components.combat.target then
@@ -125,28 +129,28 @@ local function CrossChargeRepeat(inst)
 				pt.z = z
 				
 				if soldier.direction == "x" then
-					rand = 5*(#soldiers/4-x_diff)+extra
-					x_diff = x_diff + 1
+					rand = 5*(#soldiers/4-x_diff) + extra
+					x_diff = x_diff + chargespacing
 					if inst.direction2 == "back" then
-						pt.x = x + 13
-						pt2.x = x - 13
+						pt.x = x + charge_distance
+						pt2.x = x - charge_distance
 					else
-						pt.x = x - 13
-						pt2.x = x + 13										
+						pt.x = x - charge_distance
+						pt2.x = x + charge_distance										
 					end
 					pt.z = z+rand
 					pt2.z = z+rand
 					direction = "z"
 					soldier.direction = "x"
 				else
-					rand = 5*(#soldiers/4-z_diff)
-					z_diff = z_diff + 1
+					rand = 5*(#soldiers/4-z_diff) + extra
+					z_diff = z_diff + chargespacing
 					if inst.direction2 == "back" then
-						pt.z = z + 13
-						pt2.z = z - 13
+						pt.z = z + charge_distance
+						pt2.z = z - charge_distance
 					else
-						pt.z = z - 13
-						pt2.z = z + 13					
+						pt.z = z - charge_distance
+						pt2.z = z + charge_distance					
 					end
 					pt.x = x+rand
 					pt2.x = x+rand	
@@ -186,18 +190,18 @@ local function CrossCharge(inst)
 
 				if direction == "x" then
 					rand = 5*(#soldiers/4-x_diff)
-					x_diff = x_diff + 1
-					pt.x = x - 13
-					pt2.x = x + 13
+					x_diff = x_diff + chargespacing
+					pt.x = x - charge_distance
+					pt2.x = x + charge_distance
 					pt.z = z+rand
 					pt2.z = z+rand
 					direction = "z"
 					soldier.direction = "x"
 				else
 					rand = 5*(#soldiers/4-z_diff)
-					z_diff = z_diff + 1
-					pt.z = z - 13
-					pt2.z = z + 13
+					z_diff = z_diff + chargespacing
+					pt.z = z - charge_distance
+					pt2.z = z + charge_distance
 					pt.x = x+rand
 					pt2.x = x+rand	
 					direction = "x"
@@ -318,8 +322,17 @@ local function ModeChange(inst)
 		else
 			if inst.mode == "aggressive" then
 				inst.mode = "defensive"
-				inst.sg:GoToState("spawnguards")
+				inst.components.locomotor.walkspeed = TUNING.BEEQUEEN_SPEED/4
+				inst.components.locomotor.runspeed = TUNING.BEEQUEEN_SPEED/4
+				TheNet:Announce("vvent defensive")
+				if inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 then
+					inst.sg:GoToState("spawnguards")
+				elseif inst.components.health and not inst.components.health:IsDead() then
+					inst.AllocatebeeHolders(inst)
+				end
 			elseif	inst.mode == "defensive" then
+				inst.components.locomotor.walkspeed = TUNING.BEEQUEEN_SPEED
+				inst.components.locomotor.runspeed = TUNING.BEEQUEEN_SPEED
 				ReleasebeeHolders(inst)
 				inst.mode = "aggressive"
 				if inst.components.health:GetPercent() > 0.5 then
@@ -370,7 +383,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	
 	inst.components.timer:StartTimer("mortar_atk", 15)
 	
-	inst.components.timer:StartTimer("cross_atk", 15)
+	inst.components.timer:StartTimer("cross_atk", 5)
 	
 	inst.components.timer:StartTimer("spin_bees", 15)
 	
@@ -394,7 +407,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst:DoTaskInTime(0,SpawnbeeHolder)
 	--inst:DoTaskInTime(10,AllocatebeeHolders)
 	inst.mode = "aggressive"
-	inst:DoPeriodicTask(math.random(40,60),ModeChange)
+	--inst:DoPeriodicTask(math.random(40,60),ModeChange) --Disabled until the bees stop disappearing
 end)
 
 local function OnTagTimer(inst, data)

@@ -118,7 +118,7 @@ local states = {
             inst.AnimState:PlayAnimation("stab_pre",false)
 			inst.AnimState:PushAnimation("stab",true)
 			local horizVel = 3
-			local verticalVel = 15
+			local verticalVel = 20
 			if inst.stabtarget then
 				local shadow = SpawnPrefab("warningshadow")
 				FindSpotForShadow(inst.stabtarget,shadow,0) --Aim the shadovv first, the bee aims at the shadovv after that, simple!
@@ -175,7 +175,7 @@ local states = {
 		timeline = {
 			TimeEvent(3 * FRAMES, function(inst)
 				inst.SoundEmitter:PlaySound(inst.sounds.attack)
-				inst.components.combat:DoAreaAttack(inst, 1.5, nil, nil, nil, {"INLIMBO","bee", "notarget","invisible","playerghost", "shadow"})
+				inst.components.combat:DoAreaAttack(inst, 2, nil, nil, nil, {"INLIMBO","bee", "notarget","invisible","playerghost", "shadow"})
 			end),
 		},
 		
@@ -320,7 +320,7 @@ local states = {
 			end]]
 			local queen = inst.components.entitytracker:GetEntity("queen")
 			local x,y,z = inst.Transform:GetWorldPosition()
-			if inst.beeHolder and queen and queen:IsValid() and math.sqrt(queen:GetDistanceSqToInst(inst.beeHolder)) < 20 then
+			if inst.beeHolder and inst.beeHolder:IsValid() and queen and queen:IsValid() and math.sqrt(queen:GetDistanceSqToInst(inst.beeHolder)) < 20 then
 				local x,y,z = inst.beeHolder.Transform:GetWorldPosition()
 				if x == x and z == z then
 					inst.Transform:SetPosition(x,y,z)
@@ -349,7 +349,7 @@ local states = {
         end,
 		
 		onupdate = function(inst)
-			if inst.beeHolder then
+			if inst.beeHolder and inst.beeHolder:IsValid() then
 				local position = inst.beeHolder:GetPosition()
 				inst:ForceFacePoint(inst.beeHolder:GetPosition())
 				ArtificialLocomote(inst,position,inst.chargeSpeed)
@@ -405,7 +405,7 @@ local states = {
 			if inst.components.combat and inst.components.combat.target then
 				inst:ForceFacePoint(inst.components.combat.target:GetPosition())
 			end
-			if inst.beeHolder then
+			if inst.beeHolder and inst.beeHolder:IsValid() then
 				local x,y,z = inst.beeHolder.Transform:GetWorldPosition()
 				inst.Transform:SetPosition(x,y,z)
 			end

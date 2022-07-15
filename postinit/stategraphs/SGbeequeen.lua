@@ -164,7 +164,7 @@ local states = {
 					end
 					return true
 				end
-				inst.components.combat:SetAreaDamage(3.5,1.67,isvalid)
+				inst.components.combat:SetAreaDamage(6,1.67,isvalid)
 				inst.components.combat:DoAttack()
                 inst.components.combat:SetAreaDamage(0,0,isvalid)
 				inst.components.groundpounder:GroundPound()
@@ -245,12 +245,12 @@ local states = {
 
         timeline =
         {
-			TimeEvent(22 * FRAMES, function(inst)
+			TimeEvent(12 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				inst.AnimState:PushAnimation("idle_loop",true)
 			end),	
 			--Finish the 1st Charge
-            TimeEvent(30 * FRAMES, function(inst)
+            TimeEvent(20 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -262,19 +262,19 @@ local states = {
 			
 			
 			--2nd Charge
-            TimeEvent(70 * FRAMES, function(inst)
+            TimeEvent(50 * FRAMES, function(inst)
 				--TheNet:Announce("Starting Second")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "back"
                 inst:CrossChargeRepeat(inst)
             end),
 			
-			TimeEvent(92 * FRAMES, function(inst)
+			TimeEvent(72 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				inst.AnimState:PushAnimation("idle_loop",true)
 			end),	
 				
-            TimeEvent(100 * FRAMES, function(inst)
+            TimeEvent(80 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -283,18 +283,18 @@ local states = {
             end),
 	
 			--3rd Charge
-            TimeEvent(130 * FRAMES, function(inst)
+            TimeEvent(102 * FRAMES, function(inst)
 				--TheNet:Announce("Starting Third")
 				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "forth"
                 inst:CrossChargeRepeat(inst)
             end),
 			
-			TimeEvent(162 * FRAMES, function(inst)
+			TimeEvent(120 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				inst.AnimState:PushAnimation("idle_loop",true)
 			end),	
-            TimeEvent(170 * FRAMES, function(inst)
+            TimeEvent(130 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -303,19 +303,19 @@ local states = {
             end),	
 
 			--4th Charge
-            TimeEvent(200 * FRAMES, function(inst)
+            TimeEvent(160 * FRAMES, function(inst)
 				--TheNet:Announce("Starting Fourth")
 				inst.direction2 = "back"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
 			
-			TimeEvent(222 * FRAMES, function(inst)
+			TimeEvent(182 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				inst.AnimState:PushAnimation("idle_loop",true)
 			end),	
 			
-            TimeEvent(230 * FRAMES, function(inst)
+            TimeEvent(190 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -324,19 +324,19 @@ local states = {
             end),	
 
 			--5th Charge
-            TimeEvent(270 * FRAMES, function(inst)
+            TimeEvent(220 * FRAMES, function(inst)
 				--TheNet:Announce("Starting Fifth")
 				inst.direction2 = "forth"
 				AdjustGuardSpeeds(inst,20)
                 inst:CrossChargeRepeat(inst)
             end),
 
-			TimeEvent(292 * FRAMES, function(inst)
+			TimeEvent(240 * FRAMES, function(inst)
 				inst.AnimState:PlayAnimation("command2")
 				inst.AnimState:PushAnimation("idle_loop",true)
 			end),	
 			
-            TimeEvent(300 * FRAMES, function(inst)
+            TimeEvent(250 * FRAMES, function(inst)
 				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
@@ -344,7 +344,7 @@ local states = {
 				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
             end),	
 			
-            TimeEvent(350 * FRAMES, function(inst)
+            TimeEvent(300 * FRAMES, function(inst)
                 inst.sg:AddStateTag("caninterrupt")
                 inst.sg:RemoveStateTag("nosleep")
                 inst.sg:RemoveStateTag("nofreeze")
