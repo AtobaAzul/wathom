@@ -70,95 +70,174 @@ local megabaseruins_road = { 	{x = 0, z = 4, prefab = "um_dynlayout_tileflag", o
 
 local testTable3 = { 	{x = -0.09600830078125, z = -1.112060546875, prefab = "driftwood_log", ocean = true, tile = 204},	{x = 3.0816040039063, z = -2.0603332519531, prefab = "um_dynlayout_tileflag", ocean = true, tile = 204},	{x = -3.4259033203125, z = 2.6483154296875, prefab = "um_dynlayout_tileflag", ocean = true, tile = 203},	{x = -3.66357421875, z = -3.4009704589844, prefab = "um_dynlayout_tileflag", ocean = true, tile = 203},	{x = -0.90301513671875, z = -5.21630859375, prefab = "driftwood_log", ocean = true, tile = 204},	{x = 3.9368286132813, z = 4.3008422851563, prefab = "um_dynlayout_tileflag", ocean = true, tile = 204},	{x = 8.499267578125, z = 3.5470886230469, prefab = "driftwood_log", ocean = true, tile = 204},	{x = -14.640563964844, z = -12.691955566406, prefab = "dock_kit", ocean = true, tile = 203},}
 
-local testTable4 = { 	{x = 0.5, z = 1.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0.5, z = 2.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0.5, z = 3.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0.5, z = 4.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0.5, z = 5.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0.5, z = 6.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0.5, z = 7.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 7.7050590515137, z = -0.81689453125, prefab = "butterfly", ocean = false, tile = 6},	{x = 0.5, z = 8.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 3.4599990844727, z = 8.0899963378906, prefab = "evergreen", ocean = false, tile = 6},	{x = 0.5, z = 9.5, prefab = "wall_wood", ocean = false, tile = 6},}
+local testTable4 = { 	{x = 0, z = -1, prefab = "treasurechest", ocean = false, rotation = 0},	{x = 0, z = 4, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 4, z = 4, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = -4.5, z = -4.5, prefab = "fence", ocean = false, health = 1, rotation = 135},	{x = -6.5, z = 0.5, prefab = "fence", ocean = false, health = 1, rotation = -180},	{x = -6.5, z = -0.5, prefab = "fence", ocean = false, health = 1, rotation = -180},	{x = -3.5, z = -5.5, prefab = "fence", ocean = false, health = 1, rotation = 135},	{x = -5.5, z = -3.5, prefab = "fence", ocean = false, health = 1, rotation = 135},	{x = 0.5, z = -6.5, prefab = "wall_wood", ocean = false, health = 0.4, rotation = 0},	{x = -0.5, z = -6.5, prefab = "wall_wood", ocean = false, health = 0, rotation = 0},	{x = -6.5, z = -1.5, prefab = "fence", ocean = false, health = 1, rotation = -180},	{x = 1.5, z = -6.5, prefab = "wall_wood", ocean = false, health = 0.5, rotation = 0},	{x = 2.5, z = -6.5, prefab = "wall_wood", ocean = false, health = 0.66666666666665, rotation = 0},	{x = -6.5, z = -2.5, prefab = "wall_wood", ocean = false, health = 0.5, rotation = 0},	{x = 3.5, z = -6.5, prefab = "wall_wood", ocean = false, health = 1, rotation = 0},	{x = -4.4349670410156, z = 5.9020132571459, prefab = "seeds", ocean = false, rotation = 0},	{x = 0, z = 8, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 8, z = 0, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = -7.1199951171875, z = 3.9800000190735, prefab = "evergreen", ocean = false, rotation = 0},	{x = 8, z = 4, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 4, z = 8, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = -4, z = 8, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 2.5, z = -10, prefab = "treasurechest", ocean = false, burnt = true, rotation = 0},	{x = -2.5, z = -10.5, prefab = "axe", ocean = false, uses = 95, rotation = 0},	{x = -0.5, z = -11.5, prefab = "torch", ocean = false, fuel = 0.98644444444444, rotation = 0},	{x = 11.200012207031, z = 3.029000043869, prefab = "evergreen", ocean = false, rotation = 0},	{x = 0, z = 12, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 3.2300109863281, z = 11.907999992371, prefab = "evergreen", ocean = false, rotation = 0},	{x = -4, z = 12, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 12.670013427734, z = 0.51000022888184, prefab = "evergreen", ocean = false, rotation = 0},	{x = 12.890014648438, z = -3.8199996948242, prefab = "evergreen", ocean = false, rotation = 0},	{x = -8, z = 12, prefab = "um_dynlayout_tileflag", ocean = false, tile = 7, rotation = 0},	{x = 12.278015136719, z = -8.4399995803833, prefab = "evergreen", ocean = false, rotation = 0},	{x = 15.450012207031, z = 0.55900001525879, prefab = "evergreen", ocean = false, rotation = 0},	{x = 0.70001220703125, z = 16.170000076294, prefab = "evergreen", ocean = false, rotation = 0},	{x = -11.700988769531, z = 11.697999954224, prefab = "evergreen", ocean = false, rotation = 0},	{x = 15.320007324219, z = -7.8109998703003, prefab = "evergreen", ocean = false, rotation = 0},	{x = -8.510986328125, z = -16.409999847412, prefab = "evergreen", ocean = false, rotation = 0},	{x = 11.820007324219, z = -15.350999832153, prefab = "evergreen", ocean = false, rotation = 0},	{x = 4.7300109863281, z = 19.10000038147, prefab = "evergreen", ocean = false, rotation = 0},	{x = -10.192993164063, z = -16.979999542236, prefab = "log", ocean = false, rotation = 0},}
 
 --Place the next table above MEEEE^
 --------------------------------------------
-local function UncompromisingSpawnGOOOOO(inst,data)
-	local x,y,z = inst.Transform:GetWorldPosition()
 
-	if inst.tile_centered then
-		local tile_x, tile_y, tile_z = TheWorld.Map:GetTileCenterPoint(x, 0, z)
-		inst.Transform:SetPosition(tile_x,tile_y,tile_z)
-		x,y,z = inst.Transform:GetWorldPosition()
-	end
+--for the fences...
+local ROT_SIDES = 8
+local function CalcRotationEnum(rot)
+    return math.floor((math.floor(rot + 0.5) / 45) % ROT_SIDES)
+end
 
-	local rotx = 1
-	local rotz = 1
+local function CalcFacingAngle(rot)
+    return CalcRotationEnum(rot) * 45
+end
 
-	if inst.rotatable then --This rotates the vvhole 
-		if math.random() > 0.5 then
-			rotx = -1
-		end
-		if math.random() > 0.5 then
-			rotz = -1
-		end
-	end
-	--TheNet:Announce("code ran") --For Troubleshooting
-	for i,v in ipairs(data) do
-		--TheNet:Announce(i) --For Troubleshooting
-		--TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
-		if v.prefab ~= "um_dynlayout_tileflag" then
-			local prefab = SpawnPrefab(v.prefab)
-			--TheNet:Announce("spawninwater_prefab: ")
-			--TheNet:Announce(inst.spawninwater_prefab)
+local function IsNarrow(inst)
+    return CalcRotationEnum(inst.Transform:GetRotation()) % 2 == 0
+end
 
-			--for area handlers, so they can find all things created by a especific SS.
-			if inst.tags then
-				for k, v in ipairs(inst.tags) do
-					prefab:AddTag("dynlayout_"..v)
-				end
-				prefab.dynlayout_tags = inst.tags
-			end
+local function SetOffset(inst, offset)
+    if inst.dooranim ~= nil then
+        inst.dooranim.Transform:SetPosition(offset, 0, 0)
+    end
+end
 
-			if inst.spawninwater_prefab or inst.spawninwater_prefab == nil then
-				prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
-			else
-				if not TheWorld.Map:IsOceanTileAtPoint(x+v.x*rotx, (v.y and v.y+y) or 0, z+v.z*rotz) then
-					--TheNet:Announce("not ocean tile, setting pos!")
-					prefab.Transform:SetPosition(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
-				else
-					--TheNet:Announce("ocean tile! removing!")
-					prefab:Remove()
-				end
+local function ApplyDoorOffset(inst)
+    SetOffset(inst, inst.offsetdoor and 0.45 or 0)
+end
+
+local function GetAnimState(inst)
+    return (inst.dooranim or inst).AnimState
+end
+
+local function SetOrientation(inst, rotation)
+    --rotation = CalcFacingAngle(rotation)
+
+    inst.Transform:SetRotation(rotation)
+
+    if inst.anims.narrow then
+
+        if IsNarrow(inst) then
+            if not inst.bank_narrow_set then
+                inst.bank_narrow_set = true
+                inst.bank_wide_set = nil
+                GetAnimState(inst):SetBank(inst.anims.narrow)
+            end
+        else
+            if not inst.bank_wide_set then
+                inst.bank_wide_set = true
+                inst.bank_narrow_set = nil
+                GetAnimState(inst):SetBank(inst.anims.wide)
+            end
+        end
+
+        if inst.isdoor then
+            ApplyDoorOffset(inst)
+        end
+    end
+end
+
+local function UncompromisingSpawnGOOOOO(inst, data)
+    local x, y, z = inst.Transform:GetWorldPosition()
+
+    if inst.tile_centered then
+        local tile_x, tile_y, tile_z = TheWorld.Map:GetTileCenterPoint(x, 0, z)
+        inst.Transform:SetPosition(tile_x, tile_y, tile_z)
+        x, y, z = inst.Transform:GetWorldPosition()
+    end
+
+    local rotx = 1
+    local rotz = 1
+
+    if inst.rotatable then -- This rotates the vvhole 
+        if math.random() > 0.5 then rotx = -1 end
+        if math.random() > 0.5 then rotz = -1 end
+    end
+    -- TheNet:Announce("code ran") --For Troubleshooting
+    for i, v in ipairs(data) do
+        -- TheNet:Announce(i) --For Troubleshooting
+        -- TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
+        if v.prefab ~= "um_dynlayout_tileflag" then
+            local prefab = SpawnPrefab(v.prefab)
+            -- TheNet:Announce("spawninwater_prefab: ")
+            -- TheNet:Announce(inst.spawninwater_prefab)
+
+            -- for area handlers, so they can find all things created by a especific SS.
+            if inst.tags then
+                for k, v in ipairs(inst.tags) do
+                    prefab:AddTag("dynlayout_" .. v)
+                end
+                prefab.dynlayout_tags = inst.tags
+            end
+
+            if inst.spawninwater_prefab or inst.spawninwater_prefab == nil then
+                prefab.Transform:SetPosition(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz)
+            else
+                if not TheWorld.Map:IsOceanTileAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz) then
+                    -- TheNet:Announce("not ocean tile, setting pos!")
+                    prefab.Transform:SetPosition(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz)
+                else
+                    -- TheNet:Announce("ocean tile! removing!")
+                    prefab:Remove()
+                end
+            end
+            if v.diseased then
+                -- If vve ever add back acid rain I guess vve could have this, vvhatever
+            end
+            if v.barren and prefab.components.pickable then
+                prefab.components.pickable:MakeBarren()
+            end
+            if v.withered and prefab.components.witherable then
+                prefab.components.witherable:ForceWither()
+            end
+            if v.ocean then
+                if not TheWorld.Map:IsOceanTileAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz) then
+                    prefab:Remove()
+                end
+            end
+            if v.health and prefab.components.health then
+                prefab.components.health:SetPercent(v.health)
+            end
+            if v.contents and prefab.components.container then
+                print(v.contents) -- just testing!
+            end
+            if v.burnt and prefab.components.burnable then
+                prefab.components.burnable.onburnt(prefab)
+            end
+            if v.uses and prefab.components.finiteuses then
+                prefab.components.finiteuses:SetUses(v.uses)
+            end
+            if v.fuel and prefab.components.fueled then
+                prefab.components.fueled:SetPercent(v.fuel)
+            end
+            if v.scenario then
+                if prefab.components.scenariorunner == nil then
+                    prefab:AddComponent("scenariorunner")
+                end
+                prefab.components.scenariorunner:SetScript(v.scenario)
+            end
+            if v.rotation and (prefab.prefab == "fence" or prefab.prefab == "fence_gate") then
+				SetOrientation(prefab, (v.rotation*rotx)*rotz)
+			elseif v.rotation and v.rotation ~= 0 then
+                prefab.Transform:SetRotation((v.rotation*rotx)*rotz)
 			end
-			if v.diseased then
-				--If vve ever add back acid rain I guess vve could have this, vvhatever
-			end
-			if v.barren and prefab.components.pickable then
-				prefab.components.pickable:MakeBarren()
-			end
-			if v.withered and prefab.components.witherable then
-				prefab.components.witherable:ForceWither()
-			end
-			if v.ocean then--for ocean prefabs to not spawn on land...
-				if 	TheWorld.Map:IsOceanTileAtPoint(x+v.x*rotx, (v.y and v.y+y) or 0, z+v.z*rotz) then
-					prefab:Remove()
-				end
-			end
-		end
-		if v.tile and v.tile ~= TheWorld.Map:GetTileAtPoint(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz) then
-			local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(x+v.x*rotx,(v.y and v.y+y) or 0,z+v.z*rotz)
-			--TheNet:Announce("spawninwater_tile:")
-			--TheNet:Announce(inst.spawninwater_tile)
-			if inst.spawninwater_tile or inst.spawninwater_tile == nil then
-				--TheNet:Announce("spawninwater true!")
-				print(v.tile)
-				TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
-			else
-				if 	TheWorld.Map:IsOceanTileAtPoint(x+v.x*rotx, (v.y and v.y+y) or 0, z+v.z*rotz) then
-					--TheNet:Announce("water at point!")
-				else
-					--TheNet:Announce("not water!")
-					if v.tile == 257 then
-						TheWorld.components.dockmanager:CreateDockAtPoint(tile_x, (v.y and v.y+y) or 0, tile_z, v.tile)
-					else
-						TheWorld.Map:SetTile(tile_x,tile_z,v.tile)
-					end
-				end
-			end
-		end
-	end
+            if v.tile and v.tile ~= TheWorld.Map:GetTileAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz) then
+                local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz)
+                -- TheNet:Announce("spawninwater_tile:")
+                -- TheNet:Announce(inst.spawninwater_tile)
+                if inst.spawninwater_tile or inst.spawninwater_tile == nil then
+                    -- TheNet:Announce("spawninwater true!")
+                    print(v.tile)
+                    TheWorld.Map:SetTile(tile_x, tile_z, v.tile)
+                else
+                    if TheWorld.Map:IsOceanTileAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz) then
+                        -- TheNet:Announce("water at point!")
+                    else
+                        -- TheNet:Announce("not water!")
+                        if v.tile == 257 then
+                            TheWorld.components.dockmanager:CreateDockAtPoint(
+                                tile_x, (v.y and v.y + y) or 0, tile_z, v.tile)
+                        else
+                            TheWorld.Map:SetTile(tile_x, tile_z, v.tile)
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 local function superspawner(extension,data,rotatable,tile_centered, spawninwater_tile, spawninwater_prefab, tags)
@@ -237,4 +316,4 @@ return superspawner("test1", testTable3,true,true), --Novv demos tile and ocean 
 	superspawner("megabaseruins_intersection", megabaseruins_intersection, true, true),
 	superspawner("megabaseruins_centerpiece", megabaseruins_centerpiece, true, true),
 	superspawner("megabaseruins_road", megabaseruins_road, true, true),
-	superspawner("test4", testTable4, true, true, true)
+	superspawner("test4", testTable4, true, true)

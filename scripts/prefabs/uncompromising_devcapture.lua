@@ -101,7 +101,7 @@ local function Capture(inst)
 	local itemsinside = inst.components.container:GetAllItems()
 	local range = 0
 	local no_tiles = nil
-
+	local rotation = nil
 
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
@@ -110,6 +110,9 @@ local function Capture(inst)
 		v:AddTag("DEVBEHOLDER")
 		if v.prefab == "pitchfork" then
 			no_tiles = true
+		end
+		if v.prefab == "boat_rotator_kit" then
+			rotation = true
 		end
 	end
 	--TheNet:Announce(range)
@@ -136,6 +139,29 @@ local function Capture(inst)
 		end
 		if (TheWorld.Map:GetTileAtPoint(px,py,pz) and not no_tiles) or (v.prefab == "um_dynlayout_tileflag" and TheWorld.Map:GetTileAtPoint(px,py,pz)) then
 			totaltable = totaltable..", tile = "..tostring(TheWorld.Map:GetTileAtPoint(px,py,pz))	--flags always get tiles, regardless of tile setting.
+		end
+		if v.components.health ~= nil then
+			totaltable = totaltable..", health = "..tostring(v.components.health:GetPercent())
+		end
+		if v:HasTag("burnt") then
+			totaltable = totaltable..", burnt = true"
+		end
+		if v.components.container ~= nil and not v.components.container:IsEmpty() then
+			--totaltable = totaltable..", contents = "..tostring(v.components.container:GetAllItems())
+			--this results in a table.
+			--not sure how I'd do this. I know scenarios can insert loot into chests, so that might work instead. But does limit what loot we have inside.
+		end
+		if v.components.finiteuses ~= nil then
+			totaltable = totaltable..", uses = "..tostring(v.components.finiteuses:GetUses())
+		end
+		if v.components.fueled ~= nil then
+			totaltable = totaltable..", fuel = "..tostring(v.components.fueled:GetPercent())
+		end
+		if v.components.scenariorunner ~= nil and v.components.scenariorunner.scriptname ~= nil then
+			totaltable = totaltable..", scenario = "..tostring(v.components.scenariorunner.scriptname)
+		end
+		if rotation then
+			totaltable = totaltable..", rotation = "..tostring(v.Transform:GetRotation())
 		end
 		totaltable = totaltable.."},"
 	end
