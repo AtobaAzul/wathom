@@ -150,7 +150,7 @@ local function UncompromisingSpawnGOOOOO(inst, data)
     for i, v in ipairs(data) do
         -- TheNet:Announce(i) --For Troubleshooting
         -- TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
-        if v.prefab ~= "um_dynlayout_tileflag" then
+        if (v.prefab ~= "um_dynlayout_tileflag" or v.prefab ~= "seeds") --[[hecking birds man]]then
             local prefab = SpawnPrefab(v.prefab)
             -- TheNet:Announce("spawninwater_prefab: ")
             -- TheNet:Announce(inst.spawninwater_prefab)
@@ -214,6 +214,7 @@ local function UncompromisingSpawnGOOOOO(inst, data)
 			elseif v.rotation and v.rotation ~= 0 then
                 prefab.Transform:SetRotation((v.rotation*rotx)*rotz)
 			end
+
             if v.tile and v.tile ~= TheWorld.Map:GetTileAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz) then
                 local tile_x, tile_z = TheWorld.Map:GetTileCoordsAtPoint(x + v.x * rotx, (v.y and v.y + y) or 0, z + v.z * rotz)
                 -- TheNet:Announce("spawninwater_tile:")
@@ -228,8 +229,7 @@ local function UncompromisingSpawnGOOOOO(inst, data)
                     else
                         -- TheNet:Announce("not water!")
                         if v.tile == 257 then
-                            TheWorld.components.dockmanager:CreateDockAtPoint(
-                                tile_x, (v.y and v.y + y) or 0, tile_z, v.tile)
+                            TheWorld.components.dockmanager:CreateDockAtPoint(tile_x, (v.y and v.y + y) or 0, tile_z, v.tile)
                         else
                             TheWorld.Map:SetTile(tile_x, tile_z, v.tile)
                         end
