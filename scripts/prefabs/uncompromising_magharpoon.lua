@@ -234,11 +234,13 @@ end
 
 local function Vac(inst)
 	local x, y, z = inst.Transform:GetWorldPosition()
-	if inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() then
+	if inst.magnet_damage < 200 and inst ~= nil and inst:IsValid() and inst.target ~= nil and inst.target:IsValid() then
 		local px, py, pz = inst.target.Transform:GetWorldPosition()
 			
 		local distmult = (inst:GetDistanceSqToInst(inst.target) / 200)
 		print(distmult)
+		
+		inst.magnet_damage = inst.magnet_damage + distmult
 		
 		if distmult >= 0.15 then
 			local platform = inst:GetCurrentPlatform()
@@ -370,6 +372,8 @@ local function reel()
     if not TheWorld.ismastersim then
         return inst
     end
+	
+	inst.magnet_damage = 0
 	
 	inst.target = nil
 
