@@ -212,9 +212,9 @@ local function Detonate(inst, attacker, target)
                     affected_entity:Remove()
                 end
             end
-
+            attacker = attacker or inst.attacker
             --retaliate, mainly for impact bombs
-            if (attacker ~= nil or inst.attacker ~= nil) and affected_entity.components.combat ~= nil and ((attacker.components.health ~= nil and not attacker.components.health:IsDead()) or (inst.attacker.components.health ~= nil and not inst.attacker.components.health:IsDead())) then
+            if attacker ~= nil and affected_entity.components.combat ~= nil and attacker.components.health ~= nil and not attacker.components.health:IsDead() then
                 affected_entity.components.combat:SetTarget(attacker)
             end
 
