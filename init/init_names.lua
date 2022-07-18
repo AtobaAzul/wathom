@@ -307,13 +307,13 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.RNE_GOODIEBAG = "Goodie Bag"
 	STRINGS.HAT_RATMASK = "Rat Mask"
 
-	
+
 
 	STRINGS.OCULET = "Oculet"
 	STRINGS.OCULET_REZ = "Rez"
 	STRINGS.OCULET_SPAZ = "Spaz"
 	STRINGS.WILLIAM = "William"
-	
+
 	--Under the Weather
 	STRINGS.UNCOMPROMISING_HARPOON = "Harpoon"
 	STRINGS.UNCOMPROMISING_HARPOON_HEAVY = "Heavy Harpoon"
@@ -324,7 +324,7 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.UM_BEEGUN = "Hand Held Hive"
 	STRINGS.UM_BEE_PROJ = "Bullet Bee"
 	STRINGS.UM_KILLERBEE_PROJ = "Killer Bullet Bee"
-	
+
 	STRINGS.WINONA_TOOLBOX = "Winona's Toolbox"
 	STRINGS.OCEAN_SPEAKER = "Dilapidated Speaker" --Kinda lame dunno what else though.
 	STRINGS.SUNKENCHEST_ROYAL = "Royal Sunken Chest"
@@ -346,7 +346,7 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.MINERHAT_ELECTRICAL = "Electrical Miner Hat"
 
 	STRINGS.POWERCELL = "Power Cell"--Single-Use Battery
-	
+
 	STRINGS.SEAROCK_RING = "Sea Stack"
 	STRINGS.RR_POWERLINE = "Powerline"
 	STRINGS.EYEOFTERROR_MINI_ALLY = "Hardy Peeper"
@@ -374,7 +374,7 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.BOAT_BUMPER_COPPER_KIT = "Copper Bumper Kit"
 	STRINGS.HERMIT_BUNDLE_LURES = "Lure Bundle"
 	STRINGS.LAVASPIT_SLUDGE = "Burning Pool of Sludge"
-	
+
 	STRINGS.KELPSTACK = "Kelpy Seastack"
 	STRINGS.MOSSSTACK = "Mossy Seastack"
 
@@ -382,3 +382,106 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.UM_DREAMCATCHER = "Dream Catcher"
 	STRINGS.UM_BRINEISHMOSS = "Brine Moss"
 	STRINGS.UM_COALESCED_NIGHTMARE = "Coalesced Nightmare"
+	STRINGS.UM_SALTSALVE = "Brine Balm"
+
+-- borrowed from https://github.com/xfbs/PiL3/blob/master/05Functions/combinations.lua
+-- returns array in a format {{1,2}, {1,3} ...}
+-- every element in returned array is a table with one combination
+local function combinations(arr, r)
+    -- do noting if r is bigger then length of arr
+    if (r > #arr) then
+        return {}
+    end
+
+    -- for r = 0 there is only one possible solution and that is a combination of lenght 0
+    if (r == 0) then
+        return {}
+    end
+
+    if (r == 1) then
+        -- if r == 1 than retrn only table with single elements in table
+        -- e.g. {{1}, {2}, {3}, {4}}
+
+        local return_table = {}
+        for i = 1, #arr do
+            table.insert(return_table, {arr[i]})
+        end
+
+        return return_table
+    else
+        -- else return table with multiple elements like this
+        -- e.g {{1, 2}, {1, 3}, {1, 4}}
+
+        local return_table = {}
+
+        -- create new array without the first element
+        local arr_new = {}
+        for i = 2, #arr do
+            table.insert(arr_new, arr[i])
+        end
+
+        -- combinations of (arr-1, r-1)
+        for i, val in pairs(combinations(arr_new, r - 1)) do
+            local curr_result = {}
+            table.insert(curr_result, arr[1])
+            for j, curr_val in pairs(val) do
+                table.insert(curr_result, curr_val)
+            end
+            table.insert(return_table, curr_result)
+        end
+
+        -- combinations of (arr-1, r)
+        for i, val in pairs(combinations(arr_new, r)) do
+            table.insert(return_table, val)
+        end
+
+        return return_table
+    end
+end
+
+local detonators_ = {
+    "fuse",   --rope - nothing, since all bombs explode when burnt.
+    "impact", --bottle - explodes on impact.
+    "prox",   --boomberry - explodes when stuff walks nearby after armed.
+    "timed"   --transistor - explodes after 10s of being activated.
+}
+
+    --kinda want to get more goofy effects in but not sure *what*
+local effects_ = {
+    "pipe",       --copper pipe - *slightly* increased range and damage.
+    "shrapnel",   --rocks (any type) - increases range but decreases damage.
+    "shaped",     --cut stone - decreases range but increases damage.
+
+    "stun",       --undecided - makes enemies panic/get stunned.
+    "magic",      --nightmare fuel - improves other effects.
+    --"sticky",     --honey  - slowdowns affected entites. Gonna wait for Wixie merge to UM so I can just reuse the round debuff for this.
+    "waterproof", --sludge - makes bombs not sink, ignites when fired from a cannon.
+    "fire",        --charcoal - turns the bomb incendiary.
+}
+
+if GLOBAL.KnownModIndex:IsModEnabled("workshop-2758491764") then
+    table.insert(effects_, "sticky")
+end
+
+local explosives_ = {
+    "he",
+    "me",
+    "le",
+}
+local bomb
+
+local all_bombs = {}
+table.insert(all_bombs, "um_bomb_dud")
+
+for k, eff in ipairs(combinations(effects_, 2)) do
+    for i, det in ipairs(detonators_) do
+        for l, expl in ipairs(explosives_) do
+            bomb = "um_bomb_" .. expl .. "_" .. det .. "_" .. GLOBAL.unpack(eff) .. "_" .. string.gsub(GLOBAL.unpack(eff, 2), "_", "")
+			STRINGS[string.upper(bomb)] = "Makeshift Bomb"--Not sure how i'd make the original idea for the pre/suffixes...
+            table.insert(all_bombs, bomb)
+        end
+    end
+end
+
+STRINGS.UM_BOMB_DUD = "Not-quite-explosive Bomb"
+
