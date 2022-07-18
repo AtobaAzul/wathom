@@ -81,51 +81,93 @@ local function StopFlapping(inst)
     inst.SoundEmitter:KillSound("flying")
 end
 
+local function ShouldVVall(inst)
+	if inst.components.health:GetPercent() < 0.75 and not inst.defensebee and inst.defenseready then
+		inst.defenseready = nil
+		return true
+	elseif inst.components.health:GetPercent() < 0.75 and not inst.defensebee then
+		inst.defenseready = true
+		return false
+	else
+		return false
+	end
+end
+
+local function MortarCommand(inst)
+	if inst.components.health and not inst.components.health:IsDead() then
+		if inst.components.health:GetPercent() < 0.75 then
+			inst.should_seeker_rage = true
+			inst.sg:GoToState("spawnguards_seeker")
+		else
+			inst.sg:GoToState("command_mortar")
+		end
+	end
+end
 
 env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's called "SGbeequeen" instead of just... beequeen, funky
-
+	
 	local _OldOnExit 
 	if inst.states["spawnguards"].onexit then
 		_OldOnExit = inst.states["spawnguards"].onexit
 	end
 	inst.states["spawnguards"].onexit = function(inst)
-		if inst.mode == "defensive" then
-			inst.AllocatebeeHolders(inst)
-			inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("defensive_spin") end)
-		end
 		if _OldOnExit then
 			_OldOnExit(inst)
 		end
+		if inst.components.health and inst.components.health:GetPercent() < 1 then
+			if ShouldVVall(inst) then --Should I spavvn vvall bees
+				if math.random() < 0.75 then --Should I fake out the player and vvait a moment to do my thing
+					inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnguards_vvall") end)
+				else
+					inst:DoTaskInTime(math.random(3,10),function(inst) 
+						if inst.components.health and not inst.components.health:IsDead() then
+							inst.sg:GoToState("spawnguards_vvall")
+						end
+					end)
+				end
+			else
+				if inst.components.health:GetPercent() < 1 then
+					if math.random() < 0.75 then --Should I fake out the player and vvait a moment to 
+						inst:DoTaskInTime(0,MortarCommand)
+					else
+						inst:DoTaskInTime(math.random(3,10),MortarCommand)
+					end
+				end
+			end
+		end
 	end
 	
-	local _OldOnEnter
-	if inst.states["flyaway"].onenter then
-		_OldOnEnter = inst.states["flyaway"].onenter
+	local _OldOnAtk
+	if inst.states["attack"].onexit then
+		_OldOnAtk = inst.states["attack"].onexit
 	end
-
-	inst.states["flyaway"].onenter = function(inst)
-		for i,v in ipairs(inst.beeHolder) do
-			v:Remove()
+	inst.states["attack"].onexit = function(inst)
+		if _OldOnAtk then
+			_OldOnAtk(inst)
 		end
-		if _OldOnEnter then
-			_OldOnEnter(inst)
+		if inst.ShouldChase(inst) and inst.should_seeker_rage then
+			if not inst.seekerrage and inst.components.health and inst.components.health:GetPercent() < 0.75 then
+				inst.should_seeker_rage = nil
+				inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnguards_seeker_quick") end)
+			end
 		end
 	end
+	
+	
+	local function TrySpawnBigLeak(inst)
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local boat = inst:GetCurrentPlatform()
+		if boat then
+			local leak = SpawnPrefab("boat_leak")
+			leak.Transform:SetPosition(x, y, z)
+			leak.components.boatleak.isdynamic = true
+			leak.components.boatleak:SetBoat(boat)
+			leak.components.boatleak:SetState(4, true)
 
-local function TrySpawnBigLeak(inst)
-	local x,y,z = inst.Transform:GetWorldPosition()
-    local boat = inst:GetCurrentPlatform()
-    if boat then
-        local leak = SpawnPrefab("boat_leak")
-        leak.Transform:SetPosition(x, y, z)
-        leak.components.boatleak.isdynamic = true
-        leak.components.boatleak:SetBoat(boat)
-        leak.components.boatleak:SetState(4, true)
+			table.insert(boat.components.hullhealth.leak_indicators_dynamic, leak)
+		end
 
-        table.insert(boat.components.hullhealth.leak_indicators_dynamic, leak)
-    end
-
-end
+	end
 
 local events=
 	{        
@@ -134,7 +176,7 @@ local events=
 local states = {
     State{
         name = "stomp",
-        tags = { "busy", "nosleep", "nofreeze", "noattack", "ability" },
+        tags = { "busy", "nosleep", "nofreeze", "ability" },
 
         onenter = function(inst)
 			--inst.brain:Stop()
@@ -150,10 +192,6 @@ local states = {
 
         timeline =
         {
-            --[[TimeEvent(4 * FRAMES, ShakeIfClose),
-            TimeEvent(31 * FRAMES, DoScreech),
-            TimeEvent(32 * FRAMES, DoScreechAlert),
-            TimeEvent(35 * FRAMES, StartFlapping),]]
             CommonHandlers.OnNoSleepTimeEvent(38 * FRAMES, function(inst)
 				local function isvalid(ent)
 					local tags = { "INLIMBO", "epic", "notarget", "invisible", "noattack", "flight", "playerghost", "shadow", "shadowchesspiece", "shadowcreature","bee","beehive"}
@@ -211,6 +249,16 @@ local states = {
 						soldier:MortarAttack(soldier)
 					end  
                 end
+				if inst.seekerbees then
+					for i,seeker in ipairs(inst.seekerbees) do
+						if not seeker.sg:HasStateTag("mortar") then
+							local x,y,z = seeker.Transform:GetWorldPosition()
+							seeker:RemoveComponent("linearcircler")
+							seeker.Transform:SetPosition(x,y,z)
+							seeker:MortarAttack(seeker)
+						end
+					end
+				end
             end),
             CommonHandlers.OnNoSleepTimeEvent(25 * FRAMES, function(inst)
                 inst.sg:AddStateTag("caninterrupt")
@@ -221,7 +269,6 @@ local states = {
 		
         onexit = function(inst)
 			inst.components.sanityaura.aura = 0
-			inst.components.timer:StartTimer("mortar_atk", 20)
         end,
 		
         events =
@@ -464,9 +511,13 @@ local states = {
         tags = {"busy", "ability","tired"},
 
         onenter = function(inst)
+			inst.components.locomotor:StopMoving()
 			inst.AnimState:PlayAnimation("tired_pre")
 			inst.AnimState:PushAnimation("tired_loop",true)
-			inst.sg:SetTimeout(9)
+			if not inst.tiredcount then
+				inst.tiredcount = 9
+			end
+			inst.sg:SetTimeout(inst.tiredcount)
         end,
 		
         timeline =
@@ -475,6 +526,7 @@ local states = {
         },		
 		
         ontimeout = function(inst)
+			inst.tiredcount = nil
 			inst.sg:GoToState("idle")
         end, 		
 
@@ -495,6 +547,116 @@ local states = {
             end),
         },	
 
+    },
+    State{
+        name = "spawnguards_vvall",
+        tags = { "spawnguards", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("spawn")
+            inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/spawn")
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+				inst.SpawnDefensiveBees(inst)
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+    },
+    State{
+        name = "spawnguards_seeker",
+        tags = { "spawnguards", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("spawn")
+            inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/spawn")
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+				inst.SpawnSeekerBees(inst)
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+				inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("command_mortar") end)
+            end),
+        },
+
+        events =
+        {
+            --CommonHandlers.OnNoSleepAnimOver("command_mortar"), --for some reason this isn't vvorking, taunting happens instead, so dotaskintime(0 is just going to have to be hovv vve do it in these heavy edit postinit casess
+        },
+    },
+    State{
+        name = "spawnguards_seeker_quick",
+        tags = { "spawnguards", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("spawn")
+            inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/spawn")
+			inst.seekercount = inst.seekercount - 1
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+				inst.SpawnSeekerBees(inst)
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+		onexit = function(inst)
+				local target = inst.components.combat.target
+				if target then
+					if inst.seekerbees then
+						for i,seeker in ipairs(inst.seekerbees) do
+							if not seeker.sg:HasStateTag("mortar") then
+								local x,y,z = seeker.Transform:GetWorldPosition()
+								seeker:RemoveComponent("linearcircler")
+								seeker.Transform:SetPosition(x,y,z)
+								seeker:MortarAttack(seeker,inst.components.combat.target,0.5)
+							end
+						end
+					end
+				end
+				inst:DoTaskInTime(0,function(inst)
+					if inst.seekercount > 0 then
+						inst.sg:GoToState("spawnguards_seeker_quick")
+					else
+						inst.seekercount = math.random(4,5)
+						inst.tiredcount = 4
+						inst.sg:GoToState("tired")
+					end
+				end)
+		end,
     },
 }
 

@@ -35,14 +35,14 @@ local function destroystuff(inst)
 end
 
 local function Reposition(inst)
-if inst.WINDSTAFF_CASTER ~= nil then
-	local x,y,z = inst.WINDSTAFF_CASTER.Transform:GetWorldPosition()
-	if x ~= nil and y ~= nil and z ~= nil then
-		inst.Transform:SetPosition(x,y,z)
-	else
-		inst:Remove()
+	if inst.WINDSTAFF_CASTER ~= nil then
+		local x,y,z = inst.WINDSTAFF_CASTER.Transform:GetWorldPosition()
+		if x ~= nil and y ~= nil and z ~= nil then
+			inst.Transform:SetPosition(x,y,z)
+		else
+			inst:Remove()
+		end
 	end
-end
 end
 
 local function CheckDist(inst)

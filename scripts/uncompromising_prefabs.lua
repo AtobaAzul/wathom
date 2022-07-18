@@ -369,4 +369,5 @@ return {
 	"um_cannonballs",
 	"um_dreamcatcher",
 	"um_bombmixer_bombs",
+	"um_beeguards",
 }
