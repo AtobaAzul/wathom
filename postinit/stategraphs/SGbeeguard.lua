@@ -33,23 +33,28 @@ local function ArtificialLocomote(inst,destination,speed)
 	end
 end
 
-local function FindSpotForShadow(target,shadow,distance)
+local function FindSpotForShadow(inst,target,shadow,distance)
 	local x,y,z = target.Transform:GetWorldPosition()
 	x = x + math.random(-distance,distance)
 	z = z + math.random(-distance,distance)
 	local redo = false
-	local shadows = TheSim:FindEntities(x,y,z,1.5,{"FX"})
+	
+	local shadows = TheSim:FindEntities(x,y,z,3,{"FX"})
 	if shadows then
-		for i,v in ipairs(shadows) do--For later, finding the location vvhere the shadovv should spavvn.
+		for i,v in ipairs(shadows) do  --For later, finding the location vvhere the shadovv should spavvn.
 			if v.prefab == "warningshadow" then
 				redo = true
 			end
 		end
 	end
 	if redo == false then
-		shadow.Transform:SetPosition(x,y,z)
+		shadow.Transform:SetPosition(x,0,z)
 	else
-		FindSpotForShadow(target,shadow,distance+3)
+		if inst.prefab == "um_beeguard_seeker" then
+			FindSpotForShadow(inst,target,shadow,distance+5)
+		else
+			FindSpotForShadow(inst,target,shadow,distance+3)
+		end
 	end
 end
 
@@ -60,6 +65,16 @@ local function UpdateShadow(inst)
 		if y ~= nil and y > 0.5 then
 			local scaleFactor = Lerp(.5, 1.5, y / 35)
 			inst.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
+			if inst.bee.stabtarget and inst.bee.stabtarget:IsValid() then
+				if inst.prefab == "um_beeguard_seeker" then
+					ArtificialLocomote(inst,inst.bee.stabtarget:GetPosition(),6)
+				else
+					ArtificialLocomote(inst,inst.bee.stabtarget:GetPosition(),4)
+				end
+				inst.bee:ForceFacePoint(inst:GetPosition())
+				local x1,y1,z1 = inst.Transform:GetWorldPosition()
+				inst.bee.Transform:SetPosition(x1,y,z1)
+			end
 		else
 			inst:Remove()
 		end
@@ -69,6 +84,22 @@ local function UpdateShadow(inst)
 end
 
 env.AddStategraphPostInit("SGbeeguard", function(inst) --beeguard time
+
+	local _OldOnEnter
+	if inst.states["death"].onenter then
+		_OldOnEnter = inst.states["death"].onenter
+	end
+	inst.states["death"].onenter = function(inst) --This specifically is for the seeker bee, just to make them not play the death animation and instead stay stuck in the ground vvhen they die.
+		if inst.stabdied then
+            StopBuzz(inst)
+            inst.components.locomotor:StopMoving()
+            inst.components.lootdropper:DropLoot(inst:GetPosition())
+            inst.SoundEmitter:PlaySound(inst.sounds.death)			
+		else
+			_OldOnEnter(inst)
+		end
+	end
+	
 local events={}
 local states = {
     State{
@@ -121,20 +152,18 @@ local states = {
 			local verticalVel = 20
 			if inst.stabtarget then
 				local shadow = SpawnPrefab("warningshadow")
-				FindSpotForShadow(inst.stabtarget,shadow,0) --Aim the shadovv first, the bee aims at the shadovv after that, simple!
-				
+				shadow.Transform:SetPosition(inst.Transform:GetWorldPosition())
+				if inst.prefab == "um_beeguard_seeker" then
+					FindSpotForShadow(inst,inst.stabtarget,shadow,4)
+				else
+					FindSpotForShadow(inst,inst.stabtarget,shadow,0) --Aim the shadovv first, the bee aims at the shadovv after that, simple!
+				end
 				local scaleFactor = Lerp(.5, 1.5, 1)
 				shadow.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
 				shadow.bee = inst
 				shadow.updatetask = shadow:DoPeriodicTask(FRAMES, UpdateShadow, nil, 5)
-				
-				inst:ForceFacePoint(shadow:GetPosition())
-				local x,y,z = inst.Transform:GetWorldPosition()
-				local x1,y1,z1 = shadow.Transform:GetWorldPosition()
-				local dist = math.sqrt((x-x1)^2+(z-z1)^2)
-				horizVel = dist/(inst.maxflyheight/verticalVel) -- It will be around 0.333 seconds (inst.maxflyheight Length / 25 Length/s) for the bee to reach the ground, so we want to reach the player in this time too! We'll do this by dividing the x-z plane distance between the player and bee by the time the bee should reach the ground.
 			end
-            inst.sg.statemem.vel = Vector3(horizVel, -verticalVel, 0)
+            inst.sg.statemem.vel = Vector3(0, -verticalVel, 0)
         end,
 
 		onupdate = function(inst)
@@ -158,9 +187,10 @@ local states = {
 	
     State{
         name = "stab",
-        tags = { "busy", "nosleep", "nofreeze", "attack", "noattack"}, --We don't want the beeguard to try and attack, but we do need to let the game know this is an attacking state.
+        tags = { "busy", "nosleep", "nofreeze", "attack", "noattack","mortar"}, --We don't want the beeguard to try and attack, but we do need to let the game know this is an attacking state.
 
         onenter = function(inst)
+			inst.stuck = true
 			inst.stuckcount = 0
 			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition()) --I like the effects XD
 			if inst.SoundEmitter:PlayingSound("buzz") then
@@ -176,6 +206,10 @@ local states = {
 			TimeEvent(3 * FRAMES, function(inst)
 				inst.SoundEmitter:PlaySound(inst.sounds.attack)
 				inst.components.combat:DoAreaAttack(inst, 2, nil, nil, nil, {"INLIMBO","bee", "notarget","invisible","playerghost", "shadow"})
+				if inst.prefab == "um_beeguard_seeker" and inst.components.health and not inst.components.health:IsDead() then
+					inst.stabdied = true
+					inst.components.health:Kill()
+				end
 			end),
 		},
 		
@@ -186,6 +220,9 @@ local states = {
                 inst.sg:GoToState("stuck")
             end),
         },
+		onexit = function(inst)
+			inst.stuck = nil
+		end,
     },
 	
     State{

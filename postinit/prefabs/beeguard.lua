@@ -10,10 +10,15 @@ local normalsounds =
     death = "dontstarve/creatures/together/bee_queen/beeguard/death",
 }
 
-local function MortarAttack(inst,target)
-	if inst.components.health and not inst.components.health:IsDead() and target then
-		inst.stabtarget = target
-		inst.sg:GoToState("flyup")
+local function MortarAttack(inst)
+	if not inst.sg:HasStateTag("mortar") then
+		local target = FindEntity(inst,20^2,nil,{"_combat"},{"playerghost","bee"})
+		if target then
+			inst.stabtarget = target
+			inst.sg:GoToState("flyup")
+		else
+			inst:DoTaskInTime(math.random(1,3),MortarAttack)
+		end
 	end
 end
 

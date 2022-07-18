@@ -18,31 +18,33 @@ end)
 
 local function StompHandler(inst,data)
 	--TheNet:Announce(inst.stomprage)
-	if inst.sg:HasStateTag("tired") then
-		inst.AnimState:PlayAnimation("tired_hit")
-		inst.AnimState:PushAnimation("tired_loop",true)
-	end
-	if inst.mode == "aggressive" then
-		inst.stomprage = inst.stomprage + 0.25
-	else
-		inst.stomprage = inst.stomprage + 2
-	end
-	if data.attacker and data.attacker.components.combat and inst.stompready then
-		if inst.components.combat.target ~= nil then
-			if data.attacker ~= inst.components.combat.target then
-				inst.stomprage = inst.stomprage + 1
+	if inst.components.health and inst.components.health:GetPercent() < 0.75 then
+		if inst.sg:HasStateTag("tired") then
+			inst.AnimState:PlayAnimation("tired_hit")
+			inst.AnimState:PushAnimation("tired_loop",true)
+		end
+		if inst.mode == "aggressive" then
+			inst.stomprage = inst.stomprage + 0.25
+		else
+			inst.stomprage = inst.stomprage + 2
+		end
+		if data.attacker and data.attacker.components.combat and inst.stompready then
+			if inst.components.combat.target ~= nil then
+				if data.attacker ~= inst.components.combat.target then
+					inst.stomprage = inst.stomprage + 1
+				end
 			end
-		end
-		local x,y,z = data.attacker.Transform:GetWorldPosition()
-		if TheWorld.Map:GetPlatformAtPoint(x, z) ~= nil then
-			inst.stomprage = inst.stomprage + 10
-		end
-		if inst.stomprage > 20 and not inst.sg:HasStateTag("ability") and inst.components.health and not inst.components.health:IsDead() then
-			inst:ForceFacePoint(x,y,z)
-			inst.stomprage = 0
-			inst.stompready = false
-			inst:DoTaskInTime(math.random(8,10),function(inst) inst.stompready = true end)
-			inst.sg:GoToState("stomp")
+			local x,y,z = data.attacker.Transform:GetWorldPosition()
+			if TheWorld.Map:GetPlatformAtPoint(x, z) ~= nil then
+				inst.stomprage = inst.stomprage + 10
+			end
+			if inst.stomprage > 20 and not inst.sg:HasStateTag("ability") and inst.components.health and not inst.components.health:IsDead() then
+				inst:ForceFacePoint(x,y,z)
+				inst.stomprage = 0
+				inst.stompready = false
+				inst:DoTaskInTime(math.random(8,10),function(inst) inst.stompready = true end)
+				inst.sg:GoToState("stomp")
+			end
 		end
 	end
 end
@@ -282,7 +284,7 @@ local function ReleasebeeHolders(inst)
 	end
 end
 
-local function AllocatebeeHolders(inst)
+--[[local function AllocatebeeHolders(inst)
 	local soldiers = inst.components.commander:GetAllSoldiers()
 	if #soldiers > 0 then
 		for i, soldier in ipairs(soldiers) do
@@ -303,6 +305,52 @@ local function AllocatebeeHolders(inst)
 				end
 			end
 		end
+	end
+end]]
+
+local function SpawnDefensiveBees(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local LIMIT = 4
+	inst.defensebees = {}
+	for i = 1,8 do
+		inst.defensebees[i] = SpawnPrefab("um_beeguard_blocker")
+		inst.defensebees[i].queen = inst
+		inst.defensebees[i].components.linearcircler:SetCircleTarget(inst)
+		inst.defensebees[i].components.linearcircler:Start()
+		inst.defensebees[i].components.linearcircler.randAng = i*0.125*4/5
+		inst.defensebees[i].components.linearcircler.clockwise = false
+		inst.defensebees[i].components.linearcircler.distance_limit = LIMIT
+		inst.defensebees[i].components.linearcircler.setspeed = 0
+		inst.defensebees[i].components.timer:StartTimer("natural_death", math.random(30,40))
+		--inst.lavae[i].AnimState:PushAnimation("hover",true)
+	end
+end
+
+local function SpawnSeekerBees(inst)
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local rangeLIMIT = 5
+	if not inst.seekerbees then
+		inst.seekerbees = {}
+	end
+	local totalseekers = 6
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local players = TheSim:FindEntities(x,y,z,30,{"player"},{"playerghost"}) --more bees for more players
+	if players then
+		if inst.components.health:GetPercent() < 0.5 then
+			totalseekers = 8 + 4 * #players
+		else
+			totalseekers = 4 + 2 * #players
+		end
+	end
+	for i = 1,totalseekers do
+		inst.seekerbees[i] = SpawnPrefab("um_beeguard_seeker")
+		inst.seekerbees[i].queen = inst
+		inst.seekerbees[i].components.linearcircler:SetCircleTarget(inst)
+		inst.seekerbees[i].components.linearcircler:Start()
+		inst.seekerbees[i].components.linearcircler.randAng = i*1/totalseekers
+		inst.seekerbees[i].components.linearcircler.clockwise = false
+		inst.seekerbees[i].components.linearcircler.distance_limit = rangeLIMIT
+		inst.seekerbees[i].components.linearcircler.setspeed = 0.1
 	end
 end
 
@@ -328,7 +376,7 @@ local function ModeChange(inst)
 				if inst.components.health and not inst.components.health:IsDead() and inst.components.health:GetPercent() < 0.5 then
 					inst.sg:GoToState("spawnguards")
 				elseif inst.components.health and not inst.components.health:IsDead() then
-					inst.AllocatebeeHolders(inst)
+					--inst.AllocatebeeHolders(inst)
 				end
 			elseif	inst.mode == "defensive" then
 				inst.components.locomotor.walkspeed = TUNING.BEEQUEEN_SPEED
@@ -350,6 +398,31 @@ local function ModeChange(inst)
 		end
 	end
 end
+
+local function RedoSpavvnguard_cd(inst)
+	if inst.components.health and inst.components.health:GetPercent() > 0.75 then
+		return math.random(40,60)
+	elseif inst.components.health then
+		if inst.components.health:GetPercent() < 0.75 and inst.components.health:GetPercent() > 0.5 then
+			return math.random(30,40)
+		else
+			return math.random(40,60)
+		end
+	end
+end
+
+local function ShouldChase(inst)
+	local soldiers = inst.components.commander:GetAllSoldiers()
+	if #soldiers > 0 then
+		return false
+	else
+		return true
+	end
+end
+
+local PHASE2_HEALTH = .75
+local PHASE3_HEALTH = .5
+local PHASE4_HEALTH = .25
 
 env.AddPrefabPostInit("beequeen", function(inst)
 	if not TheWorld.ismastersim then
@@ -381,11 +454,11 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst:DoPeriodicTask(3, StompRageCalmDown)
 	inst:ListenForEvent("attacked", StompHandler)
 	
-	inst.components.timer:StartTimer("mortar_atk", 15)
+	--inst.components.timer:StartTimer("mortar_atk", 15)
 	
-	inst.components.timer:StartTimer("cross_atk", 5)
+	--inst.components.timer:StartTimer("cross_atk", 5)
 	
-	inst.components.timer:StartTimer("spin_bees", 15)
+	--inst.components.timer:StartTimer("spin_bees", 15)
 	
 	inst:ListenForEvent("timerdone", UM_BQ_Checks)
 	
@@ -395,7 +468,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst.CheckForReadyCharge = CheckForReadyCharge
 	inst.CrossChargeRepeat = CrossChargeRepeat
 	inst.ReleaseArmyFromState = ReleaseArmyFromState
-	inst.AllocatebeeHolders = AllocatebeeHolders
+	--inst.AllocatebeeHolders = AllocatebeeHolders
 	
 	
 	-- No more honey when attacking
@@ -404,10 +477,22 @@ env.AddPrefabPostInit("beequeen", function(inst)
     inst:RemoveEventCallback("onattackother", OnAttackOther)
     inst:RemoveEventCallback("onmissother", OnMissOther)
 	
-	inst:DoTaskInTime(0,SpawnbeeHolder)
-	--inst:DoTaskInTime(10,AllocatebeeHolders)
-	inst.mode = "aggressive"
-	--inst:DoPeriodicTask(math.random(40,60),ModeChange) --Disabled until the bees stop disappearing
+
+	inst.ShouldChase = ShouldChase
+	inst.SpawnDefensiveBees = SpawnDefensiveBees
+    inst.components.healthtrigger:AddTrigger(PHASE2_HEALTH, function(inst) 
+		inst:DoTaskInTime(0, function(inst)
+			inst.defenseready = true
+			RedoSpavvnguard_cd(inst)
+		end)
+	end)
+    inst.components.healthtrigger:AddTrigger(PHASE3_HEALTH, function(inst) inst:DoTaskInTime(0, RedoSpavvnguard_cd) end)
+    inst.components.healthtrigger:AddTrigger(PHASE4_HEALTH, function(inst) inst:DoTaskInTime(0, RedoSpavvnguard_cd) end)
+	--inst:DoTaskInTime(5,SpawnDefensiveBees)
+	
+	inst.spawnguards_cd = RedoSpavvnguard_cd(inst)
+	inst.SpawnSeekerBees = SpawnSeekerBees
+	inst.seekercount = math.random(4,5)
 end)
 
 local function OnTagTimer(inst, data)
