@@ -188,7 +188,11 @@ local function Detonate(inst, attacker, target)
     print(x, y, z)
 
     if inst:HasTag("INLIMBO") then
-        x, y, z = inst.components.inventoryitem:GetGrandOwner().Transform:GetWorldPosition()
+        local owner = inst.components.inventoryitem:GetGrandOwner()
+
+        if owner ~= nil then
+            x, y, z = owner.Transform:GetWorldPosition()
+        end
     end
 
     print(x, y, z)
@@ -466,9 +470,13 @@ local function OnUsed(inst)
     end
 end
 
-local function OnPutInInventory(inst)
-    if not inst.components.inventoryitem:GetGrandOwner():HasTag("player") then
-        OnUsed(inst)
+local function OnPutInInventory(inst, owner)
+    if owner ~= nil and not (owner:HasTag("player") or owner.components.container ~= nil) then
+        if inst.detonator_type == "timed" then
+            OnUsed(inst)
+        else
+            Detonate(inst, owner)
+        end
     end
 end
 
@@ -586,6 +594,7 @@ local function MakeBomb(inst)
         inst:AddTag("weapon")
         inst:AddTag("um_bomb")
         inst:AddTag("rechargeable")
+        inst:AddTag("molebait")
 
         inst.AnimState:SetBank("waterballoon")
         inst.AnimState:SetBuild("waterballoon")
@@ -600,6 +609,8 @@ local function MakeBomb(inst)
         if not TheWorld.ismastersim then
             return inst
         end
+
+        inst:AddComponent("bait")
 
         inst:AddComponent("locomotor")
 
