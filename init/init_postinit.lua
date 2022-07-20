@@ -148,6 +148,8 @@ local prefab_post = {
 	--"shadowchesspieces", Only bring this back when we make the fight cool
 	"fertilizer",
 	"stinger",
+	"boat_pirate",
+	"trident",--for giving the leak a cause.
 }
 
 local stategraph_post = {
