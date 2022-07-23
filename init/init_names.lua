@@ -385,6 +385,7 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.UM_BRINEISHMOSS = "Brine Moss"
 	STRINGS.UM_COALESCED_NIGHTMARE = "Coalesced Nightmare"
 	STRINGS.UM_SALTSALVE = "Brine Balm"
+	STRINGS.SLUDGE_CORK = "Driftwood Cork"
 
 -- borrowed from https://github.com/xfbs/PiL3/blob/master/05Functions/combinations.lua
 -- returns array in a format {{1,2}, {1,3} ...}
@@ -486,4 +487,3 @@ for k, eff in ipairs(combinations(effects_, 2)) do
 end
 
 STRINGS.UM_BOMB_DUD = "Not-quite-explosive Bomb"
-
