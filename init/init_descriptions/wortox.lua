@@ -359,10 +359,10 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WORTOX.ACTIONFAIL
 	DESCRIBE.OCEAN_SPEAKER = "It plays a tune that could spell our doom. Hyuyu!" --Oh gee oh fuck I'm out of luck!!!!!
 	--DESCRIBE.UM_SIREN = "My, is that a siren on the horizon?"
 
-	--DESCRIBE.OCUPUS_BEAK = "",
-	--DESCRIBE.OCUPUS_TENTACLE = "",
-	--DESCRIBE.OCUPUS_TENTACLE_EYE = "",
-	--DESCRIBE.OCUPUS_TENTACLE_COOKED = "",
+	--DESCRIBE.OCUPUS_BEAK = ""
+	--DESCRIBE.OCUPUS_TENTACLE = ""
+	--DESCRIBE.OCUPUS_TENTACLE_EYE = ""
+	--DESCRIBE.OCUPUS_TENTACLE_COOKED = ""
 	
 	DESCRIBE.ARMOR_REED_UM = "It'll fall apart in a small breeze!"
 	DESCRIBE.ARMOR_SHARKSUIT_UM = "It makes me as sleek as some ocean freak."

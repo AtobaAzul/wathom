@@ -366,7 +366,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WATHGRITHR.ACTIONFAIL
 	
 	DESCRIBE.ARMOR_REED_UM = "Rush protection, It won't last long."
 	DESCRIBE.ARMOR_SHARKSUIT_UM = "The Armor of a vicious warrior."
-	DESCRIBE.ROCKJAWLEATHER = "Spoils from the deep.",
+	DESCRIBE.ROCKJAWLEATHER = "Spoils from the deep."
 	
 	ACTIONFAIL.WINONATOOLBOX = "Encore! It hath no tools of war!"
 	DESCRIBE.POWERCELL = "She has harenessed thors might into a box."
