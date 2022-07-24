@@ -58,7 +58,6 @@ local function FindSpotForShadow(inst,target,shadow,distance)
 	end
 end
 
-
 local function UpdateShadow(inst)
 	if inst.bee then
 		local x,y,z = inst.bee.Transform:GetWorldPosition()
@@ -72,6 +71,27 @@ local function UpdateShadow(inst)
 					ArtificialLocomote(inst,inst.bee.stabtarget:GetPosition(),4)
 				end
 				inst.bee:ForceFacePoint(inst:GetPosition())
+				local x1,y1,z1 = inst.Transform:GetWorldPosition()
+				inst.bee.Transform:SetPosition(x1,y,z1)
+			end
+		else
+			inst:Remove()
+		end
+	else
+		inst:Remove()
+	end
+end
+
+local function UpdateShadowShooter(inst)
+	if inst.bee then
+		local x,y,z = inst.bee.Transform:GetWorldPosition()
+		if y ~= nil and y > 0.5 then
+			if inst.circle then
+				inst.Transform:SetPosition(x,0,z)
+			end
+			local scaleFactor = Lerp(.5, 1.5, y / 35)
+			inst.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
+			if not inst.circle then
 				local x1,y1,z1 = inst.Transform:GetWorldPosition()
 				inst.bee.Transform:SetPosition(x1,y,z1)
 			end
@@ -118,7 +138,7 @@ local states = {
             inst.AnimState:PlayAnimation("ascend_pre",false)
 			inst.AnimState:PushAnimation("ascend",true)
 			inst.sg.statemem.vel = Vector3(3, 15, 0)
-			inst.maxflyheight = math.random(15,20)
+			inst.maxflyheight = math.random(30,40)
         end,
 
 		onupdate = function(inst)
@@ -132,7 +152,36 @@ local states = {
 			end
 		end,	
     },
-	
+    State{
+        name = "flyup_shooter",
+        tags = {"busy", "nosleep", "nofreeze", "noattack","flight","mortar"},
+
+        onenter = function(inst)
+			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	        if inst.SoundEmitter:PlayingSound("buzz") then
+				inst.SoundEmitter:KillSound("buzz")
+				inst.SoundEmitter:PlaySound(inst.sounds.buzz, "buzz")
+			end
+			inst.DynamicShadow:Enable(false)
+			StartBuzz(inst)
+			inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("ascend_pre",false)
+			inst.AnimState:PushAnimation("ascend",true)
+			inst.sg.statemem.vel = Vector3(3, 30, 0)
+			inst.maxflyheight = 20
+        end,
+
+		onupdate = function(inst)
+			local x,y,z = inst.Transform:GetWorldPosition()
+			if y > 4 then
+				inst.sg.statemem.vel = Vector3(3, inst.maxflyheight+5-y, 0) --We kinda want it to arc a bit at the top
+			end
+			inst.Physics:SetMotorVel(inst.sg.statemem.vel:Get())
+			if y > inst.maxflyheight then
+				inst.sg:GoToState("flydown_shooter")
+			end
+		end,	
+    },	
     State{
         name = "flydown",
         tags = {"busy", "nosleep", "nofreeze", "noattack","flight","mortar"},
@@ -150,6 +199,10 @@ local states = {
 			inst.AnimState:PushAnimation("stab",true)
 			local horizVel = 3
 			local verticalVel = 20
+			local queen = inst.components.entitytracker:GetEntity("queen")
+			if queen and queen.prioritytarget and queen.prioritytarget.components.health and not queen.prioritytarget.components.health:IsDead() then
+				inst.stabtarget = queen.prioritytarget
+			end
 			if inst.stabtarget then
 				local shadow = SpawnPrefab("warningshadow")
 				shadow.Transform:SetPosition(inst.Transform:GetWorldPosition())
@@ -184,7 +237,60 @@ local states = {
 			StartCollide(inst)
 		end,
     },
-	
+    State{
+        name = "flydown_shooter",
+        tags = {"busy", "nosleep", "nofreeze", "noattack","flight","mortar"},
+
+        onenter = function(inst)
+			StopCollide(inst)
+			if inst.circle then
+				inst.CircleFormation(inst)
+			end
+			SpawnPrefab("bee_poof_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
+			if inst.SoundEmitter:PlayingSound("buzz") then
+				inst.SoundEmitter:KillSound("buzz")
+				inst.SoundEmitter:PlaySound(inst.sounds.buzz, "buzz")
+			end
+			StartBuzz(inst)
+			inst.components.locomotor:StopMoving()
+			inst.AnimState:PushAnimation("walk_loop",true)
+			local horizVel = 3
+			local verticalVel = 40
+			local queen = inst.components.entitytracker:GetEntity("queen")
+			if queen.prioritytarget and queen.prioritytarget.components.health and not queen.prioritytarget.components.health:IsDead() then
+				inst.target = queen.prioritytarget
+			end
+			if inst.target then
+				local shadow = SpawnPrefab("warningshadow")
+				if inst.circle then
+					shadow.Transform:SetPosition(inst.Transform:GetWorldPosition())
+				elseif inst.pos1 then
+					shadow.Transform:SetPosition(inst.pos1.x,inst.pos1.y,inst.pos1.z)
+				end
+				local scaleFactor = Lerp(.5, 1.5, 1)
+				shadow.Transform:SetScale(scaleFactor, scaleFactor, scaleFactor)
+				shadow.bee = inst
+				shadow.updatetask = shadow:DoPeriodicTask(FRAMES, UpdateShadowShooter, nil, 5)
+			end
+            inst.sg.statemem.vel = Vector3(0, -verticalVel, 0)
+        end,
+
+		onupdate = function(inst)
+			inst.Physics:SetMotorVel(inst.sg.statemem.vel:Get())
+			local x,y,z = inst.Transform:GetWorldPosition()
+			if y < 1 then
+				inst.DynamicShadow:Enable(true)
+				inst.Transform:SetPosition(x,0,z) --Level out the bee so it's not in the wrong plane
+				inst.sg:GoToState("lineshoot")				
+			end
+		end,
+		
+		onexit = function(inst)
+			if inst.circle then
+				StartCollide(inst)
+			end
+		end,
+    },	
     State{
         name = "stab",
         tags = { "busy", "nosleep", "nofreeze", "attack", "noattack","mortar"}, --We don't want the beeguard to try and attack, but we do need to let the game know this is an attacking state.
@@ -205,7 +311,9 @@ local states = {
 		timeline = {
 			TimeEvent(3 * FRAMES, function(inst)
 				inst.SoundEmitter:PlaySound(inst.sounds.attack)
+				inst.components.combat:SetDefaultDamage(2*TUNING.BEEGUARD_DAMAGE)
 				inst.components.combat:DoAreaAttack(inst, 2, nil, nil, nil, {"INLIMBO","bee", "notarget","invisible","playerghost", "shadow"})
+				inst.components.combat:SetDefaultDamage(TUNING.BEEGUARD_DAMAGE)
 				if inst.prefab == "um_beeguard_seeker" and inst.components.health and not inst.components.health:IsDead() then
 					inst.stabdied = true
 					inst.components.health:Kill()
@@ -259,6 +367,42 @@ local states = {
 				end
             end),
         },
+    },
+    State{	--Need the shooter bees to stand still vvhen they're going to shoot in a line
+        name = "lineshoot",
+        tags = {"busy","stuck"},
+
+        onenter = function(inst)
+			StartBuzz(inst)
+			inst.SoundEmitter:PlaySound(inst.sounds.hit)
+			inst.components.locomotor:StopMoving()
+			inst.AnimState:PlayAnimation("idle",true)
+        end,
+    },
+	
+    State{
+        name = "shoot_pre",
+        tags = {"busy"},
+
+        onenter = function(inst)
+			if inst.target and inst.target:IsValid() then
+				inst:ForceFacePoint(inst.target:GetPosition())
+			end
+			inst.SoundEmitter:PlaySound(inst.sounds.attack)
+			if inst.circle then
+				inst.components.linearcircler.distance_limit = 12
+				inst.components.linearcircler:Start()
+			end
+			inst.AnimState:PlayAnimation("shoot_pre",true)
+
+			inst:DoTaskInTime(0.5,function(inst) inst.Shoot(inst) end)
+        end,
+		
+		onupdate = function(inst)
+			if inst.components.linearcircler and inst.components.linearcircler.distance < 12 then
+				inst.components.linearcircler.distance = 0.1 + inst.components.linearcircler.distance
+			end
+		end,
     },
     State{
         name = "charge", --CHARGE! Beeguards charge at the player in formation.
