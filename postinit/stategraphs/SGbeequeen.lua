@@ -579,6 +579,7 @@ local states = {
         timeline =
         {
             TimeEvent(16 * FRAMES, function(inst)
+
 				if inst.components.health:GetPercent() > 0.4 or math.random() > 0.9 then
 					inst.SpawnDefensiveBees(inst)
 				else

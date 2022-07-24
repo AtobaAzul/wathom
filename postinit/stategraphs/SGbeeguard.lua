@@ -358,12 +358,14 @@ local states = {
         events=
         {
             EventHandler("animqueueover", function(inst)
-				if inst.stuckcount > 5 then
-					StartCollide(inst)
-					inst.sg:GoToState("idle")
-				else
-					inst.stuckcount = inst.stuckcount + 1
-					inst.sg:GoToState("stuck")
+				if inst.components.health and not inst.components.health:IsDead() then
+					if inst.stuckcount > 5 then
+						StartCollide(inst)
+						inst.sg:GoToState("idle")
+					else
+						inst.stuckcount = inst.stuckcount + 1
+						inst.sg:GoToState("stuck")
+					end
 				end
             end),
         },
