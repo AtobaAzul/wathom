@@ -386,7 +386,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	
     DESCRIBE.SLUDGE = "Awfully digusting, but probably worth something."
     DESCRIBE.SLUDGE_SACK = "."
-	DESCRIBE.CANNONBALL_SLUDGE_ITEM = "An accident waiting to happen."
+	DESCRIBE.CANNONBALL_SLUDGE_ITEM = "Another fiery accident waiting to happen."
 	DESCRIBE.BOAT_BUMPER_SLUDGE = "Seems safe enough."
 	DESCRIBE.BOAT_BUMBER_SLUDGE_KIT = "I'm a little worried putting this on my boat."
     DESCRIBE.BOATPATCH_SLUDGE = ""

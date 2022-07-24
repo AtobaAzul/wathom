@@ -271,7 +271,7 @@ ChangeSortKey("ancient_amulet_red", "orangeamulet", "CRAFTING_STATION", true)
 
 AddRecipe2(
     "turf_hoodedmoss",
-    {Ingredient("twigs", 1), Ingredient("greenfoliage", 4),
+    {Ingredient("twigs", 1), Ingredient("greenfoliage", 4)},
     TECH.TURFCRAFTING_TWO,
     {numtogive = 4},
     {"DECOR"}
@@ -280,7 +280,7 @@ ChangeSortKey("turf_hoodedmoss", "turf_deciduous", "DECOR", true)
 
 AddRecipe2(
     "turf_ancienthoodedturf",
-    {Ingredient("turf_hoodedmoss", 2), Ingredient("moonrocknugget", 1),
+    {Ingredient("turf_hoodedmoss", 2), Ingredient("moonrocknugget", 1)},
     TECH.TURFCRAFTING_TWO,
     {numtogive = 4},
     {"DECOR"}
@@ -741,8 +741,8 @@ STRINGS.RECIPE_DESC.WINONA_UPGRADEKIT_ELECTRICAL = "Any old light source can be 
 STRINGS.RECIPE_DESC.BOATPATCH_SLUDGE = "For when your boat needs a little more than a bit of fixing."
 STRINGS.RECIPE_DESC.ARMOR_REED_UM = "Waterproof protection."
 STRINGS.RECIPE_DESC.ARMOR_SHARKSUIT_UM = "Become the shark."
-STRINGS.RECIPE_DESC.SLUDGE_SACK = "Sticky storage for protection against pesky theives."
-STRINGS.RECIPE_DESC.UM_SALTSALVE = "Put salt in your wounds."
+STRINGS.RECIPE_DESC.SLUDGE_SACK = "Theives turn up with nothing but sticky hands."
+STRINGS.RECIPE_DESC.UM_SALTSALVE = "Rub salt in the wounds."
 STRINGS.RECIPE_DESC.CRITTER_FIGGY_BUILDER = "He likes to put holes in things."
 STRINGS.RECIPE_DESC.BOAT_BUMBER_SLUDGE_KIT = "Sticky protection."
 STRINGS.RECIPE_DESC.CANNONBALL_SLUDGE_ITEM = "Fire in the hole!"
