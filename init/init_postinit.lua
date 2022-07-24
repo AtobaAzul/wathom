@@ -151,6 +151,7 @@ local prefab_post = {
 	"boat_pirate",
 	"trident",--for giving the leak a cause.
 	"boat_bumpers",
+	"slurtle_shellpieces",
 }
 
 local stategraph_post = {
@@ -257,8 +258,11 @@ end
 if GetModConfigData("harder_pigs") then
 	table.insert(prefab_post,"pigman")
 	table.insert(brain_post,"pig")
-	table.insert(brain_post,"werepig")
 	table.insert(stategraph_post,"pigbunny")
+end
+
+if GetModConfigData("angry_werepigs") then
+	table.insert(brain_post,"werepig")
 end
 
 if GetModConfigData("harder_walrus") then
