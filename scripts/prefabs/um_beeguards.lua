@@ -69,6 +69,10 @@ local function RetargetFn(inst)
     end)
 end
 
+local function GetQueen(inst)
+    return inst.components.entitytracker:GetEntity("queen") or inst._friendref or nil
+end
+
 local function KeepTargetFn(inst, target)
     return (inst.components.combat:CanTarget(target) and
             inst:IsNear(target, 5))
@@ -298,6 +302,7 @@ local function fnmain(bee)
 	
     inst.buzzing = true
     inst.sounds = normalsounds
+    inst.GetQueen = GetQueen
     inst.EnableBuzz = EnableBuzz
     inst.OnEntitySleep = OnEntitySleep
     inst.OnEntityWake = OnEntityWake
