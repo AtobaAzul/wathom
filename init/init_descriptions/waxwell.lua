@@ -371,7 +371,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WAXWELL.ACTIONFAIL
 	DESCRIBE.OCUPUS_TENTACLE_COOKED = "Nice and grilled now at least."
 	
 	DESCRIBE.ARMOR_REED_UM = "At least it'll keep my suit clean."
-	DESCRIBE.ARMOR_SHARKSUIT_UM = "Do I really need to wear clothes made from a fish?",
+	DESCRIBE.ARMOR_SHARKSUIT_UM = "Do I really need to wear clothes made from a fish?"
 	DESCRIBE.ROCKJAWLEATHER = "It's already starting to smell bad."
 	
 	ACTIONFAIL.WINONATOOLBOX = "How can I help if I can't get inside?"
