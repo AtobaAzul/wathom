@@ -10,14 +10,24 @@ local normalsounds =
     death = "dontstarve/creatures/together/bee_queen/beeguard/death",
 }
 
-local function MortarAttack(inst)
+local function MortarAttack(inst,again)
 	if not inst.sg:HasStateTag("mortar") then
 		local target = FindEntity(inst,20^2,nil,{"_combat"},{"playerghost","bee"})
 		if target then
 			inst.stabtarget = target
 			inst.sg:GoToState("flyup")
 		else
-			inst:DoTaskInTime(math.random(1,3),MortarAttack)
+			if again then
+				local queen = inst.components.entitytracker:GetEntity("queen")
+				if queen then
+					inst.Transform:SetPosition(queen.Transform:GetWorldPosition())
+					inst.sg:GoToState("idle")
+				else
+					inst:Remove()
+				end				
+			else
+				inst:DoTaskInTime(math.random(1,3),function(inst) MortarAttack(inst,1) end)
+			end
 		end
 	end
 end
@@ -96,8 +106,21 @@ local function BeeHold(inst)
 end
 
 local function IHaveDied(inst)
-	if inst.beeHolder then
-		inst.beeHolder.bee = nil
+	local queen = inst.components.entitytracker:GetEntity("queen")
+	if queen and not queen.sg:HasStateTag("busy") then
+		if inst.components.health:GetPercent() < 0.75 then
+			if math.random() > 0.75 then
+				queen.sg:GoToState("spavvn_support")
+			else
+				if math.random() > 0.75 then
+					queen.sg:GoToState("screech")
+				end
+			end
+		else
+			if math.random() > 0.75 then
+				queen.sg:GoToState("screech")
+			end
+		end
 	end
 end
 
@@ -112,7 +135,7 @@ env.AddPrefabPostInit("beeguard", function(inst)
 	inst.BeeFree = BeeFree
 	inst.armorcrunch = false
 	inst:ListenForEvent("onhitother", OnHitOther)
-	inst:ListenForEvent("ondeath",IHaveDied)
+	inst:ListenForEvent("death",IHaveDied)
 	
 	local _FocusTarget = inst.FocusTarget
 	

@@ -81,6 +81,16 @@ local function StopFlapping(inst)
     inst.SoundEmitter:KillSound("flying")
 end
 
+local function VVallcheck(inst)
+	if inst.defensebees then
+		for i,bee in ipairs(inst.defensebees) do
+			if bee.components.health and not bee.components.health:IsDead() then
+				return true
+			end
+		end
+	end
+end
+
 local function ShouldVVall(inst)
 	if inst.components.health:GetPercent() < 0.75 and not inst.defensebee and inst.defenseready then
 		inst.defenseready = nil
@@ -90,6 +100,16 @@ local function ShouldVVall(inst)
 		return false
 	else
 		return false
+	end
+end
+
+local function SpinVVall(inst,speed)
+	if inst.defensebees then
+		for i,bee in ipairs(inst.defensebees) do
+			if bee.components.health and not bee.components.health:IsDead() and bee.components.linearcircler then
+				bee.components.linearcircler.setspeed = speed
+			end
+		end
 	end
 end
 
@@ -145,10 +165,34 @@ env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's ca
 		if _OldOnAtk then
 			_OldOnAtk(inst)
 		end
-		if inst.ShouldChase(inst) and inst.should_seeker_rage then
-			if not inst.seekerrage and inst.components.health and inst.components.health:GetPercent() < 0.75 then
+		if inst.should_final then
+			if inst.should_seeker_rage then
 				inst.should_seeker_rage = nil
-				inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnguards_seeker_quick") end)
+			end
+			inst.should_final = nil
+			inst.ffcount = 5
+			inst.FinalFormation(inst)
+		else
+			if VVallcheck(inst) and inst.components.health and inst.components.health:GetPercent() > 0.4 then
+				inst.defensivespincount = inst.defensivespincount - 1
+				if inst.defensivespincount < 1 then
+					inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("defensive_spin") end)
+				end
+			else
+				if inst.ShouldChase(inst) and inst.should_seeker_rage then
+					if not inst.seekerrage and inst.components.health and inst.components.health:GetPercent() < 0.75 then
+						inst.should_seeker_rage = nil
+						inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnguards_seeker_quick") end)
+					end
+				end
+			end
+			if inst.ShouldChase(inst) and inst.should_shooter_rage and inst.should_shooter_rage < 1 and not inst.should_seeker_rage then
+				inst.should_shooter_rage = 30
+				if math.random() > 0.25 then
+					inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnguards_shooter_circle") end)
+				else
+					inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnguards_seeker") end)
+				end
 			end
 		end
 	end
@@ -202,11 +246,15 @@ local states = {
 					end
 					return true
 				end
-				inst.components.combat:SetAreaDamage(6,1.67,isvalid)
-				inst.components.combat:DoAttack()
-                inst.components.combat:SetAreaDamage(0,0,isvalid)
-				inst.components.groundpounder:GroundPound()
+				local x,y,z = inst.Transform:GetWorldPosition()
+				local ents = TheSim:FindEntities(x,y,z,3,"_combat")
+				for i,ent in ipairs(ents) do
+					if (isvalid(ent)) and ent.components.health and not ent.components.health:IsDead() and ent.components.combat then --Support for the other sort of bees
+						ent.components.combat:GetAttacked(inst,200)
+					end
+				end
 				TrySpawnBigLeak(inst)
+				inst.components.groundpounder:GroundPound()
             end),
         },
 
@@ -284,7 +332,7 @@ local states = {
 
         onenter = function(inst)
             FaceTarget(inst)
-			AdjustGuardSpeeds(inst,15)
+			inst.SpavvnShooterBeesLine(inst)
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
 			inst.AnimState:PushAnimation("idle_loop",true)
@@ -301,19 +349,13 @@ local states = {
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
 				DoScreech(inst)
 				DoScreechAlert(inst)
-				AdjustGuardSpeeds(inst,20)
-				inst:TellSoldiersToCharge(inst)
-				DoScreech(inst)
-				DoScreechAlert(inst)
             end),
 			
 			
 			--2nd Charge
             TimeEvent(50 * FRAMES, function(inst)
-				--TheNet:Announce("Starting Second")
-				AdjustGuardSpeeds(inst,20)
 				inst.direction2 = "back"
-                inst:CrossChargeRepeat(inst)
+                inst.SpavvnShooterBeesLine(inst)
             end),
 			
 			TimeEvent(72 * FRAMES, function(inst)
@@ -322,19 +364,14 @@ local states = {
 			end),	
 				
             TimeEvent(80 * FRAMES, function(inst)
-				AdjustGuardSpeeds(inst,20)
 				DoScreech(inst)
 				DoScreechAlert(inst)
-                inst:TellSoldiersToCharge(inst)
 				inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
             end),
 	
 			--3rd Charge
             TimeEvent(102 * FRAMES, function(inst)
-				--TheNet:Announce("Starting Third")
-				AdjustGuardSpeeds(inst,20)
-				inst.direction2 = "forth"
-                inst:CrossChargeRepeat(inst)
+				inst.SpavvnShooterBeesLine(inst)
             end),
 			
 			TimeEvent(120 * FRAMES, function(inst)
@@ -451,6 +488,7 @@ local states = {
         tags = {"busy", "ability" },
 
         onenter = function(inst)
+			inst.defensivespincount = math.random(3,5)
 			if inst.components.timer:TimerExists("spin_bees") then
 				inst.components.timer:StopTimer("spin_bees")
 			end
@@ -459,9 +497,8 @@ local states = {
             FaceTarget(inst)
             inst.components.sanityaura.aura = -TUNING.SANITYAURA_HUGE
             inst.components.locomotor:StopMoving()
-			inst.spinUp = true
-			inst.spinSpeed = 0.01
-			SetSpinSpeed(inst,inst.spinSpeed)
+
+			SpinVVall(inst,0.1)
         end,
 		
         timeline =
@@ -472,29 +509,9 @@ local states = {
                 inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/attack_pre")
             end),
         },	
-		
-		onupdate = function(inst)
-			if inst.spinUp then
-				inst.spinSpeed = inst.spinSpeed + FRAMES/10
-				if inst.spinSpeed > 0.2 then
-					inst.spinUp = false
-				end
-			elseif inst.spinSpeed > 0 and inst.components.health and inst.components.health:GetPercent() > 0.5 then
-					inst.spinSpeed = inst.spinSpeed - FRAMES/10
-				else
-					inst.spinSpeed = 0.05
-			end
-			SetSpinSpeed(inst,inst.spinSpeed)
-		end,
-		
-		
+
 		onexit = function(inst)
-			if inst.components.health and inst.components.health:GetPercent() < 0.5 then
-				SetSpinSpeed(inst,0)--spinnning vvhile moving makes bees disappear
-			else
-				SetSpinSpeed(inst,0)
-			end
-			inst.components.timer:StartTimer("spin_bees",15)
+			SpinVVall(inst,0)
 			inst.components.sanityaura.aura = 0		
 		end,
 		
@@ -527,7 +544,7 @@ local states = {
 		
         ontimeout = function(inst)
 			inst.tiredcount = nil
-			inst.sg:GoToState("idle")
+			inst.sg:GoToState("tired_pst")
         end, 		
 
     },
@@ -562,7 +579,103 @@ local states = {
         timeline =
         {
             TimeEvent(16 * FRAMES, function(inst)
-				inst.SpawnDefensiveBees(inst)
+				if inst.components.health:GetPercent() > 0.4 or math.random() > 0.9 then
+					inst.SpawnDefensiveBees(inst)
+				else
+					if inst.components.health:GetPercent() > 0.25 then
+						inst.SpawnDefensiveBeesII(inst)
+					else
+						inst.defensivecircle = true
+						inst.SpawnShooterBeesCircle(inst)
+					end
+				end
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+    },
+    State{
+        name = "spawnguards_shooter_circle",
+        tags = { "spawnguards", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("spawn")
+            inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/spawn")
+			if inst.components.health and inst.components.health:GetPercent() < 0.25 then
+				inst:DoTaskInTime(math.random(12,20),function(inst) inst.should_final = true end)
+			end
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+				inst.SpawnShooterBeesCircle(inst)
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+    },
+    State{
+        name = "spawnguards_shooter_line",
+        tags = { "spawnguards", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("spawn")
+            inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/spawn")
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+					inst.SpavvnShooterBeesLine(inst,3,inst.ffdir)
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+            end),
+        },
+
+        events =
+        {
+            CommonHandlers.OnNoSleepAnimOver("idle"),
+        },
+    },
+    State{
+        name = "spavvn_support",
+        tags = { "spawnguards", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("spawn")
+            inst.SoundEmitter:PlaySound("dontstarve/creatures/together/bee_queen/spawn")
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+					inst.SpawnSupport(inst)
             end),
             CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
                 inst.sg:RemoveStateTag("busy")
@@ -651,8 +764,11 @@ local states = {
 					if inst.seekercount > 0 then
 						inst.sg:GoToState("spawnguards_seeker_quick")
 					else
+						if inst.components.health:GetPercent() < 0.25 then
+							inst:DoTaskInTime(math.random(12,20),function(inst) inst.should_final = true end)
+						end
 						inst.seekercount = math.random(4,5)
-						inst.tiredcount = 4
+						inst.tiredcount = 10
 						inst.sg:GoToState("tired")
 					end
 				end)

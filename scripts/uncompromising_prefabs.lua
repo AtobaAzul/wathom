@@ -371,4 +371,5 @@ return {
 	"um_dreamcatcher",
 	"um_bombmixer_bombs",
 	"um_beeguards",
+	"um_beestinger_projectile",
 }

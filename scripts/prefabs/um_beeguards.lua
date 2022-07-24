@@ -147,6 +147,73 @@ local function MortarAttack(inst)
 	end
 end
 
+local function Shoot(inst)
+	local queen = inst.components.entitytracker:GetEntity("queen")
+	if not inst.circle and queen and queen.prioritytarget and queen.prioritytarget.components.health and not queen.prioritytarget.components.health:IsDead() then
+		inst.target = queen.prioritytarget
+	end
+	if inst.target then
+		inst.AnimState:Hide("stinger")
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local stingerattack = SpawnPrefab("um_beestinger_projectile")
+		stingerattack.Transform:SetPosition(x,y,z)
+		stingerattack.anim = inst.anim
+		if not inst.pos2 then
+			stingerattack.components.projectile:Throw(inst, inst.target, inst)
+		else
+			local target = SpawnPrefab("um_beeguard_shooter_target")
+			target.Transform:SetPosition(inst.pos2.x,inst.pos2.y,inst.pos2.z)
+			stingerattack.components.projectile:Throw(inst, target, inst)
+			target:DoTaskInTime(0,function(target) target:Remove() end)
+		end
+
+		if inst.components.health and not inst.components.health:IsDead() then
+			inst.components.health:Kill()
+		end
+		if inst.components.linearcircler then
+			local x,y,z = inst.Transform:GetWorldPosition()
+			inst:RemoveComponent("linearcircler")
+			inst.Transform:SetPosition(x,y,z)
+		end
+	elseif inst.components.linearcircler then
+		if inst.components.health and not inst.components.health:IsDead() then
+			local x,y,z = inst.Transform:GetWorldPosition()
+			inst:RemoveComponent("linearcircler")
+			inst.Transform:SetPosition(x,y,z)
+			inst.components.health:Kill()
+			inst:DoTaskInTime(0,function(inst)
+				inst.AnimState:PlayAnimation("sleep_pre",false)
+			end)
+		end
+	end
+end
+
+local function CircleFormation(inst)
+	if inst.target then
+		inst.circle = true
+		inst.components.linearcircler:SetCircleTarget(inst.target)
+		inst.components.linearcircler.grounded = true
+		inst.components.linearcircler:Start()
+		inst.components.linearcircler.randAng = inst.count*0.125
+		inst.components.linearcircler.clockwise = false
+		inst.components.linearcircler.distance_limit = 3
+		inst.components.linearcircler.distance = 8
+		inst.components.linearcircler.setspeed = 0
+		inst.components.linearcircler.freeface = true
+		inst.components.timer:StartTimer("natural_death",inst.time)
+	elseif inst.components.linearcircler then
+		if inst.components.health and not inst.components.health:IsDead() then
+			local x,y,z = inst.Transform:GetWorldPosition()
+			inst:RemoveComponent("linearcircler")
+			inst.Transform:SetPosition(x,y,z)
+			inst.components.health:Kill()
+			inst:DoTaskInTime(0,function(inst)
+				inst.AnimState:PlayAnimation("sleep_pre",false)
+			end)
+		end
+	end
+end
+
 local function fnmain(bee)
     local inst = CreateEntity()
 
@@ -250,11 +317,21 @@ local function fnmain(bee)
 		inst.MortarAttack = MortarAttack
 		inst:DoTaskInTime(math.random(1,3),MortarAttack)
 	end
-	
+	if bee == "shooter" then
+		inst.components.health:SetMaxHealth(0.5*TUNING.BEEGUARD_HEALTH)
+		inst.Transform:SetScale(1.2,1.2,1.2)
+		inst.AnimState:SetMultColour(0.8,0.2,1,1)
+		inst.Shoot = Shoot
+		inst.CircleFormation = CircleFormation
+		inst:ListenForEvent("timerdone", function(inst)
+			inst.sg:GoToState("shoot_pre")
+		end)
+	end
 	inst:AddComponent("linearcircler")
 	inst.persists = false
 	inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("spawnin") end)
 	
+	inst:AddTag("soullesss") --Overload for vvortox..
     return inst
 end
 
@@ -266,5 +343,25 @@ local function fnseeker()
 	return fnmain("seeker")
 end
 
+local function fnshooter()
+	return fnmain("shooter")
+end
+
+local function fntarget()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddNetwork()
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+	
+	inst:AddComponent("combat")
+    return inst
+end
 return Prefab("um_beeguard_blocker", fnblocker),
-Prefab("um_beeguard_seeker",fnseeker)
+Prefab("um_beeguard_seeker",fnseeker),
+Prefab("um_beeguard_shooter",fnshooter),
+Prefab("um_beeguard_shooter_target",fntarget)

@@ -14,7 +14,7 @@ local function ShouldChase_UM(self)
         return false
     end
     local distsq = self.inst:GetDistanceSqToInst(target)
-    local range = TUNING.BEEQUEEN_CHASE_TO_RANGE + (self._shouldchase and 0 or 3)
+    local range = TUNING.BEEQUEEN_CHASE_TO_RANGE + (self._shouldchase and 0 or 3)+4
     self._shouldchase = distsq >= range * range
     if self._shouldchase and not self.inst.ShouldChase(self.inst) then
         return true
