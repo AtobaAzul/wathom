@@ -83,12 +83,14 @@ AllRecipes["goggleshat"].ingredients = {Ingredient("goldnugget", 4), Ingredient(
 AllRecipes["deserthat"].level = TechTree.Create(TECH.SCIENCE_TWO)
 
 --magnets and dock 
-AllRecipes["dock_kit"].ingredients = {Ingredient("boards", 4), Ingredient("stingers", 3), Ingredient("palmconetree_scale", 4)}
-AllRecipes["boat_magnet_kit"].ingredients = {Ingredient("gears", 1), Ingredient("transistor", 2), Ingredient("steelwool", 2)}
-AllRecipes["boat_magnet_beacon"].ingredients = {Ingredient("messagebottleempty", 1), Ingredient("transistor", 1), Ingredient("steelwool", 1)}
+if GetModConfigData("no4crafts") then --:desolate:
+    AllRecipes["dock_kit"].ingredients = {Ingredient("boards", 4), Ingredient("stingers", 3), Ingredient("palmconetree_scale", 4)}
+    AllRecipes["boat_magnet_kit"].ingredients = {Ingredient("gears", 1), Ingredient("transistor", 2), Ingredient("steelwool", 2)}
+    AllRecipes["boat_magnet_beacon"].ingredients = {Ingredient("messagebottleempty", 1), Ingredient("transistor", 1), Ingredient("steelwool", 1)}
 
---Wickers book case
---AllRecipes["Wickerbookcaseidk"].ingredients = {Ingredient("boards", 4), Ingredient("goldnugget", 4), Ingredient("papyrus", 6)}
+    --Wickers book case
+    --AllRecipes["Wickerbookcaseidk"].ingredients = {Ingredient("boards", 4), Ingredient("goldnugget", 4), Ingredient("papyrus", 6)}
+end
 
 AllRecipes["fish_box"].testfn = function(pt) return GLOBAL.TheWorld.Map:GetPlatformAtPoint(pt.x, 0, pt.z, -0.5) ~= nil or GLOBAL.TheWorld.Map:GetTileAtPoint(pt.x, 0, pt.z) == GLOBAL.WORLD_TILES.MONKEY_DOCK end
 
@@ -565,7 +567,7 @@ AddDeconstructRecipe("feather_frock", {Ingredient("goose_feather", 6)})
 AddDeconstructRecipe("gore_horn_hat", {Ingredient("meat", 2), Ingredient("nightmarefuel", 4)})
 AddDeconstructRecipe("crabclaw", {Ingredient("rocks", 4), Ingredient("cutstone", 1)})
 AddDeconstructRecipe("slobberlobber", {Ingredient("dragon_scales", 1), Ingredient("meat", 2)})
-AddDeconstructRecipe("um_beegun", {Ingredient("honeycomb", 6),{Ingredient("royal_jelly", 2)})
+AddDeconstructRecipe("um_beegun", {Ingredient("honeycomb", 6),Ingredient("royal_jelly", 2)})
 
 --Sailing Rebalance related recipes.
 
