@@ -344,7 +344,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WANDA.ACTIONFAIL
 
 	ACTIONFAIL.CHARGE_FROM =
 	{
-	    NOT_ENOUGH_CHARGE = "It's pointless to sit here and wait."
+	    NOT_ENOUGH_CHARGE = "It's pointless to sit here and wait.",
 		CHARGE_FULL = "It doesn't need a re-charge!",
 	}
 	ANNOUNCE.ANNOUNCE_CHARGE_SUCCESS_INSULATED = "Clearly the constructor didn't have the time to make it safe!"
