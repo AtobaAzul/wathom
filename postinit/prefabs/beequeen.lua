@@ -174,7 +174,7 @@ end
 
 local function SpawnShooterBeesCircle(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
-	local LIMIT = 10
+	local LIMIT = 4
 	local target = FindEntity(inst,40^2,nil,{"player"},{"playerghost"})
 	if not target then
 		target = FindEntity(inst,40^2,nil,{"_combat"},{"playerghost"})
@@ -193,6 +193,9 @@ local function SpawnShooterBeesCircle(inst)
 			inst.shooterbees[i].components.linearcircler.distance_limit = LIMIT
 			inst.shooterbees[i].components.linearcircler.setspeed = 0.05
 			inst.shooterbees[i].time = 2+0.5*i
+			if inst.defensivecircle then
+				inst.shooterbees[i].components.timer:StartTimer("epic",2+0.5*i)
+			end
 			inst.shooterbees[i].count = i
 			inst.shooterbees[i].components.entitytracker:TrackEntity("queen", inst)
 			if not inst.defensivecircle then
