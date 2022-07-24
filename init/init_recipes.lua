@@ -565,7 +565,7 @@ AddDeconstructRecipe("feather_frock", {Ingredient("goose_feather", 6)})
 AddDeconstructRecipe("gore_horn_hat", {Ingredient("meat", 2), Ingredient("nightmarefuel", 4)})
 AddDeconstructRecipe("crabclaw", {Ingredient("rocks", 4), Ingredient("cutstone", 1)})
 AddDeconstructRecipe("slobberlobber", {Ingredient("dragon_scales", 1), Ingredient("meat", 2)})
-AddDeconstructRecipe("um_beegun", {Ingredient("honeycomb", 4),{Ingredient("royal_jelly", 2)}, Ingredient("bee", 2)})
+AddDeconstructRecipe("um_beegun", {Ingredient("honeycomb", 6),{Ingredient("royal_jelly", 2)})
 
 --Sailing Rebalance related recipes.
 
