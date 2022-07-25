@@ -228,7 +228,9 @@ env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's ca
 		local boat = inst:GetCurrentPlatform()
 		if boat then
 			local leak = SpawnPrefab("boat_leak")
-			leak.Transform:SetPosition(x, y, z)
+            if x ~= nil and y ~= nil and z ~= nil then 
+			    leak.Transform:SetPosition(x, y, z)
+            end
 			leak.components.boatleak.isdynamic = true
 			leak.components.boatleak:SetBoat(boat)
 			leak.components.boatleak:SetState(4, true)
@@ -327,7 +329,9 @@ local states = {
 						if not seeker.sg:HasStateTag("mortar") then
 							local x,y,z = seeker.Transform:GetWorldPosition()
 							seeker:RemoveComponent("linearcircler")
-							seeker.Transform:SetPosition(x,y,z)
+                            if x ~= nil and y ~= nil and z ~= nil then 
+                                seeker.Transform:SetPosition(x,y,z)
+                            end
 							seeker:MortarAttack(seeker)
 						end
 					end
@@ -780,8 +784,10 @@ local states = {
 							if not seeker.sg:HasStateTag("mortar") then
 								local x,y,z = seeker.Transform:GetWorldPosition()
 								seeker:RemoveComponent("linearcircler")
-								seeker.Transform:SetPosition(x,y,z)
-								seeker:MortarAttack(seeker,inst.components.combat.target,0.5)
+                                if x ~= nil and y ~= nil and z ~= nil then 
+                                    seeker.Transform:SetPosition(x,y,z)
+                                end
+                                seeker:MortarAttack(seeker,inst.components.combat.target,0.5)
 							end
 						end
 					end
