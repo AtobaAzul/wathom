@@ -372,4 +372,5 @@ return {
 	"um_bombmixer_bombs",
 	"um_beeguards",
 	"um_beestinger_projectile",
+	"um_tesla_tree",
 }

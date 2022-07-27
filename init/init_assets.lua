@@ -1090,4 +1090,5 @@ Assets = {
 	Asset("ANIM", "anim/driftwood_normal.zip"),
     Asset("IMAGE", "images/inventoryimages/sludge_cork.tex"),
 	Asset("ATLAS", "images/inventoryimages/sludge_cork.xml"),
+	Asset("ANIM", "anim/um_tesla_tree.zip")
 }
