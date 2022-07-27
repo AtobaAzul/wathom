@@ -13,14 +13,18 @@ local function onopen(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
 	local itemsinside = inst.components.container:GetAllItems()
 	local range = 0
+	
 	local range_indicator = SpawnPrefab("um_dynlayout_range")
 
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
 			range = range + v.components.stackable:StackSize()
 		end --since each log is 1, 4 logs = 1 tile!
+		if v.prefab == "boards" then
+			range = range + (v.components.stackable:StackSize()*TILE_SCALE)
+		end
 	end
-
+--[[
 	local indicator = TheSim:FindEntities(x,y,z,5,{"DYNLAYOUT_INDICATOR"})
 
 	if indicator ~= nil then
@@ -36,7 +40,7 @@ local function onopen(inst)
 		print("indicator nil")
 		range_indicator.Transform:SetPosition(x,y,z)
 		range_indicator.Transform:SetScale(RoundBiasedUp(math.pow(range, scale)*math.pow(range, scale), 5), RoundBiasedUp(math.pow(range, scale)*math.pow(range, scale), 5), RoundBiasedUp(math.pow(range, scale)*math.pow(range, scale), 5))--help I failed math.
-	end
+	end]]
 end
 
 local function onclose(inst)
@@ -53,10 +57,13 @@ local function onclose(inst)
 
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
-			range = range + v.components.stackable:StackSize()
+			range = range + v.components.stackableackSize()
 		end --since each log is 1, 4 logs = 1 tile!
+		if v.prefab == "boards" then
+			range = range + (v.components.stackable:StackSize()*TILE_SCALE)
+		end--1 BOARD = 1 TILE
 	end
-
+	--[[
 	local indicator = TheSim:FindEntities(x,y,z,5,{"DYNLAYOUT_INDICATOR"})
 
 	if indicator ~= nil then
@@ -72,7 +79,7 @@ local function onclose(inst)
 		print("indicator nil")
 		range_indicator.Transform:SetPosition(x,y,z)
 		range_indicator.Transform:SetScale(RoundBiasedUp(math.pow(range, scale)*math.pow(range, scale), 5), RoundBiasedUp(math.pow(range, scale)*math.pow(range, scale), 5), RoundBiasedUp(math.pow(range, scale)*math.pow(range, scale), 5))--help I failed math.
-	end
+	end]]
 end
 
 local function onhammered(inst, worker)
