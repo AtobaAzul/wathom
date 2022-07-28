@@ -44,12 +44,35 @@ local function SpawnSiren(inst)
 end
 
 local function SpawnInactive(inst)
-	ClearActiveBiome(inst)--for replacing
-	ClearInactiveBiome(inst)
-	--TheNet:Announce("spawn innactive")
-	local x,y,z = inst.Transform:GetWorldPosition()
-	local biome = SpawnPrefab("umss_inactivebiome_cbts_"..math.random(3))
-	biome.Transform:SetPosition(x,y,z)
+	print("spawned inactive:",inst.spawned_inactive)
+	if not inst.spawned_inactive then --just for beta, while we don't nessesarily need biomes to reroll.
+		ClearActiveBiome(inst)--for replacing
+		ClearInactiveBiome(inst)
+		--TheNet:Announce("spawn innactive")
+		local x,y,z = inst.Transform:GetWorldPosition()
+		local biome = SpawnPrefab("umss_inactivebiome_cbts_1")--..math.random(3))
+		biome.Transform:SetPosition(x,y,z)
+		
+		inst.spawned_inactive = true
+	end
+end
+
+local function OnSave(inst, data)
+	if data ~= nil then
+		data.spawned_siren = inst.spawned_siren
+		data.spawned_inactive = inst.spawned_inactive
+	end
+end
+
+local function OnLoad(inst, data)
+	if data ~= nil then
+		if data.spawned_siren ~= nil then
+			inst.spawned_siren = data.spawned_siren
+		end
+		if data.spawned_inactive ~= nil then
+			inst.spawned_inactive = data.spawned_inactive
+		end
+	end
 end
 
 local function fn()
