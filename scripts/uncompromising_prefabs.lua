@@ -368,7 +368,7 @@ return {
 	"hermit_bundle_lures",
 	"um_cannonballs",
 	"um_dreamcatcher",
-	"um_bombmixer_bombs",
+	--"um_bombmixer_bombs",
 	"um_beeguards",
 	"um_beestinger_projectile",
 	"um_frog_ocean",
