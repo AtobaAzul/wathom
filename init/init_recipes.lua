@@ -240,15 +240,6 @@ AddRecipe2(
 ChangeSortKey("bugzapper", "nightstick", "WEAPONS", true)
 
 AddRecipe2(
-    "slingshotammo_firecrackers",
-    {Ingredient("nitre", 2)},
-    GLOBAL.TECH.SCIENCE_TWO,
-    {builder_tag = "pebblemaker", numtogive = 10},
-    {"CHARACTER"}
-)
-ChangeSortKey("slingshotammo_firecrackers", "slingshotammo_poop", "CHARACTER", false)
-
-AddRecipe2(
     "watermelon_lantern",
     {Ingredient("watermelon", 1), Ingredient("fireflies", 1)},
     TECH.SCIENCE_TWO,
@@ -714,7 +705,6 @@ AddRecipe2(
 )
 ChangeSortKey("critter_figgy_builder", "critter_eyeofterror_builder", "CRAFTING_STATION", true)
 
-STRINGS.RECIPE_DESC.SLINGSHOTAMMO_FIRECRACKERS = "For the aspiring young menace."
 STRINGS.RECIPE_DESC.WATERMELON_LANTERN = "Juicy illumination."
 STRINGS.RECIPE_DESC.CRITTERLAB_REAL = "Cute pals to ruin the mood."
 STRINGS.RECIPE_DESC.SAND = "Turn a big rock into smaller rocks."

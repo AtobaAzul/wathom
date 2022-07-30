@@ -1,6 +1,7 @@
 return {
     --Characters
 	"winky",
+	"winky_none",
 	--"wixie",
 	--"wathom",
 	--"winslow",
@@ -115,7 +116,6 @@ return {
 	"antlion_sinkhole_boat",
 	"riceplantspawner",
 	"critterlab_real",
-	"slingshotammo_firecrackers",
 	"charliephonograph",
 	"stumpling",
 	"shadow_teleporter",
