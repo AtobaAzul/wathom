@@ -124,8 +124,6 @@ if TUNING.DSTU.GOTOBED then
 	TOOLTIP.TENT = "- May restore maximum health."
     TOOLTIP.PORTABLETENT_ITEM = "- May restore maximum health."
 	TOOLTIP.SIESTAHUT = "- A bit less efficient.\n- May restore maximum health."
-else
-	TOOLTIP.SIESTAHUT = "- A bit less efficient."
 end
 
 if TUNING.DSTU.SLEEPINGBUFF > 1 then
