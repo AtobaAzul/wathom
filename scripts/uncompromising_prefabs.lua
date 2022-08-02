@@ -374,4 +374,6 @@ return {
 	"um_beestinger_projectile",
 	"um_frog_ocean",
 	"um_tesla_tree",
+	"um_specter_amulet",
+	"um_walls",
 }

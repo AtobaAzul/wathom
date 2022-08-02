@@ -11,8 +11,8 @@ local function IsAlive(target)
         not target.components.health:IsDead()
 end
 
-local TARGET_MUST_TAGS = { "character" }
-local TARGET_CANT_TAGS = { "INLIMBO", "noauradamage" }
+local TARGET_MUST_TAGS = { "_combat" }
+local TARGET_CANT_TAGS = { "INLIMBO", "noauradamage","smallcreature" }
 
 local function GetFollowTarget(ghost)
     if ghost.brain.followtarget ~= nil
@@ -48,12 +48,6 @@ local function GetFollowTarget(ghost)
             end
         end
     end
-	if ghost.brain.followtarget then
-		TheNet:SystemMessage("I just set inst.circling to true.")
-		ghost.circling = true
-		ghost.components.circler:SetCircleTarget(ghost.brain.followtarget)
-		ghost.components.circler:Start()	
-	end
     return ghost.brain.followtarget
 end
 

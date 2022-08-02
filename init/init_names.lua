@@ -383,7 +383,14 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.UM_COALESCED_NIGHTMARE = "Coalesced Nightmare"
 	STRINGS.UM_SALTSALVE = "Brine Balm"
 	STRINGS.SLUDGE_CORK = "Sludge Plug"
-
+	STRINGS.UM_SPECTOPLASM = "Spectoplasm"
+	STRINGS.UM_SPECTER_AMULET = "Specter Amulet"
+	STRINGS.PHANTOM = "Phantom"
+	
+	
+	
+	
+	
 -- borrowed from https://github.com/xfbs/PiL3/blob/master/05Functions/combinations.lua
 -- returns array in a format {{1,2}, {1,3} ...}
 -- every element in returned array is a table with one combination

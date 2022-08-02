@@ -7,6 +7,12 @@ local prefabs =
 {
 }
 
+SetSharedLootTable( 'phantom',
+{
+    {'um_spectoplasm',  1.00},
+	{'um_spectoplasm',  0.50},
+})
+
 local brain = require "brains/phantombrain"
 
 local function AbleToAcceptTest(inst, item)
@@ -47,13 +53,14 @@ end
 
 local function OnNewTarget(inst,data)
 TheNet:SystemMessage("Got a new target")
-	if data and data.target then
+	if data and data.target and not inst.circling == true then
 		TheNet:SystemMessage("I just set inst.circling to true.")
 		inst.circling = true
 		inst.components.circler:SetCircleTarget(data.target)
 		inst.components.circler:Start()
 	end
 end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -137,8 +144,45 @@ local function fn()
     inst:ListenForEvent("attacked", OnAttacked)
 	inst:ListenForEvent("newcombattarget", OnNewTarget)
     ------------------
-	inst.circling = false
+
+
     return inst
 end
 
-return Prefab("phantom", fn, assets, prefabs)
+local function fnplasm()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+
+    MakeInventoryPhysics(inst)
+
+    inst.AnimState:SetBank("nightmarefuel")
+    inst.AnimState:SetBuild("nightmarefuel")
+    inst.AnimState:PlayAnimation("idle_loop", true)
+    inst.AnimState:SetMultColour(1, 1, 1, 0.5)
+    inst.AnimState:UsePointFiltering(true)
+
+    MakeInventoryFloatable(inst)
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+    inst:AddComponent("stackable")
+    inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
+    inst:AddComponent("inspectable")
+
+    MakeHauntableLaunch(inst)
+	
+    inst:AddComponent("inventoryitem")
+	inst:AddComponent("lootdropper")
+	inst.components.lootdropper:SetChanceLootTable('phantom')
+    return inst
+end
+
+return Prefab("phantom", fn, assets),
+Prefab("um_spectoplasm",fnplasm)
