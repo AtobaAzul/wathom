@@ -90,7 +90,7 @@ env.AddPrefabPostInit("forest", function(inst)
 			inst:DoTaskInTime(0.1, GenerateInactiveBiomes)
 		end
 
-		if TUNING.DSTU.SNOWSTORMS and not TestForIA() then
+		if TUNING.DSTU.SNOWSTORMS then
 			inst:AddComponent("snowstorminitiator")
 		end
 	end)
