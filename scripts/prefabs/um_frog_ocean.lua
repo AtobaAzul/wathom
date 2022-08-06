@@ -73,20 +73,25 @@ local function fn()
     inst.components.locomotor.runspeed = 8
 
     -- boat hopping enable.
-    inst.components.locomotor:SetAllowPlatformHopping(true)
-    inst:AddComponent("embarker")
 
-	inst:AddComponent("amphibiouscreature")
-	inst.components.amphibiouscreature:SetBanks("frog", "frog_water")
-    inst.components.amphibiouscreature:SetEnterWaterFn(
-        function(inst)
-            inst.components.locomotor.runspeed = 6
-        end)
-    inst.components.amphibiouscreature:SetExitWaterFn(
-        function(inst)
-			inst.components.locomotor.runspeed = 8
-        end)
+	if TheWorld ~= nil and TheWorld.ismastershard then
+		inst:AddComponent("embarker")
+		inst.components.embarker.embark_speed = inst.components.locomotor.walkspeed
+        inst.components.embarker.antic = true
 
+	    inst.components.locomotor:SetAllowPlatformHopping(true)
+		inst:AddComponent("amphibiouscreature")
+		inst.components.amphibiouscreature:SetBanks("frog", "frog_water")
+        inst.components.amphibiouscreature:SetEnterWaterFn(
+            function(inst)
+                inst.components.locomotor.runspeed = 6
+            end)            
+        inst.components.amphibiouscreature:SetExitWaterFn(
+            function(inst)
+				inst.components.locomotor.runspeed = 8
+            end)	
+		inst.components.locomotor.pathcaps = { allowocean = true }
+	end	
     inst:SetStateGraph("SGfrog")
 
     inst:SetBrain(brain)
@@ -109,7 +114,7 @@ local function fn()
     MakeTinyFreezableCharacter(inst, "frogsack")
 
     MakeHauntablePanic(inst)
-
+	
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetLoot({"froglegs"})
 
