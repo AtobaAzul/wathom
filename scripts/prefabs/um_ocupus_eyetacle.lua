@@ -98,7 +98,7 @@ local function fneyetacle()
 
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("ocupus")
+    inst.AnimState:SetBank("um_ocupus")
     inst.AnimState:SetBuild("ocupus")
     inst.AnimState:PlayAnimation("eyetacle_item", true)
     inst.AnimState:UsePointFiltering(true)
