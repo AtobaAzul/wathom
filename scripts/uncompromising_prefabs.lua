@@ -376,4 +376,5 @@ return {
 	"um_tesla_tree",
 	"um_specter_amulet",
 	"um_walls",
+	"um_ocupus_eyetacle",
 }
