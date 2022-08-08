@@ -171,7 +171,6 @@ configuration_options =
 		},
 		default = "UMNERF",
 	},
-
 	BinaryConfig("wickerbottom", "UM Wickerbottom: Sane Reading", "Wickerbottom/Maxwell can no longer read books while insane.", true),
 	BinaryConfig("on tentacles", "UM Wickerbottom: On Tentacles", "On Tentacles now spawns friendly tentacles that die over time, and do not drop tentacle spots.", true),
 	BinaryConfig("applied horticulture", "UM Wickerbottom: Horticulture, Abridged", "Horticulture, Abridged now takes 1 Leafy Meat instead of 5 seeds, to better balance it from being too easily spammable early game.", true),
