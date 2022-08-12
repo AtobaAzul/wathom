@@ -353,13 +353,15 @@ return {
 	"stuffed_peeper_poppers",
 	"um_deviled_eggs",
 	
+	"figgypet",
+	"portableboat",
+	
 	"siren_bird_nest",
 	"um_scorpionhole",
 	"um_scorpionhole_organizer",
 	"um_amber",
 	"um_sorrel",
 	"um_saltsalve",
-	"figgypet",
 	"um_sandrock",
 	"um_scorpioneggs",
 	"giant_tree_birdnest",

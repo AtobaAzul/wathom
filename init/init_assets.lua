@@ -194,6 +194,8 @@ local inventoryitems =
 	"powercell",
 	"winona_toolbox",
 	"winona_upgradekit_electrical",
+	"portableboat_item",
+	"critter_figgy_builder",
 }
 	
 for k, v in ipairs(inventoryitems) do 
@@ -564,6 +566,8 @@ Assets = {
 	Asset("ATLAS", "images/vetskull.xml"),
 	Asset("IMAGE", "images/UM_TT.tex"),
 	Asset("ATLAS", "images/UM_TT.xml"),
+	Asset("IMAGE", "images/PP_TT.tex"),
+	Asset("ATLAS", "images/PP_TT.xml"),
 	--Asset("IMAGE", "images/inventoryimages/liceloaf.tex"),
 	--Asset("ATLAS", "images/inventoryimages/liceloaf.xml"),
 	--Asset("ANIM", "anim/liceloaf.zip"),
@@ -742,22 +746,15 @@ Assets = {
 	Asset("ATLAS", "images/inventoryimages/winona_upgradekit_electrical.xml"),
 	Asset("IMAGE", "images/inventoryimages/winona_upgradekit_electrical.tex"),
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	Asset("ANIM", "anim/figgy_newton.zip"),
+	Asset("ATLAS", "images/inventoryimages/critter_figgy_builder.xml"),
+	Asset("IMAGE", "images/inventoryimages/critter_figgy_builder.tex"),
+	
+	Asset("ANIM", "anim/portableboat_test.zip"),
+	Asset("ANIM", "anim/portableboat_placer.zip"),
+	Asset("ANIM", "anim/portableboat_item.zip"),
+	Asset("ATLAS", "images/inventoryimages/portableboat_item.xml"),
+	Asset("IMAGE", "images/inventoryimages/portableboat_item.tex"),
 	
 	Asset("ANIM", "anim/lava_spitball.zip"),
 	Asset("ANIM", "anim/shambler.zip"),
