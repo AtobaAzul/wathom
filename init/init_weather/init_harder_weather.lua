@@ -69,31 +69,32 @@ env.AddPrefabPostInit("forest", function(inst)
         return
     end
 
-	inst:DoTaskInTime(0, function(inst)--so TestForIA runs the TheWorld check instead of mod check failsafe.
-		if not TestForIA() then
-			inst:RemoveComponent("deerclopsspawner")
-			inst:AddComponent("uncompromising_deerclopsspawner")
+	if not TUNING.DSTU.ISLAND_ADVENTURES then
+		inst:RemoveComponent("deerclopsspawner")
+		inst:AddComponent("uncompromising_deerclopsspawner")
 
-			inst:AddComponent("toadrain")
-			--inst:AddComponent("hayfever_tracker")
-			inst:AddComponent("firefallwarning")
-			inst:AddComponent("pollenmitedenspawner")
-			inst:AddComponent("randomnightevents")
-			inst:AddComponent("um_areahandler")
-			if TUNING.DSTU.SPAWNMOTHERGOOSE then
-				inst:AddComponent("gmoosespawner")
-			end
-			if TUNING.DSTU.SPAWNWILTINGFLY then
-				inst:AddComponent("mock_dragonflyspawner")
-			end
-			inst:WatchWorldState("isspring", GenerateBiomes)
-			inst:WatchWorldState("issummer", GenerateInactiveBiomes)
-
-			inst:DoTaskInTime(0.1, GenerateInactiveBiomes)
+		inst:AddComponent("toadrain")
+		--inst:AddComponent("hayfever_tracker")
+		inst:AddComponent("firefallwarning")
+		inst:AddComponent("pollenmitedenspawner")
+		inst:AddComponent("randomnightevents")
+		inst:AddComponent("um_areahandler")
+		
+		if TUNING.DSTU.SPAWNMOTHERGOOSE then
+			inst:AddComponent("gmoosespawner")
 		end
+		
+		if TUNING.DSTU.SPAWNWILTINGFLY then
+			inst:AddComponent("mock_dragonflyspawner")
+		end
+		
+		inst:WatchWorldState("isspring", GenerateBiomes)
+		inst:WatchWorldState("issummer", GenerateInactiveBiomes)
+
+		inst:DoTaskInTime(0.1, GenerateInactiveBiomes)
 
 		if TUNING.DSTU.SNOWSTORMS then
 			inst:AddComponent("snowstorminitiator")
 		end
-	end)
+	end
 end)
