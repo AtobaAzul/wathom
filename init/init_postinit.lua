@@ -300,7 +300,7 @@ if GetModConfigData("scalemailbuff") then
 	table.insert(prefab_post,"armor_dragonfly")
 end
 
-if GetModConfigData("um_music") and not GLOBAL:TestForIA() then
+if (not GLOBAL:TestForIA() or GetModConfigData("um_music")) then
 	table.insert(component_post,"dynamicmusic")
 end
 
