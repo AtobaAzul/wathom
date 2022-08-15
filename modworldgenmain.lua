@@ -138,6 +138,18 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     
         --Ruins Split
         ]]
+    AddTaskSetPreInit("forest", function(tasksetdata)
+        if tasksetdata.location ~= "forest" then
+            return
+        end
+        if GetModConfigData("hoodedforest") then
+            table.insert(tasksetdata.tasks, "GiantTrees")
+        end
+        if GetModConfigData("rice") then
+            table.insert(tasksetdata.required_prefabs, "riceplantspawnerlarge")
+            table.insert(tasksetdata.required_prefabs, "riceplantspawner")
+        end
+    end)
     if GetModConfigData("caved") == false then
         AddTaskSetPreInit("forest", function(tasksetdata)
             if tasksetdata.location ~= "forest" then
@@ -163,7 +175,8 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     Layouts["utw_biomespawner"] = StaticLayout.Get("map/static_layouts/utw_biomespawner")
     Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
     Layouts["boon_moonoil"] = StaticLayout.Get("map/static_layouts/umss_moonoil")
-
+	Layouts["umss_biometable"] = StaticLayout.Get("map/static_layouts/umss_biometable")
+	
     local function chance_and_count(chance, min, max)
         if math.random() > (1 - chance) then
             if max == nil or min == max then
@@ -176,12 +189,12 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
         end
     end
 
-    AddTaskSetPreInit("forest", function(tasksetdata)
+    AddTaskSetPreInitAny(function(tasksetdata)
         if tasksetdata.location ~= "forest" then
             return
         end
 
-        tasksetdata.set_pieces["basefrag_smellykitchen"] = { count = chance_and_count(0.33, 1),
+        tasksetdata.set_pieces["basefrag_smellykitchen"] = { count = chance_and_count(1, 1),
             tasks = {
                 "Great Plains",
                 "Speak to the king",
@@ -261,6 +274,34 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
                 "Speak to the king classic",
             }
         }
+		
+        tasksetdata.set_pieces["umss_biometable"] = { count = math.random(3,5),
+            tasks = {
+                "Make a pick",
+                --"Dig that rock",
+                "Great Plains",
+                "Squeltch",
+                "Beeeees!",
+                "Speak to the king",
+                "Forest hunters",
+                "For a nice walk",
+                "Badlands",
+                "Lightning Bluff",
+                "Befriend the pigs",
+                "Kill the spiders",
+                "Killer bees!",
+                "Make a Beehat",
+                "The hunters",
+                "Magic meadow",
+                "Frogs and bugs",
+                "Mole Colony Deciduous",
+                "Mole Colony Rocks",
+                "MooseBreedingTask",
+                "Speak to the king classic",
+				"GiantTrees",
+            }
+        }
+		
         if tasksetdata.ocean_prefill_setpieces ~= nil then
             tasksetdata.ocean_prefill_setpieces["utw_biomespawner"] = { count = math.random(6, 9) }
         end --nice
@@ -511,18 +552,6 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     end
 
 
-    AddTaskSetPreInit("forest", function(tasksetdata)
-        if tasksetdata.location ~= "forest" then
-            return
-        end
-        if GetModConfigData("hoodedforest") then
-            table.insert(tasksetdata.tasks, "GiantTrees")
-        end
-        if GetModConfigData("rice") then
-            table.insert(tasksetdata.required_prefabs, "riceplantspawnerlarge")
-            table.insert(tasksetdata.required_prefabs, "riceplantspawner")
-        end
-    end)
 
     --[[
         AddTaskSetPreInitAny(function(tasksetdata)
