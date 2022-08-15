@@ -60,7 +60,6 @@ local function SpavvnBiomeUMSS(inst)
 		umss = weighted_random_choice(DesertTable)
 	end
 	if tile == WORLD_TILES.DECIDUOUS then
-		TheNet:Announce("somehovv this is decid")
 		umss = weighted_random_choice(DecidTable)
 	end
 	if tile == WORLD_TILES.FOREST then
@@ -73,7 +72,6 @@ local function SpavvnBiomeUMSS(inst)
 		umss = weighted_random_choice(RockyTable)
 	end	
 	if not umss then
-		TheNet:Announce("general")
 		umss = weighted_random_choice(GeneralTable)
 	end
 	SpawnPrefab(umss).Transform:SetPosition(x,y,z)
