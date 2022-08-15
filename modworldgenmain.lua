@@ -4,6 +4,7 @@ GLOBAL.require("map/terrain")
 
 local Layouts = GLOBAL.require("map/layouts").Layouts
 local StaticLayout = GLOBAL.require("map/static_layout")
+local STRINGS = GLOBAL.STRINGS
 
 local GROUND_OCEAN_COLOR = { -- Color for the main island ground tiles
     primary_color = { 0, 0, 0, 25 },
@@ -138,8 +139,8 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     
         --Ruins Split
         ]]
-    AddTaskSetPreInit("forest", function(tasksetdata)
-        if tasksetdata.location ~= "forest" then
+    AddTaskSetPreInitAny(function(tasksetdata)
+        if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
             return
         end
         if GetModConfigData("hoodedforest") then
@@ -151,8 +152,8 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
         end
     end)
     if GetModConfigData("caved") == false then
-        AddTaskSetPreInit("forest", function(tasksetdata)
-            if tasksetdata.location ~= "forest" then
+        AddTaskSetPreInitAny(function(tasksetdata)
+            if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
                 return
             end
 
@@ -190,7 +191,7 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     end
 
     AddTaskSetPreInitAny(function(tasksetdata)
-        if tasksetdata.location ~= "forest" then
+        if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
             return
         end
 
@@ -529,7 +530,7 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
         if GetModConfigData("caved") == false then
         
             AddTaskSetPreInitAny(function(tasksetdata)
-                if tasksetdata.location ~= "forest" then
+            if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
                     return
                 end
                 AddTaskPreInit("Dig that rock",function(task)
