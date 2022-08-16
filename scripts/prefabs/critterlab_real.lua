@@ -7,7 +7,7 @@ local function SwitchToClassic(inst)
 	local pos = inst:GetPosition()
 	local altar = SpawnPrefab("critterlab")
 	altar.Transform:SetPosition(pos:Get())
-	altar.ambush = false
+	altar.doafuckingambush = false
 	inst:Remove()
 end
 
@@ -85,7 +85,7 @@ local function broken_onrepaired(inst, doer, repair_item)
         local pos = inst:GetPosition()
         local altar = SpawnPrefab("critterlab")
         altar.Transform:SetPosition(pos:Get())
-        altar.ambush = false
+        altar.doafuckingambush = false
         --altar.SoundEmitter:PlaySound("dontstarve/common/ancienttable_activate")
         SpawnPrefab("collapse_small").Transform:SetPosition(pos:Get())
         --inst:PushEvent("onprefabswaped", {newobj = altar})
