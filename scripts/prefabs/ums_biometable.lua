@@ -12,7 +12,7 @@ local DesertTable = {
 local MarshTable = {
 
 	umss_fooltrap1Table = 1,
-	umss_swamplake = 1,
+	--umss_swamplake = 1, --This is currently not vvorking vvhen spavvned in
 	
 }
 local HoodedTable = {

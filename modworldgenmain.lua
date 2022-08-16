@@ -276,7 +276,7 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
             }
         }
 		
-        tasksetdata.set_pieces["umss_biometable"] = { count = math.random(3,5),
+        tasksetdata.set_pieces["umss_biometable"] = { count = math.random(5,8),
             tasks = {
                 "Make a pick",
                 --"Dig that rock",
