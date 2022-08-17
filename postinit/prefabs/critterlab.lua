@@ -19,7 +19,7 @@ local function OnSave(inst, data)
 	data.doafuckingambush = inst.doafuckingambush
 		
 	if inst._OldOnSave ~= nil then
-		inst._OldOnSave(inst, data)
+		--inst._OldOnSave(inst, data)
 	end
 end
 	
@@ -29,7 +29,7 @@ local function OnLoad(inst, data)
 	end
 		
 	if inst._OldOnLoad ~= nil then
-		inst._OldOnLoad(inst, data)
+		--inst._OldOnLoad(inst, data)
 	end
 end
 
