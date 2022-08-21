@@ -322,7 +322,7 @@ return {
 	"siren_debrisbarrier",
 	"cave_entrance_lush",
 	"uncompromising_rocks",
-	"uncompromising_superspawner",
+	--"uncompromising_superspawner",
 	"uncompromising_devcapture",
 	"crab_apple_plant",
 	"driftwood_waterlogged",
@@ -380,4 +380,5 @@ return {
 	"um_walls",
 	"um_ocupus_eyetacle",
 	"ums_biometable",
+	"umss_general",
 }

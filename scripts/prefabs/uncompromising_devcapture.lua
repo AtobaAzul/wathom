@@ -14,7 +14,7 @@ local function onopen(inst)
 	local itemsinside = inst.components.container:GetAllItems()
 	local range = 0
 	
-	local range_indicator = SpawnPrefab("um_dynlayout_range")
+	local range_indicator = SpawnPrefab("umdc_range")
 
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
@@ -53,7 +53,7 @@ local function onclose(inst)
 	local x,y,z = inst.Transform:GetWorldPosition()
 	local itemsinside = inst.components.container:GetAllItems()
 	local range = 0
-	local range_indicator = SpawnPrefab("um_dynlayout_range")
+	local range_indicator = SpawnPrefab("umdc_range")
 
 	for i,v in ipairs(itemsinside) do
 		if v.prefab == "log" then
@@ -122,11 +122,19 @@ local function Capture(inst)
 			rotation = true
 		end
 	end
-	--TheNet:Announce(range)
+
 	local ents = TheSim:FindEntities(x,y,z,range,nil,{"DEVBEHOLDER","player","bird", "NOCLICK", "CLASSIFIED", "FX", "INLIMBO", "smalloceancreature", "DECOR"})
 	local totaltable_number = tostring(math.random(1000))
-	local totaltable = "returnedTable"..totaltable_number.." = { "
-	--print("	{x = 2, z = 2, prefab = \"evergreen\"},")
+	
+	local tableName = inst.components.writeable.text or not inst.components.writeable.text and "returnedTable"..totaltable_number
+	local totaltable = tableName.." = { \n	"
+	if inst.components.writeable.text then
+		totaltable = totaltable.."	name = \""..inst.components.writeable.text.."\","
+	else
+		totaltable = totaltable.."	name = \"returnedTable"..totaltable_number.."\","
+	end
+
+	totaltable = totaltable.." rotate = true, tile_centered = true, \n		content = {"
 	for i,v in ipairs(ents) do
 		local px,py,pz = v.Transform:GetWorldPosition()
 		local vx = px-x
@@ -144,7 +152,7 @@ local function Capture(inst)
 		else
 			totaltable = totaltable..", ocean = false"
 		end
-		if (TheWorld.Map:GetTileAtPoint(px,py,pz) and not no_tiles) or (v.prefab == "um_dynlayout_tileflag" and TheWorld.Map:GetTileAtPoint(px,py,pz)) then
+		if (TheWorld.Map:GetTileAtPoint(px,py,pz) and not no_tiles) or (v.prefab == "umdc_tileflag" and TheWorld.Map:GetTileAtPoint(px,py,pz)) then
 			totaltable = totaltable..", tile = "..tostring(TheWorld.Map:GetTileAtPoint(px,py,pz))	--flags always get tiles, regardless of tile setting.
 		end
 		if v.components.health ~= nil then
@@ -172,7 +180,7 @@ local function Capture(inst)
 		end
 		totaltable = totaltable.."},"
 	end
-	totaltable = totaltable.."},\n"
+	totaltable = totaltable.."},\n	},\n"
 	--print("captured prefabs:", totaltable)
 
 	local file_name = TUNING.DSTU.MODROOT.."scripts/umss_tables.lua"
@@ -189,7 +197,7 @@ local function Capture(inst)
 		file = io.open(file_name, "w")
 		local data = file:write(totaltable)
 		file:close()
-		TheNet:Announce("Successfully captured! Saved as returnedTable"..totaltable_number.." in "..file_name.."\nWe suggest renaming it!")--TODO: AUTO ADD UMSS PREFAB STUFF TOO!
+		TheNet:Announce("Successfully captured!")--TODO: AUTO ADD UMSS PREFAB STUFF TOO!
 		inst:Remove()
 		return data
 	else
@@ -216,15 +224,19 @@ local function fn()
     inst.AnimState:SetBuild("treasure_chest")
     inst.AnimState:PlayAnimation("closed")
 
-
+	inst:AddTag("_writeable")
     inst.entity:SetPristine()
 
     if not TheWorld.ismastersim then
         return inst
     end
-
+	inst:AddTag("_writeable")
+	
+	inst:AddComponent("inspectable")
+    inst:AddComponent("writeable")
+	
     inst:AddComponent("container")
-    inst.components.container:WidgetSetup("uncompromising_devcapture")
+    inst.components.container:WidgetSetup("um_devcapture")
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst.components.container.skipclosesnd = true
@@ -280,7 +292,7 @@ local function TileFlag(inst)
 	inst.AnimState:SetMultColour(math.random(5, 10)/10,math.random(5, 10)/10,0,1)
 
 	inst:AddTag("DYNLAYOUT_FLAG")
-	
+
 	--MakeInventoryPhysics(inst)
 
     inst.entity:SetPristine()
@@ -338,8 +350,8 @@ local function placer_postinit_fn(inst)
 	inst.entity
 end]]
 
-return Prefab("um_dynlayout_devcapture", fn), --Version 1.0
-	Prefab("um_dynlayout_tileflag",TileFlag),
-	Prefab("um_dynlayout_range", Helper)
+return Prefab("um_devcapture", fn), --Version 1.0
+	Prefab("umdc_tileflag",TileFlag),
+	Prefab("umdc_range", Helper)
 
 
