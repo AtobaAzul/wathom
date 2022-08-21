@@ -189,4 +189,11 @@ local UMSS_TABLES =
 		name = "funniPortal", rotate = true, tile_centered = true, 
 		content = {	{x = 0, z = 0, prefab = "multiplayer_portal", ocean = false, tile = 6},	{x = -2, z = -5, prefab = "flower", ocean = false, tile = 6},	{x = 2, z = -7, prefab = "flower", ocean = false, tile = 6},	{x = 8, z = -1, prefab = "flower", ocean = false, tile = 6},},
 	},
+
+	
+
+    deadBodies = { 
+		name = "deadBodies", rotate = true, tile_centered = true, 
+		content = {	{x = 0.41400146484375, z = 0.3599853515625, prefab = "skeleton", ocean = false},	{x = -1.8819885253906, z = -0.41900634765625, prefab = "turf_grass", ocean = false},	{x = -1.3080139160156, z = 1.4179992675781, prefab = "pitchfork", ocean = false, uses = 24.875},	{x = -4, z = 0, prefab = "umdc_tileflag", ocean = false, tile = 3},	{x = -0.4639892578125, z = -3.9769897460938, prefab = "skeleton", ocean = false},	{x = 2.0769958496094, z = -6.0889892578125, prefab = "seeds", ocean = false},	{x = -5.8030090332031, z = 4.7909851074219, prefab = "seeds", ocean = false},	{x = 4.7300109863281, z = 8.8900146484375, prefab = "twiggytree", ocean = false},	{x = -7.3399963378906, z = -8.3819885253906, prefab = "twiggytree", ocean = false},	{x = -12.510986328125, z = 3.1180114746094, prefab = "green_mushroom", ocean = false},	{x = -12.869995117188, z = -3.0799865722656, prefab = "grass", ocean = false},	{x = -15.510986328125, z = -0.32998657226563, prefab = "twiggytree", ocean = false},	{x = 7, z = -14, prefab = "flower", ocean = false},	{x = -15.619995117188, z = 4.2690124511719, prefab = "flower", ocean = false},	{x = -15.700988769531, z = 7.8290100097656, prefab = "twigs", ocean = false},	{x = 5, z = -18, prefab = "flower", ocean = false},	{x = 12, z = -16, prefab = "multiplayer_portal", ocean = false},},
+	},
 } return UMSS_TABLES

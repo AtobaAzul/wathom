@@ -152,7 +152,7 @@ local function Capture(inst)
 		else
 			totaltable = totaltable..", ocean = false"
 		end
-		if (TheWorld.Map:GetTileAtPoint(px,py,pz) and not no_tiles) or (v.prefab == "umdc_tileflag" and TheWorld.Map:GetTileAtPoint(px,py,pz)) then
+		if (v.prefab == "umdc_tileflag" and TheWorld.Map:GetTileAtPoint(px,py,pz)) then
 			totaltable = totaltable..", tile = "..tostring(TheWorld.Map:GetTileAtPoint(px,py,pz))	--flags always get tiles, regardless of tile setting.
 		end
 		if v.components.health ~= nil then

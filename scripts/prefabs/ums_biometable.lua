@@ -11,7 +11,6 @@ local DesertTable = {
 local MarshTable = {
 
 	fooltrap1Table = 1,
-	--umss_swamplake = 1, --This is currently not vvorking vvhen spavvned in
 	
 }
 local HoodedTable = {
@@ -27,13 +26,14 @@ local DarkForestTable = {
 local RockyTable = {
 
 	singlefather = 1,
-	
+
 }
 local SavannaTable = {
 
 	sos = 1,
 	moxTable = 0.25,
-
+	deadBodies = 2,
+	
 }
 local GeneralTable = {
 	badfarmerTable = 1,
@@ -48,7 +48,7 @@ end
 
 local function FinalizeSpavvn(inst,umss,x,y,z)
 	local spavvner = SpawnPrefab("umss_general")
-	spavvner.DefineTable(spavvner,umss,true,true)
+	spavvner.DefineTable(spavvner,umss)
 	spavvner.Transform:SetPosition(x,y,z)
 	AddToTheWorld(inst,umss)
 	inst:Remove()
