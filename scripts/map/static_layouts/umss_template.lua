@@ -58,7 +58,7 @@ return {
         objects = {
           {
             name = "",
-            type = "umss_general"
+            type = "umss_general",
             shape = "rectangle",
             x = 63,
             y = 64,

@@ -254,7 +254,7 @@ local function makefn()
     inst:AddComponent("writeable")
 	inst.components.writeable:SetOnWritingEndedFn(TryForce)
 	inst.OnLoad = onload
-	inst:DoTaskInTime(0,
+	inst:DoTaskInTime(0.1,
 		function(inst)
 				--TheNet:Announce("Code Ran") --For Troubleshooting
 			if inst.spawnTable then
@@ -272,9 +272,8 @@ local function makefn()
 end
 
 
---Version 1.3
+--Version 1.4
 --[[
-    Create your spawners by filling out the spawners table!
     @name(str) - The name of prefab that will spawn the captured tiles/prefabs. Has the "umss_" prefix in-game. REQUIRED
     @table(table) - The result of devcapture, this has all the data of things to be spawned. Defined on scripts/umss_tables.lua (call it with umss_tables.your_table_nane) REQUIRED
     @rotate(bool) - Whether the setpiece will rotate when spawning.
