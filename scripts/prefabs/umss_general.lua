@@ -61,7 +61,10 @@ end
 
 local function UncompromisingSpawnGOOOOO(inst, data)
     local x, y, z = inst.Transform:GetWorldPosition()
-
+	--attempted fix for worldgen/load crash, maybe it's 
+	if x == nil or y == nil or z == nil then--Full check, who knows what might be nil.
+		return
+	end
     if inst.tile_centered then
         local tile_x, tile_y, tile_z = TheWorld.Map:GetTileCenterPoint(x, 0, z)
         inst.Transform:SetPosition(tile_x, tile_y, tile_z)
@@ -77,6 +80,9 @@ local function UncompromisingSpawnGOOOOO(inst, data)
     end
     -- TheNet:Announce("code ran") --For Troubleshooting
     for i, v in ipairs(data) do
+		if x + v.x * rotx == nil or z + v.z * rotz == nil then
+			return
+		end
         -- TheNet:Announce(i) --For Troubleshooting
         -- TheNet:Announce("Prefab: "..v.prefab) --For Troubleshooting
         if v.prefab ~= "umdc_tileflag" and v.prefab ~= "seeds" --[[hecking birds man]]then
