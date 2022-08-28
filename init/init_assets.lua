@@ -209,6 +209,7 @@ Assets = {
 	Asset( "IMAGE", "levels/textures/mini_noise_jungle.tex" ),
 	Asset( "IMAGE", "levels/tiles/jungle.tex" ),
 	Asset( "FILE", "levels/tiles/jungle.xml" ),
+	Asset("ANIM", "anim/hfturf.zip"),
 	Asset("ANIM", "anim/swturf.zip"),
 	--Asset("ATLAS", "images/inventoryimages/turf_jungle.xml"),
 	--Asset("IMAGE", "images/inventoryimages/turf_jungle.tex"),
@@ -238,6 +239,9 @@ Assets = {
 	
     Asset( "IMAGE", "images/avatars/avatar_ghost_winky.tex" ),
     Asset( "ATLAS", "images/avatars/avatar_ghost_winky.xml" ),
+	
+    Asset( "IMAGE", "images/avatars/self_inspect_winky.tex" ),
+    Asset( "ATLAS", "images/avatars/self_inspect_winky.xml" ),
 	
     Asset( "IMAGE", "images/names_gold_winky.tex" ),
     Asset( "ATLAS", "images/names_gold_winky.xml" ),

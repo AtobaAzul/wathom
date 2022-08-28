@@ -7,7 +7,6 @@ local StaticLayout = GLOBAL.require("map/static_layout")
 local STRINGS = GLOBAL.STRINGS
 
 ------
-
 local function TestForIA()
     if (TheWorld ~= nil and not (TheWorld:HasTag("forest") or TheWorld:HasTag("cave")) and (TheWorld:HasTag("island") or TheWorld:HasTag("volcano"))) or GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
         print("TestForIA: is IA world!")
@@ -17,6 +16,77 @@ local function TestForIA()
         return false
     end
 end
+
+local GROUND_OCEAN_COLOR = { -- Color for the main island ground tiles
+    primary_color = { 0, 0, 0, 25 },
+    secondary_color = { 0, 20, 33, 0 },
+    secondary_color_dusk = { 0, 20, 33, 80 },
+    minimap_color = { 46, 32, 18, 64 }
+}
+
+AddTile(
+    "HOODEDFOREST", --tile_name 1
+    "LAND", --tile_range 2
+    { --tile_data 3
+        ground_name = "hoodedmoss",
+        old_static_id = 102,
+    },
+    { --ground_tile_def 4
+        name = "hoodedmoss.tex",
+        atlas = "hoodedmoss.xml",
+        noise_texture = "noise_hoodedmoss.tex",
+        runsound = "dontstarve/movement/walk_grass",
+        walksound = "dontstarve/movement/walk_grass",
+        snowsound = "dontstarve/movement/run_snow",
+        mudsound = "dontstarve/movement/run_mud",
+        colors = GROUND_OCEAN_COLOR
+    },
+    { --minimap_tile_def 5
+        name = "hoodedmoss.tex",
+        atlas = "hoodedmoss.xml",
+        noise_texture = "mini_noise_hoodedmoss.tex"
+    },
+    { --turf_def 6
+        name = "hoodedmoss",
+        anim = "hoodedmoss",
+        bank_build = "turf"
+    }
+)
+
+AddTile(
+    "ANCIENTHOODEDFOREST",
+    "LAND",
+    {
+        ground_name = "ancienthoodedturf",
+        old_static_id = 110,
+    },
+    {
+        name = "ancienthoodedturf.tex",
+        atlas = "ancienthoodedturf.xml",
+        noise_texture = "noise_jungle.tex",
+        runsound = "dontstarve/movement/walk_grass",
+        walksound = "dontstarve/movement/walk_grass",
+        snowsound = "dontstarve/movement/run_snow",
+        mudsound = "dontstarve/movement/run_mud",
+        colors = GROUND_OCEAN_COLOR
+    },
+    {
+        name = "ancienthoodedturf.tex",
+        atlas = "ancienthoodedturf.xml",
+        noise_texture = "mini_noise_jungle.tex"
+    },
+    {
+        name = "ancienthoodedturf",
+        anim = "ancienthoodedturf",
+        bank_build = "turf"
+    }
+)
+
+ChangeTileRenderOrder(GLOBAL.WORLD_TILES.HOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
+ChangeTileRenderOrder(GLOBAL.WORLD_TILES.ANCIENTHOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
+
+ChangeMiniMapTileRenderOrder(GLOBAL.WORLD_TILES.HOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
+ChangeMiniMapTileRenderOrder(GLOBAL.WORLD_TILES.ANCIENTHOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
 
 if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     -- <<Cave Update WIP: Toggle at your own risk you buffoons! (That means you atoba, don't leak it please eh?)>>
