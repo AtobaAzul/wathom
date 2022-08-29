@@ -112,10 +112,13 @@ local function oneat(inst, data)
 		(data.food.components.edible.sanityvalue >= 0 or inst.components.eater:DoFoodEffects(data.food)) then
 		sanity_delta = data.food.components.edible:GetSanity(inst) * base_mult * inst.modded_sanityabsorption * warlybuff
 	end
-		
+	
 	if inst.components.eater.custom_stats_mod_fn ~= nil then
 		health_delta, hunger_delta, sanity_delta = inst.components.eater.custom_stats_mod_fn(inst, health_delta, hunger_delta, sanity_delta, data.food, data.feeder)
 	end
+
+	local foodaffinitysanitybuff = inst:HasTag("playermerm") and (data.food.prefab == "kelp" or data.food.prefab == "kelp_cooked") and 0 or inst.components.foodaffinity:HasPrefabAffinity(data.food) and 15 or 0
+	sanity_delta = sanity_delta + foodaffinitysanitybuff
 		
 	if health_delta > 3 then
 		inst.components.debuffable:AddDebuff("healthregenbuff_vetcurse_"..data.food.prefab, "healthregenbuff_vetcurse", {duration = (health_delta * 0.1)})
