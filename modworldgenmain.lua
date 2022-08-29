@@ -49,7 +49,7 @@ AddTile(
     { --turf_def 6
         name = "hoodedmoss",
         anim = "hoodedmoss",
-        bank_build = "turf"
+        bank_build = "turf_archives"
     }
 )
 
@@ -78,7 +78,7 @@ AddTile(
     {
         name = "ancienthoodedturf",
         anim = "ancienthoodedturf",
-        bank_build = "turf"
+        bank_build = "turf_archives"
     }
 )
 
