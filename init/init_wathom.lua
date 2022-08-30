@@ -413,7 +413,7 @@ STRINGS.CHARACTER_QUOTES.wathom = "\"I HEAR YOU BREATHING.\""
 STRINGS.CHARACTER_SURVIVABILITY.wathom = "Slim"
 
 -- Custom speech strings
-STRINGS.CHARACTERS.WATHOM = require "speech_wathom"
+--STRINGS.CHARACTERS.WATHOM = require "speech_wathom"
 
 -- The character's name as appears in-game 
 STRINGS.NAMES.WATHOM = "Wathom"
