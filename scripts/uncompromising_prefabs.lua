@@ -381,4 +381,7 @@ return {
 	"um_ocupus_eyetacle",
 	"ums_biometable",
 	"umss_general",
+	
+	"wathom",
+	"wathom_none",
 }
