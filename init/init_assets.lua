@@ -1,4 +1,3 @@
-
 RemapSoundEvent( "dontstarve/characters/winky/death_voice", "winky/characters/winky/death_voice" )
 RemapSoundEvent( "dontstarve/characters/winky/hurt", "winky/characters/winky/hurt" )
 RemapSoundEvent( "dontstarve/characters/winky/talk_LP", "winky/characters/winky/talk_LP" )
@@ -254,6 +253,8 @@ Assets = {
 	
 	--
 
+	-- Wathom's Adrenaline badge.
+    Asset( "ANIM", "anim/ampbadge.zip" ),
 
 
 
