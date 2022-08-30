@@ -443,4 +443,4 @@ local skin_modes = {
 }
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
-AddModCharacter("wathom", "FEMALE", skin_modes)
+AddModCharacter("wathom", "MALE", skin_modes)
