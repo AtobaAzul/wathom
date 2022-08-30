@@ -106,7 +106,7 @@ AddStategraphPostInit("wilson", function(inst)
 			onenter = function(inst, data)
 				local buffaction = inst:GetBufferedAction()
 				local target = buffaction ~= nil and buffaction.target or nil
-				inst.AnimState:PlayAnimation("idle", false)
+				inst.AnimState:PlayAnimation("emote_angry", false)
 				inst.components.locomotor:Stop()
 				inst.components.locomotor:EnableGroundSpeedMultiplier(false)
 				if inst.components.playercontroller ~= nil then
@@ -370,6 +370,18 @@ end)
 -----------------------------------------------------------------------------------------------------
 
 STRINGS.ACTIONS.WATHOMBARK = "Bark"
+
+local function AddEnemyDebuffFx(fx, target)
+    target:DoTaskInTime(math.random()*0.25, function()
+        local x, y, z = target.Transform:GetWorldPosition()
+        local fx = SpawnPrefab(fx)
+        if fx then
+            fx.Transform:SetPosition(x, y, z)
+        end
+
+        return fx
+    end)
+end
 
 local wathombark = AddAction(
 	"WATHOMBARK",
