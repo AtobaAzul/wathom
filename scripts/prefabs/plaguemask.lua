@@ -58,6 +58,8 @@ local function fn()
 	inst:AddTag("has_gasmask")
 	inst:AddTag("hasplaguemask")
     inst:AddTag("goggles")
+	
+	inst.Transform:SetScale(1.25, 1.25, 1.25)
 		
     inst.entity:SetPristine()
 	
@@ -97,6 +99,8 @@ local function plaguemask_skin()
     inst.AnimState:SetBuild("hat_plaguemask_formal")
 	
 	inst.skinname = "hat_plaguemask_formal"
+	
+	inst.Transform:SetScale(1.15, 1.15, 1.15)
 	
 	if inst.components.inventoryitem ~= nil then
 		inst.components.inventoryitem.atlasname = "images/inventoryimages/plaguemask_formal.xml"

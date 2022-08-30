@@ -165,6 +165,7 @@ env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's ca
 		if _OldOnExit then
 			_OldOnExit(inst)
 		end
+		inst.redo_spawnguards_cd_fn(inst)
 		if inst.components.health and inst.components.health:GetPercent() < 1 then
 			if ShouldVVall(inst) then --Should I spavvn vvall bees
 				if math.random() < 0.9 then --Should I fake out the player and vvait a moment to do my thing
@@ -188,11 +189,30 @@ env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's ca
 		end
 	end
 	
+	local _OldOnAtkEnter
+	if inst.states["attack"].onenter then
+		_OldOnAtkEnter = inst.states["attack"].onenter
+	end
+
+	inst.states["attack"].onenter = function(inst)
+		if not inst.comboing then
+			inst.sg:GoToState("combo_prep")
+		end
+		if _OldOnAtkEnter then
+			_OldOnAtkEnter(inst)
+		end
+	end
+	
 	local _OldOnAtk
 	if inst.states["attack"].onexit then
 		_OldOnAtk = inst.states["attack"].onexit
 	end
 	inst.states["attack"].onexit = function(inst)
+		if inst.combocount and inst.combocount > 0 then
+			inst.combocount = inst.combocount -1
+		elseif inst.combocount and inst.combocount < 0 then
+			inst.combocount = nil
+		end
 		if _OldOnAtk then
 			_OldOnAtk(inst)
 		end
@@ -709,6 +729,36 @@ local states = {
 					end
 				end)
 		end,
+    },
+    State{
+        name = "combo_prep",
+        tags = { "taunt", "busy", "nosleep", "nofreeze" },
+
+        onenter = function(inst)
+            FaceTarget(inst)
+            inst.components.locomotor:StopMoving()
+            inst.AnimState:PlayAnimation("combotaunt")
+			inst.comboing = true
+			inst.combocount = 3
+        end,
+
+        timeline =
+        {
+            TimeEvent(16 * FRAMES, function(inst)
+				inst.SpawnSeekerBees(inst)
+            end),
+            CommonHandlers.OnNoSleepTimeEvent(32 * FRAMES, function(inst)
+                inst.sg:RemoveStateTag("busy")
+                inst.sg:RemoveStateTag("nosleep")
+                inst.sg:RemoveStateTag("nofreeze")
+				inst:DoTaskInTime(0,function(inst) inst.sg:GoToState("command_mortar") end)
+            end),
+        },
+
+        events =
+        {
+            --CommonHandlers.OnNoSleepAnimOver("command_mortar"), --for some reason this isn't vvorking, taunting happens instead, so dotaskintime(0 is just going to have to be hovv vve do it in these heavy edit postinit casess
+        },
     },
 }
 
