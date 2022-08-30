@@ -88,10 +88,10 @@ AddStategraphActionHandler("wilson", ActionHandler(GLOBAL.ACTIONS.ATTACK, Attack
 
 
 
-AddStategraphState("wilson", function(inst)
+AddStategraphPostInit("wilson", function(inst)
 	local actionhandlers =
 	{
-		ActionHandler(ACTIONS.WATHOMBARK,
+		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
 			function(inst, action)
 				return "wathombark"
 			end),
@@ -99,170 +99,168 @@ AddStategraphState("wilson", function(inst)
 	}
 	
 	local states = {
-	State{
-        name = "wathombark",
-        tags = {"attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
+		GLOBAL.State{
+			name = "wathombark",
+			tags = {"attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
 
-        onenter = function(inst, data)
-            local buffaction = inst:GetBufferedAction()
-            local target = buffaction ~= nil and buffaction.target or nil
-			inst.AnimState:PlayAnimation("idle", false)
-            inst.Transform:SetEightFaced()
-            inst.components.locomotor:Stop()
-            inst.components.locomotor:EnableGroundSpeedMultiplier(false)
-            if inst.components.playercontroller ~= nil then
-               inst.components.playercontroller:RemotePausePrediction()
-            end
-        end,
-
-        onexit = function(inst)
-        end,
-
-        timeline=
-        {
-			TimeEvent(0*FRAMES, function(inst) 
-				inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/leap") --place your funky sounds here
-				inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump") 
-			end),
-
-
-			TimeEvent(12*FRAMES, function(inst) 
+			onenter = function(inst, data)
+				local buffaction = inst:GetBufferedAction()
+				local target = buffaction ~= nil and buffaction.target or nil
+				inst.AnimState:PlayAnimation("idle", false)
 				inst.components.locomotor:Stop()
-				inst:PerformBufferedAction() --Dis is the important part, canis -Axe 
-				inst.sg:RemoveStateTag("busy")
-			end),			
-
-        },
-
-        events=
-        {
-            EventHandler("animover", function(inst)
-                inst.sg:GoToState("idle")
-				if not inst.components.playercontroller ~= nil then
-					inst.components.playercontroller:Enable(true)
+				inst.components.locomotor:EnableGroundSpeedMultiplier(false)
+				if inst.components.playercontroller ~= nil then
+				   inst.components.playercontroller:RemotePausePrediction()
 				end
-            end),
-        },
-	},
- 
-	State{
-        name = "wathomleap",
-        tags = {"attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
+			end,
 
-        onenter = function(inst, data)
-		Effect(inst)
-            local buffaction = inst:GetBufferedAction()
-            local target = buffaction ~= nil and buffaction.target or nil
-            inst.components.combat:SetTarget(target)
-            inst.components.combat:StartAttack()
---            inst.components.health:SetInvincible(true) -- I wonder why Tiddler did this?
-				--inst.AnimState:PlayAnimation("atk_leap_pre", false)
-				inst.AnimState:PlayAnimation("atk_leap", false)
-                    inst.Transform:SetEightFaced()
-        inst.AnimState:ClearOverrideBuild("player_lunge")
-        inst.AnimState:ClearOverrideBuild("player_attack_leap")
-            inst.components.locomotor:Stop()
-            inst.components.locomotor:EnableGroundSpeedMultiplier(false)
-            if inst.components.playercontroller ~= nil then
-               inst.components.playercontroller:RemotePausePrediction()
-            end
+			onexit = function(inst)
+			end,
 
-        end,
-
-        onexit = function(inst)
---            inst.components.health:SetInvincible(false)
-            inst.components.combat:SetTarget(nil)
-            if inst.sg:HasStateTag("abouttoattack") then
-                inst.components.combat:CancelAttack()
-            end
-                    inst.Transform:SetFourFaced()
-            inst.components.locomotor:Stop()
-                    inst.Physics:ClearMotorVelOverride()
-            inst.components.locomotor:EnableGroundSpeedMultiplier(true)
-        inst.AnimState:AddOverrideBuild("player_lunge")
-        inst.AnimState:AddOverrideBuild("player_attack_leap")
-        end,
-
-        timeline=
-        {
-			TimeEvent(0*FRAMES, function(inst) 
-			inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/leap")
-            inst.Physics:ClearCollisionMask() -- all of this physics stuff will give the impression that Wathom is jumping over things. It also allows him to slide past targets instead of ending his leap in front.
-			inst.components.hunger:DoDelta(-1, 2)
-            inst.Physics:CollidesWith(GLOBAL.COLLISION.WORLD)
-            inst.Physics:CollidesWith(GLOBAL.COLLISION.OBSTACLES)
-            inst.Physics:CollidesWith(GLOBAL.COLLISION.SMALLOBSTACLES)
-            local buffaction = inst:GetBufferedAction()
-            local target = buffaction ~= nil and buffaction.target or nil
-		if target ~= nil then
-                    inst.sg.statemem.startingpos = inst:GetPosition()
-                    inst.sg.statemem.targetpos = target:GetPosition()
-			if target ~= nil then
-                    if inst.sg.statemem.startingpos.x ~= inst.sg.statemem.targetpos.x or inst.sg.statemem.startingpos.z ~= inst.sg.statemem.targetpos.z then
-                        inst.Physics:SetMotorVelOverride(math.sqrt(GLOBAL.distsq(inst.sg.statemem.startingpos.x, inst.sg.statemem.startingpos.z, inst.sg.statemem.targetpos.x, inst.sg.statemem.targetpos.z)) / (12 * FRAMES), 0 ,0)
-                    end
-		end
-	end
-    inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump") 
-			end),
+			timeline=
+			{
+				TimeEvent(0*FRAMES, function(inst) 
+					inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/leap") --place your funky sounds here
+					inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump") 
+				end),
 
 
-			TimeEvent(12*FRAMES, function(inst) 
-                        inst.sg:RemoveStateTag("abouttoattack")
-            inst.components.locomotor:Stop()
-                    inst.Physics:ClearMotorVelOverride()
-		inst:PerformBufferedAction() 
-		inst.components.playercontroller:Enable(false)
-            inst.components.locomotor:EnableGroundSpeedMultiplier(true)
+				TimeEvent(12*FRAMES, function(inst) 
+					inst.components.locomotor:Stop()
+					inst:PerformBufferedAction() --Dis is the important part, canis -Axe 
 					inst.sg:RemoveStateTag("busy")
-			end),
+				end),			
 
-            TimeEvent(14*FRAMES, function(inst) 					
--- This is when the target gets hit.
+			},
 
-            inst.Physics:SetMotorVel(10, 0, 0) -- This causes Wathom to slide forward. Update when Adrenaline is implemented.
-	SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
-			end),	
-
-            TimeEvent(19*FRAMES, function(inst) 					
-	SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
-			end),	
-
-            TimeEvent(24*FRAMES, function(inst) 
-				SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
-					inst.sg:RemoveStateTag("busy")
-					inst.sg:RemoveStateTag("attack")
-					inst.sg:RemoveStateTag("nointerrupt")
-					inst.sg:RemoveStateTag("pausepredict")
-            inst.sg:AddStateTag("idle")
-            inst.Physics:SetMotorVel(0.0, 0, 0) -- Stops Wathom's sliding.
-                inst.Physics:Stop()
-                inst.Physics:CollidesWith(GLOBAL.COLLISION.CHARACTERS) -- Re-enabling Wathom's normal collision.
-                    inst.components.playercontroller:Enable(true)
-			end),				
-
-        },
-
-        events=
-        {
-            EventHandler("animover", function(inst)
-                inst.sg:GoToState("idle")
-				                if not inst.components.playercontroller ~= nil then
-                    inst.components.playercontroller:Enable(true)
+			events=
+			{
+				EventHandler("animover", function(inst)
+					inst.sg:GoToState("idle")
+					if not inst.components.playercontroller ~= nil then
+						inst.components.playercontroller:Enable(true)
 					end
-            end ),
-        },
-                     
-    },
+				end),
+			},
+		},
+ 
+		GLOBAL.State{
+			name = "wathomleap",
+			tags = {"attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
+
+			onenter = function(inst, data)
+			Effect(inst)
+				local buffaction = inst:GetBufferedAction()
+				local target = buffaction ~= nil and buffaction.target or nil
+				inst.components.combat:SetTarget(target)
+				inst.components.combat:StartAttack()
+	--            inst.components.health:SetInvincible(true) -- I wonder why Tiddler did this?
+					--inst.AnimState:PlayAnimation("atk_leap_pre", false)
+					inst.AnimState:PlayAnimation("atk_leap", false)
+						inst.Transform:SetEightFaced()
+			inst.AnimState:ClearOverrideBuild("player_lunge")
+			inst.AnimState:ClearOverrideBuild("player_attack_leap")
+				inst.components.locomotor:Stop()
+				inst.components.locomotor:EnableGroundSpeedMultiplier(false)
+				if inst.components.playercontroller ~= nil then
+				   inst.components.playercontroller:RemotePausePrediction()
+				end
+
+			end,
+
+			onexit = function(inst)
+	--            inst.components.health:SetInvincible(false)
+				inst.components.combat:SetTarget(nil)
+				if inst.sg:HasStateTag("abouttoattack") then
+					inst.components.combat:CancelAttack()
+				end
+						inst.Transform:SetFourFaced()
+				inst.components.locomotor:Stop()
+						inst.Physics:ClearMotorVelOverride()
+				inst.components.locomotor:EnableGroundSpeedMultiplier(true)
+			inst.AnimState:AddOverrideBuild("player_lunge")
+			inst.AnimState:AddOverrideBuild("player_attack_leap")
+			end,
+
+			timeline=
+			{
+				TimeEvent(0*FRAMES, function(inst) 
+				inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/leap")
+				inst.Physics:ClearCollisionMask() -- all of this physics stuff will give the impression that Wathom is jumping over things. It also allows him to slide past targets instead of ending his leap in front.
+				inst.components.hunger:DoDelta(-1, 2)
+				inst.Physics:CollidesWith(GLOBAL.COLLISION.WORLD)
+				inst.Physics:CollidesWith(GLOBAL.COLLISION.OBSTACLES)
+				inst.Physics:CollidesWith(GLOBAL.COLLISION.SMALLOBSTACLES)
+				local buffaction = inst:GetBufferedAction()
+				local target = buffaction ~= nil and buffaction.target or nil
+			if target ~= nil then
+						inst.sg.statemem.startingpos = inst:GetPosition()
+						inst.sg.statemem.targetpos = target:GetPosition()
+				if target ~= nil then
+						if inst.sg.statemem.startingpos.x ~= inst.sg.statemem.targetpos.x or inst.sg.statemem.startingpos.z ~= inst.sg.statemem.targetpos.z then
+							inst.Physics:SetMotorVelOverride(math.sqrt(GLOBAL.distsq(inst.sg.statemem.startingpos.x, inst.sg.statemem.startingpos.z, inst.sg.statemem.targetpos.x, inst.sg.statemem.targetpos.z)) / (12 * FRAMES), 0 ,0)
+						end
+			end
+		end
+		inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump") 
+				end),
+
+
+				TimeEvent(12*FRAMES, function(inst) 
+							inst.sg:RemoveStateTag("abouttoattack")
+				inst.components.locomotor:Stop()
+						inst.Physics:ClearMotorVelOverride()
+			inst:PerformBufferedAction() 
+			inst.components.playercontroller:Enable(false)
+				inst.components.locomotor:EnableGroundSpeedMultiplier(true)
+						inst.sg:RemoveStateTag("busy")
+				end),
+
+				TimeEvent(14*FRAMES, function(inst) 					
+	-- This is when the target gets hit.
+
+				inst.Physics:SetMotorVel(10, 0, 0) -- This causes Wathom to slide forward. Update when Adrenaline is implemented.
+		SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
+				end),	
+
+				TimeEvent(19*FRAMES, function(inst) 					
+		SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
+				end),	
+
+				TimeEvent(24*FRAMES, function(inst) 
+					SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
+						inst.sg:RemoveStateTag("busy")
+						inst.sg:RemoveStateTag("attack")
+						inst.sg:RemoveStateTag("nointerrupt")
+						inst.sg:RemoveStateTag("pausepredict")
+				inst.sg:AddStateTag("idle")
+				inst.Physics:SetMotorVel(0.0, 0, 0) -- Stops Wathom's sliding.
+					inst.Physics:Stop()
+					inst.Physics:CollidesWith(GLOBAL.COLLISION.CHARACTERS) -- Re-enabling Wathom's normal collision.
+						inst.components.playercontroller:Enable(true)
+				end),				
+
+			},
+
+			events=
+			{
+				EventHandler("animover", function(inst)
+					inst.sg:GoToState("idle")
+									if not inst.components.playercontroller ~= nil then
+						inst.components.playercontroller:Enable(true)
+						end
+				end ),
+			},			 
+		},
 	}
 	
 	for k, v in pairs(states) do
-		assert(v:is_a(State), "Non-state added in mod state table!")
+		GLOBAL.assert(v:is_a(GLOBAL.State), "Non-state added in mod state table!")
 		inst.states[v.name] = v
 	end
 	
 	for k, v in pairs(actionhandlers) do
-		assert(v:is_a(ActionHandler), "Non-action added in mod state table!")
+		GLOBAL.assert(v:is_a(GLOBAL.ActionHandler), "Non-action added in mod state table!")
 		inst.actionhandlers[v.action] = v
 	end
  
@@ -270,16 +268,16 @@ end)
 	
 --client. Uses a "pre" as this should only be used if there's lag.
 
-AddStategraphState("wilson_client", function(inst)
+AddStategraphPostInit("wilson_client", function(inst)
 	local actionhandlers =
 	{
-		ActionHandler(ACTIONS.WATHOMBARK,
+		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
 			function(inst, action)
 				return "wathombark_pre"
 			end),
 	}
 	local states = {
-	State {
+	GLOBAL.State {
         name = "wathomleap_pre",
         tags = {  "busy" },
 
@@ -317,7 +315,7 @@ AddStategraphState("wilson_client", function(inst)
         end,
 	},
 
-	State {
+	GLOBAL.State {
         name = "wathombark_pre",
         tags = {  "busy" },
 
@@ -356,12 +354,12 @@ AddStategraphState("wilson_client", function(inst)
 	}
 
 	for k, v in pairs(states) do
-		assert(v:is_a(State), "Non-state added in mod state table!")
+		GLOBAL.assert(v:is_a(GLOBAL.State), "Non-state added in mod state table!")
 		inst.states[v.name] = v
 	end
 	
 	for k, v in pairs(actionhandlers) do
-		assert(v:is_a(ActionHandler), "Non-action added in mod state table!")
+		GLOBAL.assert(v:is_a(GLOBAL.ActionHandler), "Non-action added in mod state table!")
 		inst.actionhandlers[v.action] = v
 	end	
 end)
@@ -378,12 +376,13 @@ local wathombark = AddAction(
 	GLOBAL.STRINGS.ACTIONS.WATHOMBARK,
 	function(act)
     if act.doer ~= nil then -- previously act.target
+		local inst = act.doer
 		inst.AnimState:AddOverrideBuild("emote_angry")
 		inst.components.hunger:DoDelta(-20, 2) -- Hunger is a stand-in for Adrenaline for now.
 		inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/bark") 
 		
-				local x, y, z = act.target.Transform:GetWorldPosition()
-				local ents = GLOBAL.TheSim:FindEntities(x, y, z, 10, { "_combat" }, { "companion" })
+				local act_pos = act:GetActionPoint()
+				local ents = GLOBAL.TheSim:FindEntities(act_pos.x, act_pos.y, act_pos.z, 10, { "_combat" }, { "companion" })
 				for i, v in ipairs(ents) do
 					if v.components.hauntable ~= nil and v.components.hauntable.panicable and not
 					(v.components.follower ~= nil and v.components.follower:GetLeader() and v.components.follower:GetLeader():HasTag("player")) then

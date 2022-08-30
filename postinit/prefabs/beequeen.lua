@@ -383,16 +383,10 @@ end
 
 local function RedoSpavvnguard_cd(inst)
 	inst.spawnguards_threshold = 20 --threshhold is primarily related ot the spavvn times rather than number of bees novv...
-	if inst.components.health and inst.components.health:GetPercent() > 0.75 then
-		return math.random(40,60)
-	elseif inst.components.health then
-		if inst.components.health:GetPercent() < 0.75 and inst.components.health:GetPercent() > 0.5 then
-			return math.random(30,40)
-		else
-			return math.random(70,80)
-		end
-	end
-	inst.sg:GoToState("spawnguards")
+	local x,y,z = inst.Transform:GetWorldPosition()
+	local players = TheSim:FindEntities(x,y,z,30,{"player"})
+	local count = math.sqrt(#players)*20
+	return math.random(80,100)-count
 end
 
 local function ShouldChase(inst) --All the cases that BQ shouldn't chase the player: Grumble bees are alive, shooter bees are alive, extra bees are alive (extra bees are shooter/seeker)
@@ -504,6 +498,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	--inst:DoTaskInTime(5,SpawnDefensiveBees)
 	
 	inst.spawnguards_cd = RedoSpavvnguard_cd(inst)
+	inst.redo_spawnguards_cd_fn = function(inst) inst.spawnguards_cd = RedoSpavvnguard_cd(inst) end
 	inst.SpawnSeekerBees = SpawnSeekerBees
 	inst.seekercount = math.random(4,5)
 	inst.defensivespincount = math.random(3,5)
@@ -514,6 +509,7 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst.SpawnSupport = SpawnSupport
 	inst.SpavvnShooterBeesLine = SpavvnShooterBeesLine
 	inst.FinalFormation = FinalFormation
+	
 end)
 
 local function OnTagTimer(inst, data)
