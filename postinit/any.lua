@@ -179,8 +179,8 @@ end)
 env.AddPrefabPostInitAny(function(inst)
 	local old_OnSave = inst.OnSave
 	inst.OnSave = function(inst, data)
-		if inst.dynlayout_tags then
-			data.dynlayout_tags = inst.dynlayout_tags
+		if inst.umss_tags then
+			data.umss_tags = inst.umss_tags
 		end
 
 		if old_OnSave ~= nil then
@@ -190,9 +190,9 @@ env.AddPrefabPostInitAny(function(inst)
 
 	local old_OnLoad = inst.OnLoad
 	inst.OnLoad = function(inst, data)
-		if data ~= nil and data.dynlayout_tags ~= nil then
-			for k, v in ipairs(data.dynlayout_tags) do
-				inst:AddTag("dynlayout_"..v)
+		if data ~= nil and data.umss_tags ~= nil then
+			for k, v in ipairs(data.umss_tags) do
+				inst:AddTag("umss_"..v)
 			end
 		end
 

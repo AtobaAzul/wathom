@@ -1,4 +1,3 @@
-
 RemapSoundEvent( "dontstarve/characters/winky/death_voice", "winky/characters/winky/death_voice" )
 RemapSoundEvent( "dontstarve/characters/winky/hurt", "winky/characters/winky/hurt" )
 RemapSoundEvent( "dontstarve/characters/winky/talk_LP", "winky/characters/winky/talk_LP" )
@@ -256,7 +255,9 @@ Assets = {
 
 	Asset("SOUNDPACKAGE", "sound/winky.fev"),
 	Asset("SOUND", "sound/winky.fsb"),
-	
+	-- Wathom's Adrenaline badge.
+    Asset( "ANIM", "anim/ampbadge.zip" ),
+
     -- Livingtree root attack custom art by @Advent (modded from poison birchnut roots)
     Asset("ANIM", "anim/tree_leaf_spike_lt.zip"),
     Asset("ANIM", "anim/frog_yellow_build.zip"),
@@ -1102,5 +1103,38 @@ Assets = {
 	Asset("ANIM", "anim/driftwood_normal.zip"),
     Asset("IMAGE", "images/inventoryimages/sludge_cork.tex"),
 	Asset("ATLAS", "images/inventoryimages/sludge_cork.xml"),
-	Asset("ANIM", "anim/um_tesla_tree.zip")
+	Asset("ANIM", "anim/um_tesla_tree.zip"),
+	
+	
+    Asset( "IMAGE", "images/saveslot_portraits/wathom.tex" ),
+    Asset( "ATLAS", "images/saveslot_portraits/wathom.xml" ),
+
+    Asset( "IMAGE", "images/selectscreen_portraits/wathom.tex" ),
+    Asset( "ATLAS", "images/selectscreen_portraits/wathom.xml" ),
+	
+    Asset( "IMAGE", "images/selectscreen_portraits/wathom_silho.tex" ),
+    Asset( "ATLAS", "images/selectscreen_portraits/wathom_silho.xml" ),
+
+    Asset( "IMAGE", "bigportraits/wathom.tex" ),
+    Asset( "ATLAS", "bigportraits/wathom.xml" ),
+    Asset( "IMAGE", "bigportraits/wathom_none.tex" ),
+    Asset( "ATLAS", "bigportraits/wathom_none.xml" ),
+	
+	Asset( "IMAGE", "images/map_icons/wathom.tex" ),
+	Asset( "ATLAS", "images/map_icons/wathom.xml" ),
+	
+	Asset( "IMAGE", "images/avatars/avatar_wathom.tex" ),
+    Asset( "ATLAS", "images/avatars/avatar_wathom.xml" ),
+	
+	Asset( "IMAGE", "images/avatars/avatar_ghost_wathom.tex" ),
+    Asset( "ATLAS", "images/avatars/avatar_ghost_wathom.xml" ),
+	
+	Asset( "IMAGE", "images/avatars/self_inspect_wathom.tex" ),
+    Asset( "ATLAS", "images/avatars/self_inspect_wathom.xml" ),
+	
+	Asset( "IMAGE", "images/names_wathom.tex" ),
+    Asset( "ATLAS", "images/names_wathom.xml" ),
+	
+	Asset( "IMAGE", "images/names_gold_wathom.tex" ),
+    Asset( "ATLAS", "images/names_gold_wathom.xml" ),
 }
