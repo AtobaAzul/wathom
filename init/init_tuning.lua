@@ -273,6 +273,9 @@ TUNING.DSTU =
 	--Warly
     WARLY_SAME_OLD_COOLDOWN = total_day_time * 3,
 	WARLY_SAME_OLD_MULTIPLIERS = { .6, .5, .35, .2, .1 },
+	
+	--Wigfrid
+    BATTLESONG_FIRE_RESIST_MOD = 0, --orig 33% fire resis
 
 	--Maxwell
 	SHADOWWAXWELL_FUEL_COST = 2,
@@ -288,6 +291,7 @@ TUNING.DSTU =
 	WICKERNERF = GetModConfigData("wickerbottom"),
 	WICKERNERF_TENTACLES = GetModConfigData("on tentacles"),
 	WICKERNERF_HORTICULTURE = GetModConfigData("applied horticulture"),
+	
 
     --Wanda
     WANDA_NERF = GetModConfigData("wandanerf"),
@@ -452,8 +456,6 @@ if GetModConfigData("sleepingbuff") then
 	TUNING.SLEEP_TICK_PERIOD = TUNING.SLEEP_TICK_PERIOD / GetModConfigData("sleepingbuff")
 	--TUNING.SLEEP_TICK_PERIOD = TUNING.SLEEP_TICK_PERIOD / TUNING.DSTU.SLEEPINGBUFF
 end
-
-TUNING.BATTLESONG_FIRE_RESIST_MOD = 0
 
 --Sailing Rebalance related tuning changes
 --trident buff
