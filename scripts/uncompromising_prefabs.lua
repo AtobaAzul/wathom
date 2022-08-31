@@ -361,7 +361,7 @@ return {
 	"um_scorpionhole_organizer",
 	"um_amber",
 	"um_sorrel",
-	"um_saltsalve",
+	"brine_balm",
 	"um_sandrock",
 	"um_scorpioneggs",
 	"giant_tree_birdnest",

@@ -4,6 +4,8 @@ local assets =
 {
     Asset("ANIM", "anim/um_dreamcatcher.zip"),
 	Asset("ANIM", "anim/brineish_moss.zip"),
+	Asset("IMAGE", "images/inventoryimages/brineish_moss.tex"),
+	Asset("ATLAS", "images/inventoryimages/brineish_moss.xml"),
 }
 local damage_time = 20*8*60
 
