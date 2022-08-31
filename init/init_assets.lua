@@ -201,7 +201,8 @@ local inventoryitems =
 	"ocupus_tentacle_cooked",
 	"ocupus_beak",
 	"brineish_moss",
-	"brine_balm"
+	"brine_balm",
+	"sludge_oil",
 }
 
 for k, v in ipairs(inventoryitems) do

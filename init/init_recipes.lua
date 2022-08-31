@@ -496,9 +496,11 @@ AddRecipe2(
   "sludge_oil",
   {Ingredient("sludge", 3), Ingredient("messagebottleempty", 1)},
   TECH.SCIENCE_TWO,
-  {"REFINE"}
+  nil,
+  {"TOOLS", "LIGHT"}
 )
---ChangeSortKey("sludge_oil", false)
+ChangeSortKey("sludge_oil", "sewing_tape", "TOOLS", true)
+ChangeSortKey("sludge_oil", "coldfirepit", "LIGHT", true)
 
 AddRecipe2(
     "armor_reed_um",
