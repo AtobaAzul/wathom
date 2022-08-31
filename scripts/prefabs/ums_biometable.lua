@@ -119,7 +119,7 @@ local function SpawnBiomeUMSS(inst)
 		inst.fail = nil
 		SpawnBiomeUMSS(inst)
 	end]]
-	SpawnBiomeUMSS(inst)
+	FinalizeSpawn(inst,umss,x,y,z)
 end
 
 
