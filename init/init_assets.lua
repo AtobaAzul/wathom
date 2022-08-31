@@ -182,7 +182,7 @@ local inventoryitems =
 	"sludge",
 	"sludge_cork",
 	"sludge_sack",
-	"cannonball_sludge",
+	"cannonball_sludge_item",
 	"boatpatch_sludge",
 	"uncompromising_harpoon_heavy",
 	"rockjawleather",
