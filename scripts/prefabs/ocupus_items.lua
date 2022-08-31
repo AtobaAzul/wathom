@@ -9,11 +9,11 @@ local prefabs =
     "ocupus_tentacle",
     "ocupus_tentacle_eye",
     "ocupus_tentacle_cooked",
-	"ocupus_beak",
+    "ocupus_beak",
 }
 
 
-local function common(bank, build, anim, tags, dryable, cookable)
+local function common(bank, build, anim, tags, cookable)
     local inst = CreateEntity()
 
     inst.entity:AddTransform()
@@ -31,12 +31,6 @@ local function common(bank, build, anim, tags, dryable, cookable)
         for i, v in ipairs(tags) do
             inst:AddTag(v)
         end
-    end
-
-    if dryable ~= nil then
-        --dryable (from dryable component) added to pristine state for optimization
-        inst:AddTag("dryable")
-        inst:AddTag("lureplant_bait")
     end
 
     if cookable ~= nil then
@@ -71,14 +65,6 @@ local function common(bank, build, anim, tags, dryable, cookable)
     inst.components.perishable:StartPerishing()
     inst.components.perishable.onperishreplacement = "spoiled_food"
 
-    if dryable ~= nil and dryable.product ~= nil then
-        inst:AddComponent("dryable")
-        inst.components.dryable:SetProduct(dryable.product)
-        inst.components.dryable:SetDryTime(dryable.time)
-		inst.components.dryable:SetBuildFile(dryable.build)
-        inst.components.dryable:SetDriedBuildFile(dryable.dried_build)
-    end
-
     if cookable ~= nil then
         inst:AddComponent("cookable")
         inst.components.cookable.product = cookable.product
@@ -87,9 +73,8 @@ local function common(bank, build, anim, tags, dryable, cookable)
     return inst
 end
 
-
 local function ocupus_tentacle()
-    local inst = common("meat", "meat", "raw", { "catfood", "rawmeat" },  { product = "ocupus_tentacle_cooked" })
+    local inst = common("ocupus_items", "ocupus_items", "idle_tentacle", { "catfood", "rawmeat" }, { product = "ocupus_tentacle_cooked" })
     if not TheWorld.ismastersim then
         return inst
     end
@@ -101,13 +86,14 @@ local function ocupus_tentacle()
 
     inst.components.tradable.goldvalue = 1
 
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/ocupus_tentacle.xml"
 
 
     return inst
 end
 
 local function ocupus_tentacle_eye()
-    local inst = common("meat", "meat", "raw", { "catfood", "rawmeat" },  { product = "ocupus_tentacle_cooked" })
+    local inst = common("ocupus_items", "ocupus_items", "idle_eye", { "catfood", "rawmeat" }, { product = "ocupus_tentacle_cooked" })
     if not TheWorld.ismastersim then
         return inst
     end
@@ -119,12 +105,14 @@ local function ocupus_tentacle_eye()
 
     inst.components.tradable.goldvalue = 1
 
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/ocupus_tentacle_eye.xml"
 
     return inst
 end
 
 local function ocupus_tentacle_cooked()
-  
+    local inst = common("ocupus_items", "ocupus_items", "idle_cooked", { "catfood", "rawmeat" }, { product = "ocupus_tentacle_cooked" })
+
     if not TheWorld.ismastersim then
         return inst
     end
@@ -136,8 +124,45 @@ local function ocupus_tentacle_cooked()
 
     inst.components.tradable.goldvalue = 1
 
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/ocupus_tentacle_cooked.xml"
+    return inst
+end
+
+local function ocupus_beak()
+    local inst = CreateEntity()
+
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+
+    MakeInventoryPhysics(inst)
+
+    inst.AnimState:SetBank("ocupus_items")
+    inst.AnimState:SetBuild("ocupus_items")
+    inst.AnimState:PlayAnimation("idle_beak")
+
+    MakeInventoryFloatable(inst)
+
+    inst.entity:SetPristine()
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+    inst:AddComponent("inspectable")
+
+    inst:AddComponent("inventoryitem")
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/ocupus_beak.xml"
+
+    inst:AddComponent("stackable")
+
+    inst:AddComponent("tradable")
+    inst.components.tradable.goldvalue = TUNING.GOLD_VALUES.MEAT
 
     return inst
 end
 
-return Prefab("ocupus_tentacle", tentacle_fn, assets), Prefab("ocupus_tentacle_eye", eye_fn, assets), 
+return Prefab("ocupus_tentacle", ocupus_tentacle, assets), Prefab("ocupus_tentacle_eye", ocupus_tentacle_eye, assets),
+    Prefab("ocupus_tentacle_cooked", ocupus_tentacle_cooked, assets), Prefab("ocupus_beak", ocupus_beak, assets)
+
+    

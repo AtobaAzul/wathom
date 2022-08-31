@@ -379,6 +379,7 @@ return {
 	"um_specter_amulet",
 	"um_walls",
 	"um_ocupus_eyetacle",
+	"ocupus_items",
 	"ums_biometable",
 	"umss_general",
 	
