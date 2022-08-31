@@ -292,7 +292,7 @@ local function cannonball_item_fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("inventoryitem")
-	inst.components.inventoryitem.atlasname = "images/inventoryimages/cannonball_sludge.xml"
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/cannonball_sludge_item.xml"
 
     inst.components.inventoryitem:SetSinks(true)
 

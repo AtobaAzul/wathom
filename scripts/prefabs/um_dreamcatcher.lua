@@ -4,8 +4,6 @@ local assets =
 {
     Asset("ANIM", "anim/um_dreamcatcher.zip"),
 	Asset("ANIM", "anim/brineish_moss.zip"),
-	Asset("IMAGE", "images/inventoryimages/brineish_moss.tex"),
-	Asset("ATLAS", "images/inventoryimages/brineish_moss.xml"),
 }
 local damage_time = 20*8*60
 
@@ -368,7 +366,7 @@ local function fnmoss(inst)
     inst:AddComponent("inspectable")
 	inst:AddComponent("tradable")
     inst:AddComponent("inventoryitem")
-	inst.components.inventoryitem.atlasname = "images/inventoryimages/brineish_moss.xml"
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/um_brineishmoss.xml"
 
     return inst
 end

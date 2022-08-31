@@ -200,7 +200,7 @@ local inventoryitems =
 	"ocupus_tentacle_eye",
 	"ocupus_tentacle_cooked",
 	"ocupus_beak",
-	"brineish_moss",
+	"um_brineishmoss",
 	"brine_balm",
 	"sludge_oil",
 }
@@ -1137,13 +1137,13 @@ Assets = {
 	Asset("IMAGE", "images/names_gold_wathom.tex"),
 	Asset("ATLAS", "images/names_gold_wathom.xml"),
 
-	Asset("IMAGE", "images/inventoryimages/brineish_moss.tex"),
-	Asset("ATLAS", "images/inventoryimages/brineish_moss.xml"),
+	Asset("IMAGE", "images/inventoryimages/um_brineishmoss.tex"),
+	Asset("ATLAS", "images/inventoryimages/um_brineishmoss.xml"),
 
 	Asset("IMAGE", "images/inventoryimages/brine_balm.tex"),
 	Asset("ATLAS", "images/inventoryimages/brine_balm.xml"),
 
 	Asset("ANIM", "anim/cannonball_sludge.zip"),
-	Asset("ATLAS", "images/inventoryimages/cannonball_sludge.xml"),
-	Asset("IMAGE", "images/inventoryimages/cannonball_sludge.tex"),
+	Asset("ATLAS", "images/inventoryimages/cannonball_sludge_item.xml"),
+	Asset("IMAGE", "images/inventoryimages/cannonball_sludge_item.tex"),
 }
