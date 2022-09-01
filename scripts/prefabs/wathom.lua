@@ -7,7 +7,7 @@ local assets = {
 }
 
 -- Your character's stats
-TUNING.WATHOM_HEALTH = 200
+TUNING.WATHOM_HEALTH = 225
 TUNING.WATHOM_HUNGER = 120
 TUNING.WATHOM_SANITY = 120
 
@@ -16,7 +16,7 @@ TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.WATHOM = {
 	"flint",
 	"flint",
 	"twigs",
-	"twigs",
+	"twigs", -- Placeholder :)
 }
 
 local start_inv = {}
@@ -36,6 +36,44 @@ local function onbecameghost(inst)
    inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "wathom_speed_mod")
 end
 
+-------------------------------------------
+
+
+local function AmpTimer(inst)
+    if inst.components.adrenalinecounter:GetPercent() < 0.24 then
+        inst.components.grogginess.grog_amount = 0.5
+    end 
+end
+
+local function AmpTimer2(inst)
+	    if inst.components.adrenalinecounter:GetPercent() > 0.25 then
+    inst.components.adrenalinecounter:DoDelta(-1) -- Draining adrenaline when not in combat. Need to make this not work if Wathom attacks/gets hit in the past 5 seconds.
+		end
+		
+		if inst.components.adrenalinecounter:GetPercent() < 0.25 then
+    inst.components.adrenalinecounter:DoDelta(1) -- Slowly regaining to normal levels.
+		end
+		
+end
+
+local function OnAttack(inst, data) -- this function doesn't work
+	if inst.components.adrenalinecounter:GetPercent() > 0.24 then
+		if data and data.damageresolved then
+			inst.components.adrenalinecounter:DoDelta(1)
+		end
+	end
+end
+
+local function OnHealthDelta(inst, data)
+    if data.amount < 0 then
+        inst.components.adrenalinecounter:DoDelta(data.amount * -0.5) -- This gives Wathom adrenaline when attacked!
+    end
+end
+
+
+
+---------------------------------------------
+
 local function GetPointSpecialActions(inst, pos, useitem, right)
     if right and useitem == nil then
         local rider = inst.replica.rider
@@ -51,6 +89,7 @@ local function OnSetOwner(inst)
         inst.components.playeractionpicker.pointspecialactionsfn = GetPointSpecialActions
     end
 end
+
 
 
 local WATHOM_COLOURCUBES =
@@ -93,6 +132,9 @@ end
 
 -- This initializes for the server only. Components are added here.
 local master_postinit = function(inst)
+
+    inst.adrenalinecheck = 0 -- I have no idea what this does. It's left over from SCP-049.
+
 	-- Set starting inventory
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 	
@@ -110,6 +152,8 @@ local master_postinit = function(inst)
 	
 	inst.components.eater:SetCanEatRawMeat(true) 
 	
+	inst.components.foodaffinity:AddPrefabAffinity("bonestew", 20) -- replace with hardshell tacos when implementing in uncomp
+	
 	-- Stats	
 	inst.components.health:SetMaxHealth(TUNING.WATHOM_HEALTH)
 	inst.components.hunger:SetMax(TUNING.WATHOM_HUNGER)
@@ -124,17 +168,32 @@ local master_postinit = function(inst)
 	-- Idle animation
 	inst.customidleanim = "spooked"
 
-	-- Wathom's Nightvision
-	inst:WatchWorldState("isnight", function() 
-	if TheWorld.state.isnight then
-	inst.components.playervision:ForceNightVision(true)
+ -- Wathom's Nightvision in the caves
+if TheWorld:HasTag("cave") then
+    inst.components.playervision:ForceNightVision(true)
     inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-		else
-		inst.components.playervision:ForceNightVision(false)
-		inst.components.playervision:SetCustomCCTable(nil)
-		end
-	end)
+    end
 
+
+    -- Wathom's Nightvision aboveground
+    inst:WatchWorldState("isnight", function() 
+    if not TheWorld:HasTag("cave") then
+      if TheWorld.state.isnight then
+          inst.components.playervision:ForceNightVision(true)
+          inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+          else
+            inst.components.playervision:ForceNightVision(false)
+            inst.components.playervision:SetCustomCCTable(nil)
+        end
+    end
+    end)
+
+	-- stuff relating to Wathom's adrenaline timer. This can most likely be optimized.
+    inst:DoPeriodicTask(0.5, function() AmpTimer(inst) end)
+    inst:DoPeriodicTask(1, function() AmpTimer2(inst) end)
+
+	inst:ListenForEvent("healthdelta", OnHealthDelta)
+	inst:ListenForEvent("attack", OnAttack)
 
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
@@ -144,6 +203,7 @@ local master_postinit = function(inst)
 
 	-- Doubles Wathom's attack range so he can jump at things from further away.
 	inst.components.combat.attackrange = 4
+
 	
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
