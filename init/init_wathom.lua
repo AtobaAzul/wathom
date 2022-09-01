@@ -19,6 +19,7 @@ Vector3 = GLOBAL.Vector3
 local Vector3 = GLOBAL.Vector3
 
 
+
 -- It's 1 AM and I don't want to pick apart which local is needed so I'll just grab all of it.
 
 --------------------------------------------------------------------------
@@ -48,7 +49,7 @@ local function Attack_New(inst, action)
   inst.sg.mem.localchainattack = not action.forced or nil
   local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
 
-  if weapon and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
+	if weapon and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
     return ("wathomleap") 
   else
     return Attack_Old(inst, action)
@@ -67,7 +68,7 @@ end
 local function AttackClient_New(inst, action)
   local weapon = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
   
-  if weapon and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
+	if weapon and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
     return ("wathomleap_pre") 
   else
     return ClientAttack_Old(inst, action)
@@ -105,7 +106,7 @@ AddStategraphPostInit("wilson", function(inst)
 
 			onenter = function(inst, data)
 				local buffaction = inst:GetBufferedAction()
-				local target = buffaction ~= nil and buffaction.target or nil
+				local target = buffaction ~= nil and buffaction.target or nil			
 				inst.AnimState:PlayAnimation("emote_angry", false)
 				inst.components.locomotor:Stop()
 				inst.components.locomotor:EnableGroundSpeedMultiplier(false)
@@ -120,8 +121,7 @@ AddStategraphPostInit("wilson", function(inst)
 			timeline=
 			{
 				TimeEvent(0*FRAMES, function(inst) 
-					inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/leap") --place your funky sounds here
-					inst.SoundEmitter:PlaySound("turnoftides/common/together/boat/jump") 
+					inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/bark") --place your funky sounds here
 				end),
 
 
@@ -129,6 +129,7 @@ AddStategraphPostInit("wilson", function(inst)
 					inst.components.locomotor:Stop()
 					inst:PerformBufferedAction() --Dis is the important part, canis -Axe 
 					inst.sg:RemoveStateTag("busy")
+					inst.sg:RemoveStateTag("nointerrupt")					
 				end),			
 
 			},
@@ -217,8 +218,7 @@ AddStategraphPostInit("wilson", function(inst)
 				end),
 
 				TimeEvent(14*FRAMES, function(inst) 					
-	-- This is when the target gets hit.
-
+				-- This is when the target gets hit.
 				inst.Physics:SetMotorVel(10, 0, 0) -- This causes Wathom to slide forward. Update when Adrenaline is implemented.
 		SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
 				end),	
@@ -390,8 +390,8 @@ local wathombark = AddAction(
     if act.doer ~= nil then -- previously act.target
 		local inst = act.doer
 		inst.AnimState:AddOverrideBuild("emote_angry")
-		inst.components.hunger:DoDelta(-20, 2) -- Hunger is a stand-in for Adrenaline for now.
-		inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/bark") 
+		inst.components.adrenalinecounter:DoDelta(-20, 2) 
+--		inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/bark") Commented out for now since it already plays the sound before this code is performed
 		
 				local act_pos = act:GetActionPoint()
 				local ents = GLOBAL.TheSim:FindEntities(act_pos.x, act_pos.y, act_pos.z, 10, { "_combat" }, { "companion" })
@@ -414,6 +414,101 @@ wathombark.mount_valid = false
 STRINGS.ACTIONS.WATHOMBARK = "Bark"
 
 -- STRINGS.ACTIONS.AMPUP = "Amp Up!"
+-------------------------------------------------------
+
+
+local KnownModIndex = GLOBAL.KnownModIndex
+local Text = require "widgets/text"
+local Image = require "widgets/image"
+local NUMBERFONT = GLOBAL.NUMBERFONT
+
+local function GetModName(modname) -- modinfo's modname and internal modname is different.
+    for _, knownmodname in ipairs(KnownModIndex:GetModsToLoad()) do
+        if KnownModIndex:GetModInfo(knownmodname).name == modname  then
+            return knownmodname
+        end
+    end
+end
+
+local function GetModOptionValue(knownmodname, known_option_name)
+    local modinfo = KnownModIndex:GetModInfo(knownmodname)
+    for _,option in pairs(modinfo.configuration_options) do
+        if option.name == known_option_name then
+            return option.saved
+        end
+    end
+end
+
+AddPlayerPostInit(function(inst)
+    if inst:HasTag("wathom") then
+
+        inst.counter_max = GLOBAL.net_shortint(inst.GUID, "counter_max", "counter_maxdirty") 
+        inst.counter_current = GLOBAL.net_shortint(inst.GUID, "counter_current", "counter_currentdirty") 
+
+        if GLOBAL.TheWorld.ismastersim then
+            inst:AddComponent("adrenalinecounter")
+        end 
+    end
+end)
+
+local function AmpbadgeDisplays(self)
+    if self.owner:HasTag("wathom") then
+        local ampbadge = require "widgets/ampbadge"
+
+        self.combinedmod = GetModName("Combined Status")
+
+        self.adrenaline = self:AddChild(ampbadge(self.owner))
+        if self.combinedmod ~= nil then
+            self.brain:SetPosition(0, 35, 0)
+            self.stomach:SetPosition(-62, 35, 0)
+            self.heart:SetPosition(62, 35, 0)
+
+            self.adrenaline:SetScale(.9,.9,.9)
+            self.adrenaline:SetPosition(-62, -50, 0)
+            self.adrenaline.combinedmod = true
+            self.adrenaline.showmaxonnumbers = GetModOptionValue(self.combinedmod, "SHOWMAXONNUMBERS")
+
+            self.adrenaline.bg = self.adrenaline:AddChild(Image("images/status_bgs.xml", "status_bgs.tex"))
+            self.adrenaline.bg:SetScale(.4,.43,0)
+            self.adrenaline.bg:SetPosition(-.5, -40, 0)
+        
+            self.adrenaline.num:SetFont(NUMBERFONT)
+            self.adrenaline.num:SetSize(28)
+            self.adrenaline.num:SetPosition(3.5, -40.5, 0)
+            self.adrenaline.num:SetScale(1,.78,1)
+
+            self.adrenaline.num:MoveToFront()
+            self.adrenaline.num:Show()
+
+            self.adrenaline.maxnum = self.adrenaline:AddChild(Text(NUMBERFONT, self.adrenaline.showmaxonnumbers and 25 or 33))
+            self.adrenaline.maxnum:SetPosition(6, 0, 0)
+            self.adrenaline.maxnum:MoveToFront()
+            self.adrenaline.maxnum:Hide()
+        else
+            self.adrenaline:SetPosition(-40, -50,0)
+            self.brain:SetPosition(40, -50, 0)
+            self.stomach:SetPosition(-40,17,0)
+        end
+        
+        --self.inst:ListenForEvent("adrenalinedetla", function(inst, data) self.adrenaline:SetPercent(data.newpercent, self.owner.components.pestilencecounter:Max()) end, self.owner)
+
+        local _SetGhostMode = self.SetGhostMode
+        function self:SetGhostMode(ghostmode)
+            if not self.isghostmode == not ghostmode then --force boolean
+                return
+            end
+
+            _SetGhostMode(self, ghostmode)
+            if ghostmode then
+                self.adrenaline:Hide()
+            else
+                self.adrenaline:Show()
+            end
+        end
+    end
+end
+
+AddClassPostConstruct("widgets/statusdisplays", AmpbadgeDisplays)
 
 -------------------------------------------------------
 -- The character select screen lines
