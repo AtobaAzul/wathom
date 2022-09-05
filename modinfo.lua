@@ -1,7 +1,7 @@
 name = "[DEV] 󰀕 Uncompromising Mode"
 description =
 [[
-󰀔 [ Version 1.1.5 : "The Hooded Forest" ]
+󰀔 [ Version 1.1.6 : "The Hooded Forest" ]
 
 Uncompromising Mode increases the risk and reward for those who have mastered Don't Starve Together.
 
@@ -18,7 +18,7 @@ Prominent features:
 
 author = "󰀈 The Uncomp Dev Team 󰀈"
 
-version = "1.1.5"
+version = "1.1.6"
 
 forumthread = "/topic/111892-announcement-uncompromising-mode/"
 
