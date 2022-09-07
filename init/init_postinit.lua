@@ -39,7 +39,6 @@ local prefab_post = {
 	"wardrobe",
 	"hayfever_foods",
 	"pollenstuff",
-	"pocketwatch_weapon",
 	"shieldofcthulu",
 	"clockworks",
 	"flingobalance",

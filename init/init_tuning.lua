@@ -294,7 +294,7 @@ TUNING.DSTU =
 	
 
     --Wanda
-    WANDA_NERF = GetModConfigData("wandanerf"),
+    WANDA_NERF = GetModConfigData("wanda_nerf"),
 
 	--Voretox
 	WORTOX = GetModConfigData("wortox"),
