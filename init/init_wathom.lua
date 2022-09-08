@@ -122,6 +122,16 @@ AddStategraphPostInit("wilson", function(inst)
 			{
 				TimeEvent(0*FRAMES, function(inst) 
 					inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/bark") --place your funky sounds here
+						local fx = SpawnPrefab("statue_transition_2")
+						if fx ~= nil then
+						fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+						fx.Transform:SetScale(1.2,1.2,1.2)
+						end
+						fx = SpawnPrefab("statue_transition")
+						if fx ~= nil then
+						fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+						fx.Transform:SetScale(1.2,1.2,1.2)
+						end					
 				end),
 
 
@@ -414,8 +424,8 @@ wathombark.mount_valid = false
 STRINGS.ACTIONS.WATHOMBARK = "Bark"
 
 -- STRINGS.ACTIONS.AMPUP = "Amp Up!"
--------------------------------------------------------
 
+---------------------------------------------
 
 local KnownModIndex = GLOBAL.KnownModIndex
 local Text = require "widgets/text"
