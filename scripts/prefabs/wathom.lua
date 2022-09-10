@@ -181,7 +181,31 @@ local common_postinit = function(inst)
     inst:AddTag("playermonster")	
 	
 	inst:AddTag("nightvision")
+	inst.OnLoad = onload
+    inst.OnNewSpawn = onload
+    -- Wathom's Nightvision aboveground
 	
+	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
+	else	
+		inst.components.playervision:ForceNightVision(false)
+		inst.components.playervision:SetCustomCCTable(nil)	
+    end
+	
+    inst:WatchWorldState("isnight", function() 
+		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
+			if not TheWorld:HasTag("cave") then
+			  if TheWorld.state.isnight then
+				  inst.components.playervision:ForceNightVision(true)
+				  inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+				  else
+					inst.components.playervision:ForceNightVision(false)
+					inst.components.playervision:SetCustomCCTable(nil)
+				end
+			end
+		end)
+    end)	
 	inst:ListenForEvent("setowner", OnSetOwner)
 	
 end
@@ -228,17 +252,27 @@ local master_postinit = function(inst)
 
 
     -- Wathom's Nightvision aboveground
-    inst:WatchWorldState("isnight", function() 
-    if not TheWorld:HasTag("cave") then
-      if TheWorld.state.isnight then
-          inst.components.playervision:ForceNightVision(true)
-          inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-          else
-            inst.components.playervision:ForceNightVision(false)
-            inst.components.playervision:SetCustomCCTable(nil)
-        end
+	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
+	else	
+		inst.components.playervision:ForceNightVision(false)
+		inst.components.playervision:SetCustomCCTable(nil)	
     end
-    end)
+	
+    inst:WatchWorldState("isnight", function() 
+		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
+			if not TheWorld:HasTag("cave") then
+			  if TheWorld.state.isnight then
+				  inst.components.playervision:ForceNightVision(true)
+				  inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+				  else
+					inst.components.playervision:ForceNightVision(false)
+					inst.components.playervision:SetCustomCCTable(nil)
+				end
+			end
+		end)
+    end)	
 
 	-- stuff relating to Wathom's adrenaline timer. This can most likely be optimized.
     inst:DoPeriodicTask(0.5, function() AmpTimer(inst) end)

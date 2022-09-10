@@ -78,6 +78,24 @@ local function AttackClient_New(inst, action)
 	end
 end
 
+local function RunUpdateTools(inst,client,exiting)
+	local method
+	if client then
+		method = inst.replica
+	else
+		method = inst.components
+	end
+	local weapon = method.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
+	if exiting and weapon then
+		inst.AnimState:Show("ARM_carry")
+		inst.AnimState:Hide("ARM_normal")
+	elseif weapon then
+		inst.AnimState:Hide("ARM_carry")
+		inst.AnimState:Show("ARM_normal")
+	end
+end
+
+
 --Pack it up
 
 AddStategraphActionHandler("wilson", ActionHandler(GLOBAL.ACTIONS.ATTACK, Attack_New))
@@ -188,6 +206,7 @@ AddStategraphPostInit("wilson", function(inst)
 
             --V2C: adding half a frame time so it rounds up
             inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
+			RunUpdateTools(inst)
         end,
 
         timeline =
@@ -204,6 +223,7 @@ AddStategraphPostInit("wilson", function(inst)
                 return
             end]]
             inst.components.locomotor:RunForward()
+			RunUpdateTools(inst)
         end,
 
         events =
@@ -226,14 +246,14 @@ AddStategraphPostInit("wilson", function(inst)
         },
 
         ontimeout = function(inst)
-            inst.sg.statemem.monkeyrunning = true
+            inst.sg.statemem.funkyrunning = true
             inst.sg:GoToState("run_wathom")
         end,
 
         onexit = function(inst)
-            if not inst.sg.statemem.monkeyrunning then
-                inst.components.locomotor.runspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_WALK_SPEED_PENALTY
-                inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE)
+            if not inst.sg.statemem.funkyrunning then
+				RunUpdateTools(inst,false,true)
+                inst.components.locomotor.runspeed = TUNING.WILSON_RUN_SPEED
                 inst.Transform:ClearPredictedFacingModel()
             end
         end,
@@ -486,7 +506,7 @@ AddStategraphPostInit("wilson_client", function(inst)
             if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
                 inst.AnimState:PlayAnimation("run_monkey_loop", true)
             end
-
+			RunUpdateTools(inst,true)
             --V2C: adding half a frame time so it rounds up
             inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
         end,
@@ -500,6 +520,7 @@ AddStategraphPostInit("wilson_client", function(inst)
         },
 
         onupdate = function(inst)
+			RunUpdateTools(inst,true)
             inst.components.locomotor:RunForward()
         end,
 
@@ -523,12 +544,13 @@ AddStategraphPostInit("wilson_client", function(inst)
         },
 
         ontimeout = function(inst)
-            inst.sg.statemem.monkeyrunning = true
+            inst.sg.statemem.funkyrunning = true
             inst.sg:GoToState("run_wathom")
         end,
 
         onexit = function(inst)
-            if not inst.sg.statemem.monkeyrunning then
+            if not inst.sg.statemem.funkyrunning then
+				RunUpdateTools(inst,true,true)
                 inst.components.locomotor.predictrunspeed = nil
                 inst.Transform:ClearPredictedFacingModel()
             end
