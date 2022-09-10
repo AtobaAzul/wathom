@@ -1,25 +1,38 @@
 PrefabFiles = {
 	"winky_none"
+	"wathom_none"    
 }
 
 Assets = {
 	Asset("ANIM", "anim/winky.zip"),
 	Asset("ANIM", "anim/ghost_winky_build.zip"),
+--	Asset("ANIM", "anim/wathom.zip"),
+--	Asset("ANIM", "anim/ghost_wathom_build.zip"),    -- Commented out because the standalone mod doesn't load these and works fine.
 	
 	Asset( "IMAGE", "bigportraits/winky.tex" ),
     Asset( "ATLAS", "bigportraits/winky.xml" ),
+    Asset( "IMAGE", "bigportraits/wathom.tex" ),
+    Asset( "ATLAS", "bigportraits/wathom.xml" ),
 
     Asset( "IMAGE", "bigportraits/winky_none_oval.tex" ),
     Asset( "ATLAS", "bigportraits/winky_none.xml" ),
+    Asset( "IMAGE", "bigportraits/wathom_none.tex" ),
+    Asset( "ATLAS", "bigportraits/wathom_none.xml" ),    
 
     Asset( "IMAGE", "images/saveslot_portraits/winky.tex" ),
     Asset( "ATLAS", "images/saveslot_portraits/winky.xml" ),
+    Asset( "IMAGE", "images/saveslot_portraits/wathom.tex" ),
+    Asset( "ATLAS", "images/saveslot_portraits/wathom.xml" ),
 
     Asset( "IMAGE", "images/names_gold_winky.tex" ),
     Asset( "ATLAS", "images/names_gold_winky.xml" ),
+	Asset( "IMAGE", "images/names_wathom.tex" ),
+    Asset( "ATLAS", "images/names_wathom.xml" ),    
 }
 
 local STRINGS = GLOBAL.STRINGS
+
+-- Winky
 
 STRINGS.NAMES.WINKY = "Winky"
 STRINGS.SKIN_NAMES.winky_none = "Winky"
@@ -42,4 +55,27 @@ TUNING.WINKY_HEALTH = 175
 TUNING.WINKY_HUNGER = 150
 TUNING.WINKY_SANITY = 125
 
+-- Wathom
+
+STRINGS.NAMES.wathom = "Wathom"
+STRINGS.SKIN_NAMES.wathom_none = "Wathom"
+STRINGS.SKIN_DESCRIPTIONS.wathom_none = "An inadequate attempt to revive the ones who came before him."
+
+STRINGS.CHARACTER_TITLES.wathom = "The Abomination"
+STRINGS.CHARACTER_NAMES.wathom = "Wathom"
+STRINGS.CHARACTER_DESCRIPTIONS.wathom = "*Apex Predator\n*Gets amped up with adrenaline\n*Causes animals to panic\n*The faster he goes, the harder he falls"
+STRINGS.CHARACTER_QUOTES.wathom = "\"I HEAR YOU BREATHING.\""
+STRINGS.CHARACTER_ABOUTME.wathom = "A hunter with an uncontrollable surplus of energy, Wathom lives on after crawling out of the Abyss he was imprisoned in."
+STRINGS.CHARACTER_BIOS.wathom = {
+ { title = "Birthday", desc = "January 20" },
+ { title = "Favorite Food", desc = "Hardshell Tacos" },
+ { title = "His past...", desc = "Is yet to be revealed."},
+
+STRINGS.CHARACTER_SURVIVABILITY.wathom= "Slim"
+
+TUNING.WATHOM_HEALTH = 200
+TUNING.WATHOM_HUNGER = 120
+TUNING.WATHOM_SANITY = 120
+
 AddModCharacter("winky", "FEMALE")
+AddModCharacter("wathom", "MALE")
