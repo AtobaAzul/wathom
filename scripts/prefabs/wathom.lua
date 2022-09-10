@@ -123,28 +123,51 @@ local function onload(inst)
     end
 end
 
+local function EditCombat(inst)
+    local self = inst.components.combat
+    local _GetAttacked = self.GetAttacked
+    self.GetAttacked = function(self, attacker, damage, weapon, stimuli)
+        if attacker ~= nil and attacker:HasTag("wathom") and attacker.AmpDamageTakenModifier ~= nil and damage then
+            -- Take extra damage
+            damage = damage * attacker.AmpDamageTakenModifier
+        end
+        return _GetAttacked(self, attacker, damage, weapon, stimuli)
+    end
+end
+
 local function UpdateAdrenaline(inst)
-	local AmpLevel = inst.components.adrenalinecounter:GetPercent()
-	
+    local AmpLevel = inst.components.adrenalinecounter:GetPercent()
+    
     if inst:HasTag("amped") then
-        inst.components.combat.attackrange = 7	
-        inst.components.health:SetAbsorptionAmount(-4) -- this SHOULD result in 5x damage, need to test.		
-	elseif AmpLevel < 0.25 then
-		inst.components.combat.attackrange = 2
-        inst.components.health:SetAbsorptionAmount(0.25) --75% damage taken, lets see if this works when negative.		
-	elseif AmpLevel < 0.50 then
-		inst.components.combat.attackrange = 4
-        inst.components.health:SetAbsorptionAmount(0)	
-	elseif AmpLevel < 0.75 then
-		inst.components.combat.attackrange = 5
-        inst.components.health:SetAbsorptionAmount(-1.5) 	
-	elseif AmpLevel < 1 then
-		inst.components.combat.attackrange = 6
-        inst.components.health:SetAbsorptionAmount(-3) 	
-	else
-		inst.components.combat.attackrange = 6 -- These values should be for when Adrenaline is at 100.
-        inst.components.health:SetAbsorptionAmount(-3)
-	end
+        inst.components.combat.attackrange = 8    
+        inst.AmpDamageTakenModifier = 5  
+    elseif AmpLevel == 0 then
+        inst.components.combat.attackrange = 2
+        inst.AmpDamageTakenModifier = 5 	
+--		inst:RemoveTag("amped") -- Party's over.
+    elseif AmpLevel < 0.25 then
+        inst.components.combat.attackrange = 2
+        inst.AmpDamageTakenModifier = 5        
+    elseif AmpLevel < 0.32 then
+        inst.components.combat.attackrange = 4
+        inst.AmpDamageTakenModifier = 1   
+    elseif AmpLevel < 0.45 then
+        inst.components.combat.attackrange = 5
+        inst.components.health:SetAbsorptionAmount(-0.50)
+        inst.AmpDamageTakenModifier = 2     
+    elseif AmpLevel < 0.66 then
+        inst.components.combat.attackrange = 6
+        inst.components.health:SetAbsorptionAmount(-1)
+        inst.AmpDamageTakenModifier = 3    
+    elseif AmpLevel < 1 then
+        inst.components.combat.attackrange = 7
+        inst.AmpDamageTakenModifier = 4             
+    else    
+        inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
+        inst.AmpDamageTakenModifier = 5
+--		inst:AddTag("amped")
+		inst.components.talker:Say("AMPED UP!" , nil, true)
+    end
 end
 
 
