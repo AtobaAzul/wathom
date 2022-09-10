@@ -46,14 +46,13 @@ for k1, v1 in pairs(SGWilson.actionhandlers) do
 end
 
 local function Attack_New(inst, action)
-  inst.sg.mem.localchainattack = not action.forced or nil
-  local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
-
-	if weapon and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
-    return ("wathomleap") 
-  else
-    return Attack_Old(inst, action)
-  end
+	inst.sg.mem.localchainattack = not action.forced or nil
+	local weapon = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
+	if weapon and not ((weapon:HasTag("blowdart") or weapon:HasTag("thrown"))) and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
+		return ("wathomleap") 
+	else
+		return Attack_Old(inst, action)
+	end
 end
 
 --Client
@@ -67,8 +66,7 @@ end
 
 local function AttackClient_New(inst, action)
   local weapon = inst.replica.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) or nil
-  
-	if weapon and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
+	if weapon and not ((weapon:HasTag("blowdart") or weapon:HasTag("thrown"))) and inst:HasTag("wathom") and not inst.sg:HasStateTag("attack") then
     return ("wathomleap_pre") 
   else
     return ClientAttack_Old(inst, action)
@@ -449,6 +447,8 @@ local function GetModOptionValue(knownmodname, known_option_name)
     end
 end
 
+
+
 AddPlayerPostInit(function(inst)
     if inst:HasTag("wathom") then
 
@@ -457,7 +457,8 @@ AddPlayerPostInit(function(inst)
 
         if GLOBAL.TheWorld.ismastersim then
             inst:AddComponent("adrenalinecounter")
-        end 
+        end
+		inst:ListenForEvent("onattackother",AttackOther)
     end
 end)
 

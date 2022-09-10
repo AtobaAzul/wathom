@@ -46,7 +46,7 @@ local function AmpTimer(inst)
 end
 
 local function AmpTimer2(inst)
-	    if inst.components.adrenalinecounter:GetPercent() > 0.25 then
+	    if inst.components.adrenalinecounter:GetPercent() > 0.25 and not inst.adrenalpause then
     inst.components.adrenalinecounter:DoDelta(-1) -- Draining adrenaline when not in combat. Need to make this not work if Wathom attacks/gets hit in the past 5 seconds.
 		end
 		
@@ -56,11 +56,16 @@ local function AmpTimer2(inst)
 		
 end
 
-local function OnAttack(inst, data) -- this function doesn't work
-	if inst.components.adrenalinecounter:GetPercent() > 0.24 then
-		if data and data.damageresolved then
-			inst.components.adrenalinecounter:DoDelta(1)
+
+local function AttackOther(inst,data)
+    if data and data.target and inst.components.adrenalinecounter:GetPercent() > 0.24 and ((data.target.components.combat and data.target.components.combat.defaultdamage > 0) or (data.target.prefab == "dummytarget" or data.target.prefab == "antlion" or data.target.prefab == "stalker_atrium" or data.target.prefab == "stalker"))  then
+		inst.adrenalpause = true
+		if inst.adrenalresume then
+			inst.adrenalresume:Cancel()
+			inst.adrenalresume = nil
 		end
+		inst.adrenalresume = inst:DoTaskInTime(10,function(inst) inst.adrenalpause = false end)
+		inst.components.adrenalinecounter:DoDelta(1)
 	end
 end
 
@@ -111,6 +116,10 @@ local function onload(inst)
         onbecameghost(inst)
     else
         onbecamehuman(inst)
+    end
+	if TheWorld:HasTag("cave") then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
     end
 end
 
@@ -169,10 +178,6 @@ local master_postinit = function(inst)
 	inst.customidleanim = "spooked"
 
  -- Wathom's Nightvision in the caves
-if TheWorld:HasTag("cave") then
-    inst.components.playervision:ForceNightVision(true)
-    inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-    end
 
 
     -- Wathom's Nightvision aboveground
@@ -193,7 +198,7 @@ if TheWorld:HasTag("cave") then
     inst:DoPeriodicTask(1, function() AmpTimer2(inst) end)
 
 	inst:ListenForEvent("healthdelta", OnHealthDelta)
-	inst:ListenForEvent("attack", OnAttack)
+	inst:ListenForEvent("onattackother",AttackOther)
 
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
