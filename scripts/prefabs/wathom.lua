@@ -119,6 +119,20 @@ local function onload(inst)
     end
 end
 
+local function UpdateAdrenaline(inst)
+	local AmpLevel = inst.components.adrenalinecounter:GetPercent()
+		
+	if AmpLevel < 0.25 then
+		inst.components.combat.attackrange = 2
+	elseif AmpLevel < 0.32 then
+		inst.components.combat.attackrange = 4
+	elseif AmpLevel < 0.45 then
+		inst.components.combat.attackrange = 5
+	else
+		--inst.components.combat.attackrange = 8 --So I could tell it vvas vvorking -AXE
+	end
+	-- and so on...
+end
 
 -- This initializes for both the server and client. Tags can be added here.
 local common_postinit = function(inst) 
@@ -157,22 +171,9 @@ local common_postinit = function(inst)
 				end
 			end
 		end)
-    end)	
-end
+    end)
 
-local function UpdateAdrenaline(inst)
-	local AmpLevel = inst.components.adrenalinecounter:GetPercent()
-		
-	if AmpLevel < 0.25 then
-		inst.components.combat.attackrange = 2
-	elseif AmpLevel < 0.32 then
-		inst.components.combat.attackrange = 4
-	elseif AmpLevel < 0.45 then
-		inst.components.combat.attackrange = 5
-	else
-		--inst.components.combat.attackrange = 8 --So I could tell it vvas vvorking -AXE
-	end
-	-- and so on...
+	inst:ListenForEvent("adrenalinedetla", UpdateAdrenaline)	
 end
 	
 -- This initializes for the server only. Components are added here.
@@ -229,6 +230,15 @@ local master_postinit = function(inst)
 	
 	-- Night Vision enabler
 --	inst.components.playervision:ForceNightVision(true) -- Should only force this if it's night or in caves.
+
+	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
+	else	
+		inst.components.playervision:ForceNightVision(false)
+		inst.components.playervision:SetCustomCCTable(nil)	
+    end
+	
     inst:WatchWorldState("isnight", function() 
 		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
 			if not TheWorld:HasTag("cave") then
