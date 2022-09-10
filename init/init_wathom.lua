@@ -266,11 +266,14 @@ AddStategraphPostInit("wilson", function(inst)
 					inst.sg:RemoveStateTag("busy")
 				end),
 
-				TimeEvent(14 * FRAMES, function(inst)
-					-- This is when the target gets hit.
-					inst.Physics:SetMotorVel(10, 0, 0) -- This causes Wathom to slide forward. Update when Adrenaline is implemented.
-					SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
-				end),
+				TimeEvent(14*FRAMES, function(inst) -- this is when the target gets hit					
+				if inst:HasTag("amped") then
+					inst.Physics:SetMotorVel(15)
+					else				
+					inst.Physics:SetMotorVel(10 * (inst.components.adrenalinecounter:GetPercent() + .5), 0, 0) -- This causes Wathom to slide forward. Update when Adrenaline is implemented.
+				end
+		SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
+				end),	
 
 				TimeEvent(19 * FRAMES, function(inst)
 					SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
