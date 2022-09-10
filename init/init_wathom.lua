@@ -442,7 +442,9 @@ local wathombark = AddAction(
 		if act.doer ~= nil then -- previously act.target
 			local inst = act.doer
 			inst.AnimState:AddOverrideBuild("emote_angry")
-			inst.components.adrenalinecounter:DoDelta(-20, 2)
+				if not inst:HasTag("amped") then
+				inst.components.adrenalinecounter:DoDelta(-20, 2)
+				end
 			--		inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/bark") Commented out for now since it already plays the sound before this code is performed
 
 			local act_pos = act:GetActionPoint()
