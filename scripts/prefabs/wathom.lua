@@ -117,10 +117,6 @@ local function onload(inst)
     else
         onbecamehuman(inst)
     end
-	if TheWorld:HasTag("cave") then
-		inst.components.playervision:ForceNightVision(true)
-		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-    end
 end
 
 
@@ -137,11 +133,37 @@ local common_postinit = function(inst)
 	
 	inst:ListenForEvent("setowner", OnSetOwner)
 	
+	inst.OnLoad = onload
+    inst.OnNewSpawn = onload
+    -- Wathom's Nightvision aboveground
+	
+	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
+	else	
+		inst.components.playervision:ForceNightVision(false)
+		inst.components.playervision:SetCustomCCTable(nil)	
+    end
+	
+    inst:WatchWorldState("isnight", function() 
+		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
+			if not TheWorld:HasTag("cave") then
+			  if TheWorld.state.isnight then
+				  inst.components.playervision:ForceNightVision(true)
+				  inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+				  else
+					inst.components.playervision:ForceNightVision(false)
+					inst.components.playervision:SetCustomCCTable(nil)
+				end
+			end
+		end)
+    end)	
 end
 
 -- This initializes for the server only. Components are added here.
 local master_postinit = function(inst)
-
+	inst:AddTag("monster")
+    inst:AddTag("playermonster")	
     inst.adrenalinecheck = 0 -- I have no idea what this does. It's left over from SCP-049.
 
 	-- Set starting inventory
@@ -180,19 +202,6 @@ local master_postinit = function(inst)
  -- Wathom's Nightvision in the caves
 
 
-    -- Wathom's Nightvision aboveground
-    inst:WatchWorldState("isnight", function() 
-    if not TheWorld:HasTag("cave") then
-      if TheWorld.state.isnight then
-          inst.components.playervision:ForceNightVision(true)
-          inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-          else
-            inst.components.playervision:ForceNightVision(false)
-            inst.components.playervision:SetCustomCCTable(nil)
-        end
-    end
-    end)
-
 	-- stuff relating to Wathom's adrenaline timer. This can most likely be optimized.
     inst:DoPeriodicTask(0.5, function() AmpTimer(inst) end)
     inst:DoPeriodicTask(1, function() AmpTimer2(inst) end)
@@ -205,13 +214,21 @@ local master_postinit = function(inst)
 	
 	-- Night Vision enabler
 --	inst.components.playervision:ForceNightVision(true) -- Should only force this if it's night or in caves.
-
+    inst:WatchWorldState("isnight", function() 
+		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
+			if not TheWorld:HasTag("cave") then
+			  if TheWorld.state.isnight then
+				  inst.components.playervision:ForceNightVision(true)
+				  inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+				  else
+					inst.components.playervision:ForceNightVision(false)
+					inst.components.playervision:SetCustomCCTable(nil)
+				end
+			end
+		end)
+    end)
 	-- Doubles Wathom's attack range so he can jump at things from further away.
 	inst.components.combat.attackrange = 4
-
-	
-	inst.OnLoad = onload
-    inst.OnNewSpawn = onload
 	
 end
 
