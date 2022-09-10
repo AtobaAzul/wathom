@@ -90,9 +90,69 @@ AddStategraphActionHandler("wilson", ActionHandler(GLOBAL.ACTIONS.ATTACK, Attack
 ------------------------
 -- the MEAT
 
+local function ConfigureRunState(inst)
+    if inst.components.rider:IsRiding() then
+        inst.sg.statemem.riding = true
+        inst.sg.statemem.groggy = inst:HasTag("groggy")
+        inst.sg:AddStateTag("nodangle")
+
+        local mount = inst.components.rider:GetMount()
+        inst.sg.statemem.ridingwoby = mount and mount:HasTag("woby")
+
+    elseif inst.components.inventory:IsHeavyLifting() then
+        inst.sg.statemem.heavy = true
+		inst.sg.statemem.heavy_fast = inst.components.mightiness ~= nil and inst.components.mightiness:IsMighty()
+    elseif inst:HasTag("wereplayer") then
+        inst.sg.statemem.iswere = true
+        if inst:HasTag("weremoose") then
+            if inst:HasTag("groggy") then
+                inst.sg.statemem.moosegroggy = true
+            else
+                inst.sg.statemem.moose = true
+            end
+        elseif inst:HasTag("weregoose") then
+            if inst:HasTag("groggy") then
+                inst.sg.statemem.goosegroggy = true
+            else
+                inst.sg.statemem.goose = true
+            end
+        elseif inst:HasTag("groggy") then
+            inst.sg.statemem.groggy = true
+        else
+            inst.sg.statemem.normal = true
+        end
+    elseif inst:GetStormLevel() >= TUNING.SANDSTORM_FULL_LEVEL and not inst.components.playervision:HasGoggleVision() then
+        inst.sg.statemem.sandstorm = true
+    elseif inst:HasTag("groggy") then
+        inst.sg.statemem.groggy = true
+    elseif inst:IsCarefulWalking() then
+        inst.sg.statemem.careful = true
+    else
+        inst.sg.statemem.normal = true
+        inst.sg.statemem.normalwonkey = inst:HasTag("wonkey") or nil
+    end
+end
 
 
 AddStategraphPostInit("wilson", function(inst)
+
+
+
+	local _RunOnEnter = inst.states["run_start"].onenter
+	
+	local function NevvOnEnter(inst)
+		--print(inst.components.adrenalinecounter:GetPercent())
+		if inst:HasTag("wathom") then
+			inst.sg.mem.footsteps = 0
+			inst.sg:GoToState("run_wathom")
+			return
+		else
+			_RunOnEnter(inst)
+		end
+	end
+	inst.states["run_start"].onenter = NevvOnEnter
+	
+	
 	local actionhandlers =
 	{
 		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
@@ -110,6 +170,75 @@ AddStategraphPostInit("wilson", function(inst)
 
 
 	local states = {
+	
+	    GLOBAL.State{
+        name = "run_wathom",
+        tags = {"moving", "running", "canrotate","autopredict"},
+
+        onenter = function(inst)
+            ConfigureRunState(inst)
+            inst.components.locomotor.runspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_SPEED_BONUS
+            --inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * TUNING.WONKEY_RUN_HUNGER_RATE_MULT)
+            inst.Transform:SetPredictedSixFaced()
+            inst.components.locomotor:RunForward()
+
+            if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
+                inst.AnimState:PlayAnimation("run_monkey_loop", true)
+            end
+
+            --V2C: adding half a frame time so it rounds up
+            inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
+        end,
+
+        timeline =
+        {
+            --[[TimeEvent(4*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),
+            TimeEvent(5*FRAMES, function(inst) PlayFootstep(inst, 0.5) DoFoleySounds(inst) end),
+            TimeEvent(10*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),
+            TimeEvent(11*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),]]
+        },
+
+        onupdate = function(inst)
+            --[[if inst.components.locomotor:GetTimeMoving() < TUNING.WONKEY_TIME_TO_RUN then
+                inst.sg:GoToState("run")
+                return
+            end]]
+            inst.components.locomotor:RunForward()
+        end,
+
+        events =
+        {
+            EventHandler("gogglevision", function(inst, data)
+                if not data.enabled and inst:GetStormLevel() >= TUNING.SANDSTORM_FULL_LEVEL then
+                    inst.sg:GoToState("run")
+                end
+            end),
+            EventHandler("sandstormlevel", function(inst, data)
+                if data.level >= TUNING.SANDSTORM_FULL_LEVEL and not inst.components.playervision:HasGoggleVision() then
+                    inst.sg:GoToState("run")
+                end
+            end),
+            EventHandler("carefulwalking", function(inst, data)
+                if data.careful then
+                    inst.sg:GoToState("run")
+                end
+            end),
+        },
+
+        ontimeout = function(inst)
+            inst.sg.statemem.monkeyrunning = true
+            inst.sg:GoToState("run_wathom")
+        end,
+
+        onexit = function(inst)
+            if not inst.sg.statemem.monkeyrunning then
+                inst.components.locomotor.runspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_WALK_SPEED_PENALTY
+                inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE)
+                inst.Transform:ClearPredictedFacingModel()
+            end
+        end,
+    },
+
 		GLOBAL.State {
 			name = "wathombark",
 			tags = { "attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
@@ -126,6 +255,9 @@ AddStategraphPostInit("wilson", function(inst)
 			end,
 
 			onexit = function(inst)
+				if not inst.components.playercontroller ~= nil then
+					inst.components.playercontroller:Enable(true)
+				end
 			end,
 
 			timeline =
@@ -158,9 +290,6 @@ AddStategraphPostInit("wilson", function(inst)
 			{
 				EventHandler("animover", function(inst)
 					inst.sg:GoToState("idle")
-					if not inst.components.playercontroller ~= nil then
-						inst.components.playercontroller:Enable(true)
-					end
 				end),
 			},
 		},
@@ -224,6 +353,9 @@ AddStategraphPostInit("wilson", function(inst)
 				inst.Transform:SetFourFaced()
 				inst.components.locomotor:Stop()
 				inst.Physics:ClearMotorVelOverride()
+				if not inst.components.playercontroller ~= nil then
+					inst.components.playercontroller:Enable(true)
+				end
 				inst.components.locomotor:EnableGroundSpeedMultiplier(true)
 				inst.AnimState:AddOverrideBuild("player_lunge")
 				inst.AnimState:AddOverrideBuild("player_attack_leap")
@@ -295,9 +427,6 @@ AddStategraphPostInit("wilson", function(inst)
 			{
 				EventHandler("animover", function(inst)
 					inst.sg:GoToState("idle")
-					if not inst.components.playercontroller ~= nil then
-						inst.components.playercontroller:Enable(true)
-					end
 				end),
 			},
 		},
@@ -318,6 +447,20 @@ end)
 --client. Uses a "pre" as this should only be used if there's lag.
 
 AddStategraphPostInit("wilson_client", function(inst)
+
+	local _RunOnEnter = inst.states["run_start"].onenter
+	
+	local function NevvOnEnter(inst)
+		if inst:HasTag("wathom") then
+			inst.sg.mem.footsteps = 0
+			inst.sg:GoToState("run_wathom")
+			return
+		else
+			_RunOnEnter(inst)
+		end
+	end
+	inst.states["run_start"].onenter = NevvOnEnter
+	
 	local actionhandlers =
 	{
 		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
@@ -326,6 +469,69 @@ AddStategraphPostInit("wilson_client", function(inst)
 			end),
 	}
 	local states = {
+	
+    GLOBAL.State{
+        name = "run_wathom",
+        tags = {"moving", "running", "canrotate"},
+
+        onenter = function(inst)
+            ConfigureRunState(inst)
+            inst.components.locomotor.predictrunspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_SPEED_BONUS
+            inst.Transform:SetPredictedSixFaced()
+            inst.components.locomotor:RunForward()
+
+            if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
+                inst.AnimState:PlayAnimation("run_monkey_loop", true)
+            end
+
+            --V2C: adding half a frame time so it rounds up
+            inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
+        end,
+
+        timeline =
+        {
+            --[[TimeEvent(4*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),
+            TimeEvent(5*FRAMES, function(inst) PlayFootstep(inst, 0.5) DoFoleySounds(inst) end),
+            TimeEvent(10*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),
+            TimeEvent(11*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),]]
+        },
+
+        onupdate = function(inst)
+            inst.components.locomotor:RunForward()
+        end,
+
+        events =
+        {
+            EventHandler("gogglevision", function(inst, data)
+                if not data.enabled and inst:GetStormLevel() >= TUNING.SANDSTORM_FULL_LEVEL then
+                    inst.sg:GoToState("run")
+                end
+            end),
+            EventHandler("sandstormlevel", function(inst, data)
+                if data.level >= TUNING.SANDSTORM_FULL_LEVEL and not inst.components.playervision:HasGoggleVision() then
+                    inst.sg:GoToState("run")
+                end
+            end),
+            EventHandler("carefulwalking", function(inst, data)
+                if data.careful then
+                    inst.sg:GoToState("run")
+                end
+            end),
+        },
+
+        ontimeout = function(inst)
+            inst.sg.statemem.monkeyrunning = true
+            inst.sg:GoToState("run_wathom")
+        end,
+
+        onexit = function(inst)
+            if not inst.sg.statemem.monkeyrunning then
+                inst.components.locomotor.predictrunspeed = nil
+                inst.Transform:ClearPredictedFacingModel()
+            end
+        end,
+    },
+	
 		GLOBAL.State {
 			name = "wathomleap_pre",
 			tags = { "busy" },
