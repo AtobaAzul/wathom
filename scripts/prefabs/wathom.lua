@@ -50,8 +50,8 @@ local function AmpTimer2(inst)
     inst.components.adrenalinecounter:DoDelta(-1) -- Draining adrenaline when not in combat. Need to make this not work if Wathom attacks/gets hit in the past 5 seconds.
 		end
 		
-		if inst.components.adrenalinecounter:GetPercent() < 0.25 then
-    inst.components.adrenalinecounter:DoDelta(1) -- Slowly regaining to normal levels.
+		if inst.components.adrenalinecounter:GetPercent() < 0.25 and not inst:HasTag("amped") then
+    inst.components.adrenalinecounter:DoDelta(0.5) -- Slowly regaining to normal levels.
 		end
 		
 end
