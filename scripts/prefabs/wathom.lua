@@ -70,7 +70,7 @@ local function AttackOther(inst,data)
 end
 
 local function OnHealthDelta(inst, data)
-    if data.amount < 0 then
+    if data.amount < 0 and not inst:HasTag("amped") then
         inst.components.adrenalinecounter:DoDelta(data.amount * -0.5) -- This gives Wathom adrenaline when attacked!
     end
 end
