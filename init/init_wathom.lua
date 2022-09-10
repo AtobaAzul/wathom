@@ -19,13 +19,16 @@ Vector3 = GLOBAL.Vector3
 local Vector3 = GLOBAL.Vector3
 
 
-
 -- It's 1 AM and I don't want to pick apart which local is needed so I'll just grab all of it.
 
 --------------------------------------------------------------------------
 -- 90% of code here is taken from Warfarin, made by the wonderful Tiddler.
 
 -- Setting up new actions
+
+local function OnCooldown(inst)
+    inst._barkcdtask = nil
+end
 
 	local function Effect(inst) -- I dumbed the shit out of this.
 			if GLOBAL.TheWorld.state.wetness > 25 then
@@ -93,11 +96,18 @@ AddStategraphPostInit("wilson", function(inst)
 	local actionhandlers =
 	{
 		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
-			function(inst, action)
-				return "wathombark"
-			end),
+				function(inst, action)
+					if inst._barkcdtask == nil then
+						inst._barkcdtask = inst:DoTaskInTime(20, OnCooldown)
+						return "wathombark"
+					else
+						return "cantbark"
+					end
+		end),	
 			
 	}
+	
+	
 	
 	local states = {
 		GLOBAL.State{
@@ -154,6 +164,32 @@ AddStategraphPostInit("wilson", function(inst)
 				end),
 			},
 		},
+
+		GLOBAL.State{
+			name = "cantbark",
+			tags = {busy},
+        
+        onenter = function(inst)
+            inst:ClearBufferedAction()
+
+            inst.components.talker:Say("Can't... Breathe..." , nil, true)
+
+            inst.AnimState:PlayAnimation("sing_fail", false) 
+
+			inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/leap") -- maybe make something new later?
+        end,
+
+        events = 
+        {
+            EventHandler("animover", function(inst)
+                if inst.AnimState:AnimDone() then
+                    inst.sg:GoToState("idle")
+					inst.sg:RemoveStateTag("busy")					
+					inst:ClearBufferedAction()					
+                end
+            end),
+        }
+    },
  
 		GLOBAL.State{
 			name = "wathomleap",
@@ -549,3 +585,4 @@ local skin_modes = {
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("wathom", "MALE", skin_modes)
+
