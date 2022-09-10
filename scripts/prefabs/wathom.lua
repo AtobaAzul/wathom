@@ -83,9 +83,9 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
     if right and useitem == nil then
         local rider = inst.replica.rider
         if rider == nil or not rider:IsRiding() then
-            return { ACTIONS.WATHOMBARK }
-        end
-    end
+              return { ACTIONS.WATHOMBARK }
+		end
+	end
     return {}
 end
 
