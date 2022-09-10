@@ -160,6 +160,21 @@ local common_postinit = function(inst)
     end)	
 end
 
+local function UpdateAdrenaline(inst)
+	local AmpLevel = inst.components.adrenalinecounter:GetPercent()
+		
+	if AmpLevel < 0.25 then
+		inst.components.combat.attackrange = 2
+	elseif AmpLevel < 0.32 then
+		inst.components.combat.attackrange = 4
+	elseif AmpLevel < 0.45 then
+		inst.components.combat.attackrange = 5
+	else
+		--inst.components.combat.attackrange = 8 --So I could tell it vvas vvorking -AXE
+	end
+	-- and so on...
+end
+	
 -- This initializes for the server only. Components are added here.
 local master_postinit = function(inst)
 	inst:AddTag("monster")
@@ -229,7 +244,9 @@ local master_postinit = function(inst)
     end)
 	-- Doubles Wathom's attack range so he can jump at things from further away.
 	inst.components.combat.attackrange = 4
-	
+
+	-- then in master_postinit
+	inst:ListenForEvent("adrenalinedetla", UpdateAdrenaline) -- detla spelled on purpose because it was a carryover typo from 049 code, whoops.	
 end
 
 return MakePlayerCharacter("wathom", prefabs, assets, common_postinit, master_postinit, prefabs)
