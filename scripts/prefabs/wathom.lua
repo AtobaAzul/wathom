@@ -117,22 +117,59 @@ local function onload(inst)
     else
         onbecamehuman(inst)
     end
+	if TheWorld:HasTag("cave") then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+    end
+end
+
+local function EditCombat(inst)
+    local self = inst.components.combat
+    local _GetAttacked = self.GetAttacked
+    self.GetAttacked = function(self, attacker, damage, weapon, stimuli)
+        if attacker ~= nil and attacker:HasTag("wathom") and attacker.AmpDamageTakenModifier ~= nil and damage then
+            -- Take extra damage
+            damage = damage * attacker.AmpDamageTakenModifier
+        end
+        return _GetAttacked(self, attacker, damage, weapon, stimuli)
+    end
 end
 
 local function UpdateAdrenaline(inst)
-	local AmpLevel = inst.components.adrenalinecounter:GetPercent()
-		
-	if AmpLevel < 0.25 then
-		inst.components.combat.attackrange = 2
-	elseif AmpLevel < 0.32 then
-		inst.components.combat.attackrange = 4
-	elseif AmpLevel < 0.45 then
-		inst.components.combat.attackrange = 5
-	else
-		--inst.components.combat.attackrange = 8 --So I could tell it vvas vvorking -AXE
-	end
-	-- and so on...
+    local AmpLevel = inst.components.adrenalinecounter:GetPercent()
+    
+    if inst:HasTag("amped") then
+        inst.components.combat.attackrange = 8    
+        inst.AmpDamageTakenModifier = 5  
+    elseif AmpLevel == 0 then
+        inst.components.combat.attackrange = 2
+        inst.AmpDamageTakenModifier = 5 	
+--		inst:RemoveTag("amped") -- Party's over.
+    elseif AmpLevel < 0.25 then
+        inst.components.combat.attackrange = 2
+        inst.AmpDamageTakenModifier = 5        
+    elseif AmpLevel < 0.32 then
+        inst.components.combat.attackrange = 4
+        inst.AmpDamageTakenModifier = 1   
+    elseif AmpLevel < 0.45 then
+        inst.components.combat.attackrange = 5
+        inst.components.health:SetAbsorptionAmount(-0.50)
+        inst.AmpDamageTakenModifier = 2     
+    elseif AmpLevel < 0.66 then
+        inst.components.combat.attackrange = 6
+        inst.components.health:SetAbsorptionAmount(-1)
+        inst.AmpDamageTakenModifier = 3    
+    elseif AmpLevel < 1 then
+        inst.components.combat.attackrange = 7
+        inst.AmpDamageTakenModifier = 4             
+    else    
+        inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
+        inst.AmpDamageTakenModifier = 5
+--		inst:AddTag("amped")
+		inst.components.talker:Say("AMPED UP!" , nil, true)
+    end
 end
+
 
 -- This initializes for both the server and client. Tags can be added here.
 local common_postinit = function(inst) 
@@ -147,39 +184,11 @@ local common_postinit = function(inst)
 	
 	inst:ListenForEvent("setowner", OnSetOwner)
 	
-	inst.OnLoad = onload
-    inst.OnNewSpawn = onload
-    -- Wathom's Nightvision aboveground
-	
-	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
-		inst.components.playervision:ForceNightVision(true)
-		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
-	else	
-		inst.components.playervision:ForceNightVision(false)
-		inst.components.playervision:SetCustomCCTable(nil)	
-    end
-	
-    inst:WatchWorldState("isnight", function() 
-		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
-			if not TheWorld:HasTag("cave") then
-			  if TheWorld.state.isnight then
-				  inst.components.playervision:ForceNightVision(true)
-				  inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-				  else
-					inst.components.playervision:ForceNightVision(false)
-					inst.components.playervision:SetCustomCCTable(nil)
-				end
-			end
-		end)
-    end)
-
-	inst:ListenForEvent("adrenalinedetla", UpdateAdrenaline)	
 end
-	
+
 -- This initializes for the server only. Components are added here.
 local master_postinit = function(inst)
-	inst:AddTag("monster")
-    inst:AddTag("playermonster")	
+
     inst.adrenalinecheck = 0 -- I have no idea what this does. It's left over from SCP-049.
 
 	-- Set starting inventory
@@ -218,6 +227,19 @@ local master_postinit = function(inst)
  -- Wathom's Nightvision in the caves
 
 
+    -- Wathom's Nightvision aboveground
+    inst:WatchWorldState("isnight", function() 
+    if not TheWorld:HasTag("cave") then
+      if TheWorld.state.isnight then
+          inst.components.playervision:ForceNightVision(true)
+          inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+          else
+            inst.components.playervision:ForceNightVision(false)
+            inst.components.playervision:SetCustomCCTable(nil)
+        end
+    end
+    end)
+
 	-- stuff relating to Wathom's adrenaline timer. This can most likely be optimized.
     inst:DoPeriodicTask(0.5, function() AmpTimer(inst) end)
     inst:DoPeriodicTask(1, function() AmpTimer2(inst) end)
@@ -231,32 +253,13 @@ local master_postinit = function(inst)
 	-- Night Vision enabler
 --	inst.components.playervision:ForceNightVision(true) -- Should only force this if it's night or in caves.
 
-	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
-		inst.components.playervision:ForceNightVision(true)
-		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
-	else	
-		inst.components.playervision:ForceNightVision(false)
-		inst.components.playervision:SetCustomCCTable(nil)	
-    end
-	
-    inst:WatchWorldState("isnight", function() 
-		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
-			if not TheWorld:HasTag("cave") then
-			  if TheWorld.state.isnight then
-				  inst.components.playervision:ForceNightVision(true)
-				  inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
-				  else
-					inst.components.playervision:ForceNightVision(false)
-					inst.components.playervision:SetCustomCCTable(nil)
-				end
-			end
-		end)
-    end)
 	-- Doubles Wathom's attack range so he can jump at things from further away.
 	inst.components.combat.attackrange = 4
 
-	-- then in master_postinit
-	inst:ListenForEvent("adrenalinedetla", UpdateAdrenaline) -- detla spelled on purpose because it was a carryover typo from 049 code, whoops.	
+	
+	inst.OnLoad = onload
+    inst.OnNewSpawn = onload
+	
 end
 
 return MakePlayerCharacter("wathom", prefabs, assets, common_postinit, master_postinit, prefabs)
