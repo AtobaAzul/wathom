@@ -1,5 +1,5 @@
 PrefabFiles = {
-	"winky_none"
+	"winky_none",
 	"wathom_none"    
 }
 
@@ -70,8 +70,8 @@ STRINGS.CHARACTER_BIOS.wathom = {
  { title = "Birthday", desc = "January 20" },
  { title = "Favorite Food", desc = "Hardshell Tacos" },
  { title = "His past...", desc = "Is yet to be revealed."},
-
-STRINGS.CHARACTER_SURVIVABILITY.wathom= "Slim"
+}
+STRINGS.CHARACTER_SURVIVABILITY.wathom = "Slim"
 
 TUNING.WATHOM_HEALTH = 200
 TUNING.WATHOM_HUNGER = 120
