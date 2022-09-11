@@ -199,14 +199,13 @@ AddStategraphPostInit("wilson", function(inst)
             --inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * TUNING.WONKEY_RUN_HUNGER_RATE_MULT)
             inst.Transform:SetPredictedSixFaced()
             inst.components.locomotor:RunForward()
-
+			RunUpdateTools(inst)
             if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
                 inst.AnimState:PlayAnimation("run_monkey_loop", true)
             end
 
             --V2C: adding half a frame time so it rounds up
             inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
-			RunUpdateTools(inst)
         end,
 
         timeline =
@@ -420,7 +419,7 @@ AddStategraphPostInit("wilson", function(inst)
 
 				TimeEvent(14*FRAMES, function(inst) -- this is when the target gets hit					
 				if inst:HasTag("amped") then
-					inst.Physics:SetMotorVel(15)
+					inst.Physics:SetMotorVel(15,0,0)
 					else				
 					inst.Physics:SetMotorVel(10 * (inst.components.adrenalinecounter:GetPercent() + .5), 0, 0) -- This causes Wathom to slide forward. Update when Adrenaline is implemented.
 				end
@@ -502,11 +501,10 @@ AddStategraphPostInit("wilson_client", function(inst)
             inst.components.locomotor.predictrunspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_SPEED_BONUS
             inst.Transform:SetPredictedSixFaced()
             inst.components.locomotor:RunForward()
-
+			RunUpdateTools(inst,true)
             if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
                 inst.AnimState:PlayAnimation("run_monkey_loop", true)
             end
-			RunUpdateTools(inst,true)
             --V2C: adding half a frame time so it rounds up
             inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
         end,

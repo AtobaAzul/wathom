@@ -140,7 +140,7 @@ local function UpdateAdrenaline(inst)
     
 	if (AmpLevel > 0.5 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") then --Handle VVathom Running
 		inst:AddTag("wathomrun")
-	elseif inst:HasTag("wathomrun") then
+	elseif inst:HasTag("wathomrun") and not (AmpLevel > 0.5 or inst:HasTag("amped")) then
 		inst:RemoveTag("wathomrun")
 	end
 	
@@ -149,8 +149,10 @@ local function UpdateAdrenaline(inst)
         inst.AmpDamageTakenModifier = 5  
     elseif AmpLevel == 0 then
         inst.components.combat.attackrange = 2
-        inst.AmpDamageTakenModifier = 5 	
---		inst:RemoveTag("amped") -- Party's over.
+        inst.AmpDamageTakenModifier = 5
+		if inst:HasTag("amped") then
+			inst:RemoveTag("amped") -- Party's over.
+		end
     elseif AmpLevel < 0.25 then
         inst.components.combat.attackrange = 2
         inst.AmpDamageTakenModifier = 5        
@@ -171,7 +173,7 @@ local function UpdateAdrenaline(inst)
     else    
         inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
         inst.AmpDamageTakenModifier = 5
---		inst:AddTag("amped")
+		inst:AddTag("amped")
 		inst.components.talker:Say("AMPED UP!" , nil, true)
     end
 end
