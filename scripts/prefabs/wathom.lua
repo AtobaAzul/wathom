@@ -58,7 +58,7 @@ end
 
 
 local function AttackOther(inst,data)
-    if data and data.target and inst.components.adrenalinecounter:GetPercent() > 0.24 and ((data.target.components.combat and data.target.components.combat.defaultdamage > 0) or (data.target.prefab == "dummytarget" or data.target.prefab == "antlion" or data.target.prefab == "stalker_atrium" or data.target.prefab == "stalker"))  then
+    if data and data.target and inst.components.adrenalinecounter:GetPercent() > 0.24 and ((data.target.components.combat and data.target.components.combat.defaultdamage > 0) or (data.target.prefab == "dummytarget" or data.target.prefab == "antlion" or data.target.prefab == "stalker_atrium" or data.target.prefab == "stalker")) and not inst:HasTag("amped")  then
 		inst.adrenalpause = true
 		if inst.adrenalresume then
 			inst.adrenalresume:Cancel()
@@ -138,6 +138,12 @@ end
 local function UpdateAdrenaline(inst)
     local AmpLevel = inst.components.adrenalinecounter:GetPercent()
     
+	if (AmpLevel > 0.5 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") then --Handle VVathom Running
+		inst:AddTag("wathomrun")
+	elseif inst:HasTag("wathomrun") then
+		inst:RemoveTag("wathomrun")
+	end
+	
     if inst:HasTag("amped") then
         inst.components.combat.attackrange = 8    
         inst.AmpDamageTakenModifier = 5  
@@ -207,6 +213,7 @@ local common_postinit = function(inst)
 		end)
     end)	
 	inst:ListenForEvent("setowner", OnSetOwner)
+	
 	
 end
 
@@ -280,7 +287,7 @@ local master_postinit = function(inst)
 
 	inst:ListenForEvent("healthdelta", OnHealthDelta)
 	inst:ListenForEvent("onattackother",AttackOther)
-
+	inst:ListenForEvent("adrenalinedetla",UpdateAdrenaline)
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
 	

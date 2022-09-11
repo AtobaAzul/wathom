@@ -160,7 +160,7 @@ AddStategraphPostInit("wilson", function(inst)
 	
 	local function NevvOnEnter(inst)
 		--print(inst.components.adrenalinecounter:GetPercent())
-		if inst:HasTag("wathom") then
+		if inst:HasTag("wathom") and inst:HasTag("wathomrun") then
 			inst.sg.mem.footsteps = 0
 			inst.sg:GoToState("run_wathom")
 			return
@@ -218,17 +218,17 @@ AddStategraphPostInit("wilson", function(inst)
         },
 
         onupdate = function(inst)
-            --[[if inst.components.locomotor:GetTimeMoving() < TUNING.WONKEY_TIME_TO_RUN then
+            if not inst:HasTag("wathomrun") then
                 inst.sg:GoToState("run")
                 return
-            end]]
+            end
             inst.components.locomotor:RunForward()
 			RunUpdateTools(inst)
         end,
 
         events =
         {
-            EventHandler("gogglevision", function(inst, data)
+            --[[EventHandler("gogglevision", function(inst, data)
                 if not data.enabled and inst:GetStormLevel() >= TUNING.SANDSTORM_FULL_LEVEL then
                     inst.sg:GoToState("run")
                 end
@@ -242,7 +242,7 @@ AddStategraphPostInit("wilson", function(inst)
                 if data.careful then
                     inst.sg:GoToState("run")
                 end
-            end),
+            end),]]
         },
 
         ontimeout = function(inst)
@@ -474,7 +474,7 @@ AddStategraphPostInit("wilson_client", function(inst)
 	local _RunOnEnter = inst.states["run_start"].onenter
 	
 	local function NevvOnEnter(inst)
-		if inst:HasTag("wathom") then
+		if inst:HasTag("wathom") and inst:HasTag("wathomrun") then
 			inst.sg.mem.footsteps = 0
 			inst.sg:GoToState("run_wathom")
 			return
@@ -520,11 +520,15 @@ AddStategraphPostInit("wilson_client", function(inst)
         },
 
         onupdate = function(inst)
+            if not inst:HasTag("wathomrun") then
+                inst.sg:GoToState("run")
+                return
+            end			
 			RunUpdateTools(inst,true)
             inst.components.locomotor:RunForward()
         end,
 
-        events =
+        --[[events =
         {
             EventHandler("gogglevision", function(inst, data)
                 if not data.enabled and inst:GetStormLevel() >= TUNING.SANDSTORM_FULL_LEVEL then
@@ -541,7 +545,7 @@ AddStategraphPostInit("wilson_client", function(inst)
                     inst.sg:GoToState("run")
                 end
             end),
-        },
+        },]]
 
         ontimeout = function(inst)
             inst.sg.statemem.funkyrunning = true
