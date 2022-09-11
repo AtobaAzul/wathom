@@ -50,8 +50,8 @@ local function AmpTimer2(inst)
     inst.components.adrenalinecounter:DoDelta(-1) -- Draining adrenaline when not in combat. Need to make this not work if Wathom attacks/gets hit in the past 5 seconds.
 		end
 		
-		if inst.components.adrenalinecounter:GetPercent() < 0.25 then
-    inst.components.adrenalinecounter:DoDelta(1) -- Slowly regaining to normal levels.
+		if inst.components.adrenalinecounter:GetPercent() < 0.25 and not inst:HasTag("amped") then
+    inst.components.adrenalinecounter:DoDelta(0.5) -- Slowly regaining to normal levels.
 		end
 		
 end
@@ -70,7 +70,7 @@ local function AttackOther(inst,data)
 end
 
 local function OnHealthDelta(inst, data)
-    if data.amount < 0 then
+    if data.amount < 0 and not inst:HasTag("amped") then
         inst.components.adrenalinecounter:DoDelta(data.amount * -0.5) -- This gives Wathom adrenaline when attacked!
     end
 end
@@ -117,6 +117,57 @@ local function onload(inst)
     else
         onbecamehuman(inst)
     end
+	if TheWorld:HasTag("cave") then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES) 
+    end
+end
+
+local function EditCombat(inst)
+    local self = inst.components.combat
+    local _GetAttacked = self.GetAttacked
+    self.GetAttacked = function(self, attacker, damage, weapon, stimuli)
+        if attacker ~= nil and attacker:HasTag("wathom") and attacker.AmpDamageTakenModifier ~= nil and damage then
+            -- Take extra damage
+            damage = damage * attacker.AmpDamageTakenModifier
+        end
+        return _GetAttacked(self, attacker, damage, weapon, stimuli)
+    end
+end
+
+local function UpdateAdrenaline(inst)
+    local AmpLevel = inst.components.adrenalinecounter:GetPercent()
+    
+    if inst:HasTag("amped") then
+        inst.components.combat.attackrange = 8    
+        inst.AmpDamageTakenModifier = 5  
+    elseif AmpLevel == 0 then
+        inst.components.combat.attackrange = 2
+        inst.AmpDamageTakenModifier = 5 	
+--		inst:RemoveTag("amped") -- Party's over.
+    elseif AmpLevel < 0.25 then
+        inst.components.combat.attackrange = 2
+        inst.AmpDamageTakenModifier = 5        
+    elseif AmpLevel < 0.32 then
+        inst.components.combat.attackrange = 4
+        inst.AmpDamageTakenModifier = 1   
+    elseif AmpLevel < 0.45 then
+        inst.components.combat.attackrange = 5
+        inst.components.health:SetAbsorptionAmount(-0.50)
+        inst.AmpDamageTakenModifier = 2     
+    elseif AmpLevel < 0.66 then
+        inst.components.combat.attackrange = 6
+        inst.components.health:SetAbsorptionAmount(-1)
+        inst.AmpDamageTakenModifier = 3    
+    elseif AmpLevel < 1 then
+        inst.components.combat.attackrange = 7
+        inst.AmpDamageTakenModifier = 4             
+    else    
+        inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
+        inst.AmpDamageTakenModifier = 5
+--		inst:AddTag("amped")
+		inst.components.talker:Say("AMPED UP!" , nil, true)
+    end
 end
 
 
@@ -130,9 +181,6 @@ local common_postinit = function(inst)
     inst:AddTag("playermonster")	
 	
 	inst:AddTag("nightvision")
-	
-	inst:ListenForEvent("setowner", OnSetOwner)
-	
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
     -- Wathom's Nightvision aboveground
@@ -158,12 +206,13 @@ local common_postinit = function(inst)
 			end
 		end)
     end)	
+	inst:ListenForEvent("setowner", OnSetOwner)
+	
 end
 
 -- This initializes for the server only. Components are added here.
 local master_postinit = function(inst)
-	inst:AddTag("monster")
-    inst:AddTag("playermonster")	
+
     inst.adrenalinecheck = 0 -- I have no idea what this does. It's left over from SCP-049.
 
 	-- Set starting inventory
@@ -202,18 +251,15 @@ local master_postinit = function(inst)
  -- Wathom's Nightvision in the caves
 
 
-	-- stuff relating to Wathom's adrenaline timer. This can most likely be optimized.
-    inst:DoPeriodicTask(0.5, function() AmpTimer(inst) end)
-    inst:DoPeriodicTask(1, function() AmpTimer2(inst) end)
-
-	inst:ListenForEvent("healthdelta", OnHealthDelta)
-	inst:ListenForEvent("onattackother",AttackOther)
-
-	-- Wathom's immunity to night drain during the night.
-	inst.components.sanity.night_drain_mult = 0
+    -- Wathom's Nightvision aboveground
+	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
+		inst.components.playervision:ForceNightVision(true)
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
+	else	
+		inst.components.playervision:ForceNightVision(false)
+		inst.components.playervision:SetCustomCCTable(nil)	
+    end
 	
-	-- Night Vision enabler
---	inst.components.playervision:ForceNightVision(true) -- Should only force this if it's night or in caves.
     inst:WatchWorldState("isnight", function() 
 		inst:DoTaskInTime(TheWorld.state.isnight and 0 or 1,function(inst) 
 			if not TheWorld:HasTag("cave") then
@@ -226,9 +272,27 @@ local master_postinit = function(inst)
 				end
 			end
 		end)
-    end)
+    end)	
+
+	-- stuff relating to Wathom's adrenaline timer. This can most likely be optimized.
+    inst:DoPeriodicTask(0.5, function() AmpTimer(inst) end)
+    inst:DoPeriodicTask(1, function() AmpTimer2(inst) end)
+
+	inst:ListenForEvent("healthdelta", OnHealthDelta)
+	inst:ListenForEvent("onattackother",AttackOther)
+
+	-- Wathom's immunity to night drain during the night.
+	inst.components.sanity.night_drain_mult = 0
+	
+	-- Night Vision enabler
+--	inst.components.playervision:ForceNightVision(true) -- Should only force this if it's night or in caves.
+
 	-- Doubles Wathom's attack range so he can jump at things from further away.
 	inst.components.combat.attackrange = 4
+
+	
+	inst.OnLoad = onload
+    inst.OnNewSpawn = onload
 	
 end
 
