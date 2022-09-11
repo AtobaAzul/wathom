@@ -178,6 +178,9 @@ local function UpdateAdrenaline(inst)
     end
 end
 
+local function CustomCombatDamage(inst, target)
+	return (target.components.hauntable and target.components.hauntable.panic) and 1.5*(2) or 2
+end
 
 -- This initializes for both the server and client. Tags can be added here.
 local common_postinit = function(inst) 
@@ -249,8 +252,9 @@ local master_postinit = function(inst)
 	inst.components.sanity:SetMax(TUNING.WATHOM_SANITY)
 	
 	-- Damage multiplier (In reality, Wathom won't deal double damage. The time it takes for him to attack is about twice as long as other characters.
-    inst.components.combat.damagemultiplier = 2
-
+    --inst.components.combat.damagemultiplier = 2
+	inst.components.combat.customdamagemultfn = CustomCombatDamage
+	
 	-- Hunger rate (optional)
 	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE
 
