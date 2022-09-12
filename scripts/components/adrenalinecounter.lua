@@ -27,7 +27,7 @@ function AdrenalineCounter:OnRespawn()
     local old = self.current
     self.current = 25
 
-    self.inst:PushEvent("adrenalinedetla", {oldpercent = old/self.max, newpercent = self.current/self.max, overtime = overtime})
+    self.inst:PushEvent("adrenalinedelta", {oldpercent = old/self.max, newpercent = self.current/self.max, overtime = overtime})
 end
 
 function AdrenalineCounter:OnSave()
@@ -81,7 +81,7 @@ function AdrenalineCounter:DoDelta(delta, overtime)
 --        self.inst.components.locomotor:SetExternalSpeedMultiplier(self.inst, "countergrogginess", counterspeedmod)
     end 
 
-    self.inst:PushEvent("adrenalinedetla", {oldpercent = old/self.max, newpercent = self.current/self.max, overtime = overtime})
+    self.inst:PushEvent("adrenalinedelta", {oldpercent = old/self.max, newpercent = self.current/self.max, overtime = overtime})
 end
 
 function AdrenalineCounter:GetPercent()
@@ -95,7 +95,7 @@ end
 function AdrenalineCounter:SetPercent(p)
     local old = self.current
     self.current = p * self.max
-    self.inst:PushEvent("adrenalinedetla", {oldpercent = old/self.max, newpercent = p})
+    self.inst:PushEvent("adrenalinedelta", {oldpercent = old/self.max, newpercent = p})
 end
 
 return AdrenalineCounter

@@ -777,7 +777,7 @@ local function AmpbadgeDisplays(self)
 			self.stomach:SetPosition(-40, 17, 0)
 		end
 
-		--self.inst:ListenForEvent("adrenalinedetla", function(inst, data) self.adrenaline:SetPercent(data.newpercent, self.owner.components.pestilencecounter:Max()) end, self.owner)
+		--self.inst:ListenForEvent("adrenalinedelta", function(inst, data) self.adrenaline:SetPercent(data.newpercent, self.owner.components.pestilencecounter:Max()) end, self.owner)
 
 		local _SetGhostMode = self.SetGhostMode
 		function self:SetGhostMode(ghostmode)
