@@ -34,6 +34,7 @@ local component_post = {
 	"map",
 	"playerspawner",
 	--"drownable", 
+	"combat",
 }
 
 local prefab_post = {

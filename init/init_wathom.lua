@@ -30,6 +30,18 @@ local function OnCooldown(inst)
 	inst._barkcdtask = nil
 end
 
+local function EditCombat(inst)
+	local self = inst.components.combat
+	local _GetAttacked = self.GetAttacked
+	self.GetAttacked = function(self, attacker, damage, weapon, stimuli)
+		if attacker ~= nil and attacker:HasTag("wathom") and attacker.AmpDamageTakenModifier ~= nil and damage then
+			-- Take extra damage
+			damage = damage * attacker.AmpDamageTakenModifier
+		end
+		return _GetAttacked(self, attacker, damage, weapon, stimuli)
+	end
+end
+
 local function Effect(inst) -- I dumbed the shit out of this.
 	if GLOBAL.TheWorld.state.wetness > 25 then
 		local puff = SpawnPrefab("weregoose_splash_med2")
