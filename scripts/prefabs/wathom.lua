@@ -46,7 +46,7 @@ local function AmpTimer(inst)
 end
 
 local function AmpTimer2(inst)
-	if inst.components.adrenalinecounter:GetPercent() > 0.25 and not inst.adrenalpause then
+	if (inst.components.adrenalinecounter:GetPercent() > 0.25 and not inst.adrenalpause) or inst:HasTag("amped") then
 		inst.components.adrenalinecounter:DoDelta(-1) -- Draining adrenaline when not in combat. Need to make this not work if Wathom attacks/gets hit in the past 5 seconds.
 	end
 
@@ -143,7 +143,7 @@ local function UpdateAdrenaline(inst)
 		inst:RemoveTag("wathomrun")
 	end
 
-	if AmpLevel <= 0 then
+	if AmpLevel <= 0.2 then
 		inst.components.combat.attackrange = 2
 		inst.AmpDamageTakenModifier = 5
 		if inst:HasTag("amped") then
@@ -154,11 +154,6 @@ local function UpdateAdrenaline(inst)
 	elseif AmpLevel < 0.25 then
 		inst.components.combat.attackrange = 2
 		inst.AmpDamageTakenModifier = 5
-		if inst:HasTag("amped") then
-			inst:RemoveTag("amped") -- Party's over.
-			TheWorld:PushEvent("enabledynamicmusic", true)
-			TheFocalPoint.SoundEmitter:KillSound("wathommusic")
-		end
 	elseif AmpLevel < 0.32 then
 		inst.components.combat.attackrange = 4
 		inst.AmpDamageTakenModifier = 1
