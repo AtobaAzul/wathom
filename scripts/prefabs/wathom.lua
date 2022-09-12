@@ -84,7 +84,9 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
 	if right and useitem == nil then
 		local rider = inst.replica.rider
 		if rider == nil or not rider:IsRiding() then
-			return { ACTIONS.WATHOMBARK }
+			if inst.components.adrenalinecounter:GetPercent() > 0.44 or inst:HasTag("amped") then
+				return { ACTIONS.WATHOMBARK }
+			end
 		end
 	end
 	return {}
@@ -120,7 +122,7 @@ local function onload(inst, data)
 		inst.components.playervision:ForceNightVision(true)
 		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
 	end
-	if data.amped then
+	if data and data.amped then
 		inst:AddTag("amped")
 	end
 end
