@@ -143,18 +143,22 @@ local function UpdateAdrenaline(inst)
 		inst:RemoveTag("wathomrun")
 	end
 
-	if inst:HasTag("amped") then
-		inst.components.combat.attackrange = 8
-		inst.AmpDamageTakenModifier = 5
-	elseif AmpLevel == 0 then
+	if AmpLevel <= 0 then
 		inst.components.combat.attackrange = 2
 		inst.AmpDamageTakenModifier = 5
 		if inst:HasTag("amped") then
 			inst:RemoveTag("amped") -- Party's over.
+			TheWorld:PushEvent("enabledynamicmusic", true)
+			TheFocalPoint.SoundEmitter:KillSound("wathommusic")
 		end
 	elseif AmpLevel < 0.25 then
 		inst.components.combat.attackrange = 2
 		inst.AmpDamageTakenModifier = 5
+		if inst:HasTag("amped") then
+			inst:RemoveTag("amped") -- Party's over.
+			TheWorld:PushEvent("enabledynamicmusic", true)
+			TheFocalPoint.SoundEmitter:KillSound("wathommusic")
+		end
 	elseif AmpLevel < 0.32 then
 		inst.components.combat.attackrange = 4
 		inst.AmpDamageTakenModifier = 1
@@ -174,6 +178,15 @@ local function UpdateAdrenaline(inst)
 		inst.AmpDamageTakenModifier = 5
 		inst:AddTag("amped")
 		inst.components.talker:Say("AMPED UP!", nil, true)
+		TheWorld:PushEvent("enabledynamicmusic", false)
+		if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
+			TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/music_hoedown_moose", "wathommusic")
+		end
+	end
+
+	if inst:HasTag("amped") then
+		inst.components.combat.attackrange = 8
+		inst.AmpDamageTakenModifier = 5
 	end
 end
 
