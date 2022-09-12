@@ -1,7 +1,7 @@
 local env = env
 GLOBAL.setfenv(1, GLOBAL)
 
-env.AddClassPostConstruct("widgets/beefbloodover", function(self, owner)
+env.AddClassPostConstruct("widgets/bloodover", function(self, owner)
     local _UpdateState = self.UpdateState
     self.owner = owner
 

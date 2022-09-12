@@ -187,7 +187,7 @@ local class_post = {
 	"widgets/moisturemeter",
 	"widgets/controls",
 	"widgets/craftslot",
-	"widgets/beefbloodover"
+	"widgets/bloodover"
 }
 
 local brain_post = {
