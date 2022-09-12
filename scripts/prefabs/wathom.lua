@@ -138,8 +138,28 @@ local function EditCombat(inst)
 		if attacker ~= nil and attacker:HasTag("wathom") and attacker.AmpDamageTakenModifier ~= nil and damage then
 			-- Take extra damage
 			damage = damage * attacker.AmpDamageTakenModifier
+			inst.components.adrenalinecounter:DoDelta(damage * -0.5) -- This gives Wathom adrenaline when attacked!
 		end
 		return _GetAttacked(self, attacker, damage, weapon, stimuli)
+	end
+end
+
+local function UnAmp(inst)
+	inst:RemoveTag("amped") -- Party's over.
+	TheWorld:PushEvent("enabledynamicmusic", true)
+	TheFocalPoint.SoundEmitter:KillSound("wathommusic")
+	inst.components.combat.attackrange = 2
+	inst.AmpDamageTakenModifier = 5
+end
+
+local function Amp(inst)
+	inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
+	inst.AmpDamageTakenModifier = 5
+	inst:AddTag("amped")
+	inst.components.talker:Say("AMPED UP!", nil, true)
+	TheWorld:PushEvent("enabledynamicmusic", false)
+	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
+		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/music_hoedown_moose", "wathommusic")
 	end
 end
 
@@ -151,46 +171,28 @@ local function UpdateAdrenaline(inst)
 	elseif inst:HasTag("wathomrun") and not (AmpLevel > 0.5 or inst:HasTag("amped")) then
 		inst:RemoveTag("wathomrun")
 	end
-
-	if AmpLevel <= 0.2 then
+	
+	if AmpLevel == 0 and inst:HasTag("amped") then
+		UnAmp(inst)
+	elseif AmpLevel < 0.25 and not inst:HasTag("amped") then
 		inst.components.combat.attackrange = 2
-		inst.AmpDamageTakenModifier = 5
-		if inst:HasTag("amped") then
-			inst:RemoveTag("amped") -- Party's over.
-			TheWorld:PushEvent("enabledynamicmusic", true)
-			TheFocalPoint.SoundEmitter:KillSound("wathommusic")
-		end
-	elseif AmpLevel < 0.25 then
-		inst.components.combat.attackrange = 2
-		inst.AmpDamageTakenModifier = 5
-	elseif AmpLevel < 0.32 then
+		inst.AmpDamageTakenModifier = 1
+	elseif AmpLevel < 0.32 and not inst:HasTag("amped") then
 		inst.components.combat.attackrange = 4
 		inst.AmpDamageTakenModifier = 1
-	elseif AmpLevel < 0.45 then
+	elseif AmpLevel < 0.45 and not inst:HasTag("amped") then
 		inst.components.combat.attackrange = 5
 		inst.components.health:SetAbsorptionAmount(-0.50)
 		inst.AmpDamageTakenModifier = 2
-	elseif AmpLevel < 0.66 then
+	elseif AmpLevel < 0.66 and not inst:HasTag("amped") then
 		inst.components.combat.attackrange = 6
 		inst.components.health:SetAbsorptionAmount(-1)
 		inst.AmpDamageTakenModifier = 3
-	elseif AmpLevel < 1 then
+	elseif AmpLevel < 1 and not inst:HasTag("amped") then
 		inst.components.combat.attackrange = 7
 		inst.AmpDamageTakenModifier = 4
-	else
-		inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
-		inst.AmpDamageTakenModifier = 5
-		inst:AddTag("amped")
-		inst.components.talker:Say("AMPED UP!", nil, true)
-		TheWorld:PushEvent("enabledynamicmusic", false)
-		if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-			TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/music_hoedown_moose", "wathommusic")
-		end
-	end
-
-	if inst:HasTag("amped") then
-		inst.components.combat.attackrange = 8
-		inst.AmpDamageTakenModifier = 5
+	elseif AmpLevel == 1 and not inst:HasTag("amped") then
+		Amp(inst)
 	end
 end
 
@@ -234,7 +236,7 @@ local common_postinit = function(inst)
 		end)
 	end)
 	inst:ListenForEvent("setowner", OnSetOwner)
-
+	inst:ListenForEvent("ondeath",function(inst) if inst:HasTag("amped") then inst:RemoveTag("amped") end end)
 
 end
 
@@ -309,7 +311,10 @@ local master_postinit = function(inst)
 
 	inst:ListenForEvent("healthdelta", OnHealthDelta)
 	inst:ListenForEvent("onattackother", AttackOther)
-	inst:ListenForEvent("adrenalinedelta", UpdateAdrenaline)
+	if TheWorld.ismastersim then
+		inst:ListenForEvent("adrenalinedelta", UpdateAdrenaline)
+	end
+	inst:ListenForEvent("ondeath",function(inst) if inst:HasTag("amped") then inst:RemoveTag("amped") end end)
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
 
