@@ -105,7 +105,7 @@ local WATHOM_COLOURCUBES =
 }
 
 -- When loading or spawning the character
-local function onload(inst)
+local function onload(inst, data)
 	inst:ListenForEvent("ms_respawnedfromghost", onbecamehuman)
 	inst:ListenForEvent("ms_becameghost", onbecameghost)
 	--	inst.components.playervision:SetCustomCCTable(nil)
@@ -119,6 +119,15 @@ local function onload(inst)
 	if TheWorld:HasTag("cave") then
 		inst.components.playervision:ForceNightVision(true)
 		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
+	end
+	if data.amped then
+		inst:AddTag("amped")
+	end
+end
+
+local function onsave(inst, data)
+	if inst:HasTag("amped") then
+		data.amped = true
 	end
 end
 
@@ -309,9 +318,22 @@ local master_postinit = function(inst)
 
 	-- Doubles Wathom's attack range so he can jump at things from further away.
 	inst.components.combat.attackrange = 4
+	local _onsave = inst.OnSave
+
+	local function onsave(inst, data)
+		if inst:HasTag("amped") then
+			data.amped = true
+		end
+		if _onsave ~= nil then
+			return _onsave(inst,data)
+		end
+	end
+
 
 
 	inst.OnLoad = onload
+	inst.OnSave = onsave
+
 	inst.OnNewSpawn = onload
 
 end
