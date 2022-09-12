@@ -84,9 +84,7 @@ local function GetPointSpecialActions(inst, pos, useitem, right)
 	if right and useitem == nil then
 		local rider = inst.replica.rider
 		if rider == nil or not rider:IsRiding() then
-			if inst.components.adrenalinecounter:GetPercent() > 0.44 or inst:HasTag("amped") then
-				return { ACTIONS.WATHOMBARK }
-			end
+			return { ACTIONS.WATHOMBARK }
 		end
 	end
 	return {}
