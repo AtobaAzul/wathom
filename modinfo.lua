@@ -1,4 +1,4 @@
-name = "[DEV] 󰀕 Uncompromising Mode"
+name = "[MINE] 󰀕 Uncompromising Mode"
 description =
 [[
 󰀔 [ Version 1.1.6 : "The Hooded Forest" ]

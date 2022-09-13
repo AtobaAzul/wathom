@@ -40,7 +40,7 @@ end
 
 
 local function AmpTimer(inst)
-	if inst.components.adrenalinecounter:GetPercent() < 0.24 then
+	if (inst.components.adrenalinecounter:GetPercent() < 0.24 and not inst:HasTag("amped")) and inst.components.grogginess then
 		inst.components.grogginess.grog_amount = 0.5
 	end
 end
