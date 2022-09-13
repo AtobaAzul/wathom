@@ -11,14 +11,6 @@ TUNING.WATHOM_HEALTH = 225
 TUNING.WATHOM_HUNGER = 120
 TUNING.WATHOM_SANITY = 120
 
--- Custom starting inventory
-TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.WATHOM = {
-	"flint",
-	"flint",
-	"twigs",
-	"twigs", -- Placeholder :)
-}
-
 local start_inv = {}
 for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
 	start_inv[string.lower(k)] = v.WATHOM
