@@ -165,7 +165,7 @@ end)
 
 --hornet; i dont care enough to know where to put this
 --env.AddReplicableComponent("hayfever")
-
+env.AddReplicableComponent("adrenaline")
 
 --I don't know where else to put this
 env.AddPrefabPostInit("aphid", function(inst)
