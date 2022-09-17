@@ -264,7 +264,7 @@ local function StartMusic()
 	print("start music")
 	TheWorld:PushEvent("enabledynamicmusic", false)
 	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/music_hoedown_moose", "wathommusic")
+		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
 	end
 end
 

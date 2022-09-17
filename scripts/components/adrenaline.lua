@@ -17,7 +17,7 @@ local function onamp(self, amped)
     if amped then
         TheWorld:PushEvent("enabledynamicmusic", false)
         if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-            TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/music_hoedown_moose", "wathommusic")
+            TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
         end
     else
         TheWorld:PushEvent("enabledynamicmusic", true)
