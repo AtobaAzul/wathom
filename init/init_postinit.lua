@@ -162,6 +162,7 @@ local prefab_post = {
 	"nightsword",
 	"bigshadowtentacle",
 	"mast",
+	"multitool_axe_pickaxe",
 }
 
 local stategraph_post = {
