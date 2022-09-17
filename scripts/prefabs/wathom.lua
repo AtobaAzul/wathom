@@ -260,6 +260,20 @@ local function CustomCombatDamage(inst, target)
 		((inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and target.components.hauntable and target.components.hauntable.panic) and (1.5 * 2) or (inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and inst:HasTag("amped") and 4 or (inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and 2 or 1
 end
 
+local function StartMusic()
+	print("start music")
+	TheWorld:PushEvent("enabledynamicmusic", false)
+	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
+		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/music_hoedown_moose", "wathommusic")
+	end
+end
+
+local function StopMusic()
+	print("stop music")
+	TheWorld:PushEvent("enabledynamicmusic", true)
+	TheFocalPoint.SoundEmitter:KillSound("wathommusic")
+end
+
 -- This initializes for both the server and client. Tags can be added here.
 local common_postinit = function(inst)
 	-- Minimap icon
@@ -296,8 +310,18 @@ local common_postinit = function(inst)
 		end)
 	end)
 
+	--t'was revealed to me in a dream, and I'm not even kidding.
+	inst:ListenForEvent("wathommusic_start", StartMusic)
+	inst:ListenForEvent("wathommusic_end", StopMusic)
+    inst:ListenForEvent("ms_playerreroll", StopMusic)
+
 	inst:ListenForEvent("setowner", OnSetOwner)
-	inst:ListenForEvent("ondeath", function(inst) if inst:HasTag("amped") then inst:RemoveTag("amped") end end)
+	inst:ListenForEvent("ondeath", function(inst)
+		 if inst:HasTag("amped") then
+			 inst:RemoveTag("amped") 
+			end 
+			StopMusic()
+		end)
 end
 
 -- This initializes for the server only. Components are added here.
