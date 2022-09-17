@@ -160,6 +160,7 @@ local prefab_post = {
 	"sludge_fueled",
 	"nightsword",
 	"bigshadowtentacle",
+	"mast",
 }
 
 local stategraph_post = {
