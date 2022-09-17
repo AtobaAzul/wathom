@@ -84,9 +84,13 @@ function Adrenaline:SetAmped(isamped)
     if isamped then
         print("pushing event! starting music")
         self.classified:PushEvent("wathommusic_start")
+        self.inst.player_classified:PushEvent("wathommusic_start")
+        self.inst:PushEvent("wathommusic_start")
     else
         print("pushing event! stopping music")
         self.classified:PushEvent("wathommusic_end")
+        self.inst.player_classified:PushEvent("wathommusic_end")
+        self.inst:PushEvent("wathommusic_end")
     end
 end
 
