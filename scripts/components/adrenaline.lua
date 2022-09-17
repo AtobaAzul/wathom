@@ -12,16 +12,11 @@ local function onamp(self, amped)
     print("onamp!!!")
     --transform it to binary because replica SetValue is numbers only, and I don't feel like messing with netvars...
     self.inst.replica.adrenaline:SetAmped(amped)
-
     --explicit true check because it's now a number
     if amped then
-        TheWorld:PushEvent("enabledynamicmusic", false)
-        if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-            TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
-        end
+        self.inst:PushEvent("wathommusic_start")
     else
-        TheWorld:PushEvent("enabledynamicmusic", true)
-        TheFocalPoint.SoundEmitter:KillSound("wathommusic")
+        self.inst:PushEvent("wathommusic_end")
     end
 end
 

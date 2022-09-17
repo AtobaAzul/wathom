@@ -145,7 +145,7 @@ local function AttackOther(inst, data)
 end
 
 local function OnHealthDelta(inst, data)
-	inst:DoTaskInTime(FRAMES*2, function(inst)
+	inst:DoTaskInTime(FRAMES * 2, function(inst)
 		if data.amount < 0 and not inst:HasTag("amped") then
 			inst.components.adrenaline:DoDelta(data.amount * -0.5) -- This gives Wathom adrenaline when attacked!
 		end
@@ -256,26 +256,35 @@ end
 
 local function CustomCombatDamage(inst, target)
 	--sometimes I hate short-circuit evals...
-	return ((inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and target.components.hauntable and target.components.hauntable.panic and inst:HasTag("amped")) and (1.5 * 4) or
-		((inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and target.components.hauntable and target.components.hauntable.panic) and (1.5 * 2) or (inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and inst:HasTag("amped") and 4 or (inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and 2 or 1
-end
-
-local function StartMusic()
-	print("start music")
-	TheWorld:PushEvent("enabledynamicmusic", false)
-	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
-	end
-end
-
-local function StopMusic()
-	print("stop music")
-	TheWorld:PushEvent("enabledynamicmusic", true)
-	TheFocalPoint.SoundEmitter:KillSound("wathommusic")
+	return (
+		(inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and target.components.hauntable and
+			target.components.hauntable.panic and inst:HasTag("amped")) and (1.5 * 4) or
+		(
+		(inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and target.components.hauntable and
+			target.components.hauntable.panic) and (1.5 * 2) or
+		(inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and inst:HasTag("amped") and 4 or
+		(inst.components.rider ~= nil and not inst.components.rider:IsRiding()) and 2 or 1
 end
 
 -- This initializes for both the server and client. Tags can be added here.
 local common_postinit = function(inst)
+
+	local function StartMusic()
+		print("start music")
+		TheWorld:PushEvent("enabledynamicmusic", false)
+		if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
+			TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
+		end
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
+	end
+
+	local function StopMusic()
+		print("stop music CLINETE")
+		TheWorld:PushEvent("enabledynamicmusic", true)
+		TheFocalPoint.SoundEmitter:KillSound("wathommusic")
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
+	end
+
 	-- Minimap icon
 	inst.MiniMapEntity:SetIcon("wathom.tex")
 
@@ -313,15 +322,15 @@ local common_postinit = function(inst)
 	--t'was revealed to me in a dream, and I'm not even kidding.
 	inst:ListenForEvent("wathommusic_start", StartMusic)
 	inst:ListenForEvent("wathommusic_end", StopMusic)
-    inst:ListenForEvent("ms_playerreroll", StopMusic)
+	inst:ListenForEvent("ms_playerreroll", StopMusic)
 
 	inst:ListenForEvent("setowner", OnSetOwner)
 	inst:ListenForEvent("ondeath", function(inst)
-		 if inst:HasTag("amped") then
-			 inst:RemoveTag("amped") 
-			end 
-			StopMusic()
-		end)
+		if inst:HasTag("amped") then
+			inst:RemoveTag("amped")
+		end
+		StopMusic()
+	end)
 end
 
 -- This initializes for the server only. Components are added here.
