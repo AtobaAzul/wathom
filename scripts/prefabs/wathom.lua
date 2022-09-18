@@ -435,6 +435,8 @@ local master_postinit = function(inst)
 	inst:ListenForEvent("ondeath", function(inst)
 		if inst:HasTag("amped") then
 			inst:RemoveTag("amped")
+			StopMusic(inst)
+		end
 	end)
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
