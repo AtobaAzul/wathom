@@ -39,6 +39,9 @@ env.AddComponentPostInit("combat", function(self)
         elseif self.inst ~= nil and (self.inst.prefab == "bernie_active" or self.inst.prefab == "bernie_big") and attacker ~= nil and attacker:HasTag("shadow") then
             damage = damage * 0.2
             return _GetAttacked(self, attacker, damage, weapon, stimuli, ...)
+        elseif self.inst:HasTag("ratwhisperer") and attacker ~= nil and attacker.prefab == "catcoon"  then
+            damage = damage + 10
+            return _GetAttacked(self, attacker, damage, weapon, stimuli, ...)
         else
             return _GetAttacked(self, attacker, damage, weapon, stimuli, ...)
         end
