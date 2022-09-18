@@ -267,24 +267,25 @@ local function CustomCombatDamage(inst, target)
 end
 
 -- This initializes for both the server and client. Tags can be added here.
+local function StartMusic(inst)
+	print("start music CLIENT")
+	TheWorld:PushEvent("enabledynamicmusic", false)
+	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
+		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
+	end
+	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
+end
+
+local function StopMusic(inst)
+	print("stop music CLIENT")
+	TheWorld:PushEvent("enabledynamicmusic", false)
+	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
+		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
+	end
+	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
+end
+
 local common_postinit = function(inst)
-
-	local function StartMusic()
-		print("start music")
-		TheWorld:PushEvent("enabledynamicmusic", false)
-		if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-			TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
-		end
-		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
-	end
-
-	local function StopMusic()
-		print("stop music CLINETE")
-		TheWorld:PushEvent("enabledynamicmusic", true)
-		TheFocalPoint.SoundEmitter:KillSound("wathommusic")
-		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
-	end
-
 	-- Minimap icon
 	inst.MiniMapEntity:SetIcon("wathom.tex")
 
@@ -421,6 +422,9 @@ local master_postinit = function(inst)
 	if TheWorld.ismastersim then
 		inst:ListenForEvent("adrenalinedelta", UpdateAdrenaline)
 	end
+	inst:ListenForEvent("wathommusic_start", StartMusic)
+	inst:ListenForEvent("wathommusic_end", StopMusic)
+	inst:ListenForEvent("ms_playerreroll", StopMusic)
 	inst:ListenForEvent("ondeath", function(inst) if inst:HasTag("amped") then inst:RemoveTag("amped") end end)
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
