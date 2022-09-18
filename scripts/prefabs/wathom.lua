@@ -331,13 +331,12 @@ local common_postinit = function(inst)
 	inst:ListenForEvent("wathommusic_start", StartMusic)
 	inst:ListenForEvent("wathommusic_end", StopMusic)
 	inst:ListenForEvent("ms_playerreroll", StopMusic)
-
 	inst:ListenForEvent("setowner", OnSetOwner)
 	inst:ListenForEvent("ondeath", function(inst)
 		if inst:HasTag("amped") then
 			inst:RemoveTag("amped")
 		end
-		StopMusic()
+		StopMusic(inst)
 	end)
 end
 
@@ -432,7 +431,11 @@ local master_postinit = function(inst)
 	inst:ListenForEvent("wathommusic_start", StartMusic)
 	inst:ListenForEvent("wathommusic_end", StopMusic)
 	inst:ListenForEvent("ms_playerreroll", StopMusic)
-	inst:ListenForEvent("ondeath", function(inst) if inst:HasTag("amped") then inst:RemoveTag("amped") end end)
+
+	inst:ListenForEvent("ondeath", function(inst)
+		if inst:HasTag("amped") then
+			inst:RemoveTag("amped")
+	end)
 	-- Wathom's immunity to night drain during the night.
 	inst.components.sanity.night_drain_mult = 0
 
