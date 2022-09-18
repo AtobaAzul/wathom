@@ -27,6 +27,12 @@ local function UnAmp(inst)
 		inst.adrenalinehpregen = nil
 	end
 	inst.components.adrenaline:SetAmped(false)
+	if inst:HasTag("deathamp") then
+		inst:RemoveTag("deathamp")
+		if inst.components.health and not inst.components.health:IsDead() then
+			inst.components.health:DoDelta(-225)
+		end
+	end
 end
 
 local function Amp(inst)

@@ -27,9 +27,7 @@ env.AddComponentPostInit("combat", function(self)
     function self:GetAttacked(attacker, damage, weapon, stimuli, ...)
         if self.inst ~= nil and self.inst:HasTag("wathom") and self.inst.AmpDamageTakenModifier ~= nil and damage then
             -- Take extra damage
-            print("pre",damage)
             damage = damage * self.inst.AmpDamageTakenModifier
-            print("post",damage)
             return _GetAttacked(self, attacker, damage, weapon, stimuli)
         elseif self.inst ~= nil and attacker ~= nil and attacker:HasTag("wathom") then
             if damage > 600 then
