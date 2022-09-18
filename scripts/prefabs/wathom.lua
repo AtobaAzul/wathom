@@ -204,6 +204,7 @@ local function onload(inst, data)
 	end
 	if data and data.amped then
 		inst:AddTag("amped")
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
 	end
 end
 
@@ -277,7 +278,7 @@ local function StartMusic(inst)
 	print("start music CLIENT")
 	TheWorld:PushEvent("enabledynamicmusic", false)
 	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
+		TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
 	end
 	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
 end
@@ -286,7 +287,7 @@ local function StopMusic(inst)
 	print("stop music CLIENT")
 	TheWorld:PushEvent("enabledynamicmusic", false)
 	if not TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-		TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
+		TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
 	end
 	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
 end

@@ -48,7 +48,7 @@ local function WathomMusicToggle(toggle)
 		print("start music")
 		GLOBAL.TheWorld:PushEvent("enabledynamicmusic", false)
 		if not GLOBAL.TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-			GLOBAL.TheFocalPoint.SoundEmitter:PlaySound("dontstarve/music/UMMusic/music/wathom_amped", "wathommusic")
+			GLOBAL.TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
 		end
 		print("PLEASE DO THE MUSIC I BEG YOU")
 	else
