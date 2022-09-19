@@ -327,7 +327,7 @@ AddStategraphPostInit("wilson", function(inst)
 			onenter = function(inst)
 				inst:ClearBufferedAction()
 
-				inst.components.talker:Say("Can't... Breathe...", nil, true)
+--				inst.components.talker:Say("Can't... Breathe...", nil, true) -- I can't think of something cool for Wathom to say, so away this goes.
 
 				inst.AnimState:PlayAnimation("sing_fail", false)
 
