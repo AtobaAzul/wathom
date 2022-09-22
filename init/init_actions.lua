@@ -140,15 +140,17 @@ local charge_powercell = AddAction(
     function(act)
 	local target = act.target or act.invobject
 
-    if (target ~= nil and target.components.battery ~= nil) and
-        (act.doer ~= nil and act.doer:HasTag("batteryuser")) then
-        return act.doer.components.batteryuser:ChargeFrom(target)
+    if (target ~= nil and target:HasTag("powercell")) and (act.doer ~= nil and act.doer:HasTag("batteryuser")) then
+        act.doer.components.batteryuser:ChargeFrom(target)
+		return true
     else
         return false
     end
 end)
 
 charge_powercell.instant = true
+charge_powercell.rmb = true
+charge_powercell.priority = HIGH_ACTION_PRIORITY
 
 local _RummageFn = GLOBAL.ACTIONS.RUMMAGE.fn
 
