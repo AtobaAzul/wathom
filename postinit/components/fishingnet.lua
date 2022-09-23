@@ -34,10 +34,14 @@ env.AddComponentPostInit("fishingnetvisualizer", function(self)
 			local my_x, my_y, my_z = self.inst.Transform:GetWorldPosition()
 			local fishies = TheSim:FindEntities(my_x,my_y,my_z, self.collect_radius, {"oceanfishable"})
 			for k, v in pairs(fishies) do
-				local fishdef = v.fish_def.prefab ~= nil and v.fish_def.prefab
-				local fish = SpawnPrefab(fishdef.."_inv") ~= nil and SpawnPrefab(fishdef.."_inv") or SpawnPrefab(fishdef.."_land") ~= nil and SpawnPrefab(fishdef.."_land")
-				
-				if fish ~= nil and k < 3 then
+				local fishdef = v.fish_def ~= nil and v.fish_def.prefab ~= nil and v.fish_def.prefab or nil
+				local fish = fishdef ~= nil and (SpawnPrefab(fishdef.."_inv") ~= nil and SpawnPrefab(fishdef.."_inv") 
+					or SpawnPrefab(fishdef.."_land") ~= nil and SpawnPrefab(fishdef.."_land") or nil)
+					or nil
+					
+				if fish == nil then
+					return
+				elseif fish ~= nil and k < 3 then
 					--local fish = SpawnPrefab(fishtype)
 					if self.inst.item ~= nil and v.components.weighable ~= nil then
 						local minweight = v.components.weighable.min_weight
