@@ -37,7 +37,9 @@ local function ToggleUndeathState(inst, toggle)
 		if inst.components.health ~= nil and not inst.components.health:IsDead() then
 			inst.sg:GoToState("wathombark")
 			inst.components.health.invincible = true
-			inst:DoTaskInTime(1, function() inst.components.health.invincible = false end)
+			print("turned on invin")
+
+			inst:DoTaskInTime(1, function() inst.components.health.invincible = false print("turned off invin") end)
 		end
 
 		inst.helpimleaking = inst:DoPeriodicTask(0.125, function(inst)
@@ -86,7 +88,7 @@ local function UnAmp(inst)
 		end
 
 		if inst.components.health and not inst.components.health:IsDead() then
-			inst.components.health:DoDelta(-225)
+			inst.components.health:DoDelta(-225, nil, "deathamp")
 		end
 	end
 end
@@ -179,19 +181,13 @@ local function AmpTimer2(inst)
 		else
 			inst.components.combat.attackrange = 2
 		end
-	elseif AmpLevel < 0.32 and not inst:HasTag("amped") then
+	elseif AmpLevel < 0.5 and not inst:HasTag("amped") then
 		if item ~= nil then
 			inst.components.combat.attackrange = 4
 		else
 			inst.components.combat.attackrange = 2
 		end
-	elseif AmpLevel < 0.45 and not inst:HasTag("amped") then
-		if item ~= nil then
-			inst.components.combat.attackrange = 5
-		else
-			inst.components.combat.attackrange = 2
-		end
-	elseif AmpLevel < 0.66 and not inst:HasTag("amped") then
+	elseif AmpLevel < 0.75 and not inst:HasTag("amped") then
 		if item ~= nil then
 			inst.components.combat.attackrange = 6
 		else
@@ -219,15 +215,15 @@ local function AttackOther(inst, data)
 		end
 		inst.adrenalresume = inst:DoTaskInTime(10, function(inst) inst.adrenalpause = false end)
 		if not inst:HasTag("amped") then
-			inst.components.adrenaline:DoDelta(2)
+			inst.components.adrenaline:DoDelta(3)
 		end
 	end
 end
 
 local function OnHealthDelta(inst, data)
 	inst:DoTaskInTime(FRAMES * 2, function(inst)
-		if data.amount < 0 and not inst:HasTag("amped") then
-			inst.components.adrenaline:DoDelta(math.ceil(data.amount * -0.5)) -- This gives Wathom adrenaline when attacked!
+		if data.amount < 0 and not inst:HasTag("amped") and inst.components.adrenaline:GetPercent() > 0.24 and data.cause ~= "deathamp" then
+			inst.components.adrenaline:DoDelta(math.ceil(data.amount * -0.25)) -- This gives Wathom adrenaline when attacked!
 		end
 	end)
 end
@@ -300,38 +296,31 @@ local function UpdateAdrenaline(inst)
 			inst.components.combat.attackrange = 2
 		end
 		inst.AmpDamageTakenModifier = 3
-	elseif AmpLevel < 0.32 and not inst:HasTag("amped") then
+	elseif AmpLevel < 0.5 and not inst:HasTag("amped") then
 		if item ~= nil then
 			inst.components.combat.attackrange = 4
 		else
 			inst.components.combat.attackrange = 2
 		end
 		inst.AmpDamageTakenModifier = 1
-	elseif AmpLevel < 0.45 and not inst:HasTag("amped") then
-		if item ~= nil then
-			inst.components.combat.attackrange = 5
-		else
-			inst.components.combat.attackrange = 2
-		end
-		inst.components.health:SetAbsorptionAmount(-0.50)
-		inst.AmpDamageTakenModifier = 1.5
-	elseif AmpLevel < 0.66 and not inst:HasTag("amped") then
+	elseif AmpLevel >= 1 and not inst:HasTag("amped") then
+		Amp(inst)
+		inst.AmpDamageTakenModifier = TUNING.DSTU.WATHOM_AMPED_VULNERABILITY
+	elseif AmpLevel > 0.75 and not inst:HasTag("amped") then
 		if item ~= nil then
 			inst.components.combat.attackrange = 6
 		else
 			inst.components.combat.attackrange = 2
 		end
-		inst.components.health:SetAbsorptionAmount(-1)
+		inst.components.health:SetAbsorptionAmount(-0.50)
 		inst.AmpDamageTakenModifier = 2
-	elseif AmpLevel < 1 and not inst:HasTag("amped") then
+	elseif AmpLevel > 0.5 and not inst:HasTag("amped") then
 		if item ~= nil then
-			inst.components.combat.attackrange = 7
+			inst.components.combat.attackrange = 5
 		else
 			inst.components.combat.attackrange = 2
 		end
-		inst.AmpDamageTakenModifier = TUNING.DSTU.WATHOM_AMPED_VULNERABILITY
-	elseif AmpLevel == 1 and not inst:HasTag("amped") then
-		Amp(inst)
+		inst.AmpDamageTakenModifier = 1.5
 	end
 end
 

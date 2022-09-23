@@ -681,10 +681,10 @@ end
 
 local wathombark = AddAction(
 	"WATHOMBARK",
-	GLOBAL.STRINGS.ACTIONS.WATHOMBARK,
+	STRINGS.ACTIONS.WATHOMBARK,
 	function(act)
 		if act.doer ~= nil and act.doer.components.adrenaline ~= nil then -- previously act.target
-			if act.doer.components.adrenaline:GetPercent() < 0.44 and not act.doer:HasTag("amped") then
+			if (act.doer.components.adrenaline ~= nil and act.doer.components.adrenaline:GetPercent() < 0.45 or act.doer.replica ~= nil and act.doer.replica.currentadrenaline < 45) and not inst:HasTag("amped") then
 				return false
 			end
 			local inst = act.doer
@@ -698,13 +698,13 @@ local wathombark = AddAction(
 
 			local act_pos = act:GetActionPoint()
 			local ents = GLOBAL.TheSim:FindEntities(act_pos.x, act_pos.y, act_pos.z, 10, { "_combat" },
-				{ "companion", "INLIMBO", "notarget" })
+				{ "companion", "INLIMBO", "notarget", "player", "playerghost"})--added playertags because of the taunt.
 			for i, v in ipairs(ents) do
 				if v.components.hauntable ~= nil and v.components.hauntable.panicable and not
 					(
 					v.components.follower ~= nil and v.components.follower:GetLeader() and
 						v.components.follower:GetLeader():HasTag("player")) then
-					v.components.hauntable:Panic(TUNING.BATTLESONG_PANIC_TIME)
+					v.components.hauntable:Panic(10) -- Fallback to TUNING.BATTLESONG_PANIC_TIME (6 seconds) if needed
 					AddEnemyDebuffFx("battlesong_instant_panic_fx", v)
 				end
 				if v.components.hauntable == nil or
@@ -894,13 +894,13 @@ AddComponentPostInit("health", function(self)
 			_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb) --Don't trigger the LLA here, let it happen in our ovvn component, so this doesn't break vvhenever canis moves it to his ovvn mod.
 		else
 			if MayKill(self, amount) and (self.inst:HasTag("wathom") and self.inst:HasTag("amped")) then --suggest that vve add a trigger here to shovv that vvathom is still being hit, despite his lack of flinching or anything.
-				self:SetCurrentHealth(1)
 				if self.inst.components.adrenaline and self.inst:HasTag("deathamp") then
 					self.inst.components.adrenaline:DoDelta(amount * 0.2)
 				end
 				if not self.inst:HasTag("deathamp") then
 					self.inst:AddTag("deathamp")
 					self.inst:ToggleUndeathState(self.inst, true)
+					_DoDelta(self, -self.currenthealth+1, nil, nil, true)--needed to do this for ignore_invincible...
 				end
 			elseif not self.inst:HasTag("deathamp") then -- No positive healing if you're on your last breath
 				_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)

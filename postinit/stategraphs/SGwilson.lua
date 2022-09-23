@@ -191,7 +191,7 @@ local actionhandlers =
         end),
     ActionHandler(ACTIONS.CHARGE_POWERCELL,
         function(inst, action)
-            return action.invobject:HasTag("battery") and "doshortaction"
+            return action.invobject ~= nil and action.invobject:HasTag("powercell") and "doshortaction"
         end)
 }
 
