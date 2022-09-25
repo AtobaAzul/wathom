@@ -57,7 +57,6 @@ local function ToggleUndeathState(inst, toggle)
 		end
 
 		--if not inst:HasTag("playerghost") then
-		print("setting buildto normal wathom")
 		inst:ListenForEvent("animqueueover", ToggleShadowForm)
 		--end
 	end
@@ -123,7 +122,6 @@ end
 
 -- When the character is revived from human
 local function onbecamehuman(inst)
-	print("onbecamehuman")
 	-- Set speed when not a ghost (optional)
 	inst.components.locomotor:SetExternalSpeedMultiplier(inst, "wathom_speed_mod", 1)
 	UnAmp(inst)
@@ -132,7 +130,6 @@ local function onbecamehuman(inst)
 end
 
 local function onbecameghost(inst)
-	print("onbecameghost")
 	-- Remove speed modifier when becoming a ghost
 	inst.components.locomotor:RemoveExternalSpeedMultiplier(inst, "wathom_speed_mod")
 	UnAmp(inst)
@@ -223,7 +220,7 @@ local function OnHealthDelta(inst, data)
 	inst:DoTaskInTime(FRAMES * 2, function(inst)
 		if data.amount < 0 and not inst:HasTag("amped") and inst.components.adrenaline:GetPercent() > 0.24 and
 			data.cause ~= "deathamp" then
-			inst.components.adrenaline:DoDelta(math.ceil(data.amount * -0.25)) -- This gives Wathom adrenaline when attacked!
+			inst.components.adrenaline:DoDelta(math.floor(data.amount * -0.25)) -- This gives Wathom adrenaline when attacked!
 		end
 	end)
 end
@@ -256,6 +253,16 @@ local WATHOM_COLOURCUBES =
 	full_moon = "images/colour_cubes/ruins_dim_cc.tex",
 }
 
+local function GetMusicValues(inst)
+	if inst:HasTag("amped") then
+		return "wathom_amped"
+	elseif (inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.75 or inst.replica ~= nil and inst.replica.currentadrenaline >= 75) then
+		return nil
+	elseif (inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.5 or inst.replica ~= nil and inst.replica.currentadrenaline >= 50) then
+		return nil
+	end
+end
+
 -- When loading or spawning the character
 local function onload(inst, data)
 	inst:ListenForEvent("ms_respawnedfromghost", onbecamehuman)
@@ -274,11 +281,12 @@ local function onload(inst, data)
 	end
 	if data and data.amped then
 		inst:AddTag("amped")
-		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
 	end
 end
 
 local function UpdateAdrenaline(inst)
+	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
 	local AmpLevel = inst.components.adrenaline:GetPercent()
 	local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
 
@@ -335,18 +343,11 @@ local function CustomCombatDamage(inst, target, weapon, multiplier, mount)
 end
 
 local function OnAttacked(inst, data)
-	printwrap("", data)
-	print((data.damageresolved*inst.AmpDamageTakenModifier)-data.damageresolved)
-
 	inst.components.health:DoDelta(-((data.damageresolved*inst.AmpDamageTakenModifier)-data.damageresolved), nil, data.attacker)
 end
 
-local function StartMusic(inst)
-	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
-end
-
-local function StopMusic(inst)
-	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, inst:HasTag("amped"))
+local function UpdateMusic(inst)
+	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
 end
 
 -- This initializes for both the server and client. Tags can be added here.
@@ -386,15 +387,15 @@ local common_postinit = function(inst)
 	end)
 
 	--t'was revealed to me in a dream, and I'm not even kidding.
-	inst:ListenForEvent("wathommusic_start", StartMusic)
-	inst:ListenForEvent("wathommusic_end", StopMusic)
-	inst:ListenForEvent("ms_playerreroll", StopMusic)
+	inst:ListenForEvent("wathommusic_start", UpdateMusic)
+	inst:ListenForEvent("wathommusic_end", UpdateMusic)
+	inst:ListenForEvent("ms_playerreroll", UpdateMusic)
 	inst:ListenForEvent("setowner", OnSetOwner)
 	inst:ListenForEvent("ondeath", function(inst)
 		if inst:HasTag("amped") then
 			inst:RemoveTag("amped")
 		end
-		StopMusic(inst)
+		UpdateMusic(inst)
 	end)
 end
 
@@ -489,14 +490,14 @@ local master_postinit = function(inst)
 	if TheWorld.ismastersim then
 		inst:ListenForEvent("adrenalinedelta", UpdateAdrenaline)
 	end
-	inst:ListenForEvent("wathommusic_start", StartMusic)
-	inst:ListenForEvent("wathommusic_end", StopMusic)
-	inst:ListenForEvent("ms_playerreroll", StopMusic)
+	inst:ListenForEvent("wathommusic_start", UpdateMusic)
+	inst:ListenForEvent("wathommusic_end", UpdateMusic)
+	inst:ListenForEvent("ms_playerreroll", UpdateMusic)
 
 	inst:ListenForEvent("ondeath", function(inst)
 		if inst:HasTag("amped") then
 			inst:RemoveTag("amped")
-			StopMusic(inst)
+			UpdateMusic(inst)
 		end
 	end)
 	-- Wathom's immunity to night drain during the night.

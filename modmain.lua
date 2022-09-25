@@ -43,14 +43,18 @@ AddShardModRPCHandler("UncompromisingSurvival", "Hayfever_Start", function(...)
 	GLOBAL.TheWorld:PushEvent("beequeenrespawned")
 end)
 
-local function WathomMusicToggle(toggle)
-	if toggle then
+local function WathomMusicToggle(level)
+	if level ~= nil then
 		GLOBAL.TheWorld:PushEvent("enabledynamicmusic", false)
+		GLOBAL.TheWorld.wathom_enabledynamicmusic = false
 		if not GLOBAL.TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-			GLOBAL.TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
+			GLOBAL.TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/" .. level, "wathommusic")
 		end
 	else
-		GLOBAL.TheWorld:PushEvent("enabledynamicmusic", true)
+		if not GLOBAL.TheWorld.wathom_enabledynamicmusic then --just so other things that killed the music don't get messed up.
+			GLOBAL.TheWorld:PushEvent("enabledynamicmusic", true)
+			GLOBAL.TheWorld.wathom_enabledynamicmusic = true
+		end
 		GLOBAL.TheFocalPoint.SoundEmitter:KillSound("wathommusic")
 	end
 end
