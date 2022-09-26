@@ -256,10 +256,16 @@ local WATHOM_COLOURCUBES =
 local function GetMusicValues(inst)
 	if inst:HasTag("amped") then
 		return "wathom_amped"
-	elseif (inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.75 or inst.replica ~= nil and inst.replica.currentadrenaline >= 75) then
-		return nil
-	elseif (inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.5 or inst.replica ~= nil and inst.replica.currentadrenaline >= 50) then
-		return nil
+	elseif (
+		inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.75 or
+			inst.replica ~= nil and inst.replica.currentadrenaline >= 75) then
+		return --music for 75-100
+	elseif (
+		inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.5 or
+			inst.replica ~= nil and inst.replica.currentadrenaline >= 50) then
+		return --music for 50-75
+	else
+		return nil --this should turn off the music.
 	end
 end
 
@@ -285,10 +291,18 @@ local function onload(inst, data)
 	end
 end
 
-local function UpdateAdrenaline(inst)
+local function UpdateAdrenaline(inst, data)
 	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
 	local AmpLevel = inst.components.adrenaline:GetPercent()
 	local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+--[[
+	if data.oldpercent < data.newpercent and data.newpercent >= 1 then
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 1)
+	elseif data.oldpercent < data.newpercent and data.newpercent >= 0.75 then
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 0.5)
+	elseif data.oldpercent < data.newpercent and data.newpercent >= 0.5 then
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 0)
+	end]]
 
 	if (AmpLevel > 0.5 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") and
 		(inst.components.rider ~= nil and not inst.components.rider:IsRiding() or inst.components.rider == nil) then --Handle VVathom Running
@@ -343,7 +357,8 @@ local function CustomCombatDamage(inst, target, weapon, multiplier, mount)
 end
 
 local function OnAttacked(inst, data)
-	inst.components.health:DoDelta(-((data.damageresolved*inst.AmpDamageTakenModifier)-data.damageresolved), nil, data.attacker)
+	inst.components.health:DoDelta(-((data.damageresolved * inst.AmpDamageTakenModifier) - data.damageresolved), nil,
+		data.attacker)
 end
 
 local function UpdateMusic(inst)

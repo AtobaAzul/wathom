@@ -59,7 +59,16 @@ local function WathomMusicToggle(level)
 	end
 end
 
+local function DoAdrenalineUpStinger(intensity)
+	if type(intensity) =="number" then
+		GLOBAL.TheFrontEnd:GetSound():PlaySoundWithParams("dontstarve_DLC001/characters/wathgrithr/inspiration_up", { intensity = intensity}) -- intensity: 0, 0.5, 1
+	else
+		GLOBAL.TheFrontEnd:GetSound():PlaySound("dontstarve_DLC001/characters/wathgrithr/inspiration_down")
+	end
+end
+
 AddClientModRPCHandler("UncompromisingSurvival", "WathomMusicToggle", WathomMusicToggle)
+AddClientModRPCHandler("UncompromisingSurvival", "WathomAdrenalineStinger", DoAdrenalineUpStinger)
 
 
 AddShardModRPCHandler("UncompromisingSurvival", "DeerclopsDeath", function(...)
