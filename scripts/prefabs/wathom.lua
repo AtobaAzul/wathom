@@ -295,14 +295,25 @@ local function UpdateAdrenaline(inst, data)
 	SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
 	local AmpLevel = inst.components.adrenaline:GetPercent()
 	local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
---[[
-	if data.oldpercent < data.newpercent and data.newpercent >= 1 then
+
+	--seperate 'if's so all sounds can play at once,in theory.
+	if data.oldpercent < 1 and data.newpercent >= 1 then
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 1)
-	elseif data.oldpercent < data.newpercent and data.newpercent >= 0.75 then
+	end
+	if data.oldpercent < 0.75 and data.newpercent >= 0.75 then
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 0.5)
-	elseif data.oldpercent < data.newpercent and data.newpercent >= 0.5 then
+	end
+	if data.oldpercent < 0.5 and data.newpercent >= 0.5 then
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 0)
-	end]]
+	end
+
+	if data.oldpercent >= 0.75 and data.newpercent < 0.75 then
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, nil)
+	end
+	if data.oldpercent >= 0.5 and data.newpercent < 0.5 then
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, nil)
+	end
+
 
 	if (AmpLevel > 0.5 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") and
 		(inst.components.rider ~= nil and not inst.components.rider:IsRiding() or inst.components.rider == nil) then --Handle VVathom Running

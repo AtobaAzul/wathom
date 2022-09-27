@@ -177,7 +177,10 @@ AddStategraphPostInit("wilson", function(inst)
 	{
 		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
 			function(inst, action)
-				if inst._cantbarkcdtask == nil and (inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() < 0.45 or inst.replica ~= nil and inst.replica.currentadrenaline < 45) and not inst:HasTag("amped") then
+				if inst._cantbarkcdtask == nil and
+					(
+					inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() < 0.45 or
+						inst.replica ~= nil and inst.replica.currentadrenaline < 45) and not inst:HasTag("amped") then
 					inst._cantbarkcdtask = inst:DoTaskInTime(5, OnCooldownCantBark)
 					return "cantbark"
 				elseif inst._cantbarkcdtask == nil and inst._barkcdtask ~= nil then
@@ -186,7 +189,10 @@ AddStategraphPostInit("wilson", function(inst)
 				elseif inst._barkcdtask == nil and inst:HasTag("amped") then
 					inst._barkcdtask = inst:DoTaskInTime(12, OnCooldownBark)
 					return "wathombark"
-				elseif inst._barkcdtask == nil and (inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() > 0.44 or inst.replica ~= nil and inst.replica.currentadrenaline > 44) then
+				elseif inst._barkcdtask == nil and
+					(
+					inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() > 0.44 or
+						inst.replica ~= nil and inst.replica.currentadrenaline > 44) then
 					inst._barkcdtask = inst:DoTaskInTime(12, OnCooldownBark)
 					return "wathombark"
 				else
@@ -726,7 +732,29 @@ local wathombark = AddAction(
 					end
 				end
 			end
-			return true --maybe???
+			--also scare enemies near wathom, at a smaller radius
+			local x, y, z = act.doer.Transform:GetWorldPosition()
+			ents = GLOBAL.TheSim:FindEntities(x, y, z, 4, { "_combat" },
+				{ "companion", "INLIMBO", "notarget", "player", "playerghost" }) --added playertags because of the taunt.
+			for i, v in ipairs(ents) do
+				if v.components.hauntable ~= nil and v.components.hauntable.panicable and not
+					(
+					v.components.follower ~= nil and v.components.follower:GetLeader() and
+						v.components.follower:GetLeader():HasTag("player")) then
+					v.components.hauntable:Panic(10) -- Fallback to TUNING.BATTLESONG_PANIC_TIME (6 seconds) if needed
+					AddEnemyDebuffFx("battlesong_instant_panic_fx", v)
+				end
+				if v.components.hauntable == nil or
+					v.components.hauntable ~= nil and not v.components.hauntable.panicable and not (
+					v.components.follower ~= nil and v.components.follower:GetLeader() and
+						v.components.follower:GetLeader():HasTag("player")) and not v:HasTag("player") and not v:HasTag("wall") then
+					if not v:HasTag("bird") and v.components.combat then
+						v.components.combat:SetTarget(act.doer)
+						AddEnemyDebuffFx("battlesong_instant_taunt_fx", v)
+					end
+				end
+			end
+			return true
 		end
 	end
 )
