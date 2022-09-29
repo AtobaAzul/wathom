@@ -19,15 +19,15 @@ for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
 end
 local prefabs = FlattenTree(start_inv, true)
 
-local function ToggleShadowForm(inst)
+local function TurnOffShadowForm(inst)
 	inst.AnimState:SetBuild("wathom")
-	inst:RemoveEventCallback("animqueueover", ToggleShadowForm)
+	inst:RemoveEventCallback("animqueueover", TurnOffShadowForm)
 end
 
 local function ToggleUndeathState(inst, toggle)
 	if toggle then
 		if not inst:HasTag("playerghost") then
-			inst.AnimState:SetBuild("wathom_shadow") --placeholder so i know it works
+			inst.AnimState:SetBuild("wathom_shadow")
 		end
 		local x, y, z = inst.Transform:GetWorldPosition()
 		SpawnPrefab("shadow_shield1").Transform:SetPosition(x, y, z)
@@ -57,7 +57,7 @@ local function ToggleUndeathState(inst, toggle)
 		end
 
 		--if not inst:HasTag("playerghost") then
-		inst:ListenForEvent("animqueueover", ToggleShadowForm)
+		inst:ListenForEvent("animqueueover", TurnOffShadowForm)
 		--end
 	end
 end
@@ -285,10 +285,17 @@ local function onload(inst, data)
 		inst.components.playervision:ForceNightVision(true)
 		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
 	end
-	if data and data.amped then
-		inst:AddTag("amped")
-		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
+	if data then
+		if data.amped then
+			inst:AddTag("amped")
+			SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
+		end
+		if data.deathamped then
+			inst:AddTag("deathamp")
+			SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomMusicToggle"), inst.userid, GetMusicValues(inst))
+		end
 	end
+	
 end
 
 local function UpdateAdrenaline(inst, data)
@@ -307,13 +314,16 @@ local function UpdateAdrenaline(inst, data)
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 0)
 	end
 
+	if data.oldpercent < 0.25 and data.newpercent >= 0.25 then
+		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, 0)
+	end
+
 	if data.oldpercent >= 0.75 and data.newpercent < 0.75 then
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, nil)
 	end
 	if data.oldpercent >= 0.5 and data.newpercent < 0.5 then
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, nil)
 	end
-
 
 	if (AmpLevel > 0.5 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") and
 		(inst.components.rider ~= nil and not inst.components.rider:IsRiding() or inst.components.rider == nil) then --Handle VVathom Running
@@ -540,6 +550,9 @@ local master_postinit = function(inst)
 	local function onsave(inst, data)
 		if inst:HasTag("amped") then
 			data.amped = true
+		end
+		if inst:HasTag("deathamp") then
+			data.deathamped = true
 		end
 		if _onsave ~= nil then
 			return _onsave(inst, data)
