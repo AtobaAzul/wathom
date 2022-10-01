@@ -386,4 +386,9 @@ return {
 	
 	"wathom",
 	"wathom_none",
+	
+	"charles_t_horse",
+	"wixie_piano",
+	"wixie_clock",
+	"wixie_wardrobe",
 }
