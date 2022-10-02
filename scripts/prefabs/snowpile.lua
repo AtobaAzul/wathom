@@ -14,7 +14,7 @@ local function DoColdMenace(inst)
 	snowattack.SetTier(snowattack)
     local x,y,z = inst.Transform:GetWorldPosition()
     inst:DoTaskInTime(0.1, function() SpawnPrefab("splash_snow_fx").Transform:SetPosition(x,0,z) end)
-    inst:DoTaskInTime(0.2, inst:Remove())
+    inst:DoTaskInTime(0.2, inst.Remove)
 end
 
 local function TryColdMenace(inst)
