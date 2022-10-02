@@ -403,7 +403,9 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.PHANTOM = "Phantom" --phantom like minecraft :-O
 	STRINGS.UMSS_GENERAL = "UMSS"
 	STRINGS.UM_DEVCAPTURE = "Devcapture Device"
-
+	STRINGS.UM_BEEGUARD_SEEKER = "Impact Bee"
+	STRINGS.UM_BEEGUARD_BLOCKER = "Mason Bee"
+	STRINGS.UM_BEEGUARD_SHOOTER = "Bullet Bee"
 
 
 -- borrowed from https://github.com/xfbs/PiL3/blob/master/05Functions/combinations.lua
