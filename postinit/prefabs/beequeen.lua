@@ -585,14 +585,17 @@ env.AddPrefabPostInit("beequeen", function(inst)
 	inst.SpawnDefensiveBeesII = SpawnDefensiveBeesII
     inst.components.healthtrigger:AddTrigger(PHASE2_HEALTH, function(inst) 
 		--TheNet:Announce("2nd Phase")
+		inst.should_ability = nil
 		SeekerBeesRage(inst)
 	end)
     inst.components.healthtrigger:AddTrigger(PHASE3_HEALTH, function(inst)
 		--TheNet:Announce("3rd Phase")
+		inst.should_ability = nil
 		ShooterBeesRage(inst)
 	end)
     inst.components.healthtrigger:AddTrigger(PHASE4_HEALTH, function(inst)
 		--TheNet:Announce("4th Phase")
+		inst.should_ability = nil
 		DoFinalFormation(inst)
 	end)
 	

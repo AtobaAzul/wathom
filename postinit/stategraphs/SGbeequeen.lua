@@ -76,8 +76,8 @@ env.AddStategraphPostInit("SGbeequeen", function(inst) --For some reason it's ca
 		_OldOnExit = inst.states["spawnguards"].onexit
 	end
 	inst.states["spawnguards"].onexit = function(inst)
-		inst.PstSummonHandler(inst)
 		inst.abilitybusy = nil
+		inst.PstSummonHandler(inst)
 		if _OldOnExit then
 			_OldOnExit(inst)
 		end
