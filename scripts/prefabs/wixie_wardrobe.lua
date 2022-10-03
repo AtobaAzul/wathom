@@ -44,7 +44,7 @@ local function fn()
 
     inst:AddTag("wixie_wardrobe")
 
-    inst.AnimState:SetBank("wixie_wardrobe")
+    inst.AnimState:SetBank("wardrobe")
     inst.AnimState:SetBuild("wixie_wardrobe")
     inst.AnimState:PlayAnimation("closed")
 
