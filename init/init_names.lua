@@ -320,8 +320,8 @@ UI = GLOBAL.STRINGS.UI
 	STRINGS.UM_MAGNERANGREEL = "Magnetized Battery"
 	STRINGS.UNCOMPROMISING_FISHINGNET = "Fishing Net"
 	STRINGS.UM_BEEGUN = "Hand Held Hive"
-	STRINGS.UM_BEE_PROJ = "Bullet Bee"
-	STRINGS.UM_KILLERBEE_PROJ = "Killer Bullet Bee"
+	STRINGS.BULLETBEE = "Bullet Bee"
+	STRINGS.UM_BULLETBEE_PROJ = "Killer Bullet Bee"
 
 	STRINGS.WINONA_TOOLBOX = "Winona's Toolbox"
 	STRINGS.OCEAN_SPEAKER = "Dilapidated Speaker" --Kinda lame dunno what else though.

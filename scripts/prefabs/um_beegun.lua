@@ -75,11 +75,11 @@ local function OnAmmoLoaded(inst, data)
 		if data ~= nil and data.item ~= nil then
 			if data.item.prefab ~= "bulletbee" then
 				local stacksize = data.item.components.stackable:StackSize()
-				local bulletbee = SpawnPrefab("bulletbee")
 		
 				data.item:Remove()
 				
 				for i = 1, stacksize do
+					local bulletbee = SpawnPrefab("bulletbee")
 					inst.components.container:GiveItem(bulletbee)
 				end
 			end

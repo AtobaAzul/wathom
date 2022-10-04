@@ -715,10 +715,10 @@ AddRecipe2(
 )
 ChangeSortKey("critter_figgy_builder", "critter_eyeofterror_builder", "CRAFTING_STATION", true)
 
-AddRecipe2("portableboat_item", {Ingredient("mosquitosack", 2), Ingredient("rope", 2)}, GLOBAL.TECH.NONE, nil, {"SEAFARING"})
+AddRecipe2("portableboat_item", {Ingredient("mosquitosack", 2), Ingredient("rope", 2)}, TECH.SEAFARING_ONE, nil, {"SEAFARING"})
 ChangeSortKey("portableboat_item", "boat_item", "SEAFARING", true)
 
-AddRecipe2("mastupgrade_windturbine_item", {Ingredient("cutstone", 2), Ingredient("transistor", 2)}, GLOBAL.TECH.NONE, nil, {"SEAFARING"})
+AddRecipe2("mastupgrade_windturbine_item", {Ingredient("cutstone", 2), Ingredient("transistor", 2)}, TECH.SEAFARING_ONE, nil, {"SEAFARING"})
 ChangeSortKey("mastupgrade_windturbine_item", "mastupgrade_lightningrod_item", "SEAFARING", true)
 --recipe postinits
 
