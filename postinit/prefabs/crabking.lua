@@ -23,40 +23,35 @@ env.AddPrefabPostInit("crabking", function(inst)
 		local opal = inst.countgems(inst).opal+1
 		local pearl = inst.countgems(inst).pearl*3
 
-		if red > 2 then
-			red = 2
-		end
-		if blue > 2 then
-			blue = 2
-		end
-		if purple > 2 then
-			purple = 2
-		end
-		if yellow > 2 then
-			yellow = 2
-		end
-		if orange > 2 then
-			orange = 2
-		end
-		if green > 2 then
-			green = 2
-		end
-		if opal > 2 then
-			opal = 2
-		end
+		print("Count:")
+		print("RED: "..red.."   ".."BLUE: "..blue.."   ".."PURPLE: "..purple)
+		print("YELLOW: "..yellow.."   ".."ORANGE: "..orange.."   ".."GREEN: "..green)
 
-		local royalcount = 3+(red + blue + purple + yellow + orange + green + pearl)*opal
-		local normalcount = (1+(red + blue + purple + yellow + orange + green + pearl)*opal)
-		local royalpos = royalcount*0.33
-		local normalpos = normalcount*1.25
 
-		print(royalcount)
-		print(normalcount)
-		for i = 1, royalcount do
-			messagebottletreasures.GenerateTreasure(pos, "sunkenchest_royal").Transform:SetPosition(pos.x + math.random(-royalpos, royalpos), pos.y, pos.z + math.random(-royalpos, royalpos))
+		print("Chances:")
+		print("RED: "..red.."0%".."   ".."BLUE: "..blue.."0%".."   ".."PURPLE: "..purple.."0%")
+		print("YELLOW: "..yellow.."0%".."   ".."ORANGE: "..orange.."0%".."   ".."GREEN: "..green.."0%")
+
+		if math.random(10) < red then
+			print("congrats! you got a red chest!")
 		end
-		for i = 1, normalcount do
-			messagebottletreasures.GenerateTreasure(pos, "sunkenchest").Transform:SetPosition(pos.x + math.random(-normalpos, normalpos), pos.y, pos.z + math.random(-normalpos, normalpos))
+		if math.random(10) < blue then
+			print("congrats! you got a blue chest!")
+		end
+		if math.random(10) < purple then
+			print("congrats! you got a purple chest!")
+		end
+		if math.random(5) < yellow then
+			print("congrats! you got a yellow chest!")
+		end
+		if math.random(5) < orange then
+			print("congrats! you got a orange chest!")
+		end
+		if math.random(5) < green then
+			print("congrats! you got a green chest!")
+		end
+		if opal >= 1 then
+			print("congrats! you got a rainbow chest!")
 		end
 	end)
 
@@ -72,5 +67,4 @@ env.AddPrefabPostInit("crabking", function(inst)
 		end
 	end
 	inst:ListenForEvent("on_collide", OnCollide)
-
 end)
