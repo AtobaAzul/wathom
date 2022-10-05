@@ -5,8 +5,6 @@ local assets =
 
 local function fn(Sim)
     local inst = CreateEntity()
-    local trans = inst.entity:AddTransform()
-    local anim = inst.entity:AddAnimState()
 	
 	inst.entity:AddTransform()
     inst.entity:AddAnimState()
@@ -14,8 +12,8 @@ local function fn(Sim)
     inst.entity:AddDynamicShadow()
     inst.entity:AddNetwork()
 	
-    anim:SetBuild("william")    
-    anim:SetBank("william")
+    inst.AnimState:SetBuild("william")    
+    inst.AnimState:SetBank("william")
 
 	inst.entity:SetPristine()
 	
@@ -25,7 +23,7 @@ local function fn(Sim)
     end
     inst:AddComponent("inspectable")
 
-	inst:DoTaskInTime(0,function(inst) anim:PlayAnimation("hanging", true) end)
+	inst:DoTaskInTime(0,function(inst) inst.AnimState:PlayAnimation("hanging", true) end)
 	
     return inst
 end
