@@ -665,12 +665,12 @@ ChangeSortKey("hermitshop_cookies", "hermitshop_supertacklecontainer", "CRAFTING
 
 AddRecipe2(
     "normal_chum",
-    {Ingredient("spoiled_food", 2), Ingredient("rope", 1)},
+    {Ingredient("spoiled_food", 2), Ingredient("rope", 1), Ingredient("waterplant_bomb", 1)},
     TECH.FISHING_ONE,
     {product = "chum", nounlock = false, numtogive = 2},
     {"FISHING"}
 )
-
+AllRecipes["chum"].ingredients = {Ingredient("spoiled_food", 1), Ingredient("rope", 1), Ingredient("waterplant_bomb", 1)}
 AllRecipes["hermitshop_chum"].ingredients = {Ingredient("messagebottleempty", 1)}
 AllRecipes["hermitshop_chum"].numtogive = 3
 --[[
