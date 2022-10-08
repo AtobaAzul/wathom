@@ -682,13 +682,6 @@ AddRecipe2(
 )
 ChangeSortKey("hermitshop_oil", "hermitshop_cookies", "CRAFTING_STATION", true)]]
 
---pearlrusher
-CONSTRUCTION_PLANS["hermithouse_construction3"] = {
-    Ingredient("moonrocknugget", 5),
-    Ingredient("petals", 15),
-    Ingredient("moonglass", 10)
-}
-
 --better moonstorm
 AddRecipe2(
     "moonstorm_static_item",
