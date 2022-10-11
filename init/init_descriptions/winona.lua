@@ -359,7 +359,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	
 	----UNDER THE WEATHER----
 	
-	DESCRIBE.WINONA_TOOLBOX = "Wouldn't leave home with out it."
+	DESCRIBE.WINONA_TOOLBOX = "Wouldn't leave home without it."
 	ACTIONFAIL.WINONATOOLBOX = "Huh? Who locked me out!"
 	DESCRIBE.POWERCELL = "Lil' ingenuity and elbow grease go a long way."
 	DESCRIBE.WINONA_UPGRADEKIT_ELECTRICAL = "I designed it from scratch."
@@ -410,3 +410,4 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	DESCRIBE.UNCOMPROMISING_HARPOONREEL = "It's the reel deal."
 	DESCRIBE.UM_MAGNERANG = "It'll come back and bring something with it."
 	DESCRIBE.UM_MAGNERANGREEL = ""
+	DESCRIBE.SIREN_THRONE = "Oh wow, another rock."

@@ -38,6 +38,10 @@ local function CalcDodgeMult(self)
     return 1
 end
 
+local function GetHomePos(inst)
+    return inst.components.knownlocations:GetLocation("spawnpoint")
+end
+
 local DODGE_DELAY = 5
 local MAX_DODGE_TIME = 3
 
@@ -80,7 +84,7 @@ local function ShouldDodge(self)
             local offset = FindWalkableOffset(pos, theta, r, 1, true, true)
             if offset ~= nil then
                 local x, z = offset.x + pos.x, offset.z + pos.z
-                if distsq(homepos.x, homepos.z, x, z) < maxrangesq then
+                if homepos ~= nil and distsq(homepos.x, homepos.z, x, z) < maxrangesq then
                     local nx, nz = offset.x / r, offset.z / r
                     for j, test in ipairs(tests) do
                         test.x = nx * (j - .5) + pos.x
