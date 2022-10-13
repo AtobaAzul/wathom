@@ -188,9 +188,6 @@ local function fn()
     inst.components.locomotor.pathcaps = { ignorecreep = true }
     inst.components.locomotor.walkspeed = 10
 
-    --[[inst:AddComponent("eater")
-    inst.components.eater:SetDiet({ FOODTYPE.INSECT, FOODTYPE.VEGGIE }, { FOODTYPE.INSECT, FOODTYPE.VEGGIE })
-    inst.components.eater:SetOnEatFn(OnEat)]]
     inst:AddComponent("health")
     inst.components.health:SetMaxHealth(100)
     inst.components.health.destroytime = 4

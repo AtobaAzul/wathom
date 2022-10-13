@@ -269,6 +269,7 @@ Assets = {
 
 
 	-- WATHOM!!!
+	Asset("ANIM", "anim/vvathom_run.zip"),
 	Asset("ANIM", "anim/ampbadge.zip"),
 
 	Asset("IMAGE", "images/saveslot_portraits/wathom.tex"),
