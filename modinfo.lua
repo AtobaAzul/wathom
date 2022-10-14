@@ -164,6 +164,17 @@ configuration_options =
 		},
 		default = 5,
 	},
+	{
+		name = "wathom_armordamage",
+		label = "Wathom: Armor Damage Priority",
+		hover = "Wathom can take increased damage, choose if armor damage is ignored.",
+		options =
+		{
+			{description = "Include Armor", data = true, hover = "Wathom multiplies incoming damage by the current damage multiplier"},
+			{description = "Don't include armor", data = false, hover = "Wathom multiplies resulting damage by the current damage multiplier."},
+		},
+		default = true,
+	},
 	BinaryConfig("willow", "Willow", "Willow's Lighter now lasts forever when she holds it, she will retaliate when attacked by shadows.", true),
     BinaryConfig("warly", "Warly", "Warly gets increased stats from food, like Singleplayer. However, he remembers foods for 3 days instead of 2.", true),
 	BinaryConfig("waxwell", "Maxwell", "Maxwell gets buffed versions of his classic shadows by reading the Codex Umbra. Disable for Maxwell mod compatibility!", true),
@@ -680,6 +691,7 @@ configuration_options =
 	SkipSpace(),
 	
 	Header("Experimental"),
+	BinaryConfig("beefalo_nerf", "Beefalo Nerf", "Beefalo take half of the damage taken, instead of all.", false),
 	BinaryConfig("announce_basestatus", "[DEV] Announce Ratsniffer","[Developer Tool] Prints the exact rat sniff values to chat to be viewed in real time.",false),
 	BinaryConfig("eyebrellarework", "Eyebrella Rework","Eyebrella stats restored to vanilla value, must be repaired with Milky Whites, 12 day durability. Isn't affected by clothing degradation.",false),
 	BinaryConfig("cooldown_orangestaff", "Cooldown Based Lazy Explorer", "Lazy explorer no longer has durabilty, but instead has cooldown, like Wanda's watches.\nSuggested by Lux.", false),

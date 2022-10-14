@@ -379,7 +379,7 @@ TUNING.DSTU =
 	EYEBRELLAREWORK = GetModConfigData("eyebrellarework"),
 
 --More Config
-    UPDATE_CHECK = CurrentRelease.GreaterOrEqualTo("R23_REFRESH_WICKERBOTTOM"),--REMEMBER TO ALWAYS UPDATE THIS WITH NEW BETAS.
+    UPDATE_CHECK = CurrentRelease.GreaterOrEqualTo("R24_STS_ALITTLEDRAMA"),--REMEMBER TO ALWAYS UPDATE THIS WITH NEW BETAS.
 	POCKET_POWERTRIP = GetModConfigData("pocket_powertrip"),
     WINTER_BURNING = GetModConfigData("winter_burning"),
     HUNGRY_VOID = GetModConfigData("hungry_void"),
@@ -407,12 +407,13 @@ TUNING.DSTU =
     ITEMCHECK = GetModConfigData("itemcheck"),
     SEEDS = GetModConfigData("seeds"),
     MAXHPHITTERS = GetModConfigData("maxhphitters"),
-
+    BEEFALO_NERF = GetModConfigData("beefalo_nerf"),
     NO_MOCK_DRAGONFLY_BOSS_TIME = GetModConfigData("wiltfly_spawn"),
     NO_MOTHER_GOOSE_BOSS_TIME = GetModConfigData("mother_goose_spawn"),
 
     WATHOM_MAX_DAMAGE_CAP = GetModConfigData("wathom_maxdmg"),
     WATHOM_AMPED_VULNERABILITY = GetModConfigData("wathom_ampvulnerability"),
+    WATHOM_ARMOR_DAMAGE = GetModConfigData("wathom_armordamage"),
 
     PK_GUARDS = GetModConfigData("pigking_guards"),
 
@@ -430,6 +431,11 @@ if GetModConfigData("beebox_nerf") then
     TUNING.BEEBOX_BEES = 2
     TUNING.BEEBOX_RELEASE_TIME = (0.5 * day_time) / 2
 end
+
+TUNING.NONLETHAL_TEMPERATURE = false
+TUNING.NONLETHAL_HUNGER = false
+TUNING.NONLETHAL_DARKNESS = false
+TUNING.NONLETHAL_PERCENT = 0
 
 --shield buff
 TUNING.SHIELDOFTERROR_DAMAGE = 59.5
@@ -472,9 +478,10 @@ end
 TUNING.BATTLESONG_FIRE_RESIST_MOD = 0
 
 TUNING.SPAWNPROTECTIONBUFF_IDLE_DURATION = TUNING.SPAWNPROTECTIONBUFF_IDLE_DURATION * 4
-TUNING.SPAWNPROTECTIONBUFF_DURATION = TUNING.SPAWNPROTECTIONBUFF_DURATION * 1.5
+TUNING.SPAWNPROTECTIONBUFF_DURATION = 5
+TUNING.SPAWNPROTECTIONBUFF_SPAWN_DIST_SQ = 3*3
 
-TUNING.MULTITOOL_AXE_PICKAXE_USES = 800
+TUNING.MULTITOOL_DAMAGE = TUNING.AXE_DAMAGE
 
 
 --Sailing Rebalance related tuning changes

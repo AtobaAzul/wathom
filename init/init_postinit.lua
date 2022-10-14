@@ -164,6 +164,8 @@ local prefab_post = {
 	"bigshadowtentacle",
 	"mast",
 	"multitool_axe_pickaxe",
+	"staffs", --generic staffs.
+	"stalker",
 }
 
 local stategraph_post = {
@@ -316,10 +318,6 @@ if GetModConfigData("winter_burning") and not TUNING.DSTU.ISLAND_ADVENTURES then
 	table.insert(component_post, "burnable")
 end
 
-if GetModConfigData("cooldown_orangestaff") then
-	table.insert(prefab_post, "orangestaff")
-end
-
 if GetModConfigData("amalgams") then
 	table.insert(prefab_post, "chessjunk")
 end
@@ -344,6 +342,9 @@ if GetModConfigData("noauradamage_butterfly") then
 	table.insert(prefab_post, "butterfly")
 end
 
+if GetModConfigData("beefalo_nerf") then
+	table.insert(component_post, "rider")
+end
 --if GetModConfigData("boatturning") then
 --	table.insert(prefab_post, "boat")
 --end

@@ -2,6 +2,10 @@ local env = env
 GLOBAL.setfenv(1, GLOBAL)
 
 env.AddPrefabPostInit("lantern", function(inst)
+	if not TheWorld.ismastersim then
+		return
+	end
+
     if inst.components.equippable ~= nil then
         local OnEquip_old = inst.components.equippable.onequipfn
 
@@ -43,10 +47,10 @@ env.AddPrefabPostInit("lantern", function(inst)
             inst.upgraded = true
             inst:SetPrefabNameOverride("LANTERN_ELECTRICAL")
             inst.components.upgradeable.upgradetype = nil
-            inst.components.fueled.accepting = false
-            inst.components.fueled.maxfuel = inst.components.fueled.maxfuel*2
+            inst.components.fueled.fueltype = FUELTYPE.BATTERYPOWER
+            inst.components.fueled.maxfuel = TUNING.LANTERN_LIGHTTIME*2
             inst:AddTag("electricaltool")
-
+            inst.components.named:SetName(STRINGS.NAMES.LANTERN_ELECTRICAL)
             local owner = inst.components.inventoryitem:GetGrandOwner()
 
             if owner ~= nil and owner.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS) == inst then
@@ -88,6 +92,8 @@ env.AddPrefabPostInit("lantern", function(inst)
     inst:AddComponent("upgradeable")
     inst.components.upgradeable.upgradetype = UPGRADETYPES.ELECTRICAL
     inst.components.upgradeable.onupgradefn = OnUpgrade
+
+    inst:AddComponent("named")
 
     inst:AddTag("NORATCHECK")
 end)

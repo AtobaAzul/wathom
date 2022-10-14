@@ -138,7 +138,7 @@ local UMSS_TABLES =
 ----- Community Made ROUND 1
 	ancientwalrusTable = {
 		name = "ancientwalrusTable",
-		content ={ 	{x = 0.080953598022461, z = -1.0129680633545, prefab = "magmahound", ocean = false, tile = 259},	{x = -0.97637176513672, z = -0.28191184997559, prefab = "hawaiianshirt", ocean = false, tile = 259},	{x = -1.8113708496094, z = -1.9809589385986, prefab = "um_bear_trap_old", ocean = false, tile = 259},	{x = 3.7473087310791, z = 0.5131950378418, prefab = "um_bear_trap_old", ocean = false, tile = 259},	{x = -0.41297721862793, z = 3.8207721710205, prefab = "um_bear_trap_old", ocean = false, tile = 258},	{x = -3.4606132507324, z = 3.9160308837891, prefab = "sunglasses", ocean = false, tile = 259},	{x = -4.6546058654785, z = 2.4657936096191, prefab = "spoiled_food", ocean = false, tile = 259},	{x = -5.2795391082764, z = -0.28862571716309, prefab = "blowdart_pipe", ocean = false, tile = 259},	{x = 3.247296333313, z = -4.5188980102539, prefab = "um_bear_trap_old", ocean = false, tile = 259},	{x = -4.1932601928711, z = -4.6767845153809, prefab = "um_bear_trap_old", ocean = false, tile = 258},	{x = 4.1813383102417, z = -5.0396194458008, prefab = "seeds", ocean = false, tile = 259},},
+		content ={ {x = -0.97637176513672, z = -0.28191184997559, prefab = "hawaiianshirt", ocean = false, tile = 259},	{x = -1.8113708496094, z = -1.9809589385986, prefab = "um_bear_trap_old", ocean = false, tile = 259},	{x = 3.7473087310791, z = 0.5131950378418, prefab = "um_bear_trap_old", ocean = false, tile = 259},	{x = -0.41297721862793, z = 3.8207721710205, prefab = "um_bear_trap_old", ocean = false, tile = 258}, {x = -4.6546058654785, z = 2.4657936096191, prefab = "spoiled_food", ocean = false, tile = 259},	{x = -5.2795391082764, z = -0.28862571716309, prefab = "blowdart_pipe", ocean = false, tile = 259},	{x = 3.247296333313, z = -4.5188980102539, prefab = "um_bear_trap_old", ocean = false, tile = 259},	{x = -4.1932601928711, z = -4.6767845153809, prefab = "um_bear_trap_old", ocean = false, tile = 258},	{x = 4.1813383102417, z = -5.0396194458008, prefab = "seeds", ocean = false, tile = 259},},
 	},
 	fooltrap1Table = {
 		name = "fooltrap1Table",
@@ -153,7 +153,7 @@ local UMSS_TABLES =
 		content ={ 	{x = 0.88059997558594, z = -1.2109985351563, prefab = "farm_hoe", ocean = false},	{x = -1.4819946289063, z = -1.0400085449219, prefab = "skeleton_player", ocean = false},	{x = -0.072906494140625, z = -1.9795532226563, prefab = "devtestratwarning", ocean = false},	{x = -0.14500427246094, z = -5.302001953125, prefab = "slow_farmplot", ocean = false},	{x = -0.070999145507813, z = -5.6112670898438, prefab = "seeds_cooked", ocean = false},},
 	},
 	shyTable = {
-		name = "shyTable",
+		name = "shyTable", tile_centered = true,
 		content ={ 	{x = 0, z = 0, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -0.5, z = -1.5, prefab = "fence", ocean = false, tile = 6},	{x = 0.5, z = -1.5, prefab = "fence", ocean = false, tile = 6},	{x = -1.5, z = -1.5, prefab = "fence", ocean = false, tile = 6},	{x = 1.5, z = -1.5, prefab = "fence", ocean = false, tile = 6},	{x = 2.5, z = -1.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = -2.5, z = -1.5, prefab = "wall_wood", ocean = false, tile = 31},	{x = -2.5, z = -2.5, prefab = "fence", ocean = false, tile = 6},	{x = 2.5, z = -2.5, prefab = "fence", ocean = false, tile = 6},	{x = 0.069503784179688, z = 3.9825439453125, prefab = "pigking_pigtorch", ocean = false, tile = 10},	{x = 0, z = -4, prefab = "beebox", ocean = false, tile = 31},	{x = 4, z = 0, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -4, z = 0, prefab = "umdc_tileflag", ocean = false, tile = 31},	{x = -2.5, z = -3.5, prefab = "fence", ocean = false, tile = 6},	{x = 2.5, z = -3.5, prefab = "fence", ocean = false, tile = 6},	{x = -2.5, z = -4.5, prefab = "fence", ocean = false, tile = 6},	{x = 2.5, z = -4.5, prefab = "fence", ocean = false, tile = 6},	{x = 4, z = -4, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -4, z = -4, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -4, z = 4, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = 4, z = 4, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -2.5, z = -5.5, prefab = "fence", ocean = false, tile = 6},	{x = 2.5, z = -5.5, prefab = "fence", ocean = false, tile = 6},	{x = 2.5, z = -6.5, prefab = "wall_wood", ocean = false, tile = 31},	{x = -2.5, z = -6.5, prefab = "wall_wood", ocean = false, tile = 6},	{x = 0, z = -8, prefab = "flower", ocean = false, tile = 6},	{x = 0, z = 8, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -4, z = -8, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = 4, z = -8, prefab = "umdc_tileflag", ocean = false, tile = 31},	{x = 4, z = 8, prefab = "umdc_tileflag", ocean = false, tile = 6},	{x = -4, z = 8, prefab = "umdc_tileflag", ocean = false, tile = 6},},
 	},
 	moxTable = {
@@ -197,4 +197,23 @@ local UMSS_TABLES =
 		content = {	{x = 0, z = 0, prefab = "multiplayer_portal", ocean = false, tile = 6},	{x = -2, z = -5, prefab = "flower", ocean = false, tile = 6},	{x = 2, z = -7, prefab = "flower", ocean = false, tile = 6},	{x = 8, z = -1, prefab = "flower", ocean = false, tile = 6},},
 	},
 
+
+    returnedTable273 = { 
+		name = "returnedTable273", rotate = true, tile_centered = true, 
+		content = {},
+	},
+
+    wixie_puzzle = { 
+		name = "wixie_puzzle", rotate = true, tile_centered = true, 
+		content = {	
+			{x = 0, z = 0, prefab = "umdc_tileflag", ocean = false, tile = 10},	
+			{x = -1.0179977416992, z = 1.1900024414063, prefab = "wixie_piano", ocean = false},	
+			{x = 2.3040008544922, z = 0.58000183105469, prefab = "charles_t_horse", ocean = false},	
+			{x = 0, z = -4, prefab = "umdc_tileflag", ocean = false, tile = 10},	
+			{x = 4, z = -4, prefab = "umdc_tileflag", ocean = false, tile = 10},	
+			{x = 4, z = -4, prefab = "wixie_wardrobe", ocean = false},	
+			{x = 4, z = 0, prefab = "umdc_tileflag", ocean = false, tile = 10},	
+			{x = -1.0579986572266, z = -5.1119995117188, prefab = "wixie_clock", ocean = false},		
+		},
+	},
 } return UMSS_TABLES

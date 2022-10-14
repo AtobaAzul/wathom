@@ -359,7 +359,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	
 	----UNDER THE WEATHER----
 	
-	DESCRIBE.WINONA_TOOLBOX = "Wouldn't leave home with out it."
+	DESCRIBE.WINONA_TOOLBOX = "Wouldn't leave home without it."
 	ACTIONFAIL.WINONATOOLBOX = "Huh? Who locked me out!"
 	DESCRIBE.POWERCELL = "Lil' ingenuity and elbow grease go a long way."
 	DESCRIBE.WINONA_UPGRADEKIT_ELECTRICAL = "I designed it from scratch."
@@ -392,7 +392,7 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
     DESCRIBE.BOATPATCH_SLUDGE = "Better hammer it in too."
     DESCRIBE.UM_COPPER_PIPE = "Wasn't expecting to find these out here."
     DESCRIBE.BRINE_BALM  = "Better be worth its salt."
-    DESCRIBE.UNCOMPROMISING_FISHINGNET = "Better quality check for holes."
+    DESCRIBE.UNCOMPROMISING_FISHINGNET = DESCRIBE.FISHINGNET
 	DESCRIBE.UM_AMBER = "Not sure what kind of rock this."
     DESCRIBE.UM_BEEGUN = "?"
 	DESCRIBE.SUNKENCHEST_ROYAL = "Oooh real fancy now arent we!"
@@ -410,3 +410,5 @@ ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.WINONA.ACTIONFAIL
 	DESCRIBE.UNCOMPROMISING_HARPOONREEL = "It's the reel deal."
 	DESCRIBE.UM_MAGNERANG = "It'll come back and bring something with it."
 	DESCRIBE.UM_MAGNERANGREEL = ""
+	DESCRIBE.SIREN_THRONE = "Oh wow, another rock."
+	DESCRIBE.LAVASPIT_SLUDGE = "It's the factory fire all over again!"

@@ -21,7 +21,10 @@ env.AddPlayerPostInit(function(inst)
 
     local function ChargeItem(item)
         if item ~= nil then
+            print("recharge: item not nil!")
+            print("item: ", item.prefab)
             if item.components.fueled ~= nil then
+                print("fueled item")
                 local percent = item.components.fueled:GetPercent()
                 local refuelnumber = 0
 
@@ -30,9 +33,13 @@ env.AddPlayerPostInit(function(inst)
                 else
                     refuelnumber = percent + 0.33
                 end
-
+                print("current percent: ", percent)
+                print("refuelnumber: ", refuelnumber)
                 item.components.fueled:SetPercent(refuelnumber)
+                item.components.fueled.ontakefuelfn(item, 0)
+                --item:PushEvent("takefuel", {fuelvalue = 0})
             elseif item.components.finiteuses ~= nil then
+                print("finiteuses item")
                 local percent = item.components.finiteuses:GetPercent()
                 local refuelnumber = 0
 
@@ -41,54 +48,64 @@ env.AddPlayerPostInit(function(inst)
                 else
                     refuelnumber = percent + 0.33
                 end
-
+                print("refuelnumber: ", refuelnumber)
                 item.components.finiteuses:SetPercent(refuelnumber)
             end
         end
     end
 
     local function OnChargeFromBattery(inst, battery)
-        local item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
-        print(item)
+        local item_hand = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HANDS)
+        local item_head = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
+        local item_body, final_item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY), nil
+        local item_hand_fuel, item_body_fuel, item_head_fuel
 
-        if item == nil or (item ~= nil and not item:HasTag("electricaltool")) or
-            (
-            item ~= nil and
-                (
-                (item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or
-                    (item.components.fueled ~= nil and item.components.fueled:GetPercent() >= 0.99))) then
-            print("no handslot item - using headslot")
-            item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
-            print(item)
+        item_hand_fuel = item_hand ~= nil and item_hand:HasTag("electricaltool") and
+            (item_hand.components.fueled ~= nil and item_hand.components.fueled:GetPercent() or
+                item_hand.components.finiteuses ~= nil and item_hand.components.finiteuses:GetPercent()) or -1 --just so it isn't a nil value, but is lower than 0.
+        item_head_fuel = item_head ~= nil and item_head:HasTag("electricaltool") and
+            (item_head.components.fueled ~= nil and item_head.components.fueled:GetPercent() or
+                item_head.components.finiteuses ~= nil and item_head.components.finiteuses:GetPercent()) or -1
+
+        item_body_fuel = item_body ~= nil and item_body:HasTag("electricaltool") and
+            (item_body.components.fueled ~= nil and item_body.components.fueled:GetPercent() or
+                item_body.components.finiteuses ~= nil and item_body.components.finiteuses:GetPercent()) or -1
+
+
+        if item_hand_fuel > item_head_fuel and item_hand_fuel > item_body_fuel then
+            final_item = item_head:HasTag("electricaltool") and item_head or
+                item_body:HasTag("electricaltool") and item_body or
+                item_hand:HasTag("electricaltool") and item_hand or
+                nil --it *should* prioritize the lower fuel values first, if they're not nil...
+        elseif item_head_fuel > item_hand_fuel and item_head_fuel > item_body_fuel then
+            final_item = item_hand:HasTag("electricaltool") and item_hand or
+                item_body:HasTag("electricaltool") and item_body or
+                item_head:HasTag("electricaltool") and item_head or
+                nil
+        elseif item_body_fuel > item_hand_fuel and item_body_fuel > item_head_fuel then
+            final_item = item_head:HasTag("electricaltool") and item_head or
+                item_hand:HasTag("electricaltool") and item_hand or 
+                item_body:HasTag("electricaltool") and item_body or
+                nil
         end
 
-        if item == nil or (item ~= nil and not item:HasTag("electricaltool")) or
-            (
-            item ~= nil and
-                (
-                (item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or
-                    (item.components.fueled ~= nil and item.components.fueled:GetPercent() >= 0.99))) then
-            print("no headslot item - using bodyslot")
-            item = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-            print(item)
-        end
-
-        if (
-            item ~= nil and
-                (
-                (item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or
-                    (item.components.fueled ~= nil and item.components.fueled:GetPercent() > 0.99))) then
-            return false, "CHARGE_FULL"
-        end
+        print("hand item: ", item_hand)
+        print("head item: ", item_head)
+        print("body item: ", item_body)
+        print("final item: ", final_item)
 
         if inst.components.upgrademoduleowner == nil then
-            if (item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or
-                (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.99) then
+            if (
+                final_item ~= nil and final_item.components.finiteuses ~= nil and
+                    final_item.components.finiteuses:GetPercent() == 1) then
+                print("normal charge full")
                 return false, "CHARGE_FULL"
             else
-                if item ~= nil and item:HasTag("electricaltool") then
-                    ChargeItem(item)
+                if final_item ~= nil then
+                    print("item not nil!")
+                    ChargeItem(final_item)
                     if not inst.components.inventory:IsInsulated() then
+                        print("no inssulation")
                         inst.sg:GoToState("electrocute")
                         inst.components.health:DoDelta(-TUNING.HEALING_SMALL, false, "lightning")
                         inst.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
@@ -97,28 +114,33 @@ env.AddPlayerPostInit(function(inst)
                                 inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED")))
                         end
                     else
+                        print("insulated")
                         if inst.components.talker ~= nil then
                             inst:DoTaskInTime(1,
                                 inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_INSULATED")))
                         end
                     end
                     return true
+                else
+                    print("item nil!")
                 end
             end
         else
             if (
-                (item ~= nil and item.components.finiteuses ~= nil and item.components.finiteuses:GetPercent() == 1) or
-                    (item ~= nil and item.components.fueld ~= nil and item.components.fueled:GetPercent() >= 0.995)) and
-                inst.components.upgrademoduleowner:ChargeIsMaxed() or not (item ~= nil and item:HasTag("electricaltool")
-                ) then
+                final_item ~= nil and final_item.components.finiteuses ~= nil and
+                    final_item.components.finiteuses:GetPercent() == 1) and
+                inst.components.upgrademoduleowner:ChargeIsMaxed() then
+                print("wx charge full")
                 return false, "CHARGE_FULL"
             else
-                if item ~= nil and item:HasTag("electricaltool") then
-                    ChargeItem(item)
+                if final_item ~= nil then
+                    print("item not nil! wx")
+                    ChargeItem(final_item)
                     if not inst.components.upgrademoduleowner:ChargeIsMaxed() then
                         inst.components.upgrademoduleowner:AddCharge(1)
                     end
                     if not inst.components.inventory:IsInsulated() then
+                        print("no inssulation wx")
                         inst.sg:GoToState("electrocute")
                         inst.components.health:DoDelta(-TUNING.HEALING_SMALL, false, "lightning")
                         inst.components.sanity:DoDelta(-TUNING.SANITY_SMALL)
@@ -127,12 +149,15 @@ env.AddPlayerPostInit(function(inst)
                                 inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_ELECTROCUTED")))
                         end
                     else
+                        print("insulated wx")
                         if inst.components.talker ~= nil then
                             inst:DoTaskInTime(1,
                                 inst.components.talker:Say(GetString(inst, "ANNOUNCE_CHARGE_SUCCESS_INSULATED")))
                         end
                     end
                     return true
+                else
+                    print("item nil! wx")
                 end
             end
         end
@@ -148,7 +173,9 @@ env.AddPlayerPostInit(function(inst)
 
     inst.OnDespawn = function(inst, migrationdata, ...)
         for k, v in pairs(inst.components.leader.followers) do
-            if (k:HasTag("spider") or k:HasTag("pig") or k:HasTag("merm") or k:HasTag("raidrat") or k:HasTag("winky_rat") or k.prefab == "eyeofterror_mini_ally") then --exluding things that can't/shouldn't/already do
+            if (
+                k:HasTag("spider") or k:HasTag("pig") or k:HasTag("merm") or k:HasTag("raidrat") or k:HasTag("winky_rat")
+                    or k.prefab == "eyeofterror_mini_ally") then --exluding things that can't/shouldn't/already do
                 local savedata = k:GetSaveRecord()
                 table.insert(inst.um_all_followers, savedata)
                 -- remove followers

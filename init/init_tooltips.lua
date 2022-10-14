@@ -19,7 +19,7 @@ STRINGS.UNCOMP_TOOLTIP = {
 	GLASSCUTTER = "- Deals slightly more damage to Shadows.",
 	FEATHERHAT = "- Provides safety from territorial Pengulls.",
 	YELLOWAMULET = "- No longer breaks when empty.",
-	ORANGEAMULET = "- No longer breaks when empty.\n- Can be fueled with Nightmare Fuel.\n- Will pick certain plants too!",
+	ORANGEAMULET = "- No longer breaks when empty.\n- Will pick certain plants too!",
 	PURPLEAMULET = "- Grants bonus Nightmare Fuel from slain Shadows.",
 	PIGGYBACK = "- No Passive -10% movement speed while worn.\n- Decreases Player speed by 1% per item held.",
 	PREMIUMWATERINGCAN = "- Can contain and preserve ocean fish.",
@@ -38,6 +38,7 @@ STRINGS.UNCOMP_TOOLTIP = {
 	POTTEDFERN = "- Masks foul smells.",
 	SUCCULENT_POTTED = "- Masks foul smells.",
 	ENDTABLE = "- Masks foul smells when decorated.",
+	MULTITOOL_AXE_PICKAXE = "- Creates shockwaves when chopping/mining.",
 
 	--uncomp content
 	RAT_WHIP = "- Stronger when well fed.",
@@ -199,8 +200,7 @@ if GetModConfigData("canedurability") then--is this modmain env.?
 end
 
 if TUNING.DSTU.WANDA_NERF then
-	TOOLTIP.POCKETWATCH_WEAPON = "- Deals less damage against shadows."
-	TOOLTIP.POCKETWATCH_REVIVE = "- Increased cooldown."
+	TOOLTIP.POCKETWATCH_REVIVE = "- Increased cooldown.\n- Gives health penalty."
 end
 
 if TUNING.DSTU.INSUL_THERMALSTONE then

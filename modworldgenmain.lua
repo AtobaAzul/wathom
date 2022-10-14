@@ -8,11 +8,12 @@ local STRINGS = GLOBAL.STRINGS
 
 ------
 local function TestForIA()
-    if (TheWorld ~= nil and not (TheWorld:HasTag("forest") or TheWorld:HasTag("cave")) and (TheWorld:HasTag("island") or TheWorld:HasTag("volcano"))) or GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
-        print("TestForIA: is IA world!")
+    if (
+        TheWorld ~= nil and not (TheWorld:HasTag("forest") or TheWorld:HasTag("cave")) and
+            (TheWorld:HasTag("island") or TheWorld:HasTag("volcano"))) or
+        GLOBAL.KnownModIndex:IsModEnabled("workshop-1467214795") then
         return true
     else
-        print("TestForIA: not IA world!")
         return false
     end
 end
@@ -88,7 +89,7 @@ ChangeTileRenderOrder(GLOBAL.WORLD_TILES.ANCIENTHOODEDFOREST, GLOBAL.WORLD_TILES
 ChangeMiniMapTileRenderOrder(GLOBAL.WORLD_TILES.HOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
 ChangeMiniMapTileRenderOrder(GLOBAL.WORLD_TILES.ANCIENTHOODEDFOREST, GLOBAL.WORLD_TILES.DIRT)
 
-if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
+if GetModConfigData("worldgenmastertoggle") then
     -- <<Cave Update WIP: Toggle at your own risk you buffoons! (That means you atoba, don't leak it please eh?)>>
     -- I became a dev :sunglasses: - Atobá
 
@@ -139,9 +140,18 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
         --Ruins Split
         ]]
     AddTaskSetPreInitAny(function(tasksetdata)
-        if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
+        if tasksetdata.location ~= "forest" then
             return
         end
+        if (
+            tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or
+                tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
+            if GetModConfigData("hoodedforest") then
+                table.insert(tasksetdata.tasks, "GiantTrees_IA")
+            end
+            return
+        end
+
         if GetModConfigData("hoodedforest") then
             table.insert(tasksetdata.tasks, "GiantTrees")
         end
@@ -149,10 +159,25 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
             table.insert(tasksetdata.required_prefabs, "riceplantspawnerlarge")
             table.insert(tasksetdata.required_prefabs, "riceplantspawner")
         end
+        table.insert(tasksetdata.required_prefabs, "wixie_wardrobe") --Make sure vvixie appears.
+        table.insert(tasksetdata.required_prefabs, "wixie_clock")
+        table.insert(tasksetdata.required_prefabs, "wixie_piano")
+        table.insert(tasksetdata.required_prefabs, "charles_t_horse")
     end)
+
     if GetModConfigData("caved") == false then
         AddTaskSetPreInitAny(function(tasksetdata)
-            if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
+            if tasksetdata.location ~= "forest" then
+                return
+            end
+            if (
+                tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or
+                    tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
+                tasksetdata.set_pieces["ToadstoolArena"] = { 1,
+                    tasks = {
+                        "ThemeMarshCity"
+                    }
+                }
                 return
             end
 
@@ -175,14 +200,17 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
     Layouts["utw_biomespawner"] = StaticLayout.Get("map/static_layouts/utw_biomespawner")
     Layouts["impactfuldiscovery"] = StaticLayout.Get("map/static_layouts/umss_impactfuldiscovery")
     Layouts["boon_moonoil"] = StaticLayout.Get("map/static_layouts/umss_moonoil")
-	Layouts["umss_biometable"] = StaticLayout.Get("map/static_layouts/umss_biometable")
+    Layouts["umss_biometable"] = StaticLayout.Get("map/static_layouts/umss_biometable")
 
     AddTaskSetPreInitAny(function(tasksetdata)
-        if tasksetdata.location ~= "forest" or (tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
+        if tasksetdata.location ~= "forest" or
+            (
+            tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.VOLCANO or
+                tasksetdata.name == STRINGS.UI.CUSTOMIZATIONSCREEN.TASKSETNAMES.SHIPWRECKED) then
             return
         end
 
-        tasksetdata.set_pieces["umss_biometable"] = { count = math.random(3,5),
+        tasksetdata.set_pieces["umss_biometable"] = { count = math.random(3, 5),
             tasks = {
                 "Make a pick",
                 --"Dig that rock",
@@ -205,10 +233,10 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
                 "Mole Colony Rocks",
                 "MooseBreedingTask",
                 "Speak to the king classic",
-				"GiantTrees",
+                "GiantTrees",
             }
         }
-		
+
         if tasksetdata.ocean_prefill_setpieces ~= nil then
             tasksetdata.ocean_prefill_setpieces["utw_biomespawner"] = { count = math.random(6, 9) }
         end --nice
@@ -395,7 +423,6 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
             task.room_choices["veteranshrine"] = 1
         end)
     end
-
     ---- KoreanWaffle's LOCK/KEY initialization code  --Inactive atm
     local LOCKS = GLOBAL.LOCKS
     local KEYS = GLOBAL.KEYS
@@ -638,6 +665,44 @@ if not TestForIA() or GetModConfigData("worldgenmastertoggle") then
             umss_sunkenboat = 1
         }
     end)
+
+
+    -- WIXIE PUZZLE SETS
+
+    --[[Layouts["wixie_puzzle"] = StaticLayout.Get("map/static_layouts/wixie_puzzle")
+	
+	AddRoomPreInit("DeepDeciduous", function(room)
+        room.contents.countstaticlayouts =
+        {
+            ["wixie_puzzle"] = 1
+        }
+    end)]]
+    AddTaskPreInit("Make a pick", function(task)
+        GLOBAL.require("map/rooms/forest/challengespawner")
+        task.room_choices["wixie_puzzlearea"] = 1
+    end)
+
+    local IA_SPAWN_TASKS =
+    {
+        "HomeIslandVerySmall",
+        "HomeIslandSmall",
+        "HomeIslandSmallBoon",
+        "HomeIslandSingleTree",
+        "HomeIslandMed",
+        "HomeIslandLarge",
+        "HomeIslandLargeBoon",
+
+    }
+    for k, v in ipairs(IA_SPAWN_TASKS) do
+        AddTaskPreInit(v, function(task)
+            GLOBAL.require("map/rooms/forest/challengespawner")
+            task.room_choices["wixie_puzzlearea_ia"] = 1
+            task.room_choices["veteranshrine_ia"] = 1
+        end)
+    end
+
+    -- WIXIE PUZZLE SETS
+
 
     modimport("init/init_food/init_food_worldgen")
 end

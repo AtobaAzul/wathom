@@ -83,7 +83,7 @@ local function AttackClient_New(inst, action)
 end
 
 local function RunUpdateTools(inst, client, exiting)
-	local method
+	--[[local method
 	if client then
 		method = inst.replica
 	else
@@ -96,7 +96,7 @@ local function RunUpdateTools(inst, client, exiting)
 	elseif weapon then
 		inst.AnimState:Hide("ARM_carry")
 		inst.AnimState:Show("ARM_normal")
-	end
+	end]]
 end
 
 --Pack it up
@@ -171,16 +171,30 @@ AddStategraphPostInit("wilson", function(inst)
 	inst.states["run_start"].onenter = NevvOnEnter
 
 
+
+
 	local actionhandlers =
 	{
 		ActionHandler(GLOBAL.ACTIONS.WATHOMBARK,
 			function(inst, action)
-				if inst._barkcdtask == nil then
+				if inst._cantbarkcdtask == nil and
+					(
+					inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() < 0.5 or
+						inst.replica ~= nil and inst.replica.currentadrenaline < 5) and not inst:HasTag("amped") then
+					inst._cantbarkcdtask = inst:DoTaskInTime(5, OnCooldownCantBark)
+					return "cantbark"
+				elseif inst._cantbarkcdtask == nil and inst._barkcdtask ~= nil then
+					inst._cantbarkcdtask = inst:DoTaskInTime(5, OnCooldownCantBark)
+					return "cantbark"
+				elseif inst._barkcdtask == nil and inst:HasTag("amped") then
 					inst._barkcdtask = inst:DoTaskInTime(12, OnCooldownBark)
 					return "wathombark"
-				elseif inst._cantbarktask == nil then
-					inst._cantbarktask = inst:DoTaskInTime(5, OnCooldownCantBark)
-					return "cantbark"
+				elseif inst._barkcdtask == nil and
+					(
+					inst.components.adrenaline ~= nil and inst.components.adrenaline:GetPercent() >= 0.5 or
+						inst.replica ~= nil and inst.replica.currentadrenaline >= 50) then
+					inst._barkcdtask = inst:DoTaskInTime(12, OnCooldownBark)
+					return "wathombark"
 				else
 					return --	"idle"
 				end
@@ -200,11 +214,10 @@ AddStategraphPostInit("wilson", function(inst)
 				ConfigureRunState(inst)
 				inst.components.locomotor.runspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_SPEED_BONUS
 				--inst.components.hunger:SetRate(TUNING.WILSON_HUNGER_RATE * TUNING.WONKEY_RUN_HUNGER_RATE_MULT)
-				inst.Transform:SetPredictedSixFaced()
 				inst.components.locomotor:RunForward()
 				RunUpdateTools(inst)
-				if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
-					inst.AnimState:PlayAnimation("run_monkey_loop", true)
+				if not inst.AnimState:IsCurrentAnimation("umrun") then
+					inst.AnimState:PlayAnimation("umrun", true)
 				end
 
 				--V2C: adding half a frame time so it rounds up
@@ -266,10 +279,6 @@ AddStategraphPostInit("wilson", function(inst)
 			tags = { "attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
 
 			onenter = function(inst, data)
-				if inst.components.adrenaline:GetPercent() < 0.45 then
-					inst.sg:GoToState("cantbark")
-					return
-				end
 				local buffaction = inst:GetBufferedAction()
 				local target = buffaction ~= nil and buffaction.target or nil
 				inst.AnimState:PlayAnimation("emote_angry", false)
@@ -303,7 +312,61 @@ AddStategraphPostInit("wilson", function(inst)
 				end),
 
 
-				TimeEvent(12 * FRAMES, function(inst)
+				TimeEvent(10 * FRAMES, function(inst)
+					inst.components.locomotor:Stop()
+					inst:PerformBufferedAction() --Dis is the important part, canis -Axe
+					inst.sg:RemoveStateTag("busy")
+					inst.sg:RemoveStateTag("nointerrupt")
+				end),
+			},
+
+			events =
+			{
+				EventHandler("animover", function(inst)
+					inst.sg:GoToState("idle")
+				end),
+			},
+		},
+
+		GLOBAL.State {
+			name = "wathombark_shadow",
+			tags = { "attack", "backstab", "busy", "notalking", "abouttoattack", "pausepredict", "nointerrupt" },
+
+			onenter = function(inst, data)
+				local buffaction = inst:GetBufferedAction()
+				local target = buffaction ~= nil and buffaction.target or nil
+				inst.AnimState:PlayAnimation("emote_angry", false)
+				inst.components.locomotor:Stop()
+				inst.components.locomotor:EnableGroundSpeedMultiplier(false)
+				if inst.components.playercontroller ~= nil then
+					inst.components.playercontroller:RemotePausePrediction()
+				end
+			end,
+
+			onexit = function(inst)
+				if not inst.components.playercontroller ~= nil then
+					inst.components.playercontroller:Enable(true)
+				end
+			end,
+
+			timeline =
+			{
+				TimeEvent(0 * FRAMES, function(inst)
+					inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/shadowbark") --place your funky sounds here
+					local fx = SpawnPrefab("statue_transition_2")
+					if fx ~= nil then
+						fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+						fx.Transform:SetScale(1.2, 1.2, 1.2)
+					end
+					fx = SpawnPrefab("statue_transition")
+					if fx ~= nil then
+						fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+						fx.Transform:SetScale(1.2, 1.2, 1.2)
+					end
+				end),
+
+
+				TimeEvent(10 * FRAMES, function(inst)
 					inst.components.locomotor:Stop()
 					inst:PerformBufferedAction() --Dis is the important part, canis -Axe
 					inst.sg:RemoveStateTag("busy")
@@ -383,9 +446,11 @@ AddStategraphPostInit("wilson", function(inst)
 				inst.Transform:SetFourFaced()
 				inst.components.locomotor:Stop()
 				inst.Physics:ClearMotorVelOverride()
-				if not inst.components.playercontroller ~= nil then
-					inst.components.playercontroller:Enable(true)
-				end
+				inst:DoTaskInTime(0, function(inst)
+					if inst.components.playercontroller then
+						inst.components.playercontroller:Enable(true)
+					end
+				end)
 				inst.components.locomotor:EnableGroundSpeedMultiplier(true)
 				inst.AnimState:AddOverrideBuild("player_lunge")
 				inst.AnimState:AddOverrideBuild("player_attack_leap")
@@ -406,9 +471,8 @@ AddStategraphPostInit("wilson", function(inst)
 						if target ~= nil then
 							if inst.sg.statemem.startingpos.x ~= inst.sg.statemem.targetpos.x or
 								inst.sg.statemem.startingpos.z ~= inst.sg.statemem.targetpos.z then
-								inst.Physics:SetMotorVelOverride(math.sqrt(GLOBAL.distsq(inst.sg.statemem.startingpos.x,
-									inst.sg.statemem.startingpos.z, inst.sg.statemem.targetpos.x, inst.sg.statemem.targetpos.z)) / (12 * FRAMES), 0
-									, 0)
+								inst.leapvelocity = math.sqrt(GLOBAL.distsq(inst.sg.statemem.startingpos.x, inst.sg.statemem.startingpos.z,
+									inst.sg.statemem.targetpos.x, inst.sg.statemem.targetpos.z)) / (12 * FRAMES)
 							end
 						end
 					end
@@ -430,11 +494,11 @@ AddStategraphPostInit("wilson", function(inst)
 
 				TimeEvent(14 * FRAMES, function(inst) -- this is when the target gets hit
 					if inst:HasTag("amped") then
-						inst.Physics:SetMotorVel(15, 0, 0)
+						inst.leapvelocity = 15
 					elseif inst.components.adrenaline:GetPercent() > 0.24 and inst.components.adrenaline:GetPercent() < 0.51 then
-						inst.Physics:SetMotorVel(10, 0, 0)
+						inst.leapvelocity = 10
 					else
-						inst.Physics:SetMotorVel(10 * (inst.components.adrenaline:GetPercent() + .5), 0, 0)
+						inst.leapvelocity = 10 * (inst.components.adrenaline:GetPercent() + .5)
 					end
 					SpawnPrefab("dirt_puff").Transform:SetPosition(inst.Transform:GetWorldPosition())
 				end),
@@ -450,14 +514,18 @@ AddStategraphPostInit("wilson", function(inst)
 					inst.sg:RemoveStateTag("nointerrupt")
 					inst.sg:RemoveStateTag("pausepredict")
 					inst.sg:AddStateTag("idle")
-					inst.Physics:SetMotorVel(0.0, 0, 0) -- Stops Wathom's sliding.
+					inst.leapvelocity = 0 -- Stops Wathom's sliding.
 					inst.Physics:Stop()
 					inst.Physics:CollidesWith(GLOBAL.COLLISION.CHARACTERS) -- Re-enabling Wathom's normal collision.
 					inst.components.playercontroller:Enable(true)
 				end),
 
 			},
-
+			onupdate = function(inst)
+				if inst.leapvelocity then
+					inst.Physics:SetMotorVel(inst.leapvelocity, 0, 0)
+				end
+			end,
 			events =
 			{
 				EventHandler("animover", function(inst)
@@ -513,11 +581,10 @@ AddStategraphPostInit("wilson_client", function(inst)
 			onenter = function(inst)
 				ConfigureRunState(inst)
 				inst.components.locomotor.predictrunspeed = TUNING.WILSON_RUN_SPEED + TUNING.WONKEY_SPEED_BONUS
-				inst.Transform:SetPredictedSixFaced()
 				inst.components.locomotor:RunForward()
 				RunUpdateTools(inst, true)
-				if not inst.AnimState:IsCurrentAnimation("run_monkey_loop") then
-					inst.AnimState:PlayAnimation("run_monkey_loop", true)
+				if not inst.AnimState:IsCurrentAnimation("umrun") then
+					inst.AnimState:PlayAnimation("umrun", true)
 				end
 				--V2C: adding half a frame time so it rounds up
 				inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
@@ -679,18 +746,21 @@ local function AddEnemyDebuffFx(fx, target)
 	end)
 end
 
+--helper function so I can merge the action handler and action checks easily
+local function DoBark(act)
+
+end
+
 local wathombark = AddAction(
 	"WATHOMBARK",
-	GLOBAL.STRINGS.ACTIONS.WATHOMBARK,
+	STRINGS.ACTIONS.WATHOMBARK,
 	function(act)
+		local inst = act.doer
 		if act.doer ~= nil and act.doer.components.adrenaline ~= nil then -- previously act.target
-			if act.doer.components.adrenaline:GetPercent() < 0.44 then
-				return false
-			end
 			local inst = act.doer
 			inst.AnimState:AddOverrideBuild("emote_angry")
 			if not inst:HasTag("amped") then
-				inst.components.adrenaline:DoDelta(-20, 2)
+				inst.components.adrenaline:DoDelta(-25, 2)
 			else
 				inst.components.adrenaline:DoDelta(10, 2)
 			end
@@ -698,13 +768,13 @@ local wathombark = AddAction(
 
 			local act_pos = act:GetActionPoint()
 			local ents = GLOBAL.TheSim:FindEntities(act_pos.x, act_pos.y, act_pos.z, 10, { "_combat" },
-				{ "companion", "INLIMBO", "notarget" })
+				{ "companion", "INLIMBO", "notarget", "player", "playerghost", "wall", "abigail", "shadow" }) --added playertags because of the taunt.
 			for i, v in ipairs(ents) do
 				if v.components.hauntable ~= nil and v.components.hauntable.panicable and not
 					(
 					v.components.follower ~= nil and v.components.follower:GetLeader() and
 						v.components.follower:GetLeader():HasTag("player")) then
-					v.components.hauntable:Panic(TUNING.BATTLESONG_PANIC_TIME)
+					v.components.hauntable:Panic(10) -- Fallback to TUNING.BATTLESONG_PANIC_TIME (6 seconds) if needed
 					AddEnemyDebuffFx("battlesong_instant_panic_fx", v)
 				end
 				if v.components.hauntable == nil or
@@ -717,7 +787,29 @@ local wathombark = AddAction(
 					end
 				end
 			end
-			return true --maybe???
+			--also scare enemies near wathom, at a smaller radius
+			local x, y, z = act.doer.Transform:GetWorldPosition()
+			ents = GLOBAL.TheSim:FindEntities(x, y, z, 4, { "_combat" },
+				{ "companion", "INLIMBO", "notarget", "player", "playerghost", "wall", "abigail", "shadow" }) --added playertags because of the taunt.
+			for i, v in ipairs(ents) do
+				if v.components.hauntable ~= nil and v.components.hauntable.panicable and not
+					(
+					v.components.follower ~= nil and v.components.follower:GetLeader() and
+						v.components.follower:GetLeader():HasTag("player")) then
+					v.components.hauntable:Panic(8) -- Fallback to TUNING.BATTLESONG_PANIC_TIME (6 seconds) if needed
+				end
+				if v.components.hauntable == nil or
+					v.components.hauntable ~= nil and not v.components.hauntable.panicable and not (
+					v.components.follower ~= nil and v.components.follower:GetLeader() and
+						v.components.follower:GetLeader():HasTag("player")) and not v:HasTag("player") then
+					if not v:HasTag("bird") and v.components.combat then
+						v.components.combat:SetTarget(act.doer)
+					end
+				end
+			end
+			return true
+		else
+			return false
 		end
 	end
 )
@@ -829,14 +921,14 @@ AddClassPostConstruct("widgets/statusdisplays", AmpbadgeDisplays)
 
 -------------------------------------------------------
 -- The character select screen lines
-STRINGS.CHARACTER_TITLES.wathom = "The Abomination"
+STRINGS.CHARACTER_TITLES.wathom = "The Forgotten Parody"
 STRINGS.CHARACTER_NAMES.wathom = "Wathom"
 STRINGS.CHARACTER_DESCRIPTIONS.wathom = "*Apex Predator\n*Gets amped up with adrenaline\n*Causes animals to panic\n*The faster he goes, the harder he falls"
 STRINGS.CHARACTER_QUOTES.wathom = "\"Cruel, the abyss. Either do, or die.\""
 STRINGS.CHARACTER_SURVIVABILITY.wathom = "Slim"
 
 -- Custom speech strings
---STRINGS.CHARACTERS.WATHOM = require "speech_wathom"
+STRINGS.CHARACTERS.WATHOM = require "speech_wathom"
 
 -- The character's name as appears in-game
 STRINGS.NAMES.WATHOM = "Wathom"
@@ -866,6 +958,8 @@ for k, v in pairs(GLOBAL.CLOTHING) do
 	end
 end
 
+
+--[[Keeping this here for standalone mod but this is causing issues with postinit/components/health
 --Refuse to die Edit this not to include you
 local function MayKill(self, amount)
 	if self.currenthealth + amount <= 0 then
@@ -887,21 +981,7 @@ AddComponentPostInit("health", function(self)
 
 	local _DoDelta = self.DoDelta
 	function self:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
-		if MayKill(self, amount) and HasLLA(self) and not (self.inst:HasTag("wathom") and self.inst:HasTag("amped")) then
-			_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb) --Don't trigger the LLA here, let it happen in our ovvn component, so this doesn't break vvhenever canis moves it to his ovvn mod.
-		else
-			if MayKill(self, amount) and (self.inst:HasTag("wathom") and self.inst:HasTag("amped")) then --suggest that vve add a trigger here to shovv that vvathom is still being hit, despite his lack of flinching or anything.
-				self:SetCurrentHealth(1)
-				if self.inst.components.adrenaline and self.inst:HasTag("deathamp") then
-					self.inst.components.adrenaline:DoDelta(amount * 0.2)
-				end
-				if not self.inst:HasTag("deathamp") then
-					self.inst:AddTag("deathamp")
-					self.inst:ToggleUndeathState(self.inst, true)
-				end
-			elseif not self.inst:HasTag("deathamp") then -- No positive healing if you're on your last breath
-				_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
-			end
-		end
+
 	end
 end)
+]]

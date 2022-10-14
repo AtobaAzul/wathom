@@ -12,8 +12,6 @@ local STRINGS = GLOBAL.STRINGS
 local CONSTRUCTION_PLANS = GLOBAL.CONSTRUCTION_PLANS
 local CRAFTING_FILTERS = GLOBAL.CRAFTING_FILTERS
 
-modimport("uncompskins_api.lua")
-
 -- List of Vanilla Recipe Filters
 -- "FAVORITES", "CRAFTING_STATION", "SPECIAL_EVENT", "MODS", "CHARACTER", "TOOLS", "LIGHT",
 -- "PROTOTYPERS", "REFINE", "WEAPONS", "ARMOUR", "CLOTHING", "RESTORATION", "MAGIC", "DECOR",
@@ -83,6 +81,8 @@ AllRecipes["goggleshat"].ingredients = {Ingredient("goldnugget", 4), Ingredient(
 AllRecipes["deserthat"].level = TechTree.Create(TECH.SCIENCE_TWO)
 
 AllRecipes["battlesong_fireresistance"].ingredients = {Ingredient("papyrus", 1), Ingredient("featherpencil", 1), Ingredient("dragon_scales", 1)}
+
+AllRecipes["saddle_race"].ingredients = {Ingredient("livinglog", 2), Ingredient("silk", 4), Ingredient("glommerwings", 1)}
 
 --AllRecipes["book_fish"].ingredients = Ingredient("papyrus", 2), Ingredient("oceanfishingbobber_oval", 2)}
 
@@ -665,12 +665,12 @@ ChangeSortKey("hermitshop_cookies", "hermitshop_supertacklecontainer", "CRAFTING
 
 AddRecipe2(
     "normal_chum",
-    {Ingredient("spoiled_food", 2), Ingredient("rope", 1)},
+    {Ingredient("spoiled_food", 2), Ingredient("rope", 1), Ingredient("waterplant_bomb", 1)},
     TECH.FISHING_ONE,
     {product = "chum", nounlock = false, numtogive = 2},
     {"FISHING"}
 )
-
+AllRecipes["chum"].ingredients = {Ingredient("spoiled_food", 1), Ingredient("rope", 1), Ingredient("waterplant_bomb", 1)}
 AllRecipes["hermitshop_chum"].ingredients = {Ingredient("messagebottleempty", 1)}
 AllRecipes["hermitshop_chum"].numtogive = 3
 --[[
@@ -681,13 +681,6 @@ AddRecipe2(
     {nounlock = true, product = "diseasecurebomb", sg_state = "give"}
 )
 ChangeSortKey("hermitshop_oil", "hermitshop_cookies", "CRAFTING_STATION", true)]]
-
---pearlrusher
-CONSTRUCTION_PLANS["hermithouse_construction3"] = {
-    Ingredient("moonrocknugget", 5),
-    Ingredient("petals", 15),
-    Ingredient("moonglass", 10)
-}
 
 --better moonstorm
 AddRecipe2(
@@ -715,10 +708,10 @@ AddRecipe2(
 )
 ChangeSortKey("critter_figgy_builder", "critter_eyeofterror_builder", "CRAFTING_STATION", true)
 
-AddRecipe2("portableboat_item", {Ingredient("mosquitosack", 2), Ingredient("rope", 2)}, GLOBAL.TECH.NONE, nil, {"SEAFARING"})
+AddRecipe2("portableboat_item", {Ingredient("mosquitosack", 2), Ingredient("rope", 2)}, TECH.SEAFARING_ONE, nil, {"SEAFARING"})
 ChangeSortKey("portableboat_item", "boat_item", "SEAFARING", true)
 
-AddRecipe2("mastupgrade_windturbine_item", {Ingredient("cutstone", 2), Ingredient("transistor", 2)}, GLOBAL.TECH.NONE, nil, {"SEAFARING"})
+AddRecipe2("mastupgrade_windturbine_item", {Ingredient("cutstone", 2), Ingredient("transistor", 2)}, TECH.SEAFARING_ONE, nil, {"SEAFARING"})
 ChangeSortKey("mastupgrade_windturbine_item", "mastupgrade_lightningrod_item", "SEAFARING", true)
 --recipe postinits
 

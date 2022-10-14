@@ -11,6 +11,7 @@ SignFiles = require("uncompromising_writeables")
 
 modimport("init/init_gamemodes/init_uncompromising_mode")
 modimport("init/init_wathom")
+modimport("uncompskins_api.lua")
 
 if GetModConfigData("funny rat") then
 	AddModCharacter("winky", "FEMALE")
@@ -43,23 +44,32 @@ AddShardModRPCHandler("UncompromisingSurvival", "Hayfever_Start", function(...)
 	GLOBAL.TheWorld:PushEvent("beequeenrespawned")
 end)
 
-local function WathomMusicToggle(toggle)
-	if toggle then
-		print("start music")
+local function WathomMusicToggle(level)
+	if level ~= nil then
 		GLOBAL.TheWorld:PushEvent("enabledynamicmusic", false)
+		GLOBAL.TheWorld.wathom_enabledynamicmusic = false
 		if not GLOBAL.TheFocalPoint.SoundEmitter:PlayingSound("wathommusic") then
-			GLOBAL.TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/wathom_amped", "wathommusic")
+			GLOBAL.TheFocalPoint.SoundEmitter:PlaySound("UMMusic/music/" .. level, "wathommusic")
 		end
-		print("PLEASE DO THE MUSIC I BEG YOU")
 	else
-		print("stop music")
-		GLOBAL.TheWorld:PushEvent("enabledynamicmusic", true)
+		if not GLOBAL.TheWorld.wathom_enabledynamicmusic then --just so other things that killed the music don't get messed up.
+			GLOBAL.TheWorld:PushEvent("enabledynamicmusic", true)
+			GLOBAL.TheWorld.wathom_enabledynamicmusic = true
+		end
 		GLOBAL.TheFocalPoint.SoundEmitter:KillSound("wathommusic")
-		print("PLEASE I BEG YOU TURNIT OFF!!!!!!!!!!")
+	end
+end
+--wathomcustomvoice/wathomvoiceevent
+local function DoAdrenalineUpStinger(sound)
+	if type(sound) =="string" then
+		GLOBAL.TheFrontEnd:GetSound():PlaySound("wathomcustomvoice/wathomvoiceevent/"..sound)
+	else
+		GLOBAL.TheFrontEnd:GetSound():PlaySound("dontstarve_DLC001/characters/wathgrithr/inspiration_down")
 	end
 end
 
 AddClientModRPCHandler("UncompromisingSurvival", "WathomMusicToggle", WathomMusicToggle)
+AddClientModRPCHandler("UncompromisingSurvival", "WathomAdrenalineStinger", DoAdrenalineUpStinger)
 
 
 AddShardModRPCHandler("UncompromisingSurvival", "DeerclopsDeath", function(...)
@@ -113,4 +123,3 @@ AddShardModRPCHandler("UncompromisingSurvival", "AcidMushroomsTargetFinished", f
 end)]]
 
 GLOBAL.TUNING.DSTU.MODROOT = MODROOT
-print("MOD ROOT HERE YOU DUMMY: " .. GLOBAL.TUNING.DSTU.MODROOT) --had to get a way around MODROOT being modmain env. only.
