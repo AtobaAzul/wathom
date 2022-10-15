@@ -498,6 +498,10 @@ Assets = {
 
 
 	--MISC.
+	Asset("ANIM", "anim/sludgestack_short.zip"),
+
+	Asset("ANIM", "anim/boat_repair_cork_build.zip"),
+
 	Asset("ANIM", "anim/speaker_test.zip"),
 
 	Asset("ANIM", "anim/siren_throne.zip"),
