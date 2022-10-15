@@ -387,8 +387,12 @@ return {
 	"wathom",
 	"wathom_none",
 	
+	"um_shadowarena",
+	
 	"charles_t_horse",
 	"wixie_piano",
 	"wixie_clock",
 	"wixie_wardrobe",
+	
+	"uncompromising_skins",
 }

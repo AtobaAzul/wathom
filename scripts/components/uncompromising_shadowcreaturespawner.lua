@@ -345,10 +345,10 @@ local function OnPlayerJoined(inst, player)
     end
     _players[player] = { ents = {}, targetpop = 0 }
     Start(player, _players[player])
-	
+	--[[
 	if TheNet:GetServerPlaystyle() ~= nil and TheNet:GetServerPlaystyle() == "relaxed" or TheNet:GetServerPlaystyle() == "RELAXED" then
 		player:DoPeriodicTask(2, ForceSpawnShadow)
-	end
+	end]]
 	
     inst:ListenForEvent("inducedinsanity", OnInducedInsanity, player)
     inst:ListenForEvent("sanitymodechanged", OnInducedInsanity, player)
