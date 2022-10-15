@@ -222,14 +222,13 @@ AddStategraphPostInit("wilson", function(inst)
 
 				--V2C: adding half a frame time so it rounds up
 				inst.sg:SetTimeout(inst.AnimState:GetCurrentAnimationLength() + .5 * FRAMES)
+
 			end,
 
 			timeline =
 			{
-				--[[TimeEvent(4*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),
-            TimeEvent(5*FRAMES, function(inst) PlayFootstep(inst, 0.5) DoFoleySounds(inst) end),
-            TimeEvent(10*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),
-            TimeEvent(11*FRAMES, function(inst) PlayFootstep(inst, 0.5) end),]]
+				TimeEvent(6*FRAMES, function(inst) GLOBAL.PlayFootstep(inst, 0.5)  end),
+				TimeEvent(7*FRAMES, function(inst) GLOBAL.PlayFootstep(inst, 0.5) end),
 			},
 
 			onupdate = function(inst)
