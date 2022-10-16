@@ -84,12 +84,16 @@ AllRecipes["saddle_race"].ingredients = {Ingredient("livinglog", 2), Ingredient(
 
 AllRecipes["battlesong_fireresistance"].ingredients = {Ingredient("papyrus", 1), Ingredient("featherpencil", 1), Ingredient("dragon_scales", 1)}
 
-AllRecipes["walterhat"].ingredients = {Ingredient("silk", 4), Ingredient("pinecone", 1)}
+AllRecipes["walterhat"].ingredients = {Ingredient("silk", 4), Ingredient("pinecone", 1)}--????
 
-AllRecipes["book_fish"].ingredients = {Ingredient("papyrus", 2), Ingredient("oceanfishingbobber_oval", 2)}
-AllRecipes["book_light"].ingredients = {Ingredient("papyrus", 2), Ingredient("wormlight", 1)}
-AllRecipes["book_light_upgraded"].level = TechTree.Create(TECH.LOST)
-AllRecipes["bookstation"].ingredients = {Ingredient("livinglog", 4), Ingredient("papyrus", 4), Ingredient("featherpencil", 1)}
+if GetModConfigData("book_recipes") then
+    AllRecipes["book_rain"].ingredients = {Ingredient("papyrus", 2), Ingredient("moon_tear", 1), Ingredient("waterballoon", 4)}
+    AllRecipes["book_rain"].level = TechTree.Create(TECH.MAGIC_THREE)
+    AllRecipes["book_fish"].ingredients = {Ingredient("papyrus", 2), Ingredient("oceanfishingbobber_oval", 2)}--???????????????
+    AllRecipes["book_light"].ingredients = {Ingredient("papyrus", 2), Ingredient("wormlight", 1)}
+    AllRecipes["book_light_upgraded"].level = TechTree.Create(TECH.LOST)--??????????????????????????????????????????????
+    AllRecipes["bookstation"].ingredients = {Ingredient("livinglog", 4), Ingredient("papyrus", 4), Ingredient("featherpencil", 1)}
+end
 
 --magnets and dock 
 if GetModConfigData("no4crafts") then --:desolate:
@@ -321,22 +325,6 @@ AddRecipe2(
     {"CHARACTER"}
 )
 ChangeSortKey("mutator_trapdoor", "mutator_warrior", "CHARACTER", true)
-
-if not TUNING.DSTU.UPDATE_CHECK then
-    AddRecipe2(
-        "book_rain_um",
-        {Ingredient("papyrus", 2), Ingredient("moon_tear", 1), Ingredient("waterballoon", 4)},
-        TECH.MAGIC_THREE,
-        {builder_tag = "bookbuilder"},
-        {"CHARACTER"}
-    )
-    ChangeSortKey("book_rain_um", "book_tentacles", "CHARACTER", true)
-else
-    if GetModConfigData("legacy_book_rain_recipe") then
-        AllRecipes["book_rain"].ingredients = {Ingredient("papyrus", 2), Ingredient("moon_tear", 1), Ingredient("waterballoon", 4)}
-        AllRecipes["book_rain"].level = TechTree.Create(TECH.MAGIC_THREE)
-    end
-end
 
 AddRecipe2(
     "driftwoodfishingrod",
