@@ -2038,7 +2038,7 @@ return{
 			GENERIC = "Faux fauna.",
 			DISEASED = "Dying.", --unimplemented
 		},
-		GREEN_CAP = "psychedelic, major.",
+		GREEN_CAP = "Psychedelic, major.",
 		GREEN_CAP_COOKED = "Properties nullified, psychadelic.",
 		GREEN_MUSHROOM =
 		{
@@ -2067,13 +2067,13 @@ return{
 		},
 		ARROWSIGN_POST =
 		{
-			GENERIC = "Readint, still student.",
+			GENERIC = "Reading, still student.",
             UNWRITTEN = "Wooden board.",
 			BURNT = "Message means \"fire\".",
 		},
 		ARROWSIGN_PANEL =
 		{
-			GENERIC = "Readint, still student.",
+			GENERIC = "Reading, still student.",
             UNWRITTEN = "Wooden board.",
 			BURNT = "Message means \"fire\".",
 		},

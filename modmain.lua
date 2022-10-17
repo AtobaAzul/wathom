@@ -11,6 +11,7 @@ SignFiles = require("uncompromising_writeables")
 
 modimport("init/init_gamemodes/init_uncompromising_mode")
 modimport("init/init_wathom")
+modimport("init/init_wathom")
 
 if GetModConfigData("funny rat") then
 	AddModCharacter("winky", "FEMALE")

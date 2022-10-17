@@ -78,8 +78,8 @@ local function UnAmp(inst)
 	end
 	if inst:HasTag("deathamp") then
 		inst:RemoveTag("deathamp")
-
-		local bed = inst.components.sleepingbaguser.bed
+		
+		local bed = inst.components.sleepingbaguser ~= nil and inst.components.sleepingbaguser.bed or nil
 
 		if bed ~= nil then
 			bed.components.sleepingbag:DoWakeUp()
