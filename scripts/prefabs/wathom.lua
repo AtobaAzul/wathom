@@ -109,11 +109,11 @@ local function Amp(inst)
 		end
 	end)
 
-	inst.adrenalinehpregen = inst:DoPeriodicTask(1, function(inst)
+	--[[inst.adrenalinehpregen = inst:DoPeriodicTask(1, function(inst)
 		if inst.components.health ~= nil and not inst.components.health:IsDead() then
 			inst.components.health:DoDelta(1.5)
 		end
-	end)
+	end)]]
 	if inst.components.health ~= nil and not inst.components.health:IsDead() then
 		--inst.sg:GoToState("wathombark")
 		inst.components.health.invincible = true
