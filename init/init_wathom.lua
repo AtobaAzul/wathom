@@ -848,7 +848,6 @@ end
 
 AddPlayerPostInit(function(inst)
 	if inst:HasTag("wathom") then
-
 		inst.counter_max = GLOBAL.net_shortint(inst.GUID, "counter_max", "counter_maxdirty")
 		inst.counter_current = GLOBAL.net_shortint(inst.GUID, "counter_current", "counter_currentdirty")
 
@@ -946,9 +945,7 @@ local skin_modes = {
 }
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
-if GetModConfigData("holy fucking shit it's wathom") then
 	AddModCharacter("wathom", "MALE", skin_modes)
-end
 
 --skincolor
 for k, v in pairs(GLOBAL.CLOTHING) do

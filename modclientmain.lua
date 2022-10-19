@@ -44,5 +44,4 @@ TUNING.WATHOM_HEALTH = 200
 TUNING.WATHOM_HUNGER = 120
 TUNING.WATHOM_SANITY = 120
 
-AddModCharacter("winky", "FEMALE")
 AddModCharacter("wathom", "MALE")
