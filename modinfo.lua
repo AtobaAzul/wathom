@@ -1,7 +1,22 @@
-name = "[DEV] Wathom"
+name = "Wathom, the Forgotten Parody"
 description =
 [[
-HOLY FUCKING SHIT IT'S WATHOM]]
+󰀔 [ Version 1.0.0 : "Standalone Release" ]
+
+"A hunter with an uncontrollable surplus of energy, Wathom lives on after crawling out of the Abyss he was imprisoned in."
+
+Wathom, the Forgotten Parody from 󰀕 Uncompromising Mode, is now available as a standalone mod!
+*Apex Predator
+*Gets amped up with adrenaline
+*Causes animals to panic
+*The faster he goes, the harder he falls
+
+Wathom completely changes the core fundamentals of gameplay; As he gains more and more Adrenaline through combat, he runs faster, hits harder, and leaps further. However, all it could take is one hit to wreck your health meter. Are you ready for the personification of Risk and Reward? 
+
+󰀏 Note: Disable this mod if running Uncompromising mode, as you will run into issues. Enable Wathom through the config menu instead!
+󰀏 Stay Up-to-Date on Wathom's development by joining Uncomp's Discord!
+
+]]
 
 author = "󰀈 The Uncomp Dev Team 󰀈"
 
