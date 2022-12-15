@@ -1,4 +1,6 @@
-GLOBAL.STRINGS.STALKER_ATRIUM_WATHOM_BATTLECRY = {
+STRINGS = GLOBAL.STRINGS
+
+STRINGS.STALKER_ATRIUM_WATHOM_BATTLECRY = {
 	"Don't repeat our history, fool.",
 	"You will doom yourself as we did.",
 	"Retreat while you're still whole, mimic.",

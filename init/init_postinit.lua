@@ -5,22 +5,14 @@ local component_post = {
 }
 
 local prefab_post = {
+	"staffs", --generic staffs.
 	"stalker",
 }
 
-local stategraph_post = {
-}
-
 local class_post = {
+	--example:
 	"widgets/bloodover"
 }
-
-local brain_post = {
-}
-
-modimport("postinit/sim")
-modimport("postinit/any")
-modimport("postinit/player")
 
 for _, v in pairs(component_post) do
 	modimport("postinit/components/" .. v)
@@ -28,14 +20,6 @@ end
 
 for _, v in pairs(prefab_post) do
 	modimport("postinit/prefabs/" .. v)
-end
-
-for _, v in pairs(stategraph_post) do
-	modimport("postinit/stategraphs/SG" .. v)
-end
-
-for _, v in pairs(brain_post) do
-	modimport("postinit/brains/" .. v .. "brain")
 end
 
 for _, v in pairs(class_post) do

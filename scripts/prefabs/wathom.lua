@@ -65,7 +65,7 @@ end
 local function UnAmp(inst)
 	inst:RemoveTag("amped") -- Party's over.
 	inst.components.combat.attackrange = 2
-	inst.AmpDamageTakenModifier = TUNING.DSTU.WATHOM_AMPED_VULNERABILITY
+	inst.AmpDamageTakenModifier = TUNING.WATHOM.WATHOM_AMPED_VULNERABILITY
 	if inst.adrenalinehpregen ~= nil then
 		inst.adrenalinehpregen:Cancel()
 		inst.adrenalinehpregen = nil
@@ -94,7 +94,7 @@ end
 local function Amp(inst)
 	inst.SoundEmitter:PlaySound("wathomcustomvoice/wathomvoiceevent/ampedbark")
 	inst.components.combat.attackrange = 7 -- These values are for when Wathom's at 100 Adrenaline, so he should be Amping Up right now.
-	inst.AmpDamageTakenModifier = TUNING.DSTU.WATHOM_AMPED_VULNERABILITY
+	inst.AmpDamageTakenModifier = TUNING.WATHOM.WATHOM_AMPED_VULNERABILITY
 	inst:AddTag("amped")
 	inst.components.adrenaline:SetAmped(true)
 	--inst.components.talker:Say("AMPED UP!", nil, true)
@@ -340,7 +340,7 @@ local function UpdateAdrenaline(inst, data)
 		inst.AmpDamageTakenModifier = 1
 	elseif AmpLevel >= 1 and not inst:HasTag("amped") then
 		Amp(inst)
-		inst.AmpDamageTakenModifier = TUNING.DSTU.WATHOM_AMPED_VULNERABILITY
+		inst.AmpDamageTakenModifier = TUNING.WATHOM.WATHOM_AMPED_VULNERABILITY
 	elseif AmpLevel > 0.75 and not inst:HasTag("amped") then
 		if item ~= nil then
 			inst.components.combat.attackrange = 6
@@ -375,7 +375,7 @@ local function OnAttacked(inst, data)
 		inst.adrenalresume = nil
 	end
 	inst.adrenalresume = inst:DoTaskInTime(10, function(inst) inst.adrenalpause = false end)
-	if not TUNING.DSTU.WATHOM_ARMOR_DAMAGE then
+	if not TUNING.WATHOM.WATHOM_ARMOR_DAMAGE then
 		if data.damageresolved ~= nil then
 			inst.components.health:DoDelta(-((data.damageresolved * inst.AmpDamageTakenModifier) - data.damageresolved), nil,
 				data.attacker)

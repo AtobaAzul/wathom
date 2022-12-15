@@ -7,12 +7,13 @@ ANNOUNCE = GLOBAL.STRINGS.CHARACTERS.GENERIC
 DESCRIBE = GLOBAL.STRINGS.CHARACTERS.GENERIC.DESCRIBE
 ACTIONFAIL = GLOBAL.STRINGS.CHARACTERS.GENERIC.ACTIONFAIL
 
-DESCRIBE.WATHOM =
-{
-	GENERIC = "%s seems smarter than he looks.",
-	ATTACKER = "%s looks pretty intimidating!",
-	MURDERER = "This monster is going to kill us all!",
-	REVIVER = "I'm glad %s is on my side!",
-	GHOST = "That doesn't look like normal ghosts. Well, \"normal\".",
-	FIRESTARTER = "Are you trying to breathe fire, %s?",
-}
+	DESCRIBE.WATHOM =
+        {
+            GENERIC = "%s seems smarter than he looks.",
+            ATTACKER = "%s looks pretty intimidating!",
+            MURDERER = "This monster is going to kill us all!",
+            REVIVER = "I'm glad %s is on my side!",
+            GHOST = "That doesn't look like normal ghosts. Well, \"normal\".",
+            FIRESTARTER = "Are you trying to breathe fire, %s?",
+        }
+

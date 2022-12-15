@@ -24,6 +24,8 @@ Assets = {
 
 local STRINGS = GLOBAL.STRINGS
 
+-- Wathom
+
 STRINGS.NAMES.wathom = "Wathom"
 STRINGS.SKIN_NAMES.wathom_none = "Wathom"
 STRINGS.SKIN_DESCRIPTIONS.wathom_none = "An inadequate attempt to revive the ones who came before him."

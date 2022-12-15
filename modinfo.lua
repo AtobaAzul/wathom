@@ -5,7 +5,7 @@ HOLY FUCKING SHIT IT'S WATHOM]]
 
 author = "󰀈 The Uncomp Dev Team 󰀈"
 
-version = "0"
+version = "1"
 
 forumthread = "/topic/111892-announcement-uncompromising-mode/"
 
@@ -25,8 +25,14 @@ icon = "modicon.tex"
 
 server_filter_tags = {
 	"uncompromising",
-	"DSTU",
-	"wathom"
+	"wathom",
+	"collab",
+	"overhaul",
+	"hard",
+	"difficult",
+	"madness",
+	"challenge",
+	"hardcore"
 }
 
 priority = -10
@@ -40,11 +46,10 @@ end
 
 configuration_options =
 {
-
 	BinaryConfig("wathom_maxdmg", "Wathom: Damage Cap", "Wathom's damage is capped at 600 to limit his absurd burst damage potential.", true),
 	{
 		name = "wathom_ampvulnerability",
-		label = "Wathom: Amped Vulnerability",
+		label = "Amped Vulnerability",
 		hover = "Wathom takes more damage when amped.",
 		options =
 		{
@@ -57,11 +62,11 @@ configuration_options =
 	},
 	{
 		name = "wathom_armordamage",
-		label = "Wathom: Armor Damage Priority",
+		label = "Armor Damage Priority",
 		hover = "Wathom can take increased damage, choose if armor damage is ignored.",
 		options =
 		{
-			{description = "Include Armor", data = true, hover = "Wathom multiplies incoming damage by the current damage multiplier"},
+			{description = "Include Armor", data = true, hover = "Wathom multiplies incoming damage by the current damage multiplier."},
 			{description = "Don't include armor", data = false, hover = "Wathom multiplies resulting damage by the current damage multiplier."},
 		},
 		default = true,

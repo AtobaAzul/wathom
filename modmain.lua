@@ -1,6 +1,12 @@
 local require = GLOBAL.require
 
-PrefabFiles = require("uncompromising_prefabs")
+
+PrefabFiles = require("wathom_prefabs")
+PreloadAssets = {
+
+}
+ReloadPreloadAssets()
+--Start the game mode
 
 modimport("init/init_gamemodes/init_uncompromising_mode")
 modimport("init/init_wathom")
