@@ -7,15 +7,6 @@ local function MayKill(self, amount)
 	end
 end
 
-local env = env
-GLOBAL.setfenv(1, GLOBAL)
-
-local function MayKill(self, amount)
-	if self.currenthealth + amount <= 0 then
-		return true
-	end
-end
-
 local function GetSLEEPED(inst, revived)
 	if inst ~= revived and
 		(TheNet:GetPVPEnabled() or not inst:HasTag("player")) and
