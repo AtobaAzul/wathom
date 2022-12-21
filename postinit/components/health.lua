@@ -78,8 +78,7 @@ env.AddComponentPostInit("health", function(self)
 
 	local _DoDelta = self.DoDelta
 	--(self:HasTag("wathom") and self:HasTag("amped")
-	function self:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
-
+	function self:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb, ...)
 		if MayKill(self, amount) and HasLLA(self) and self.inst:HasTag("deathamp") and cause == "deathamp" then
 			if not self.inst:HasTag("playerghost") and self.inst.ToggleUndeathState ~= nil then
 				self.inst:ToggleUndeathState(self.inst, false)
@@ -91,10 +90,10 @@ env.AddComponentPostInit("health", function(self)
 			if not self.inst:HasTag("deathamp") then
 				self.inst:AddTag("deathamp")
 				self.inst:ToggleUndeathState(self.inst, true)
-				_DoDelta(self, -self.currenthealth + 1, nil, nil, true) --needed to do this for ignore_invincible...
+				_DoDelta(self, -self.currenthealth + 1, false, cause, true, afflicter, ignore_absorb, ...) --needed to do this for ignore_invincible...
 			end
 		elseif not self.inst:HasTag("deathamp") then -- No positive healing if you're on your last breath
-			_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb)
+			_DoDelta(self, amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb, ...)
 		end
 
 	end
