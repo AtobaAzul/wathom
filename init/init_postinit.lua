@@ -2,11 +2,13 @@
 local component_post = {
 	"combat",
 	"health",
+--	"builder",
 }
 
 local prefab_post = {
 	"staffs", --generic staffs.
 	"stalker",
+--	"gestalt_guard", -- They're now Wathom's version of terrorbeaks.
 }
 
 local class_post = {

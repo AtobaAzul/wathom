@@ -1,4 +1,4 @@
-name = "Wathom, the Forgotten Parody"
+name = "[Playtest] Wathom, The Forgotten Parody"
 description =
 [[
 󰀔 [ Version 1.0.0 : "Standalone Release" ]
@@ -41,13 +41,6 @@ icon = "modicon.tex"
 server_filter_tags = {
 	"uncompromising",
 	"wathom",
-	"collab",
-	"overhaul",
-	"hard",
-	"difficult",
-	"madness",
-	"challenge",
-	"hardcore"
 }
 
 priority = -10
