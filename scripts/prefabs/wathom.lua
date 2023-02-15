@@ -277,9 +277,6 @@ local function onload(inst, data)
 	else
 		onbecamehuman(inst)
 	end
-	if TheWorld.state.isday and not TheWorld:HasTag("cave") then
-		inst.components.sanity.dapperness = 10 / 60	
-	end	
 	if TheWorld:HasTag("cave") then
 		inst.components.playervision:ForceNightVision(true)
 		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
@@ -327,7 +324,7 @@ local function UpdateAdrenaline(inst, data)
 		SendModRPCToClient(GetClientModRPC("UncompromisingSurvival", "WathomAdrenalineStinger"), inst.userid, "wathom_breathe")
 	end
 
-	if (AmpLevel > 0.75 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") and
+	if (AmpLevel > 0.5 or inst:HasTag("amped")) and not inst:HasTag("wathomrun") and
 		(inst.components.rider ~= nil and not inst.components.rider:IsRiding() or inst.components.rider == nil) then --Handle VVathom Running
 		inst:AddTag("wathomrun")
 	elseif inst:HasTag("wathomrun") and not (AmpLevel > 0.5 or inst:HasTag("amped")) then
@@ -392,10 +389,6 @@ local function OnAttacked(inst, data)
 				data.attacker)
 		end
 	end
---	if data.attacker:HasTag("brightmare") then
---		inst.components.adrenaline:DoDelta(-10)
---		inst.components.health:DoDelta(-10, nil, data.attacker)		
---	end	
 end
 
 local function UpdateMusic(inst)
@@ -407,24 +400,21 @@ local common_postinit = function(inst)
 	-- Minimap icon
 	inst.MiniMapEntity:SetIcon("wathom.tex")
 
-	inst:AddTag("wathom") -- Tells the game to switch the character's attacks to leaping, as well as switch some insanity sources around to give sanity instead.
+	inst:AddTag("wathom")
 	inst:AddTag("monster")
 	inst:AddTag("playermonster")
-	inst:AddTag("shadowdominance") -- Taken from Bone Helm, making shadow creatures neutral. 
+
 	inst:AddTag("nightvision")
-	
 	inst.OnLoad = onload
 	inst.OnNewSpawn = onload
-
 	-- Wathom's Nightvision aboveground
+
 	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
 		inst.components.playervision:ForceNightVision(true)
-		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)	
-		inst:AddTag("WathomInDark")
+		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
 	else
 		inst.components.playervision:ForceNightVision(false)
-		inst.components.playervision:SetCustomCCTable(nil)	
-		inst:RemoveTag("WathomInDark")		
+		inst.components.playervision:SetCustomCCTable(nil)
 	end
 
 	inst:WatchWorldState("isnight", function()
@@ -432,12 +422,10 @@ local common_postinit = function(inst)
 			if not TheWorld:HasTag("cave") then
 				if TheWorld.state.isnight then
 					inst.components.playervision:ForceNightVision(true)
-					inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)	
-					inst:AddTag("WathomInDark")
+					inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
 				else
 					inst.components.playervision:ForceNightVision(false)
 					inst.components.playervision:SetCustomCCTable(nil)
-					inst:RemoveTag("WathomInDark")	
 				end
 			end
 		end)
@@ -452,34 +440,12 @@ local common_postinit = function(inst)
 		if inst:HasTag("amped") then
 			inst:RemoveTag("amped")
 		end
-		
 		UpdateMusic(inst)
 	end)
-
-	-- Wathom's Nightvision aboveground
-	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
-		inst.components.playervision:ForceNightVision(true)
-		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)		
-		inst:AddTag("WathomInDark")
-	else
-		inst.components.playervision:ForceNightVision(false)
-		inst.components.playervision:SetCustomCCTable(nil)
-		inst:RemoveTag("WathomInDark")
-	end
-	
 end
 
 -- This initializes for the server only. Components are added here.
 local master_postinit = function(inst)
-
---	inst.components.sanity:EnableLunacy(true, "wathomlunacy")
-
--- -- 	If at high lunacy, become a target for Gestalts and Greater Gestalts.
---	if inst.components.sanity:GetPercent() > 0.84 then
---		inst:AddTag("gestalt_possessable")
---	else
---		inst:RemoveTag("gestalt_possessable")
---end	
 
 	inst.adrenalinecheck = 0 -- I have no idea what this does. It's left over from SCP-049.
 
@@ -498,7 +464,7 @@ local master_postinit = function(inst)
 		inst.components.eater:SetDiet({ FOODGROUP.OMNI }, { FOODTYPE.MEAT, FOODTYPE.GOODIES })
 	end
 
-	inst.components.eater:SetCanEatRawMeat(true) -- Comment out when we want to invert insanity.
+	inst.components.eater:SetCanEatRawMeat(true)
 
 	inst.components.foodaffinity:AddPrefabAffinity("hardshelltacos", 20)
 
@@ -506,8 +472,6 @@ local master_postinit = function(inst)
 	inst.components.health:SetMaxHealth(TUNING.WATHOM_HEALTH)
 	inst.components.hunger:SetMax(TUNING.WATHOM_HUNGER)
 	inst.components.sanity:SetMax(TUNING.WATHOM_SANITY)
-
---	inst.components.sanity.neg_aura_absorb = TUNING.ARMOR_HIVEHAT_SANITY_ABSORPTION -- Reverses insanity auras and reduces by 50%
 
 	-- Damage multiplier (In reality, Wathom won't deal double damage. The time it takes for him to attack is about twice as long as other characters.
 	--inst.components.combat.damagemultiplier = 2
@@ -540,11 +504,9 @@ local master_postinit = function(inst)
 	if TheWorld:HasTag("cave") or TheWorld.state.isnight then
 		inst.components.playervision:ForceNightVision(true)
 		inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
-		inst:AddTag("WathomInDark")
 	else
 		inst.components.playervision:ForceNightVision(false)
 		inst.components.playervision:SetCustomCCTable(nil)
-		inst:RemoveTag("WathomInDark")
 	end
 
 	inst:WatchWorldState("isnight", function()
@@ -552,8 +514,7 @@ local master_postinit = function(inst)
 			if not TheWorld:HasTag("cave") then
 				if TheWorld.state.isnight then
 					inst.components.playervision:ForceNightVision(true)
-					inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)	
-					inst:AddTag("WathomInDark")
+					inst.components.playervision:SetCustomCCTable(WATHOM_COLOURCUBES)
 				else
 					inst.components.playervision:ForceNightVision(false)
 					inst.components.playervision:SetCustomCCTable(nil)
@@ -581,23 +542,9 @@ local master_postinit = function(inst)
 			UpdateMusic(inst)
 		end
 	end)
-	-- Wathom's immunity to night drain during the night and sanity (lunacy) gain during the day.
---	inst.components.sanity.night_drain_mult = 0
-	inst.components.sanity.light_drain_immune = true
+	-- Wathom's immunity to night drain during the night.
+	inst.components.sanity.night_drain_mult = 0
 
---	inst:WatchWorldState("isday", function()
---		inst:DoTaskInTime(TheWorld.state.isday and 0 or 1, function(inst)
---			if not TheWorld:HasTag("cave") then
---				if TheWorld.state.isnight or TheWorld.state.isdusk then
---					inst.components.sanity.dapperness = 0
---				elseif TheWorld.state.isday then
---					inst.components.sanity.dapperness = 10 / 60
---				end
---			end
---		end)
---	end)
-	
-				
 	-- Night Vision enabler
 	--	inst.components.playervision:ForceNightVision(true) -- Should only force this if it's night or in caves.
 

@@ -1,7 +1,0 @@
-This folder contains stuff for a wathom rework that was cut because I lost interest in DST modding. Maybe I'll pick it up again, but don't count on it.
-
-Builder goes in postinit components, gestalt_guard goes in postinitprefabs, while brightmarespawner goes in normal components.
-
-If you want to pick up where I left off, go for it as long as you credit me.
-
-- Canis
