@@ -124,7 +124,7 @@ AddStategraphActionHandler("wilson", ActionHandler(GLOBAL.ACTIONS.ATTACK, Attack
 -- the MEAT
 
 local function ConfigureRunState(inst)
-	if inst.components.rider:IsRiding() then
+	if inst.components.rider ~= nil and inst.components.rider:IsRiding() then
 		inst.sg.statemem.riding = true
 		inst.sg.statemem.groggy = inst:HasTag("groggy")
 		inst.sg:AddStateTag("nodangle")
@@ -132,7 +132,7 @@ local function ConfigureRunState(inst)
 		local mount = inst.components.rider:GetMount()
 		inst.sg.statemem.ridingwoby = mount and mount:HasTag("woby")
 
-	elseif inst.components.inventory:IsHeavyLifting() then
+	elseif inst.components.inventory ~= nil and inst.components.inventory:IsHeavyLifting() then
 		inst.sg.statemem.heavy = true
 		inst.sg.statemem.heavy_fast = inst.components.mightiness ~= nil and inst.components.mightiness:IsMighty()
 	elseif inst:HasTag("wereplayer") then
@@ -171,7 +171,7 @@ AddStategraphPostInit("wilson", function(inst)
 
 	local function NevvOnEnter(inst)
 		--print(inst.components.adrenaline:GetPercent())
-		if inst:HasTag("wathom") and inst:HasTag("wathomrun") then
+		if inst:HasTag("wathom") and inst:HasTag("wathomrun") and inst.components.rider ~= nil and not inst.components.rider:IsRiding() or inst:HasTag("wathom") and inst:HasTag("wathomrun")then
 			inst.sg.mem.footsteps = 0
 			inst.sg:GoToState("run_wathom")
 			return
@@ -244,7 +244,7 @@ AddStategraphPostInit("wilson", function(inst)
 			},
 
 			onupdate = function(inst)
-				if not inst:HasTag("wathomrun") then
+				if inst.components.rider ~= nil and inst.components.rider:IsRiding() and not inst:HasTag("wathomrun") or not inst:HasTag("wathomrun") then
 					inst.sg:GoToState("run")
 					return
 				end
@@ -897,6 +897,10 @@ local function AmpbadgeDisplays(self)
 			self.adrenaline.bg = self.adrenaline:AddChild(Image("images/status_bgs.xml", "status_bgs.tex"))
 			self.adrenaline.bg:SetScale(.4, .43, 0)
 			self.adrenaline.bg:SetPosition(-.5, -40, 0)
+
+			if self.boatmeter then
+				self.boatmeter:SetPosition(-124 , -52)
+			end
 
 			self.adrenaline.num:SetFont(NUMBERFONT)
 			self.adrenaline.num:SetSize(28)

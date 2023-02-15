@@ -89,7 +89,7 @@ local function UnAmp(inst)
 		
 		local bed = inst.components.sleepingbaguser ~= nil and inst.components.sleepingbaguser.bed or nil
 
-		if bed ~= nil then
+		if bed ~= nil and bed.components.sleepingbag ~= nil then
 			bed.components.sleepingbag:DoWakeUp()
 		end
 
@@ -164,7 +164,7 @@ local function AmpTimer(inst)
 		inst.components.adrenaline:DoDelta(-1)
 	end
 
-	if inst.components.adrenaline:GetPercent() < 0.25 and not inst:HasTag("amped") then
+	if inst.components.adrenaline:GetPercent() < 0.25 and not (inst:HasTag("amped") or inst:HasTag("deathamped")) then
 		inst.components.adrenaline:DoDelta(1) -- Slowly regaining to normal levels.
 	end
 
@@ -205,7 +205,7 @@ local function AmpTimer(inst)
 end
 
 local function OnAttackOther(inst, data)
-	if data and data.target and inst.components.adrenaline:GetPercent() > 0.24 and
+	if data and data.target and not data.projectile and inst.components.adrenaline:GetPercent() > 0.24 and
 		((data.target.components.combat and data.target.components.combat.defaultdamage > 0) or
 			(
 			data.target.prefab == "dummytarget" or data.target.prefab == "antlion" or data.target.prefab == "stalker_atrium" or
@@ -265,12 +265,12 @@ local function GetMusicValues(inst)
 	end
 end
 
-
 -- When loading or spawning the character
 local function onload(inst, data)
-
 	inst:ListenForEvent("ms_respawnedfromghost", onbecamehuman)
 	inst:ListenForEvent("ms_becameghost", onbecameghost)
+	--	inst.components.playervision:SetCustomCCTable(nil)
+	--    inst.components.playervision:ForceNightVision(false) -- So Wathom doesn't get flashbanged by his nightvision.
 
 	if inst:HasTag("playerghost") then
 		onbecameghost(inst)
@@ -557,7 +557,6 @@ local master_postinit = function(inst)
 				else
 					inst.components.playervision:ForceNightVision(false)
 					inst.components.playervision:SetCustomCCTable(nil)
-					inst:RemoveTag("WathomInDark")
 				end
 			end
 		end)
