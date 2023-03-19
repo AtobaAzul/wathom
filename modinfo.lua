@@ -20,7 +20,7 @@ Wathom completely changes the core fundamentals of gameplay; As he gains more an
 
 author = "󰀈 The Uncomp Dev Team 󰀈"
 
-version = "1"
+version = "1.0.1"
 
 forumthread = "/topic/111892-announcement-uncompromising-mode/"
 
