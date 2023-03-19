@@ -1,7 +1,7 @@
 name = "Wathom, the Forgotten Parody"
 description =
 [[
-󰀔 [ Version 1.0.0 : "Standalone Release" ]
+󰀔 [ Version 1.0.1 : "Standalone Release" ]
 
 "A hunter with an uncontrollable surplus of energy, Wathom lives on after crawling out of the Abyss he was imprisoned in."
 
@@ -61,7 +61,7 @@ end
 
 configuration_options =
 {
-	BinaryConfig("wathom_maxdmg", "Wathom: Damage Cap", "Wathom's damage is capped at 600 to limit his absurd burst damage potential.", true),
+	BinaryConfig("wathom_maxdmg", "Damage Cap", "Wathom's damage is capped at 600 to limit his absurd burst damage potential.", true),
 	{
 		name = "wathom_ampvulnerability",
 		label = "Amped Vulnerability",
