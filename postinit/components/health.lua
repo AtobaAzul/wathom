@@ -40,6 +40,15 @@ local function FindSleepoPeepo(inst)
 end
 
 local function TriggerLLA(self)
+	if self.inst.components.timer ~= nil then
+		if self.inst.components.timer:TimerExists("shadowwathomcooldown") then
+			self.inst.components.timer:StopTimer("shadowwathomcooldown")
+			self.inst.components.timer:StartTimer("shadowwathomcooldown", TUNING.TOTAL_DAY_TIME)
+		else
+			self.inst.components.timer:StartTimer("shadowwathomcooldown", TUNING.TOTAL_DAY_TIME)
+		end
+	end
+
 	local item = self.inst.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
 	local item2
 	FindSleepoPeepo(self.inst)
@@ -67,7 +76,7 @@ end
 local function HasLLA(self)
 	if self.inst.components.inventory then
 		local item = self.inst.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-		if item and item.prefab == "amulet" then
+		if item and item.prefab == "amulet" and self.inst.components.timer ~= nil and not self.inst.components.timer:TimerExists("shadowwathomcooldown")  then
 			return true
 		end
 	end
@@ -79,7 +88,7 @@ env.AddComponentPostInit("health", function(self)
 	local _DoDelta = self.DoDelta
 	--(self:HasTag("wathom") and self:HasTag("amped")
 	function self:DoDelta(amount, overtime, cause, ignore_invincible, afflicter, ignore_absorb, ...)
-		if MayKill(self, amount) and HasLLA(self) and self.inst:HasTag("deathamp") and cause == "deathamp" then
+		if MayKill(self, amount) and HasLLA(self) and self.inst:HasTag("deathamp") and cause == "deathamp" and self.inst.components.timer ~= nil and not self.inst.components.timer:TimerExists("shadowwathomcooldown")then
 			if not self.inst:HasTag("playerghost") and self.inst.ToggleUndeathState ~= nil then
 				self.inst:ToggleUndeathState(self.inst, false)
 			end
