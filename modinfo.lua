@@ -11,7 +11,7 @@ Wathom, the Forgotten Parody from 󰀕 Uncompromising Mode, is now available as 
 *Causes animals to panic
 *The faster he goes, the harder he falls
 
-Wathom completely changes the core fundamentals of gameplay; As he gains more and more Adrenaline through combat, he runs faster, hits harder, and leaps further. However, all it could take is one hit to wreck your health meter. Are you ready for the personification of Risk and Reward? 
+Wathom completely changes the core fundamentals of gameplay; As he gains more and more Adrenaline through combat, he runs faster, hits harder, and leaps further. However, all it could take is one hit to wreck your health meter. Are you ready for the personification of Risk and Reward?
 
 󰀏 Note: Disable this mod if running Uncompromising mode, as you will run into issues. Enable Wathom through the config menu instead!
 󰀏 Stay Up-to-Date on Wathom's development by joining Uncomp's Discord!
@@ -39,15 +39,7 @@ icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 
 server_filter_tags = {
-	"uncompromising",
 	"wathom",
-	"collab",
-	"overhaul",
-	"hard",
-	"difficult",
-	"madness",
-	"challenge",
-	"hardcore"
 }
 
 priority = -10
