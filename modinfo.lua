@@ -1,7 +1,6 @@
 name = "Wathom, the Forgotten Parody"
-description =
-[[
-󰀔 [ Version 1.0.2.1 : "Standalone Release" ]
+description = [[
+󰀔 [ Version 1.0.2.2 : "Standalone Release" ]
 
 "A hunter with an uncontrollable surplus of energy, Wathom lives on after crawling out of the Abyss he was imprisoned in."
 
@@ -20,7 +19,7 @@ Wathom completely changes the core fundamentals of gameplay; As he gains more an
 
 author = "󰀈 The Uncomp Dev Team 󰀈"
 
-version = "1.0.2.1"
+version = "1.0.2.2"
 
 forumthread = "/topic/111892-announcement-uncompromising-mode/"
 
@@ -38,44 +37,54 @@ all_clients_require_mod = true
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 
-server_filter_tags = {
-	"wathom",
-}
+server_filter_tags = {"wathom"}
 
 priority = -10
 
 ------------------------------
 -- local functions to makes things prettier
 local function BinaryConfig(name, label, hover, default)
-    return { name = name, label = label, hover = hover, options = { {description = "Enabled", data = true, hover = "Enabled."}, {description = "Disabled", data = false, hover = "Disabled."}, }, default = default, }
+    return {
+        name = name,
+        label = label,
+        hover = hover,
+        options = {
+            {description = "Enabled", data = true, hover = "Enabled."},
+            {description = "Disabled", data = false, hover = "Disabled."}
+        },
+        default = default
+    }
 end
 ------------------------------
 
-configuration_options =
-{
-	BinaryConfig("wathom_maxdmg", "Damage Cap", "Wathom's damage is capped at 600 to limit his absurd burst damage potential.", true),
-	{
-		name = "wathom_ampvulnerability",
-		label = "Amped Vulnerability",
-		hover = "Wathom takes more damage when amped.",
-		options =
-		{
-			{description = "5x (Default)", data = 5},
-			{description = "4x", data = 4},
-			{description = "3x", data = 3},
-			{description = "2x", data = 2},
-		},
-		default = 5,
-	},
-	{
-		name = "wathom_armordamage",
-		label = "Armor Damage Priority",
-		hover = "Wathom can take increased damage, choose if armor damage is ignored.",
-		options =
-		{
-			{description = "Include Armor", data = true, hover = "Wathom multiplies incoming damage by the current damage multiplier."},
-			{description = "Don't include armor", data = false, hover = "Wathom multiplies resulting damage by the current damage multiplier."},
-		},
-		default = true,
-	},
+configuration_options = {
+    BinaryConfig("wathom_maxdmg", "Damage Cap",
+                 "Wathom's damage is capped at 600 to limit his absurd burst damage potential.",
+                 true), {
+        name = "wathom_ampvulnerability",
+        label = "Amped Vulnerability",
+        hover = "Wathom takes more damage when amped.",
+        options = {
+            {description = "5x (Default)", data = 5},
+            {description = "4x", data = 4}, {description = "3x", data = 3},
+            {description = "2x", data = 2}
+        },
+        default = 5
+    }, {
+        name = "wathom_armordamage",
+        label = "Armor Damage Priority",
+        hover = "Wathom can take increased damage, choose if armor damage is ignored.",
+        options = {
+            {
+                description = "Include Armor",
+                data = true,
+                hover = "Wathom multiplies incoming damage by the current damage multiplier."
+            }, {
+                description = "Don't include armor",
+                data = false,
+                hover = "Wathom multiplies resulting damage by the current damage multiplier."
+            }
+        },
+        default = true
+    }
 }
