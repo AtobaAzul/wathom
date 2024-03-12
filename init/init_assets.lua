@@ -42,4 +42,6 @@ Assets = {
 
 	Asset("IMAGE", "bigportraits/wathom_triumphant.tex"),
 	Asset("ATLAS", "bigportraits/wathom_triumphant.xml"),
+
+    Asset("IMAGE", "images/colour_cubes/bat_vision_on_cc.tex")
 }

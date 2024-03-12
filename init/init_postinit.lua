@@ -11,7 +11,8 @@ local prefab_post = {
 
 local class_post = {
 	--example:
-	"widgets/bloodover"
+	"widgets/bloodover",
+    "widgets/controls",
 }
 
 for _, v in pairs(component_post) do
