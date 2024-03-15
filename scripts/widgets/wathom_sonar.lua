@@ -32,7 +32,6 @@ local Wathom_Sonar = Class(Widget, function(self, owner)
 end)
 
 function Wathom_Sonar:StartSonar()
-    
     if not self.active then
     self.time = self.transitiontimeIN
         self.alphagoal = 1
@@ -112,7 +111,6 @@ function Wathom_Sonar:UpdateAlpha(dt)
         mapping = Remap(self.time, self.transitiontimeIN, 0, 1, 0)
     end
     self.alpha = mapping --math.sin(PI * mapping)
-	
    -- if self.alpha > self.alphagoal then
     --    self.alpha = 0.0
     -- end
@@ -127,11 +125,7 @@ function Wathom_Sonar:OnUpdate(dt)
         local g1 = math.min(g * 1.5, 1)
         local b1 = math.min(b * 1.5, 1)
 		
-		
-		
-		
 		local alpha_bonus = TheWorld.state.isday and .5 or TheWorld.state.isdusk and .25 or 0
-		
 
         self.bg2:SetTint(0, 0, 0, (self.alpha - (self.current_adrenaline / 200)) - alpha_bonus)
     end
