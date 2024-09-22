@@ -10,6 +10,7 @@ ReloadPreloadAssets()
 
 modimport("init/init_gamemodes/init_uncompromising_mode")
 modimport("init/init_wathom")
+modimport("scripts/announcestrings.lua")
 
 local function WathomMusicToggle(level)
 	if level ~= nil then
