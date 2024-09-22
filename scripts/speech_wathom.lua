@@ -311,7 +311,7 @@ return{
             NEEDBEEF = "Beefalo required.",
             NEEDBEEF_CLOSER = "What, no, back here.",
             BEEF_HITCHED = "Ready.",
-            INMOOD = "Mating season, Obnoxious.",
+            INMOOD = "Mating season, obnoxious.",
         },
         MARK =
         {
@@ -461,7 +461,7 @@ return{
 	{
         "Halt, earthquakes.",
         "Spiteful, servitude.",
-        "Trade, appeasment.",
+        "Trade, appeasement.",
 	},
 	ANNOUNCE_SACREDCHEST_YES = "I am recognized.",
 	ANNOUNCE_SACREDCHEST_NO = "Curious, unrecognized.",
@@ -557,12 +557,12 @@ return{
 	ANNOUNCE_THORNS = "Rrf.",
 	ANNOUNCE_BURNT = "Too hot for my impish paws!",
 	ANNOUNCE_TORCH_OUT = "Farewell, sweet flame!",
-	ANNOUNCE_THURIBLE_OUT = "Shadow disappated. Skeleton hold fading!",
+	ANNOUNCE_THURIBLE_OUT = "Shadow dissipated. Skeleton hold fading!",
 	ANNOUNCE_FAN_OUT = "Subpar design.",
     ANNOUNCE_COMPASS_OUT = "Non-issue, land memorized.",
 	ANNOUNCE_TRAP_WENT_OFF = "Mistake.",
 	ANNOUNCE_UNIMPLEMENTED = "What on earth could it be!",
-	ANNOUNCE_WORMHOLE = "Displeased, felt each individual ridged.",
+	ANNOUNCE_WORMHOLE = "Displeased, felt each individual ridge.",
 	ANNOUNCE_TOWNPORTALTELEPORT = "Called forth.",
 	ANNOUNCE_CANFIX = "\nReconstruction possible.",
 	ANNOUNCE_ACCOMPLISHMENT = "I feel excellent about myself!",
@@ -893,7 +893,7 @@ return{
 
     ANNOUNCE_OFF_SCRIPT = "Speech, off script.",
 
-    ANNOUNCE_COZY_SLEEP = "Energy renewed, hungry..",
+    ANNOUNCE_COZY_SLEEP = "Energy renewed, hungry...",
 
 	--
 	ANNOUNCE_TOOL_TOOWEAK = "Chains... pillars... stronger implement.",
@@ -1258,7 +1258,7 @@ return{
 		{
 		    PLANT = "Halt. Moisture, creature giveaway.",
 		    DIRT = "Worms.",
-		    WORM = "Worm, basic. Excess energy, excerted in bite..",
+		    WORM = "Worm, basic. Excess energy, exerted in bite.",
 		},
         WORMLIGHT_PLANT = "Halt. Moisture, creature giveaway.",
 		MOLE =
@@ -1337,12 +1337,12 @@ return{
 		},
 		BISHOP_NIGHTMARE = "Displacement!",
 		ROOK_NIGHTMARE = "Obliteration!",
-		KNIGHT_NIGHTMARE = "Persistance!",
+		KNIGHT_NIGHTMARE = "Persistence!",
 		MINOTAUR = "Your belongings, I require.",
 		SPIDER_DROPPER = "Hundreds, thousands above. Ceiling littered, colonies.",
 		NIGHTMARELIGHT = "Warning me. Similar fates, ones before.\n Maybe...",
-		NIGHTSTICK = "Electrical conductivity. Hydrophillic.",
-		GREENGEM = "Ravellation Magic.",
+		NIGHTSTICK = "Electrical conductivity. Hydrophilic.",
+		GREENGEM = "Ravellation magic.",
 		MULTITOOL_AXE_PICKAXE = "Tools, ancients. Civilization, truly advanced.",
 		ORANGESTAFF = "Teleportation focus, mobile.",
 		YELLOWAMULET = "Throbs with my heart!",
@@ -1371,7 +1371,7 @@ return{
 		STAFFLIGHT = "Overabundance, nightmare fuel. Light generation cause, collapse.",
         STAFFCOLDLIGHT = "Explanation, unable. Curious.",
 
-        ANCIENT_ALTAR = "Direct line, ancient knowledge. Perhaps, diety.\n Prayed sometimes. Days, weeks. Mistake, seemingly.",
+        ANCIENT_ALTAR = "Direct line, ancient knowledge. Perhaps, deity.\n Prayed sometimes. Days, weeks. Mistake, seemingly.",
 
         ANCIENT_ALTAR_BROKEN = "Ancient structure, multipurpose. Workshop, shrine, gathering.",
 
@@ -1606,7 +1606,7 @@ return{
 		    SLEEPING = "Now, perfect time.",
         },
         BUNDLE = "Condensed, space management, optimal.",
-        BUNDLEWRAP = "Increased durability, Wax.",
+        BUNDLEWRAP = "Increased durability, wax.",
 		BACKPACK = "For trinkets, baubles.",
 		BACONEGGS = "Ah! Pleasant awakening.",
 		BANDAGE = "I will live.",
@@ -1614,7 +1614,7 @@ return{
 		BEARDHAIR = "Hair, either human, deranged rabbit.",
 		BEARGER = "Slow arms! Ha ha!",
 		BEARGERVEST = "Trinket, another false apex.",
-		ICEPACK = "Preferrable, long expiditions.",
+		ICEPACK = "Preferable, long expeditions.",
 		BEARGER_FUR = "Required, winter hibernation.",
 		BEDROLL_STRAW = "To lay my sweet little head down.",
 		BEEQUEEN = "Loud! Screeching!!",
@@ -1790,7 +1790,7 @@ return{
 		CATCOON = "Bigger, once. Bipedal.",
 		CATCOONDEN =
 		{
-			GENERIC = "Hallow log. Home, woodland creatures.",
+			GENERIC = "Hollow log. Home, woodland creatures.",
 			EMPTY = "Breathing, not heard.",
 		},
 		CATCOONHAT = "Beefalo, warmer.",
@@ -1849,7 +1849,7 @@ return{
         CHESSPIECE_BEEQUEEN = "Another dead.",
         CHESSPIECE_ANTLION = "Should have dug away.",
         CHESSPIECE_BEEFALO = "Hungry.",
-		CHESSPIECE_KITCOON = "Misunderstanding. \"cute\", meaning?",
+		CHESSPIECE_KITCOON = "Misunderstanding. \"Cute\", meaning?",
 		CHESSPIECE_CATCOON = "Hungry.",
         CHESSPIECE_MANRABBIT = "Lifeless, brainless.",
         CHESSPIECE_GUARDIANPHASE3 = "Elder man, knowledge stolen!",
@@ -1862,7 +1862,7 @@ return{
         CHESSJUNK1 = "Maker's work. Unfinished. Unwelcomed, his perversions.",
         CHESSJUNK2 = "Maker's work. Unfinished. Unwelcomed, his perversions.",
         CHESSJUNK3 = "Maker's work. Unfinished. Unwelcomed, his perversions.",
-		CHESTER = "Spontanious regurgitation. Multi-stomached. Hutch, evolution?",
+		CHESTER = "Spontaneous regurgitation. Multi-stomached. Hutch, evolution?",
 		CHESTER_EYEBONE =
 		{
 			GENERIC = "Curious. Chester's sight, connected? If covered, blind?",
@@ -1913,7 +1913,7 @@ return{
 			GENERIC = "Venizen!",
 			ANTLER = "Horn prominent.",
 		},
-        DEER_ANTLER = "key hole, deer head?",
+        DEER_ANTLER = "Key hole, deer head?",
         DEER_GEMMED = "Gems, mammals, natural combination.",
 		DEERCLOPS = "Faux Apex.",
 		DEERCLOPS_EYEBALL = "Success, no doubts.",
@@ -2142,10 +2142,10 @@ return{
 		FURTUFT = "Byproduct of hunt.",
 		GEARS = "Blessings counted. Creation process, mechanisms uninvolved.",
 		GHOST = "Vessel lost. Here, the outcome.",
-		GOLDENAXE = "Labourous tasks, tool molding.",
+		GOLDENAXE = "Laborious tasks, tool molding.",
 		GOLDENPICKAXE = "Exploration's favorite.",
 		GOLDENPITCHFORK = "Why.",
-		GOLDENSHOVEL = "Long expiditions.",
+		GOLDENSHOVEL = "Long expeditions.",
 		GOLDNUGGET = "Useful metals here, few, far between.",
 		GRASS =
 		{
@@ -2237,8 +2237,8 @@ return{
 		KOALEFANT_CARCASS = "Deceased, meat taken. Another predator?",
 		KRAMPUS = "Klaus-born!",
 		KRAMPUS_SACK = "Karmic enchantments, Klaus-born.",
-		LEIF = "Tree guardian; Fauna corrupted.",
-		LEIF_SPARSE = "Tree guardian; Fauna corrupted.",
+		LEIF = "Tree guardian; flora corrupted.",
+		LEIF_SPARSE = "Tree guardian; flora corrupted.",
 		LIGHTER  = "Owner worrisome, not tool.",
 		LIGHTNING_ROD =
 		{
@@ -2247,7 +2247,7 @@ return{
 		},
 		LIGHTNINGGOAT =
 		{
-			GENERIC = "Endangered; Prey to dogs.",
+			GENERIC = "Endangered; prey to dogs.",
 			CHARGED = "Wire-like anatomy. Conductive, offensive.",
 		},
 		LIGHTNINGGOATHORN = "Electric utility, knowledge lacking. Curious.",
@@ -2260,7 +2260,7 @@ return{
 			GENERIC = "Tree logs, basic purposes.",
 		},
 		LUCY = "Suspicion, curse's source.",
-		LUREPLANT = "Lureplant infestation. Propogate, springtime.",
+		LUREPLANT = "Lureplant infestation. Propagate, springtime.",
 		LUREPLANTBULB = "Curious. Assumption, faux optics?",
 		MALE_PUPPET = "Man.", --single player
 
@@ -2268,7 +2268,7 @@ return{
 		MANDRAKE_PLANTED = "Mandrake! Potent regeneration, rare flora!",
 		MANDRAKE = "Properties remain, regeneration. Use wisely - no natural growth.",
 
-        MANDRAKESOUP = "Magic propogation, hot broth.",
+        MANDRAKESOUP = "Magic propagation, hot broth.",
         MANDRAKE_COOKED = "Use it well.",
         MAPSCROLL = "Direction sense, exceptional. For others, moreso.",
         MARBLE = "Structural material. Lackluster, tool durability.",
@@ -2311,7 +2311,7 @@ return{
             DRYING_NOTMEAT = "Still drying.",
             DRYINGINRAIN_NOTMEAT = "Likeminded, rain distaste.",
         },
-        MEAT_DRIED = "Fat-less, stimulates healing.",
+        MEAT_DRIED = "Fatless, stimulates healing.",
         MERM = "Mysteries themselves, long-lasting species.",
         MERMHEAD =
         {
@@ -2325,14 +2325,14 @@ return{
         },
         MINERHAT = "For surface creatures.",
         MONKEY = "Relocated here, maker's choice. An unfunny joke.",
-        MONKEYBARREL = "Colony, mud monkeys. Ruins, closeby.",
+        MONKEYBARREL = "Colony, mud monkeys. Ruins, close by.",
         MONSTERLASAGNA = "Exceptional effort, purpose?",
         FLOWERSALAD = "Not for me.",
         ICECREAM = "Bleh! Too sweet, too sweet!",
         WATERMELONICLE = "Internal temperature, lowered.",
         TRAILMIX = "Contents, remember?",
         HOTCHILI = "...Ah! Blagh! Hot!?",
-        GUACAMOLE = "Moleworm extremeties, flavor additive.",
+        GUACAMOLE = "Moleworm extremities, flavor additive.",
         MONSTERMEAT = "Partial fat, partial poison. Beneficial, neither half.",
         MONSTERMEAT_DRIED = "Fat removed. Poisons remain.",
 		MOOSE = { "Migrating Moose. Origin unknown.", "Migrating Goose. Origin unknown.", },
@@ -2342,7 +2342,7 @@ return{
         FEATHERFAN = "Summer-free, caverns...",
         MINIFAN = "Really?",
         GOOSE_FEATHER = "Conductivity, electrical. Curious, elemental creature?",
-        STAFF_TORNADO = "Aggrovation, climate.",
+        STAFF_TORNADO = "Aggravation, climate.",
         MOSQUITO =
         {
             GENERIC = "Don't.",
@@ -2358,7 +2358,7 @@ return{
         NIGHTMAREFUEL = "My flesh, my blood.",
         NIGHTSWORD = "To live, to sacrifice.",
         NITRE = "Endothermic, flora-stimulating mineral.",
-        ONEMANBAND = "My presense, remove it!",
+        ONEMANBAND = "My presence, remove it!",
         OASISLAKE =
 		{
 			GENERIC = "Deceptively deep...",
@@ -2416,7 +2416,7 @@ return{
         POMEGRANATE = "Liquid full.",
         POMEGRANATE_COOKED = "Storage pack, liquid stained!",
         POMEGRANATE_SEEDS = "Seeds.",
-        POND = "Utop fish pond, reflection... Looked better, before.",
+        POND = "Atop fish pond, reflection... Looked better, before.",
         POOP = "Obscuration, nearby scents.",
         FERTILIZER = "Eludes me, agriculture.",
         PUMPKIN = "Large vegetation.",
@@ -2450,7 +2450,7 @@ return{
         RED_CAP_COOKED = "Dried out, poison. Hallucinagens remain.",
         RED_MUSHROOM =
         {
-		GENERIC = "Red, assumably? Relied sense, auditory; Visual lacking.",
+		GENERIC = "Red, assumably? Relied sense, auditory; visual lacking.",
 		INGROUND = "Common mushroom. Type unknown.",
 		PICKED = "Already growing.",
         },
@@ -2532,7 +2532,7 @@ return{
         SADDLE_BASIC = "Mounted animal, limiting. Myself, held back.",
         SADDLE_RACE = "Mounted animal, limiting. Myself, held back.",
         SADDLE_WAR = "Mounted animal, limiting. Myself, held back.",
-        SADDLEHORN = "Mount, bigger target. Maintainence practicality, unseen personal.",
+        SADDLEHORN = "Mount, bigger target. Maintenence practicality, unseen personal.",
         SALTLICK = "Beefalo, mind not taste. Diet, grass, dirt, rocks now.",
         BRUSH = "Dirt, knots, parasites combed.",
 		SANITYROCK =
@@ -2600,7 +2600,7 @@ return{
 		SKULLCHEST = "Subplanar magic, could learn more.", --removed
 		SMALLBIRD =
 		{
-			GENERIC = "Tallbird adolesent. Pet, sentimental.",
+			GENERIC = "Tallbird adolescent. Pet, sentimental.",
 			HUNGRY = "Tallbird, hunger.",
 			STARVING = "If valued, sentimental, feed it now.",
 			SLEEPING = "Prey, easiest possible.",
@@ -2806,12 +2806,12 @@ return{
 		HALLOWEEN_ORNAMENT_5 = "Adornments cosmetic.",
 		HALLOWEEN_ORNAMENT_6 = "Adornments cosmetic.",
 
-		HALLOWEENPOTION_DRINKS_WEAK = "Elixr, potency lacking.",
-		HALLOWEENPOTION_DRINKS_POTENT = "Elixr, potent.",
-        HALLOWEENPOTION_BRAVERY = "Supression, flight response.",
+		HALLOWEENPOTION_DRINKS_WEAK = "Elixir, potency lacking.",
+		HALLOWEENPOTION_DRINKS_POTENT = "Elixir, potent.",
+        HALLOWEENPOTION_BRAVERY = "Suppression, flight response.",
 		HALLOWEENPOTION_MOON = "Alter transmutation.",
 		HALLOWEENPOTION_FIRE_FX = "Alert!",
-		MADSCIENCE_LAB = "Brewery, middling elixrs.",
+		MADSCIENCE_LAB = "Brewery, middling elixirs.",
 		LIVINGTREE_ROOT = "Unnatural growth, forced.",
 		LIVINGTREE_SAPLING = "Sapling state lacking, living trees, natural.",
 
@@ -2934,7 +2934,7 @@ return{
         YOTC_CARRAT_SCALE =
         {
             GENERIC = "Ability measurement.",
-            CARRAT = "Dissapointing.",
+            CARRAT = "Disappointing.",
             CARRAT_GOOD = "Satisfactory.",
             BURNT = "We will live.",
         },
@@ -3013,7 +3013,7 @@ return{
 		WALL_WOOD_ITEM = "Now, weight compounded.",
 		WALL_MOONROCK = "Physical obstruction, protection.",
 		WALL_MOONROCK_ITEM = "Now, weight compounded.",
-		WALL_DREADSTONE = "Encased, entraped. Eternity, felt like.",
+		WALL_DREADSTONE = "Encased, entrapped. Eternity, felt like.",
 		WALL_DREADSTONE_ITEM = "Prison, known. Do not wish to re-live.",
 		WALL_SCRAP = "Weak, material inefficient.",
         WALL_SCRAP_ITEM = "Weak, material inefficient.",
@@ -3087,7 +3087,7 @@ return{
 
 		WINTERSFEASTOVEN =
 		{
-			GENERIC = "Survival atmosphere, too extravogant.",
+			GENERIC = "Survival atmosphere, too extravagant.",
 			COOKING = "Magic imbuing. Category uncertain.",
 			ALMOST_DONE_COOKING = "Nearing completion, magic imbuement.",
 			DISH_READY = "Contents revealed.",
@@ -3144,7 +3144,7 @@ return{
 			LINE_1 = "Story, memorized. Ancient Civilization, insectoid-like.",
 			LINE_2 = "Nightmare fuel, discovered.",
 			LINE_3 = "Applied, accepted, utilized... Dependent.",
-			LINE_4 = "Physical conversions. Mental degredation.",
+			LINE_4 = "Physical conversions. Mental degradation.",
 			LINE_5 = "... Extinction.",
 		},
         ATRIUM_STATUE = "I am close. So close.",
@@ -3162,7 +3162,7 @@ return{
 			COOLDOWN = "Focus power, remanifesting. Still operational.",
         },
         ATRIUM_KEY = "Curious, Guardian's treasure. Important, highly.",
-		LIFEINJECTOR = "Degredation counter-acted.",
+		LIFEINJECTOR = "Degradation counter-acted.",
 		SKELETON_PLAYER =
 		{
 			MALE = "%s, dead. Cause, %s.",
@@ -3443,7 +3443,7 @@ return{
         --v2 Winona
         WINONA_CATAPULT =
         {
-        	GENERIC = "Simple atomaton, flings rocks.",
+        	GENERIC = "Simple automaton, flings rocks.",
         	OFF = "Drained, lifeless.",
         	BURNING = "Unfortunate.",
         	BURNT = "Unfortunate.",
@@ -3531,7 +3531,7 @@ return{
         DEAD_SEA_BONES = "Removed from water, 'beached'. Slow death.",
         HOTSPRING =
         {
-        	GENERIC = "Hot water, good for skin. Bad for chittin.", -- scrimbles do a google, does chittin check out?
+        	GENERIC = "Hot water, good for skin. Bad for chitin.", -- scrimbles do a google, does chittin check out?
         	BOMBED = "Reaction, violent.",
         	GLASS = "Heat, pressure. Transforms water?",
 			EMPTY = "Water returns, slowly.",
@@ -3549,7 +3549,7 @@ return{
         SPIDER_MOON =
         {
         	GENERIC = "Mutation, lunar induced.",
-        	SLEEPING = "Sleeping, perfect for ambush..",
+        	SLEEPING = "Sleeping, perfect for ambush.",
         	DEAD = "Dead.",
         },
         MOONSPIDERDEN = "Spider Queen, crushed, mutated.",
@@ -3577,7 +3577,7 @@ return{
         ICEBERG_MELTED = "Returns to the sea", --unimplemented
 
         MINIFLARE = "Provides light.",
-        MEGAFLARE = "colored light? Unsure.",
+        MEGAFLARE = "Colored light? Unsure.",
 
 		MOON_FISSURE =
 		{
@@ -3644,7 +3644,7 @@ return{
 		BULLKELP_ROOT = "In water, could plant. No use to me.",
         KELPHAT = "Uncomfortable, madness inducing.",
 		KELP = "Useless to me, leaves residue.",
-		KELP_COOKED = "Useles to me, bad smells.",
+		KELP_COOKED = "Useless to me, bad smells.",
 		KELP_DRIED = "Dried, cracking. Still useless.",
 
 		GESTALT = "They do not like me.",
@@ -3659,7 +3659,7 @@ return{
 			MINED_OUT = "Gone.",
 			GROWING = "Regrowing, collecting.",
 		},
-		SALTROCK = " Useful material.",
+		SALTROCK = "Useful material.",
 		SALTBOX = "Food preservation, storage limited.",
 
 		TACKLESTATION = "Tools, tactics.",
@@ -3683,8 +3683,8 @@ return{
 
         WALKINGPLANK = "Abandon ship, if situation dangerous.",
         WALKINGPLANK_GRASS = "Abandon ship, if situation dangerous.",
-        OAR = "Phyiscal instrument, acceleration.",
-		OAR_DRIFTWOOD = "Phyiscal instrument, acceleration.",
+        OAR = "Physical instrument, acceleration.",
+		OAR_DRIFTWOOD = "Physical instrument, acceleration.",
 
 		OCEANFISHINGROD = "Advanced tool, hunting, baiting.",
 		OCEANFISHINGBOBBER_NONE = "Floating, baiting.",
@@ -3733,11 +3733,11 @@ return{
 
         FISHMEAT = "Fish meat. Delicious.",
         FISHMEAT_COOKED = "Fish meat. Cooked. Delicious.",
-        FISHMEAT_SMALL = "Fish meat, limited. Unfufilling.",
-        FISHMEAT_SMALL_COOKED = "Fish meat, cooked. Still unfufilling.",
-		SPOILED_FISH = "Fou smell, disgusting.",
+        FISHMEAT_SMALL = "Fish meat, limited. Unfulfilling.",
+        FISHMEAT_SMALL_COOKED = "Fish meat, cooked. Still unfulfilling.",
+		SPOILED_FISH = "Foul smell, disgusting.",
 
-		FISH_BOX = "Small space, stores fish. Makes aggrivating noise.", --spelling
+		FISH_BOX = "Small space, stores fish. Makes aggravating noise.", --spelling
         POCKET_SCALE = "Measures weight. Fish, specified. For show?",
 
 		TACKLECONTAINER = "Tools, contained. For fishing.",
@@ -3805,7 +3805,7 @@ return{
         SUNKENCHEST =
         {
             GENERIC = "Mysterious object. Lost, then retrieved.", -- spelling
-            LOCKED = "Locked, cannot breat.",
+            LOCKED = "Locked, cannot break.",
         },
 
         HERMIT_BUNDLE = "zzz remind scrimbles to look these up.", -- SCRIMBLES LOOK UP WHAT THESE ARE
@@ -3825,8 +3825,8 @@ return{
         },
         WOBYSMALL =
         {
-            "Canime, small. No threat.",
-            "Canime, small. No threat.",
+            "Canine, small. No threat.",
+            "Canine, small. No threat.",
         },
 		WALTERHAT = "Small, unprotective. Symbolic?",
 		SLINGSHOT = "Ineffective weapon.",
@@ -3886,7 +3886,7 @@ return{
 
 			COOKING_LONG = "Meantime, hunting time.",
 			COOKING_SHORT = "Momentary.",
-			EMPTY = "Fruit, vegetables, majority incompatible. However, nutritous accessory.",
+			EMPTY = "Fruit, vegetables, majority incompatible. However, nutritious accessory.",
         },
 
         PORTABLEBLENDER_ITEM = "Grinding machine, produces flavor powder.",
@@ -3982,7 +3982,7 @@ return{
 
         CRABKING =
         {
-            GENERIC = "Power, self inposed. Smash it.",
+            GENERIC = "Power, self-imposed. Smash it.",
             INERT = "Walls, fragile to time. Build and build again.",
         },
 		CRABKING_CLAW = "Claws!",
@@ -4040,7 +4040,7 @@ return{
         LEAFLOAF = "Meat-like, but not.",
         LEAFYMEATBURGER = "Strange form, others enjoy it.",
         LEAFYMEATSOUFFLE = "Protein, no meat smell.",
-        MEATYSALAD = "Dislike 'salad'.", -- zzz can wathom eat any of this...?
+        MEATYSALAD = "Dislike 'salad'.", -- zzz can wathom eat any of this...? /Yes wathom can eat all leafy meat dishes
 
         -- GROTTO
 
@@ -4049,7 +4049,7 @@ return{
 
         BATNOSE = "Edible, in dire situations.",
         BATNOSE_COOKED = "Food. Servicable.",
-        BATNOSEHAT = "Rediculous device. 'Embarassment' known.", -- zzz / spelling
+        BATNOSEHAT = "Ridiculous device. \"Embarrassment\" known.", -- zzz / spelling
 
         MUSHGNOME = "Animate inanimate, lunar influence.",
 
@@ -4078,7 +4078,7 @@ return{
 			COOKING_LONG = "Meantime, hunting time.",
 			COOKING_SHORT = "Momentary.",
 			DONE = "Food, equals food.",
-			EMPTY = "Fruit, vegetables, majority incompatible. However, nutritous accessory.",
+			EMPTY = "Fruit, vegetables, majority incompatible. However, nutritious accessory.",
 			BURNT = "How, mistake? Simple task, flames below!",
         },
 
@@ -4193,20 +4193,20 @@ return{
 			BURNT = "Gone.",
         },
 
-        CARROT_OVERSIZED = "Large vegetable. Still, inedible",
-        CORN_OVERSIZED = "Large vegetable. Still, inedible",
-        PUMPKIN_OVERSIZED = "Large vegetable. Still, inedible",
-        EGGPLANT_OVERSIZED = "Large vegetable. Still, inedible",
-        DURIAN_OVERSIZED = "Large fruit. Still, inedible",
-        POMEGRANATE_OVERSIZED = "Large fruit. Still, inedible",
-        DRAGONFRUIT_OVERSIZED = "Large fruit. Still, inedible",
-        WATERMELON_OVERSIZED = "Large fruit. Still, inedible",
-        TOMATO_OVERSIZED = "Large fruit. Still, inedible",
-        POTATO_OVERSIZED = "Large vegetable. Still, inedible",
-        ASPARAGUS_OVERSIZED = "Large vegetable. Still, inedible",
-        ONION_OVERSIZED = "Large vegetable. Still, inedible",
-        GARLIC_OVERSIZED = "Large vegetable. Still, inedible",
-        PEPPER_OVERSIZED = "Large vegetable. Still, inedible",
+        CARROT_OVERSIZED = "Large vegetable. Still, inedible.",
+        CORN_OVERSIZED = "Large vegetable. Still, inedible.",
+        PUMPKIN_OVERSIZED = "Large vegetable. Still, inedible.",
+        EGGPLANT_OVERSIZED = "Large vegetable. Still, inedible.",
+        DURIAN_OVERSIZED = "Large fruit. Still, inedible.",
+        POMEGRANATE_OVERSIZED = "Large fruit. Still, inedible.",
+        DRAGONFRUIT_OVERSIZED = "Large fruit. Still, inedible.",
+        WATERMELON_OVERSIZED = "Large fruit. Still, inedible.",
+        TOMATO_OVERSIZED = "Large fruit. Still, inedible.",
+        POTATO_OVERSIZED = "Large vegetable. Still, inedible.",
+        ASPARAGUS_OVERSIZED = "Large vegetable. Still, inedible.",
+        ONION_OVERSIZED = "Large vegetable. Still, inedible.",
+        GARLIC_OVERSIZED = "Large vegetable. Still, inedible.",
+        PEPPER_OVERSIZED = "Large vegetable. Still, inedible.",
 
         VEGGIE_OVERSIZED_ROTTEN = "Large vegetable. Rotted.",
 
@@ -4225,9 +4225,9 @@ return{
 		},
 
         FRUITFLY = "Pest, infests crops. Irritating.",
-        LORDFRUITFLY = "Pests leader, invasive, irritating.",
+        LORDFRUITFLY = "Pests' leader, invasive, irritating.",
         FRIENDLYFRUITFLY = "Pacified, helpful.",
-        FRUITFLYFRUIT = "Pheremones, controls the lesser ones.",
+        FRUITFLYFRUIT = "Pheromones, controls the lesser ones.",
 
         SEEDPOUCH = "Storage, for plant seeds.",
 
@@ -4347,9 +4347,9 @@ return{
 		CARNIVAL_SEEDPACKET = "Cannot digest, useless to me.",
 		CARNIVALFOOD_CORNTEA = "Liquid, contains chunks.",
 
-        CARNIVAL_VEST_A = "Camoflage.", -- zzz look up colors for a b c
-        CARNIVAL_VEST_B = "Camoflage.",
-        CARNIVAL_VEST_C = "Camoflage.",
+        CARNIVAL_VEST_A = "Camouflage.", -- red scarf
+        CARNIVAL_VEST_B = "Camouflage.", -- green cloak
+        CARNIVAL_VEST_C = "Camouflage.", -- yellow capelet
 
         -- YOTB
         YOTB_SEWINGMACHINE = "For repairing? For creation.",
@@ -4408,8 +4408,8 @@ return{
         NATURE_BLUEPRINT = "All natural.",
         FORMAL_BLUEPRINT = "Elegant.",
         VICTORIAN_BLUEPRINT = "Ancient fashion, from another world.",
-        ICE_BLUEPRINT = "Frozen..",
-        BEAST_BLUEPRINT = "Fearson, scare opponents.",
+        ICE_BLUEPRINT = "Frozen.",
+        BEAST_BLUEPRINT = "Fearsome, scare opponents.",
 
         BEEF_BELL = "Controlling noise, instinctive.", -- spelling
 
@@ -4428,7 +4428,7 @@ return{
 		{
 			GENERIC = "Searching, hunting.",
 			ABANDONED = "I'll find, alone.",
-			SUCCESS = "Ally, hunt succesful",
+			SUCCESS = "Ally, hunt successful",
 			LOST_TRACK = "Mark found, too late.",
 			NEARBY = "Closing in.",
 			TRACKING = "On the hunt, I will follow.",
@@ -4543,7 +4543,7 @@ return{
 		},
 
         POCKETWATCH_PARTS = "Magic, technology, combined. Knowledge gained, how?",
-        POCKETWATCH_DISMANTLER = "Clockmakers tool.",
+        POCKETWATCH_DISMANTLER = "Clockmaker's tool.",
 
         POCKETWATCH_PORTAL_ENTRANCE =
 		{
@@ -4556,7 +4556,7 @@ return{
         WATERTREE_PILLAR = "Size, impressive. Magically altered?",
         OCEANTREE = "Water, all around, lives in its food source.",
         OCEANTREENUT = "To be planted, waiting.",
-        WATERTREE_ROOT = "Spreding, entangling.",
+        WATERTREE_ROOT = "Spreading, entangling.",
 
         OCEANTREE_PILLAR = "Size, impressive. Growth? Surprising.",
 
@@ -4564,7 +4564,7 @@ return{
         FIG = "Another incompatible food.",
         FIG_COOKED = "No good.",
 
-        SPIDER_WATER = "Adapted to enviornments.",
+        SPIDER_WATER = "Adapted to environment.",
         MUTATOR_WATER = "Not food. Refuse to eat.",
         OCEANVINE_COCOON = "Home of the water predator.",
         OCEANVINE_COCOON_BURNT = "Home, no longer.",
@@ -4580,9 +4580,9 @@ return{
 
         -- The Terrorarium
         TERRARIUM = {
-            GENERIC = "Another dimesion, connected.",
+            GENERIC = "Another dimension, connected.",
             CRIMSON = "Fueled, reacting typically.",
-            ENABLED = "Suprising, bad feeling.",
+            ENABLED = "Surprising, bad feeling.",
 			WAITING_FOR_DARK = "It grows in darkness.",
 			COOLDOWN = "Regenerating.",
 			SPAWN_DISABLED = "Magic, inert.",
@@ -4601,7 +4601,7 @@ return{
         DUMBBELL_GEM = "Magic, inert. It is just heavier.",
         POTATOSACK = "Potato storage.",
 
-        DUMBBELL_HEAT = "Takes properties of enviornment.",
+        DUMBBELL_HEAT = "Takes properties of environment.",
         DUMBBELL_REDGEM = "Waste of magic.",
         DUMBBELL_BLUEGEM = "Waste of magic.",
 
@@ -4639,7 +4639,7 @@ return{
 		},
 		COTL_TABERNACLE_LEVEL2 =
 		{
-			LIT = "Illuminates Magical prescence.", -- spelling, precense pressence uhhh
+			LIT = "Illuminates. Magical presence.", -- spelling, precense pressence uhhh
 			GENERIC = "Fire, could host.",
 		},
 		COTL_TABERNACLE_LEVEL3 =
@@ -4685,7 +4685,7 @@ return{
 
         WX78_SCANNER =
         {
-            GENERIC ="Automaton, similar to Ancients design.",
+            GENERIC ="Automaton, similar to Ancients' design.",
             HUNTING = "Hunting.",
             SCANNING = "Something, found.",
         },
@@ -4693,7 +4693,7 @@ return{
         WX78_SCANNER_ITEM = "Inactive, safe this way.",
         WX78_SCANNER_SUCCEEDED = "Knowledge, contained. Waiting to share.",
 
-        WX78_MODULEREMOVER = "Disasembly implement.", -- spelling : disasembly??
+        WX78_MODULEREMOVER = "Disassembly implement.", -- spelling : disasembly??
 
         SCANDATA = "Cannot read this.",
 
@@ -4709,7 +4709,7 @@ return{
         BOAT_ROTATOR_KIT = "Machinery, spins around.",
         BOAT_BUMPER_KELP = "Weak cushioning, inefficient.",
         BOAT_BUMPER_KELP_KIT = "Like cloth, little protection.",
-        BOAT_BUMPER_SHELL = "Another creatures protection, once. Now ours.",
+        BOAT_BUMPER_SHELL = "Another creature's protection, once. Now ours.",
         BOAT_BUMPER_SHELL_KIT = "Shell, repurposed.",
         BOAT_CANNON = {
             GENERIC = "War machinery.",
@@ -4730,7 +4730,7 @@ return{
 
         BOAT_MAGNET =
         {
-            GENERIC = "Facinating, magnets. How do they work?", -- spelling: facinating
+            GENERIC = "Fascinating, magnets. How do they work?", -- spelling: facinating
             ACTIVATED = "Invisible force, at work.",
         },
         BOAT_MAGNET_KIT = "Practical use, unclear.",
@@ -4745,10 +4745,10 @@ return{
 
         MONKEYHUT =
         {
-            GENERIC = "Stable land, preferabble. Height... worrysome.", -- spelling: worrysome worry-some? 
+            GENERIC = "Stable land, preferable. Height... worrysome.", -- spelling: worrysome worry-some? 
             BURNT = "Flammable, regardless.",
         },
-        POWDER_MONKEY = "Semi intelligent, dangerous all the same.",
+        POWDER_MONKEY = "Semi-intelligent, dangerous all the same.",
         PRIME_MATE = "Leader, prime target.", -- HEHEHE SCRIMBLES WUZ HERE
 		LIGHTCRAB = "Anti defense mechanism.",
         CUTLESS = "Wood, poor material for weapons.",
@@ -4760,23 +4760,23 @@ return{
         PALMCONE_SEED = "Tree, infant.",
         PALMCONE_SAPLING = "Thin, weak.",
         PALMCONE_SCALE = "Tree, armored.",
-        MONKEYTAIL = "Inedible. Practical use, unsure..",
+        MONKEYTAIL = "Inedible. Practical use, unsure.",
         DUG_MONKEYTAIL = "Plant, waiting for dirt.",
 
         MONKEY_MEDIUMHAT = "Imposing, sea hat.",
         MONKEY_SMALLHAT = "Keeps dry.",
         POLLY_ROGERSHAT = "Some magic, strange.",
-        POLLY_ROGERS = "Search, retreive.", -- spelling : retreive
+        POLLY_ROGERS = "Search, retrieve.", -- spelling : retreive
 
         MONKEYISLAND_PORTAL = "Portal, one way.",
-        MONKEYISLAND_PORTAL_DEBRIS = "Machinesry, distant transportation.",
+        MONKEYISLAND_PORTAL_DEBRIS = "Machinery, distant transportation.",
         MONKEYQUEEN = "Ruler. Lazy, demanding.",
         MONKEYPILLAR = "Material does not belong to them.",
         PIRATE_FLAG_POLE = "Symbols.",
 
         BLACKFLAG = "Symbolic, death.",
         PIRATE_STASH = "Treasure, stored here.",
-        STASH_MAP = "Guidance, treausre hidden?",
+        STASH_MAP = "Guidance, treasure hidden?",
 
         BANANAJUICE = "Inedible.",
 
@@ -4869,8 +4869,8 @@ return{
 		DREADSTONEHAT = "Encased, armored.",
 
         -- Rifts 1
-        LUNARRIFT_PORTAL = "Lunar precense, broken through", -- spelling : precense
-        LUNARRIFT_CRYSTAL = "Lunar prescence, manifested.",
+        LUNARRIFT_PORTAL = "Lunar presence, broken through", -- spelling : precense
+        LUNARRIFT_CRYSTAL = "Lunar presence, manifested.",
 
         LUNARTHRALL_PLANT = "Vegetation, sentient. Dangerous.",
         LUNARTHRALL_PLANT_VINE_END = "Stinging, thrashing.",
@@ -4927,7 +4927,7 @@ return{
 
         LEIF_IDOL = "Magic infused, call of the forest.",
         WOODCARVEDHAT = "Flammable, protective.",
-        WALKING_STICK = "Locmotion, assisted.",
+        WALKING_STICK = "Locomotion, assisted.",
 
         IPECACSYRUP = "Food, not for me.",
         BOMB_LUNARPLANT_WORMWOOD = "Stronger, dangerous.", -- Unused
@@ -5084,7 +5084,7 @@ return{
         -- Year of the Dragon
         YOTD_DRAGONSHRINE =
         {
-            GENERIC = "Alter, praise.",
+            GENERIC = "Altar, praise.",
             EMPTY = "Ash, required.",
             BURNT = "Useless.",
         },
@@ -5144,7 +5144,7 @@ return{
 
     DESCRIBE_PLANTHAPPY = "Conditions optimal. Thriving.",
     DESCRIBE_PLANTVERYSTRESSED = "Conditions dangerous, dying.",
-    DESCRIBE_PLANTSTRESSED = "Stress, mounting..",
+    DESCRIBE_PLANTSTRESSED = "Stress, mounting.",
     DESCRIBE_PLANTSTRESSORKILLJOYS = "Weeds, invasive.",
     DESCRIBE_PLANTSTRESSORFAMILY = "Lonely.",
     DESCRIBE_PLANTSTRESSOROVERCROWDING = "Surrounded, too many.",
