@@ -555,8 +555,8 @@ return{
 	ANNOUNCE_RESEARCH = "My mind has expanded!",
 	ANNOUNCE_SHELTER = "Dislike, rain.",
 	ANNOUNCE_THORNS = "Rrf.",
-	ANNOUNCE_BURNT = "Too hot for my impish paws!",
-	ANNOUNCE_TORCH_OUT = "Farewell, sweet flame!",
+	ANNOUNCE_BURNT = "Rrf.", --previously used Wortox's quote, changed to match thorns damage
+	ANNOUNCE_TORCH_OUT = "Extinguished.", --previously used Wortox's quote
 	ANNOUNCE_THURIBLE_OUT = "Shadow dissipated. Skeleton hold fading!",
 	ANNOUNCE_FAN_OUT = "Subpar design.",
     ANNOUNCE_COMPASS_OUT = "Non-issue, land memorized.",
@@ -938,7 +938,7 @@ return{
 	{
 		GENERIC = "Rrah!",
 		PIG = "Fat, mouthful craving!",
-		PREY = "I want to play!",
+		PREY = "Rrah!", --changed to default rather than using Wortox's quote
 		SPIDER = "Light snack!",
 		SPIDER_WARRIOR = "Who jump faster?",
 		DEER = "Venizen!",
