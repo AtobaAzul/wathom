@@ -1,6 +1,6 @@
 name = "Wathom, the Forgotten Parody"
 description = [[
-󰀔 [ Version 1.0.3.2 : "Standalone Release" ]
+󰀔 [ Version 1.0.3.3 : "Standalone Release" ]
 
 "A hunter with an uncontrollable surplus of energy, Wathom lives on after crawling out of the Abyss he was imprisoned in."
 
@@ -19,7 +19,7 @@ Wathom completely changes the core fundamentals of gameplay; As he gains more an
 
 author = "󰀈 The Uncomp Dev Team 󰀈"
 
-version = "1.0.3.2"
+version = "1.0.3.3"
 
 forumthread = "/topic/111892-announcement-uncompromising-mode/"
 
