@@ -1021,7 +1021,7 @@ STRINGS.SKIN_NAMES.wathom_none = "Wathom"
 STRINGS.SKIN_NAMES.wathom_triumphant = "The Archaic"
 
 STRINGS.SKIN_QUOTES.wathom_none = "\"Cruel, the abyss.\""
-STRINGS.SKIN_QUOTES.wathom_triumphant = ""\"Pursuit of knowledge; A thousand deaths, will endure.\"""
+STRINGS.SKIN_QUOTES.wathom_triumphant = "\"Pursuit of knowledge; A thousand deaths, will endure.\""
 
 STRINGS.SKIN_DESCRIPTIONS.wathom_none = "A crude recreation of those who came before him."
 STRINGS.SKIN_DESCRIPTIONS.wathom_triumphant = "Donned with military attire, Wathom acknowledges and accepts his fate when repeating history. He was born for this."
