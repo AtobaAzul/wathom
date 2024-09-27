@@ -1,4 +1,10 @@
 Assets = {
+
+	Asset("ATLAS", "images/fx5.xml"),
+	Asset("IMAGE", "images/fx5.tex"),
+	Asset("SOUNDPACKAGE", "sound/UMMusic.fev"),
+	Asset("SOUND", "sound/UMMusic.fsb"),
+	
 	-- WATHOM!!!
 	Asset("ANIM", "anim/vvathom_run.zip"),
 	Asset("ANIM", "anim/ampbadge.zip"),
